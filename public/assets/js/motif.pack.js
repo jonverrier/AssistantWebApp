@@ -47286,21 +47286,49 @@ You can check this by searching up for matching entries in a lockfile produced b
       const response = await fetch(chatApiUrl, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          "Accept": "text/event-stream, application/json"
+          // Accept both SSE and regular JSON
         },
         body: JSON.stringify(chatRequest)
       });
       if (!response.ok || !response.body) {
         throw new Error("Network response was not ok");
       }
+      console.log("Response headers:", {
+        contentType: response.headers.get("content-type"),
+        transferEncoding: response.headers.get("transfer-encoding")
+      });
       const reader = response.body.getReader();
       const decoder = new TextDecoder();
       let completeResponse = "";
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) break;
-        const chunk = decoder.decode(value, { stream: true });
-        completeResponse += chunk;
+      try {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+          console.log("Received chunk:", chunk);
+          if (chunk.trim().startsWith("data: ")) {
+            const lines = chunk.split("\n");
+            for (const line2 of lines) {
+              if (line2.startsWith("data: ")) {
+                const data = line2.slice(6);
+                completeResponse += data;
+                if (onChunk) {
+                  onChunk(completeResponse);
+                }
+              }
+            }
+          } else {
+            completeResponse += chunk;
+            if (onChunk) {
+              onChunk(completeResponse);
+            }
+          }
+        }
+      } catch (streamError) {
+        console.error("Streaming error:", streamError);
+        completeResponse = await response.text();
         if (onChunk) {
           onChunk(completeResponse);
         }

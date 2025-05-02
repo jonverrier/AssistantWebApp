@@ -147,6 +147,7 @@ export async function processChat({
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'Accept': 'text/event-stream, application/json',  // Accept both SSE and regular JSON
             },
             body: JSON.stringify(chatRequest)
         });
@@ -155,16 +156,48 @@ export async function processChat({
             throw new Error('Network response was not ok');
         }
 
+        // Log response headers for debugging
+        console.log('Response headers:', {
+            contentType: response.headers.get('content-type'),
+            transferEncoding: response.headers.get('transfer-encoding'),
+        });
+
         const reader = response.body.getReader();
         const decoder = new TextDecoder();
         let completeResponse = '';
 
-        while (true) {
-            const { done, value } = await reader.read();
-            if (done) break;
+        try {
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
 
-            const chunk = decoder.decode(value, { stream: true });
-            completeResponse += chunk;
+                const chunk = decoder.decode(value, { stream: true });
+                console.log('Received chunk:', chunk); // Debug log
+
+                // Try to parse as SSE if it starts with 'data: '
+                if (chunk.trim().startsWith('data: ')) {
+                    const lines = chunk.split('\n');
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.slice(6);
+                            completeResponse += data;
+                            if (onChunk) {
+                                onChunk(completeResponse);
+                            }
+                        }
+                    }
+                } else {
+                    // Handle as regular chunked response
+                    completeResponse += chunk;
+                    if (onChunk) {
+                        onChunk(completeResponse);
+                    }
+                }
+            }
+        } catch (streamError) {
+            console.error('Streaming error:', streamError);
+            // If streaming fails, try to get the full response
+            completeResponse = await response.text();
             if (onChunk) {
                 onChunk(completeResponse);
             }
