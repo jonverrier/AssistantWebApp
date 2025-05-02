@@ -47283,22 +47283,30 @@ You can check this by searching up for matching entries in a lockfile produced b
       }
       updateState("PassedScreening" /* kPassedScreening */);
       updateState("StartedChat" /* kStartedChat */);
-      const response = await apiClient.post(
-        chatApiUrl,
-        chatRequest,
-        {
-          responseType: "text",
-          onDownloadProgress: (progressEvent) => {
-            const response2 = progressEvent.event.target;
-            const newData = response2.responseText;
-            if (onChunk && newData) {
-              onChunk(newData);
-            }
-          }
+      const response = await fetch(chatApiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(chatRequest)
+      });
+      if (!response.ok || !response.body) {
+        throw new Error("Network response was not ok");
+      }
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let completeResponse = "";
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        completeResponse += chunk;
+        if (onChunk) {
+          onChunk(completeResponse);
         }
-      );
+      }
       updateState("FinishedChat" /* kFinishedChat */);
-      return response.data;
+      return completeResponse;
     } catch (error) {
       updateState("Error" /* kError */);
       if (axios_default.isAxiosError(error)) {

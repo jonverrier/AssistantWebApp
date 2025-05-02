@@ -82,21 +82,33 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
         updateState(UIStateMachine_1.EApiEvent.kPassedScreening);
         updateState(UIStateMachine_1.EApiEvent.kStartedChat);
         // If screening passed, proceed with the chat API call with streaming
-        const response = await apiClient.post(chatApiUrl, chatRequest, {
-            responseType: 'text',
-            onDownloadProgress: (progressEvent) => {
-                // Get the new data from the response
-                const response = progressEvent.event.target;
-                const newData = response.responseText;
-                if (onChunk && newData) {
-                    onChunk(newData);
-                }
+        const response = await fetch(chatApiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(chatRequest)
+        });
+        if (!response.ok || !response.body) {
+            throw new Error('Network response was not ok');
+        }
+        const reader = response.body.getReader();
+        const decoder = new TextDecoder();
+        let completeResponse = '';
+        while (true) {
+            const { done, value } = await reader.read();
+            if (done)
+                break;
+            const chunk = decoder.decode(value, { stream: true });
+            completeResponse += chunk;
+            if (onChunk) {
+                onChunk(completeResponse);
             }
-        }); // Type assertion since we know the response will be text
+        }
         // Signal completion of chat
         updateState(UIStateMachine_1.EApiEvent.kFinishedChat);
         // Return the complete response
-        return response.data;
+        return completeResponse;
     }
     catch (error) {
         // Handle any errors that weren't automatically retried or failed after retries
