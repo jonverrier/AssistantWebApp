@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+        "module": "CommonJS",
+        "target": "ES2022",
+        "lib": [
+            "ES2022",
+            "DOM"
+        ],
+        "outDir": "dist",
+        "rootDir": ".",
+        "sourceMap": false,
+        "strict": true,
+        "noImplicitAny": true,
+        "declaration": true,
+        "declarationMap": true,
+        "composite": true,
+        "esModuleInterop": true,
+        "resolveJsonModule": true,
+        "jsx": "react",
+        "baseUrl": ".",
+        "paths": {},
+        "skipLibCheck": true
+    },
+    "references": [],
+    "include": [
+        "**/*.json",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+        "import/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules",
+        "dist"
+    ]
+}
