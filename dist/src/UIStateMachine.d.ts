@@ -1,5 +1,5 @@
 /**
- * This is the state machine for the linter UI.
+ * This is the state machine for the assistant UI.
  * It is responsible for handling the state transitions and events.
  */
 export declare enum EUIState {
@@ -18,7 +18,7 @@ export declare enum EApiEvent {
     kError = "Error",
     kReset = "Reset"
 }
-export declare class LinterUIStateMachine {
+export declare class AssistantUIStateMachine {
     private state;
     constructor(initialState: EUIState);
     transition(event: EApiEvent): void;

@@ -9,6 +9,7 @@ import React from 'react';
 export interface ICopyableTextProps {
     placeholder: string;
     text: string;
+    id: string;
 }
 export declare const copyableTextStyles: () => Record<"root", string>;
 export declare const copyableTextButtonRowStyles: () => Record<"root", string>;

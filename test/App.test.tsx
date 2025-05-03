@@ -5,11 +5,11 @@
  */
 
 import { expect } from "expect";
-import { render, screen, fireEvent, waitFor, cleanup } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, cleanup, act } from "@testing-library/react";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
-import { App } from "../src/App";
+import { App, activeFieldId } from "../src/App";
 import { EAppMode, getUIStrings, IUIStrings } from "../src/UIStrings";
 
 // Helper function to render App component with Router context
@@ -75,22 +75,69 @@ for (let appMode of appModes) {
 
          expect(textarea.value).toBe('Test requirement');
       });
+      
+      const kResponseTimeout = 30000; // 30 seconds total timeout
+      const kResponseCheckInterval = 1000; // Check every second
+      const kTestTimeout = 35000; // Overall test timeout
 
-      /*
-      it('should show processing state when chatting ', async () => {
-         renderWithRouter(<App appMode={appMode} />);
+      it('should show response when chatting', async () => {
+         // Render the component
+         const { rerender } = renderWithRouter(<App appMode={appMode} />);
 
+         // Get the active field ID after we have rendered the component
+         const targetId = activeFieldId + '-0';
+
+         // Get the textarea through the MultilineEdit component
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
-         fireEvent.change(textarea, { target: { value: 'I want a 200kg deadlift' } });
+         
+         // First set the value
+         await act(async () => {
+            fireEvent.change(textarea, { 
+               target: { value: 'I want a 200kg deadlift' },
+               currentTarget: { value: 'I want a 200kg deadlift' }
+            });
+         });
 
-         // Simulate pressing Enter to submit
-         fireEvent.keyDown(textarea, { key: 'Enter', code: 'Enter', ctrlKey: true });
+         // Then trigger the Ctrl+Enter and wait for the API call to complete
+         await act(async () => {
+            fireEvent.keyDown(textarea, {
+               key: 'Enter',
+               code: 'Enter',
+               keyCode: 13,
+               which: 13,
+               ctrlKey: true,
+               bubbles: true,
+               cancelable: true,
+               currentTarget: {
+                  value: 'I want a 200kg deadlift'
+               }
+            });
+         });
 
-         // Check for processing message
-         await waitFor(() => {
-            expect(screen.getByText(uiStrings.kProcessing)).toBeTruthy();
-         }, { timeout: 5000 });
-      }).timeout(5500);
-      */
+         // Wait for the response with proper error handling
+         await waitFor(
+            () => {
+               const responseElement = screen.getByTestId(targetId);
+
+               if (responseElement) {
+                  expect(responseElement).toBeTruthy();
+
+                  const response = responseElement.textContent || '';
+                  console.log('Current response:', response); // Debug log
+                  const wordCount = response.trim().split(/\s+/).length;
+                  expect(wordCount).toBeGreaterThanOrEqual(10);
+               }
+            },
+            {
+               timeout: kResponseTimeout,
+               interval: kResponseCheckInterval,
+               onTimeout: (error) => {
+                  console.error('Timeout waiting for response:', error);
+                  throw error;
+               }
+            }
+         );
+      }).timeout(kTestTimeout);
+      
    });
 }

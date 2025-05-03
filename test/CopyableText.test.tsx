@@ -14,6 +14,7 @@ describe('CopyableText Component', () => {
   const defaultProps = {
     placeholder: 'No text to display',
     text: 'Sample text to copy',
+    id: '1',
   };
 
   it('renders with correct text when text is provided', () => {
@@ -24,7 +25,7 @@ describe('CopyableText Component', () => {
   });
 
   it('renders placeholder when text is empty', () => {
-    render(<CopyableText placeholder="No text to display" text="" />);
+    render(<CopyableText placeholder="No text to display" text="" id="1" />);
     
     expect(screen.getByText('No text to display')).toBeTruthy();
     expect(screen.queryByLabelText('Copy')).toBeNull();

@@ -19,6 +19,7 @@ import { standardTextStyles} from './CommonStyles';
 export interface ICopyableTextProps {
    placeholder: string;
    text: string;
+   id: string;
 }
 
 export const copyableTextStyles = makeStyles({
@@ -76,11 +77,12 @@ export const CopyableText = (props: ICopyableTextProps) => {
                      />
                   </Toolbar>
                </div>
-               {props.text.split('\n').map((line, index) => (
-                  <Text key={index} className={textClasses.normal}>{line}</Text>
-               ))}
+               {props.text.split('\n').map((line, index) => {
+                  const myId = props.id + '-' + index;
+                  return <Text key={index} className={textClasses.normal} id={myId}>{line}</Text>;
+               })}
             </div>
-            : <Text className={textClasses.normalGrey}>{props.placeholder}</Text>
+            : <Text className={textClasses.normalGrey}>{props.placeholder} id={props.id}</Text>
       }
    </div>);
 }

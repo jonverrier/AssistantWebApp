@@ -41,7 +41,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = void 0;
+exports.App = exports.activeFieldId = void 0;
 // React
 const react_1 = __importStar(require("react"));
 // Fluent
@@ -58,6 +58,7 @@ const UIStateMachine_1 = require("./UIStateMachine");
 const Call_1 = require("./Call");
 const OuterStyles_1 = require("./OuterStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
+const Cookie_1 = require("./Cookie");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 // Loca version that works in browser
@@ -65,7 +66,11 @@ const kRequirementMaxLength = 4096;
 function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16));
 }
-const sessionUuid = uuidv4();
+// This is used to identify the session in the case where we dont get a value 
+// back from the server which tells us our local cookie value
+const newSessionUuid = uuidv4();
+// This is used to identify the field into which the response is streamed.
+exports.activeFieldId = uuidv4();
 const local = true;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
@@ -73,13 +78,24 @@ const App = (props) => {
     const columnElementClasses = (0, CommonStyles_1.standardColumnElementStyles)();
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
+    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
+    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
+    const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
-    let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.LinterUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+    let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+    let [sessionUuid, setSessionUuid] = (0, react_1.useState)(newSessionUuid);
+    (0, react_1.useEffect)(() => {
+        const getCookie = async () => {
+            const existingSession = await (0, Cookie_1.getSessionUuid)(cookieApiUrl);
+            if (existingSession) {
+                setSessionUuid(existingSession);
+            }
+        };
+        getCookie();
+    }, []);
     const [message, setMessage] = (0, react_1.useState)("");
     const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
     async function callServer() {
-        const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
-        const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
         if (!message)
             return;
         // Reset streamed response
@@ -90,7 +106,7 @@ const App = (props) => {
             input: message,
             updateState: (event) => {
                 state.transition(event);
-                setState(new UIStateMachine_1.LinterUIStateMachine(state.getState()));
+                setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
             },
             sessionId: sessionUuid,
             personality: AssistantChatApiTypes_1.EAssistantPersonality.kMastersAdviser,
@@ -103,7 +119,7 @@ const App = (props) => {
     const onDismiss = () => {
         setStreamedResponse(undefined);
         state.transition(UIStateMachine_1.EApiEvent.kReset);
-        setState(new UIStateMachine_1.LinterUIStateMachine(state.getState()));
+        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
     const onSend = (message_) => {
         setMessage(message_);
@@ -112,7 +128,7 @@ const App = (props) => {
     const onChange = (message_) => {
         setMessage(message_);
         state.transition(UIStateMachine_1.EApiEvent.kReset);
-        setState(new UIStateMachine_1.LinterUIStateMachine(state.getState()));
+        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
     const multilineEditProps = {
         caption: uiStrings.kChatPreamble,
@@ -145,7 +161,7 @@ const App = (props) => {
         streamedResponse) {
         success = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
-            react_1.default.createElement(CopyableText_1.CopyableText, { placeholder: uiStrings.kResponsePlaceholder, text: streamedResponse })));
+            react_1.default.createElement(CopyableText_1.CopyableText, { placeholder: uiStrings.kResponsePlaceholder, text: streamedResponse, id: exports.activeFieldId })));
     }
     return (react_1.default.createElement("div", { className: pageOuterClasses.root },
         react_1.default.createElement("div", { className: innerColumnClasses.root },

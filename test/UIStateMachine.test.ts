@@ -6,13 +6,13 @@
 
 
 import { expect } from 'expect';
-import { LinterUIStateMachine, EUIState, EApiEvent } from '../src/UIStateMachine';
+import { AssistantUIStateMachine, EUIState, EApiEvent } from '../src/UIStateMachine';
 
-describe('LinterUIStateMachine', () => {
-  let stateMachine: LinterUIStateMachine;
+describe('AssistantUIStateMachine', () => {
+  let stateMachine: AssistantUIStateMachine;
 
   beforeEach(() => {
-    stateMachine = new LinterUIStateMachine(EUIState.kWaiting);
+    stateMachine = new AssistantUIStateMachine(EUIState.kWaiting);
   });
 
   describe('initial state', () => {

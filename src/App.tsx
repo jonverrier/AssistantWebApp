@@ -8,7 +8,7 @@
 /*! Copyright Jon Verrier 2025 */
 
 // React
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 // Fluent
 import {
@@ -25,10 +25,11 @@ import { EAppMode, getUIStrings } from './UIStrings';
 import { standardTextStyles, standardLinkStyles, standardColumnElementStyles} from './CommonStyles';
 import { CopyableText } from './CopyableText';
 import { Message, MessageIntent } from './Message';
-import { LinterUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
+import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
 import { processChat } from './Call';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { Spacer, Footer } from './SiteUtilities';
+import { getSessionUuid } from './Cookie';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
@@ -45,7 +46,12 @@ function uuidv4() {
   );
 }
 
-const sessionUuid = uuidv4();
+// This is used to identify the session in the case where we dont get a value 
+// back from the server which tells us our local cookie value
+const newSessionUuid: string = uuidv4();
+
+// This is used to identify the field into which the response is streamed.
+export const activeFieldId: string = uuidv4();
 
 const local = true;
 
@@ -57,16 +63,29 @@ export const App = (props: IAppProps) => {
    const textClasses = standardTextStyles();   
    const linkClasses = standardLinkStyles();
 
+   const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
+   const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
+   const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
+
    const uiStrings = getUIStrings(props.appMode);
 
-   let [state, setState] = useState<LinterUIStateMachine>(new LinterUIStateMachine(EUIState.kWaiting));
+   let [state, setState] = useState<AssistantUIStateMachine>(new AssistantUIStateMachine(EUIState.kWaiting));
+   let [sessionUuid, setSessionUuid] = useState<string>(newSessionUuid);
+
+   useEffect(() => {
+      const getCookie = async () => {
+         const existingSession = await getSessionUuid(cookieApiUrl);
+         if (existingSession) {
+            setSessionUuid(existingSession);
+         }
+      };
+      getCookie();
+   }, []);
 
    const [message, setMessage] = useState("");
    const [streamedResponse, setStreamedResponse] = useState<string|undefined>(undefined);
 
    async function callServer() : Promise<void> {
-      const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
-      const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
 
       if (!message) return;
 
@@ -79,7 +98,7 @@ export const App = (props: IAppProps) => {
          input: message,
          updateState: (event: EApiEvent) => {
             state.transition(event);
-            setState(new LinterUIStateMachine(state.getState()));
+            setState(new AssistantUIStateMachine(state.getState()));
          },
          sessionId: sessionUuid,
          personality: EAssistantPersonality.kMastersAdviser,
@@ -92,7 +111,7 @@ export const App = (props: IAppProps) => {
    const onDismiss = () => {
       setStreamedResponse(undefined);
       state.transition(EApiEvent.kReset);
-      setState(new LinterUIStateMachine(state.getState()));      
+      setState(new AssistantUIStateMachine(state.getState()));      
    };
 
    const onSend = (message_: string) => {
@@ -103,7 +122,7 @@ export const App = (props: IAppProps) => {
    const onChange = (message_: string) => {
       setMessage(message_);
       state.transition(EApiEvent.kReset);
-      setState(new LinterUIStateMachine(state.getState()));      
+      setState(new AssistantUIStateMachine(state.getState()));      
    };
 
    const multilineEditProps: IMultilineEditProps = {
@@ -166,6 +185,7 @@ export const App = (props: IAppProps) => {
             <CopyableText 
                placeholder={uiStrings.kResponsePlaceholder} 
                text={streamedResponse} 
+               id = {activeFieldId}
             />
          </div>
       );

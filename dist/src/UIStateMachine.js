@@ -1,11 +1,11 @@
 "use strict";
 /**
- * This is the state machine for the linter UI.
+ * This is the state machine for the assistant UI.
  * It is responsible for handling the state transitions and events.
  */
 // Copyright Jon Verrier, 2025
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.LinterUIStateMachine = exports.EApiEvent = exports.EUIState = void 0;
+exports.AssistantUIStateMachine = exports.EApiEvent = exports.EUIState = void 0;
 var EUIState;
 (function (EUIState) {
     EUIState["kWaiting"] = "Waiting";
@@ -24,7 +24,7 @@ var EApiEvent;
     EApiEvent["kError"] = "Error";
     EApiEvent["kReset"] = "Reset";
 })(EApiEvent || (exports.EApiEvent = EApiEvent = {}));
-class LinterUIStateMachine {
+class AssistantUIStateMachine {
     state;
     constructor(initialState) {
         this.state = initialState;
@@ -98,4 +98,4 @@ class LinterUIStateMachine {
         return this.state;
     }
 }
-exports.LinterUIStateMachine = LinterUIStateMachine;
+exports.AssistantUIStateMachine = AssistantUIStateMachine;

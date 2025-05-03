@@ -1104,7 +1104,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect11(create, deps) {
+          function useEffect12(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1887,7 +1887,7 @@
           exports.useContext = useContext21;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect11;
+          exports.useEffect = useEffect12;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
@@ -44011,7 +44011,10 @@ You can check this by searching up for matching entries in a lockfile produced b
             icon: /* @__PURE__ */ import_react23.default.createElement(CopyRegular, null),
             onClick: copyToClipboard
           }
-        ))), props.text.split("\n").map((line2, index) => /* @__PURE__ */ import_react23.default.createElement(Text, { key: index, className: textClasses.normal }, line2))) : /* @__PURE__ */ import_react23.default.createElement(Text, { className: textClasses.normalGrey }, props.placeholder));
+        ))), props.text.split("\n").map((line2, index) => {
+          const myId = props.id + "-" + index;
+          return /* @__PURE__ */ import_react23.default.createElement(Text, { key: index, className: textClasses.normal, id: myId }, line2);
+        })) : /* @__PURE__ */ import_react23.default.createElement(Text, { className: textClasses.normalGrey }, props.placeholder, " id=", props.id));
       };
     }
   });
@@ -44051,11 +44054,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/UIStateMachine.ts
-  var LinterUIStateMachine;
+  var AssistantUIStateMachine;
   var init_UIStateMachine = __esm({
     "src/UIStateMachine.ts"() {
       "use strict";
-      LinterUIStateMachine = class {
+      AssistantUIStateMachine = class {
         state;
         constructor(initialState) {
           this.state = initialState;
@@ -47418,6 +47421,41 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // src/Cookie.ts
+  async function getSessionUuid(cookieApiUrl) {
+    try {
+      const response = await axios_default.get(cookieApiUrl, {
+        withCredentials: true,
+        // Required for cookies to be set
+        headers: {
+          "Accept": "application/json"
+        }
+      });
+      const setCookie = response.headers["set-cookie"];
+      if (!setCookie || !Array.isArray(setCookie) || setCookie.length === 0) {
+        console.error("No Set-Cookie header received");
+        return void 0;
+      }
+      for (const cookie of setCookie) {
+        const match2 = cookie.match(/sessionId=([^;]+)/);
+        if (match2) {
+          return match2[1];
+        }
+      }
+      console.error("No sessionId found in cookies");
+      return void 0;
+    } catch (error) {
+      console.error("Error getting session UUID:", error);
+      return void 0;
+    }
+  }
+  var init_Cookie = __esm({
+    "src/Cookie.ts"() {
+      "use strict";
+      init_axios2();
+    }
+  });
+
   // src/App.tsx
   function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(
@@ -47425,7 +47463,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react26, kFontNameForTextWrapCalculation, kRequirementMaxLength, sessionUuid, local, App;
+  var import_react26, kFontNameForTextWrapCalculation, kRequirementMaxLength, newSessionUuid, activeFieldId, local, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
@@ -47441,9 +47479,11 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_Call();
       init_OuterStyles();
       init_SiteUtilities();
+      init_Cookie();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
-      sessionUuid = uuidv4();
+      newSessionUuid = uuidv4();
+      activeFieldId = uuidv4();
       local = true;
       App = (props) => {
         const pageOuterClasses = pageOuterStyles();
@@ -47451,13 +47491,24 @@ You can check this by searching up for matching entries in a lockfile produced b
         const columnElementClasses = standardColumnElementStyles();
         const textClasses = standardTextStyles();
         const linkClasses = standardLinkStyles();
+        const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
+        const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
+        const cookieApiUrl = local ? "http://localhost:7071/api/Cookie" : "https://motifassistantapi.azurewebsites.net/api/Cookie";
         const uiStrings = getUIStrings(props.appMode);
-        let [state, setState] = (0, import_react26.useState)(new LinterUIStateMachine("Waiting" /* kWaiting */));
+        let [state, setState] = (0, import_react26.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+        let [sessionUuid, setSessionUuid] = (0, import_react26.useState)(newSessionUuid);
+        (0, import_react26.useEffect)(() => {
+          const getCookie = async () => {
+            const existingSession = await getSessionUuid(cookieApiUrl);
+            if (existingSession) {
+              setSessionUuid(existingSession);
+            }
+          };
+          getCookie();
+        }, []);
         const [message, setMessage] = (0, import_react26.useState)("");
         const [streamedResponse, setStreamedResponse] = (0, import_react26.useState)(void 0);
         async function callServer() {
-          const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
-          const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
           if (!message) return;
           setStreamedResponse("");
           const result = await processChat({
@@ -47466,7 +47517,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             input: message,
             updateState: (event) => {
               state.transition(event);
-              setState(new LinterUIStateMachine(state.getState()));
+              setState(new AssistantUIStateMachine(state.getState()));
             },
             sessionId: sessionUuid,
             personality: "MastersAdviser" /* kMastersAdviser */,
@@ -47479,7 +47530,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const onDismiss = () => {
           setStreamedResponse(void 0);
           state.transition("Reset" /* kReset */);
-          setState(new LinterUIStateMachine(state.getState()));
+          setState(new AssistantUIStateMachine(state.getState()));
         };
         const onSend = (message_) => {
           setMessage(message_);
@@ -47488,7 +47539,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const onChange = (message_) => {
           setMessage(message_);
           state.transition("Reset" /* kReset */);
-          setState(new LinterUIStateMachine(state.getState()));
+          setState(new AssistantUIStateMachine(state.getState()));
         };
         const multilineEditProps = {
           caption: uiStrings.kChatPreamble,
@@ -47534,7 +47585,8 @@ You can check this by searching up for matching entries in a lockfile produced b
             CopyableText,
             {
               placeholder: uiStrings.kResponsePlaceholder,
-              text: streamedResponse
+              text: streamedResponse,
+              id: activeFieldId
             }
           ));
         }

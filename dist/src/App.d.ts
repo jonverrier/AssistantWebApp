@@ -11,5 +11,6 @@ import { EAppMode } from './UIStrings';
 export interface IAppProps {
     appMode: EAppMode;
 }
+export declare const activeFieldId: string;
 export declare const App: (props: IAppProps) => React.JSX.Element;
 //# sourceMappingURL=App.d.ts.map
