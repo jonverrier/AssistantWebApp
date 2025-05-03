@@ -49,14 +49,25 @@ async function callScreeningApi({ apiUrl, request, apiClient }) {
  */
 async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, personality, updateState, apiClient, benefitOfDoubt, onChunk }) {
     if (!apiClient) {
-        const client = axios_1.default.create();
+        const client = axios_1.default.create({
+            timeout: 30000, // 30 second timeout
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            withCredentials: false
+        });
         (0, axios_retry_1.default)(client, {
             retries: 3,
-            retryDelay: axios_retry_1.default.exponentialDelay,
+            retryDelay: (retryCount) => {
+                return axios_retry_1.default.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
+            },
             retryCondition: (error) => {
                 return axios_retry_1.default.isNetworkOrIdempotentRequestError(error) ||
-                    (error.response?.status ?? 0) >= 500;
-            }
+                    (error.response?.status ?? 0) >= 500 ||
+                    error.code === 'ECONNABORTED' ||
+                    error.code === 'ERR_NETWORK';
+            },
+            shouldResetTimeout: true
         });
         apiClient = client;
     }
@@ -81,73 +92,100 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
         }
         updateState(UIStateMachine_1.EApiEvent.kPassedScreening);
         updateState(UIStateMachine_1.EApiEvent.kStartedChat);
-        // If screening passed, proceed with the chat API call with streaming
-        const response = await fetch(chatApiUrl, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'text/event-stream, application/json', // Accept both SSE and regular JSON
-            },
-            body: JSON.stringify(chatRequest)
-        });
-        if (!response.ok || !response.body) {
-            throw new Error('Network response was not ok');
-        }
-        // Log response headers for debugging
-        console.log('Response headers:', {
-            contentType: response.headers.get('content-type'),
-            transferEncoding: response.headers.get('transfer-encoding'),
-        });
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
-        let completeResponse = '';
-        try {
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done)
-                    break;
-                const chunk = decoder.decode(value, { stream: true });
-                console.log('Received chunk:', chunk); // Debug log
-                // Try to parse as SSE if it starts with 'data: '
-                if (chunk.trim().startsWith('data: ')) {
-                    const lines = chunk.split('\n');
-                    for (const line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.slice(6);
-                            completeResponse += data;
-                            if (onChunk) {
-                                onChunk(completeResponse);
+        // Return a promise that will resolve with the complete response
+        return new Promise((resolve, reject) => {
+            let completeResponse = '';
+            let lastProcessedLength = 0;
+            const streamWithAxios = async () => {
+                try {
+                    const response = await (0, axios_1.default)({
+                        method: 'POST',
+                        url: chatApiUrl,
+                        data: chatRequest,
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'text/event-stream'
+                        },
+                        responseType: 'text',
+                        timeout: 300000, // 5 minute timeout
+                        withCredentials: false,
+                        decompress: true,
+                        maxRedirects: 5,
+                        onDownloadProgress: (progressEvent) => {
+                            try {
+                                if (!progressEvent.event?.target)
+                                    return;
+                                const rawData = progressEvent.event.target.response;
+                                // Only process new data
+                                const newData = rawData.substring(lastProcessedLength);
+                                lastProcessedLength = rawData.length;
+                                const lines = newData.split('\n');
+                                for (const line of lines) {
+                                    if (line.trim() && line.startsWith('data: ')) {
+                                        const data = line.slice(6).trim();
+                                        if (data === '[DONE]') {
+                                            console.log('Stream completed');
+                                            continue;
+                                        }
+                                        if (data) {
+                                            try {
+                                                const parsed = JSON.parse(data);
+                                                console.log('Received chunk:', parsed);
+                                                completeResponse += parsed;
+                                                if (onChunk) {
+                                                    onChunk(parsed);
+                                                }
+                                            }
+                                            catch (e) {
+                                                console.error('Error parsing chunk:', e);
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            catch (e) {
+                                console.error('Error processing chunk:', e);
+                                throw e;
                             }
                         }
+                    });
+                    if (response.status === 200) {
+                        updateState(UIStateMachine_1.EApiEvent.kFinishedChat);
+                        resolve(completeResponse);
+                    }
+                    else {
+                        throw new Error(`Unexpected status: ${response.status}`);
                     }
                 }
-                else {
-                    // Handle as regular chunked response
-                    completeResponse += chunk;
-                    if (onChunk) {
-                        onChunk(completeResponse);
-                    }
+                catch (error) {
+                    console.error('Streaming error:', error);
+                    updateState(UIStateMachine_1.EApiEvent.kError);
+                    reject(error);
                 }
-            }
-        }
-        catch (streamError) {
-            console.error('Streaming error:', streamError);
-            // If streaming fails, try to get the full response
-            completeResponse = await response.text();
-            if (onChunk) {
-                onChunk(completeResponse);
-            }
-        }
-        // Signal completion of chat
-        updateState(UIStateMachine_1.EApiEvent.kFinishedChat);
-        // Return the complete response
-        return completeResponse;
+            };
+            streamWithAxios();
+            const timeout = setTimeout(() => {
+                updateState(UIStateMachine_1.EApiEvent.kError);
+                reject(new Error('Connection timed out'));
+            }, 300000); // 5 minute timeout
+        });
     }
     catch (error) {
-        // Handle any errors that weren't automatically retried or failed after retries
         updateState(UIStateMachine_1.EApiEvent.kError);
         if (axios_1.default.isAxiosError(error)) {
-            console.error('API Error:', error.response?.data || error.message);
+            console.error('API Error:', {
+                message: error.message,
+                code: error.code,
+                status: error.response?.status,
+                statusText: error.response?.statusText,
+                headers: error.response?.headers,
+                data: error.response?.data,
+                config: {
+                    url: error.config?.url,
+                    method: error.config?.method,
+                    headers: error.config?.headers
+                }
+            });
         }
         else {
             console.error('Unexpected error:', error);

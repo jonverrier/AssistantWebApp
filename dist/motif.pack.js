@@ -47254,13 +47254,23 @@ You can check this by searching up for matching entries in a lockfile produced b
     onChunk
   }) {
     if (!apiClient) {
-      const client = axios_default.create();
+      const client = axios_default.create({
+        timeout: 3e4,
+        // 30 second timeout
+        headers: {
+          "Content-Type": "application/json"
+        },
+        withCredentials: false
+      });
       esm_default(client, {
         retries: 3,
-        retryDelay: esm_default.exponentialDelay,
+        retryDelay: (retryCount) => {
+          return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
+        },
         retryCondition: (error) => {
-          return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500;
-        }
+          return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
+        },
+        shouldResetTimeout: true
       });
       apiClient = client;
     }
@@ -47283,62 +47293,93 @@ You can check this by searching up for matching entries in a lockfile produced b
       }
       updateState("PassedScreening" /* kPassedScreening */);
       updateState("StartedChat" /* kStartedChat */);
-      const response = await fetch(chatApiUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "text/event-stream, application/json"
-          // Accept both SSE and regular JSON
-        },
-        body: JSON.stringify(chatRequest)
-      });
-      if (!response.ok || !response.body) {
-        throw new Error("Network response was not ok");
-      }
-      console.log("Response headers:", {
-        contentType: response.headers.get("content-type"),
-        transferEncoding: response.headers.get("transfer-encoding")
-      });
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let completeResponse = "";
-      try {
-        while (true) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          const chunk = decoder.decode(value, { stream: true });
-          console.log("Received chunk:", chunk);
-          if (chunk.trim().startsWith("data: ")) {
-            const lines = chunk.split("\n");
-            for (const line2 of lines) {
-              if (line2.startsWith("data: ")) {
-                const data = line2.slice(6);
-                completeResponse += data;
-                if (onChunk) {
-                  onChunk(completeResponse);
+      return new Promise((resolve, reject) => {
+        let completeResponse = "";
+        let lastProcessedLength = 0;
+        const streamWithAxios = async () => {
+          try {
+            const response = await axios_default({
+              method: "POST",
+              url: chatApiUrl,
+              data: chatRequest,
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "text/event-stream"
+              },
+              responseType: "text",
+              timeout: 3e5,
+              // 5 minute timeout
+              withCredentials: false,
+              decompress: true,
+              maxRedirects: 5,
+              onDownloadProgress: (progressEvent) => {
+                try {
+                  if (!progressEvent.event?.target) return;
+                  const rawData = progressEvent.event.target.response;
+                  const newData = rawData.substring(lastProcessedLength);
+                  lastProcessedLength = rawData.length;
+                  const lines = newData.split("\n");
+                  for (const line2 of lines) {
+                    if (line2.trim() && line2.startsWith("data: ")) {
+                      const data = line2.slice(6).trim();
+                      if (data === "[DONE]") {
+                        console.log("Stream completed");
+                        continue;
+                      }
+                      if (data) {
+                        try {
+                          const parsed = JSON.parse(data);
+                          console.log("Received chunk:", parsed);
+                          completeResponse += parsed;
+                          if (onChunk) {
+                            onChunk(parsed);
+                          }
+                        } catch (e) {
+                          console.error("Error parsing chunk:", e);
+                        }
+                      }
+                    }
+                  }
+                } catch (e) {
+                  console.error("Error processing chunk:", e);
+                  throw e;
                 }
               }
+            });
+            if (response.status === 200) {
+              updateState("FinishedChat" /* kFinishedChat */);
+              resolve(completeResponse);
+            } else {
+              throw new Error(`Unexpected status: ${response.status}`);
             }
-          } else {
-            completeResponse += chunk;
-            if (onChunk) {
-              onChunk(completeResponse);
-            }
+          } catch (error) {
+            console.error("Streaming error:", error);
+            updateState("Error" /* kError */);
+            reject(error);
           }
-        }
-      } catch (streamError) {
-        console.error("Streaming error:", streamError);
-        completeResponse = await response.text();
-        if (onChunk) {
-          onChunk(completeResponse);
-        }
-      }
-      updateState("FinishedChat" /* kFinishedChat */);
-      return completeResponse;
+        };
+        streamWithAxios();
+        const timeout2 = setTimeout(() => {
+          updateState("Error" /* kError */);
+          reject(new Error("Connection timed out"));
+        }, 3e5);
+      });
     } catch (error) {
       updateState("Error" /* kError */);
       if (axios_default.isAxiosError(error)) {
-        console.error("API Error:", error.response?.data || error.message);
+        console.error("API Error:", {
+          message: error.message,
+          code: error.code,
+          status: error.response?.status,
+          statusText: error.response?.statusText,
+          headers: error.response?.headers,
+          data: error.response?.data,
+          config: {
+            url: error.config?.url,
+            method: error.config?.method,
+            headers: error.config?.headers
+          }
+        });
       } else {
         console.error("Unexpected error:", error);
       }
