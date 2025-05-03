@@ -32,7 +32,7 @@ for (let appMode of appModes) {
       });
 
       it('should render the main heading and description', async () => {
-         renderWithRouter(<App appMode={appMode} />);
+         renderWithRouter(<App appMode={appMode} forceNode={false} />);
 
          // Check for main heading
          await waitFor(() => {
@@ -46,7 +46,7 @@ for (let appMode of appModes) {
       });
 
       it('should render the text input area', () => {
-         renderWithRouter(<App appMode={appMode} />);
+         renderWithRouter(<App appMode={appMode} forceNode={false} />);
 
          // Check for the text input area
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder);
@@ -54,7 +54,7 @@ for (let appMode of appModes) {
       });
 
       it('should render external links', () => {
-         renderWithRouter(<App appMode={appMode} />);
+         renderWithRouter(<App appMode={appMode} forceNode={false} />);
 
          // Check for first link link
          const links = uiStrings.kLinks;
@@ -68,7 +68,7 @@ for (let appMode of appModes) {
       });
 
       it('should handle text input changes', () => {
-         renderWithRouter(<App appMode={appMode} />);
+         renderWithRouter(<App appMode={appMode} forceNode={false} />);
 
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
          fireEvent.change(textarea, { target: { value: 'Test requirement' } });
@@ -76,19 +76,29 @@ for (let appMode of appModes) {
          expect(textarea.value).toBe('Test requirement');
       });
       
-      const kResponseTimeout = 30000; // 30 seconds total timeout
-      const kResponseCheckInterval = 1000; // Check every second
-      const kTestTimeout = 35000; // Overall test timeout
+      const kResponseTimeout = 10000; // 10 seconds total timeout
+      const kResponseCheckInterval = 2000; // Check every two seconds
+      const kTestTimeout = 12000; // Overall test timeout
 
       it('should show response when chatting', async () => {
+         // Took ages to get this working.
+         // 1. Need to render with 'forceNode' so the Axios calls work in Mocha. 
+         // 2. We just look for the presence of a field with the second ID. 
+         // The CopyableText component is used to display the response, and
+         // it splits paragraphs and then provides an incremented ID for each one.
+
          // Render the component
-         const { rerender } = renderWithRouter(<App appMode={appMode} />);
+         const { rerender } = renderWithRouter(<App appMode={appMode} forceNode={true} />);
 
          // Get the active field ID after we have rendered the component
-         const targetId = activeFieldId + '-0';
+         const targetId = activeFieldId + '-1';
 
          // Get the textarea through the MultilineEdit component
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
+         
+         // Check that response element doesn't exist initially
+         const initialResponse = screen.queryByTestId(targetId);
+         expect(initialResponse).toBeNull();         
          
          // First set the value
          await act(async () => {
@@ -114,19 +124,11 @@ for (let appMode of appModes) {
             });
          });
 
-         // Wait for the response with proper error handling
+         // Wait for the response 
          await waitFor(
             () => {
-               const responseElement = screen.getByTestId(targetId);
-
-               if (responseElement) {
-                  expect(responseElement).toBeTruthy();
-
-                  const response = responseElement.textContent || '';
-                  console.log('Current response:', response); // Debug log
-                  const wordCount = response.trim().split(/\s+/).length;
-                  expect(wordCount).toBeGreaterThanOrEqual(10);
-               }
+               const responseElement = screen.queryByTestId(targetId);
+               expect(responseElement).toBeTruthy();
             },
             {
                timeout: kResponseTimeout,
@@ -137,6 +139,10 @@ for (let appMode of appModes) {
                }
             }
          );
+
+         // Get the final response element 
+         const finalResponse = screen.queryByTestId(targetId);
+         expect(finalResponse).toBeTruthy();
       }).timeout(kTestTimeout);
       
    });

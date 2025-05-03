@@ -112,7 +112,8 @@ const App = (props) => {
             personality: AssistantChatApiTypes_1.EAssistantPersonality.kMastersAdviser,
             onChunk: (chunk) => {
                 setStreamedResponse(prev => prev + chunk);
-            }
+            },
+            forceNode: props.forceNode
         });
     }
     ;

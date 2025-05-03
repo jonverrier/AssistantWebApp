@@ -31,6 +31,7 @@ interface ProcessChat {
     apiClient?: ApiClient;
     benefitOfDoubt?: boolean;
     onChunk?: (chunk: string) => void;
+    forceNode?: boolean;
 }
 /**
  * Processes chat input through the assistant service.
@@ -42,6 +43,6 @@ interface ProcessChat {
  * @param options - The options for processing the chat input.
  * @returns The complete assistant's response string if successful, or undefined if there's an error.
  */
-export declare function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, personality, updateState, apiClient, benefitOfDoubt, onChunk }: ProcessChat): Promise<string | undefined>;
+export declare function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, personality, updateState, apiClient, benefitOfDoubt, onChunk, forceNode }: ProcessChat): Promise<string | undefined>;
 export {};
 //# sourceMappingURL=Call.d.ts.map

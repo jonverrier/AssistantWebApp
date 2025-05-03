@@ -56,7 +56,7 @@ function createRetryableAxiosClient() {
  * @param options - The options for processing the chat input.
  * @returns The complete assistant's response string if successful, or undefined if there's an error.
  */
-async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, personality, updateState, apiClient, benefitOfDoubt, onChunk }) {
+async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, personality, updateState, apiClient, benefitOfDoubt, onChunk, forceNode }) {
     if (!apiClient) {
         apiClient = createRetryableAxiosClient();
     }
@@ -84,17 +84,39 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
             let lastProcessedLength = 0;
             const streamWithAxios = async () => {
                 try {
-                    const response = await apiClient.post(chatApiUrl, chatRequest, {
+                    const config = {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'text/event-stream'
                         },
-                        responseType: 'text',
                         timeout: 300000, // 5 minute timeout
                         withCredentials: false,
                         decompress: true,
                         maxRedirects: 5,
-                        onDownloadProgress: (progressEvent) => {
+                    };
+                    if (forceNode) {
+                        // Node.js environment: use response streaming
+                        config.responseType = 'stream';
+                        const response = await apiClient.post(chatApiUrl, chatRequest, config);
+                        const stream = response.data;
+                        stream.on('data', (chunk) => {
+                            const chunkStr = chunk.toString();
+                            processStreamData(chunkStr);
+                        });
+                        stream.on('end', () => {
+                            updateState(UIStateMachine_1.EApiEvent.kFinishedChat);
+                            resolve(completeResponse);
+                        });
+                        stream.on('error', (error) => {
+                            console.error('Stream error:', error);
+                            updateState(UIStateMachine_1.EApiEvent.kError);
+                            reject(error);
+                        });
+                    }
+                    else {
+                        // Browser environment: use XHR streaming
+                        config.responseType = 'text';
+                        config.onDownloadProgress = (progressEvent) => {
                             try {
                                 if (!progressEvent.event?.target)
                                     return;
@@ -102,40 +124,45 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
                                 // Only process new data
                                 const newData = rawData.substring(lastProcessedLength);
                                 lastProcessedLength = rawData.length;
-                                const lines = newData.split('\n');
-                                for (const line of lines) {
-                                    if (line.trim() && line.startsWith('data: ')) {
-                                        const data = line.slice(6).trim();
-                                        if (data === '[DONE]') {
-                                            continue;
-                                        }
-                                        if (data) {
-                                            const parsed = JSON.parse(data);
-                                            completeResponse += parsed;
-                                            if (onChunk) {
-                                                onChunk(parsed);
-                                            }
-                                        }
-                                    }
-                                }
+                                processStreamData(newData);
                             }
                             catch (e) {
+                                console.error('Error in onDownloadProgress:', e);
                                 throw e;
                             }
+                        };
+                        const response = await apiClient.post(chatApiUrl, chatRequest, config);
+                        if (response.status === 200) {
+                            updateState(UIStateMachine_1.EApiEvent.kFinishedChat);
+                            resolve(completeResponse);
                         }
-                    });
-                    if (response.status === 200) {
-                        updateState(UIStateMachine_1.EApiEvent.kFinishedChat);
-                        resolve(completeResponse);
-                    }
-                    else {
-                        throw new Error(`Unexpected status: ${response.status}`);
+                        else {
+                            throw new Error(`Unexpected status: ${response.status}`);
+                        }
                     }
                 }
                 catch (error) {
                     console.error('Streaming error:', error);
                     updateState(UIStateMachine_1.EApiEvent.kError);
                     reject(error);
+                }
+            };
+            // Helper function to process stream data chunks
+            const processStreamData = (data) => {
+                const lines = data.split('\n');
+                for (const line of lines) {
+                    if (line.trim() && line.startsWith('data: ')) {
+                        const data = line.slice(6).trim();
+                        if (data === '[DONE]')
+                            continue;
+                        if (data) {
+                            const parsed = JSON.parse(data);
+                            completeResponse += parsed;
+                            if (onChunk) {
+                                onChunk(parsed);
+                            }
+                        }
+                    }
                 }
             };
             streamWithAxios();

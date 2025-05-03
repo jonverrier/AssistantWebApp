@@ -48,15 +48,15 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <App appMode={props.appMode} />
+         element: <App appMode={props.appMode} forceNode={false} />
       },
       {
          path: '/index',
-         element: <App appMode={props.appMode} />
+         element: <App appMode={props.appMode} forceNode={false} />
       },
       {
          path: '/index.html',
-         element: <App appMode={props.appMode} />
+         element: <App appMode={props.appMode} forceNode={false} />
       },
       {
          path: '/privacy',
@@ -76,7 +76,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <App appMode={props.appMode} />
+         element: <App appMode={props.appMode} forceNode={false} />
       }
    ]);
 

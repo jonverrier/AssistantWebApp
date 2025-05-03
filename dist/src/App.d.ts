@@ -10,6 +10,7 @@ import React from 'react';
 import { EAppMode } from './UIStrings';
 export interface IAppProps {
     appMode: EAppMode;
+    forceNode: boolean;
 }
 export declare const activeFieldId: string;
 export declare const App: (props: IAppProps) => React.JSX.Element;

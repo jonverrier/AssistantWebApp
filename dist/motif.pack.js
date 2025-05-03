@@ -44013,8 +44013,8 @@ You can check this by searching up for matching entries in a lockfile produced b
           }
         ))), props.text.split("\n").map((line2, index) => {
           const myId = props.id + "-" + index;
-          return /* @__PURE__ */ import_react23.default.createElement(Text, { key: index, className: textClasses.normal, id: myId }, line2);
-        })) : /* @__PURE__ */ import_react23.default.createElement(Text, { className: textClasses.normalGrey }, props.placeholder, " id=", props.id));
+          return /* @__PURE__ */ import_react23.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
+        })) : /* @__PURE__ */ import_react23.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
       };
     }
   });
@@ -47253,7 +47253,8 @@ You can check this by searching up for matching entries in a lockfile produced b
     updateState,
     apiClient,
     benefitOfDoubt,
-    onChunk
+    onChunk,
+    forceNode
   }) {
     if (!apiClient) {
       apiClient = createRetryableAxiosClient();
@@ -47282,54 +47283,76 @@ You can check this by searching up for matching entries in a lockfile produced b
         let lastProcessedLength = 0;
         const streamWithAxios = async () => {
           try {
-            const response = await apiClient.post(chatApiUrl, chatRequest, {
+            const config = {
               headers: {
                 "Content-Type": "application/json",
                 "Accept": "text/event-stream"
               },
-              responseType: "text",
               timeout: 3e5,
               // 5 minute timeout
               withCredentials: false,
               decompress: true,
-              maxRedirects: 5,
-              onDownloadProgress: (progressEvent) => {
+              maxRedirects: 5
+            };
+            if (forceNode) {
+              config.responseType = "stream";
+              const response = await apiClient.post(chatApiUrl, chatRequest, config);
+              const stream = response.data;
+              stream.on("data", (chunk) => {
+                const chunkStr = chunk.toString();
+                processStreamData(chunkStr);
+              });
+              stream.on("end", () => {
+                updateState("FinishedChat" /* kFinishedChat */);
+                resolve(completeResponse);
+              });
+              stream.on("error", (error) => {
+                console.error("Stream error:", error);
+                updateState("Error" /* kError */);
+                reject(error);
+              });
+            } else {
+              config.responseType = "text";
+              config.onDownloadProgress = (progressEvent) => {
                 try {
                   if (!progressEvent.event?.target) return;
                   const rawData = progressEvent.event.target.response;
                   const newData = rawData.substring(lastProcessedLength);
                   lastProcessedLength = rawData.length;
-                  const lines = newData.split("\n");
-                  for (const line2 of lines) {
-                    if (line2.trim() && line2.startsWith("data: ")) {
-                      const data = line2.slice(6).trim();
-                      if (data === "[DONE]") {
-                        continue;
-                      }
-                      if (data) {
-                        const parsed = JSON.parse(data);
-                        completeResponse += parsed;
-                        if (onChunk) {
-                          onChunk(parsed);
-                        }
-                      }
-                    }
-                  }
+                  processStreamData(newData);
                 } catch (e) {
+                  console.error("Error in onDownloadProgress:", e);
                   throw e;
                 }
+              };
+              const response = await apiClient.post(chatApiUrl, chatRequest, config);
+              if (response.status === 200) {
+                updateState("FinishedChat" /* kFinishedChat */);
+                resolve(completeResponse);
+              } else {
+                throw new Error(`Unexpected status: ${response.status}`);
               }
-            });
-            if (response.status === 200) {
-              updateState("FinishedChat" /* kFinishedChat */);
-              resolve(completeResponse);
-            } else {
-              throw new Error(`Unexpected status: ${response.status}`);
             }
           } catch (error) {
             console.error("Streaming error:", error);
             updateState("Error" /* kError */);
             reject(error);
+          }
+        };
+        const processStreamData = (data) => {
+          const lines = data.split("\n");
+          for (const line2 of lines) {
+            if (line2.trim() && line2.startsWith("data: ")) {
+              const data2 = line2.slice(6).trim();
+              if (data2 === "[DONE]") continue;
+              if (data2) {
+                const parsed = JSON.parse(data2);
+                completeResponse += parsed;
+                if (onChunk) {
+                  onChunk(parsed);
+                }
+              }
+            }
           }
         };
         streamWithAxios();
@@ -47523,7 +47546,8 @@ You can check this by searching up for matching entries in a lockfile produced b
             personality: "MastersAdviser" /* kMastersAdviser */,
             onChunk: (chunk) => {
               setStreamedResponse((prev2) => prev2 + chunk);
-            }
+            },
+            forceNode: props.forceNode
           });
         }
         ;
@@ -47826,15 +47850,15 @@ You can check this by searching up for matching entries in a lockfile produced b
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/privacy",
@@ -47854,7 +47878,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
           }
         ]);
         return routes;

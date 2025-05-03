@@ -36,6 +36,7 @@ const kRequirementMaxLength = 4096;
 
 export interface IAppProps {
    appMode: EAppMode;
+   forceNode: boolean;
 }
 
 // Loca version that works in browser
@@ -98,13 +99,14 @@ export const App = (props: IAppProps) => {
          input: message,
          updateState: (event: EApiEvent) => {
             state.transition(event);
-            setState(new AssistantUIStateMachine(state.getState()));
+            setState(new AssistantUIStateMachine(state.getState()));         
          },
          sessionId: sessionUuid,
          personality: EAssistantPersonality.kMastersAdviser,
          onChunk: (chunk: string) => {
             setStreamedResponse(prev => prev + chunk);
-         }
+         },
+         forceNode: props.forceNode
       });
    };
    

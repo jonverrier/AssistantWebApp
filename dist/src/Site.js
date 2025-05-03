@@ -35,15 +35,15 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode })
+            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
         },
         {
             path: '/index',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode })
+            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
         },
         {
             path: '/index.html',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode })
+            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
         },
         {
             path: '/privacy',
@@ -63,7 +63,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode })
+            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
         }
     ]);
     return routes;

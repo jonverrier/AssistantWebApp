@@ -79,10 +79,10 @@ export const CopyableText = (props: ICopyableTextProps) => {
                </div>
                {props.text.split('\n').map((line, index) => {
                   const myId = props.id + '-' + index;
-                  return <Text key={index} className={textClasses.normal} id={myId}>{line}</Text>;
+                  return <Text key={index} className={textClasses.normal} id={myId} data-testid={myId}>{line}</Text>;
                })}
             </div>
-            : <Text className={textClasses.normalGrey}>{props.placeholder} id={props.id}</Text>
+            : <Text className={textClasses.normalGrey} id={props.id} data-testid={props.id}>{props.placeholder}</Text>
       }
    </div>);
 }

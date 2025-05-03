@@ -60,11 +60,8 @@ const CopyableText = (props) => {
                     react_1.default.createElement(react_components_1.ToolbarButton, { "aria-label": "Copy", appearance: "subtle", icon: react_1.default.createElement(react_icons_1.CopyRegular, null), onClick: copyToClipboard }))),
             props.text.split('\n').map((line, index) => {
                 const myId = props.id + '-' + index;
-                return react_1.default.createElement(react_components_1.Text, { key: index, className: textClasses.normal, id: myId }, line);
+                return react_1.default.createElement(react_components_1.Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line);
             }))
-        : react_1.default.createElement(react_components_1.Text, { className: textClasses.normalGrey },
-            props.placeholder,
-            " id=",
-            props.id)));
+        : react_1.default.createElement(react_components_1.Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder)));
 };
 exports.CopyableText = CopyableText;
