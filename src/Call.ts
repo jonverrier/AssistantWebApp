@@ -188,13 +188,11 @@ export async function processChat({
                                     if (line.trim() && line.startsWith('data: ')) {
                                         const data = line.slice(6).trim();
                                         if (data === '[DONE]') {
-                                            console.log('Stream completed');
                                             continue;
                                         }
                                         if (data) {
                                             try {
                                                 const parsed = JSON.parse(data);
-                                                console.log('Received chunk:', parsed);
                                                 completeResponse += parsed;
                                                 if (onChunk) {
                                                     onChunk(parsed);
