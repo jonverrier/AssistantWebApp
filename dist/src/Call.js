@@ -16,26 +16,35 @@ const axios_retry_1 = __importDefault(require("axios-retry"));
 const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 const UIStateMachine_1 = require("./UIStateMachine");
 /**
- * Calls the screening API to classify the input.
+ * Creates a retryable Axios client with custom configuration.
  *
- * @param options - The options for the screening API call
- * @returns The screening classification response if successful, or undefined if there's an error
+ * This function creates an Axios instance with a 30-second timeout, JSON content type,
+ * and disables credentials. It also includes retry logic with exponential backoff and jitter.
+ *
+ * @returns An Axios instance configured for retryable requests
  */
-async function callScreeningApi({ apiUrl, request, apiClient }) {
-    if (!apiClient) {
-        const client = axios_1.default.create();
-        (0, axios_retry_1.default)(client, {
-            retries: 3,
-            retryDelay: axios_retry_1.default.exponentialDelay,
-            retryCondition: (error) => {
-                return axios_retry_1.default.isNetworkOrIdempotentRequestError(error) ||
-                    (error.response?.status ?? 0) >= 500;
-            }
-        });
-        apiClient = client;
-    }
-    const response = await apiClient.post(apiUrl, request);
-    return response.data;
+function createRetryableAxiosClient() {
+    const client = axios_1.default.create({
+        timeout: 30000, // 30 second timeout
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        withCredentials: false
+    });
+    (0, axios_retry_1.default)(client, {
+        retries: 3,
+        retryDelay: (retryCount) => {
+            return axios_retry_1.default.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
+        },
+        retryCondition: (error) => {
+            return axios_retry_1.default.isNetworkOrIdempotentRequestError(error) ||
+                (error.response?.status ?? 0) >= 500 ||
+                error.code === 'ECONNABORTED' ||
+                error.code === 'ERR_NETWORK';
+        },
+        shouldResetTimeout: true
+    });
+    return client;
 }
 /**
  * Processes chat input through the assistant service.
@@ -49,27 +58,7 @@ async function callScreeningApi({ apiUrl, request, apiClient }) {
  */
 async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, personality, updateState, apiClient, benefitOfDoubt, onChunk }) {
     if (!apiClient) {
-        const client = axios_1.default.create({
-            timeout: 30000, // 30 second timeout
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            withCredentials: false
-        });
-        (0, axios_retry_1.default)(client, {
-            retries: 3,
-            retryDelay: (retryCount) => {
-                return axios_retry_1.default.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
-            },
-            retryCondition: (error) => {
-                return axios_retry_1.default.isNetworkOrIdempotentRequestError(error) ||
-                    (error.response?.status ?? 0) >= 500 ||
-                    error.code === 'ECONNABORTED' ||
-                    error.code === 'ERR_NETWORK';
-            },
-            shouldResetTimeout: true
-        });
-        apiClient = client;
+        apiClient = createRetryableAxiosClient();
     }
     try {
         // Signal start of screening
@@ -81,11 +70,8 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
             benefitOfDoubt
         };
         // First call the screening API
-        const screeningResult = await callScreeningApi({
-            apiUrl: screeningApiUrl,
-            request: chatRequest,
-            apiClient
-        });
+        const screeningResponse = await apiClient.post(screeningApiUrl, chatRequest);
+        const screeningResult = screeningResponse.data;
         if (!screeningResult || screeningResult.type === AssistantChatApiTypes_1.EScreeningClassification.kOffTopic) {
             updateState(UIStateMachine_1.EApiEvent.kRejectedFromScreening);
             return undefined;
@@ -98,10 +84,7 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
             let lastProcessedLength = 0;
             const streamWithAxios = async () => {
                 try {
-                    const response = await (0, axios_1.default)({
-                        method: 'POST',
-                        url: chatApiUrl,
-                        data: chatRequest,
+                    const response = await apiClient.post(chatApiUrl, chatRequest, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'text/event-stream'
@@ -124,27 +107,19 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
                                     if (line.trim() && line.startsWith('data: ')) {
                                         const data = line.slice(6).trim();
                                         if (data === '[DONE]') {
-                                            console.log('Stream completed');
                                             continue;
                                         }
                                         if (data) {
-                                            try {
-                                                const parsed = JSON.parse(data);
-                                                console.log('Received chunk:', parsed);
-                                                completeResponse += parsed;
-                                                if (onChunk) {
-                                                    onChunk(parsed);
-                                                }
-                                            }
-                                            catch (e) {
-                                                console.error('Error parsing chunk:', e);
+                                            const parsed = JSON.parse(data);
+                                            completeResponse += parsed;
+                                            if (onChunk) {
+                                                onChunk(parsed);
                                             }
                                         }
                                     }
                                 }
                             }
                             catch (e) {
-                                console.error('Error processing chunk:', e);
                                 throw e;
                             }
                         }
@@ -172,24 +147,6 @@ async function processChat({ screeningApiUrl, chatApiUrl, input, sessionId, pers
     }
     catch (error) {
         updateState(UIStateMachine_1.EApiEvent.kError);
-        if (axios_1.default.isAxiosError(error)) {
-            console.error('API Error:', {
-                message: error.message,
-                code: error.code,
-                status: error.response?.status,
-                statusText: error.response?.statusText,
-                headers: error.response?.headers,
-                data: error.response?.data,
-                config: {
-                    url: error.config?.url,
-                    method: error.config?.method,
-                    headers: error.config?.headers
-                }
-            });
-        }
-        else {
-            console.error('Unexpected error:', error);
-        }
         return undefined;
     }
 }

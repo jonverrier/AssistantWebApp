@@ -47220,27 +47220,26 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/Call.ts
-  async function callScreeningApi({
-    apiUrl,
-    request,
-    apiClient
-  }) {
-    if (!apiClient) {
-      const client = axios_default.create();
-      esm_default(client, {
-        retries: 3,
-        retryDelay: esm_default.exponentialDelay,
-        retryCondition: (error) => {
-          return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500;
-        }
-      });
-      apiClient = client;
-    }
-    const response = await apiClient.post(
-      apiUrl,
-      request
-    );
-    return response.data;
+  function createRetryableAxiosClient() {
+    const client = axios_default.create({
+      timeout: 3e4,
+      // 30 second timeout
+      headers: {
+        "Content-Type": "application/json"
+      },
+      withCredentials: false
+    });
+    esm_default(client, {
+      retries: 3,
+      retryDelay: (retryCount) => {
+        return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
+      },
+      retryCondition: (error) => {
+        return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
+      },
+      shouldResetTimeout: true
+    });
+    return client;
   }
   async function processChat({
     screeningApiUrl,
@@ -47254,25 +47253,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     onChunk
   }) {
     if (!apiClient) {
-      const client = axios_default.create({
-        timeout: 3e4,
-        // 30 second timeout
-        headers: {
-          "Content-Type": "application/json"
-        },
-        withCredentials: false
-      });
-      esm_default(client, {
-        retries: 3,
-        retryDelay: (retryCount) => {
-          return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
-        },
-        retryCondition: (error) => {
-          return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
-        },
-        shouldResetTimeout: true
-      });
-      apiClient = client;
+      apiClient = createRetryableAxiosClient();
     }
     try {
       updateState("StartedScreening" /* kStartedScreening */);
@@ -47282,11 +47263,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         input,
         benefitOfDoubt
       };
-      const screeningResult = await callScreeningApi({
-        apiUrl: screeningApiUrl,
-        request: chatRequest,
-        apiClient
-      });
+      const screeningResponse = await apiClient.post(
+        screeningApiUrl,
+        chatRequest
+      );
+      const screeningResult = screeningResponse.data;
       if (!screeningResult || screeningResult.type === "offTopic" /* kOffTopic */) {
         updateState("RejectedFromScreening" /* kRejectedFromScreening */);
         return void 0;
@@ -47298,10 +47279,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         let lastProcessedLength = 0;
         const streamWithAxios = async () => {
           try {
-            const response = await axios_default({
-              method: "POST",
-              url: chatApiUrl,
-              data: chatRequest,
+            const response = await apiClient.post(chatApiUrl, chatRequest, {
               headers: {
                 "Content-Type": "application/json",
                 "Accept": "text/event-stream"
@@ -47323,25 +47301,18 @@ You can check this by searching up for matching entries in a lockfile produced b
                     if (line2.trim() && line2.startsWith("data: ")) {
                       const data = line2.slice(6).trim();
                       if (data === "[DONE]") {
-                        console.log("Stream completed");
                         continue;
                       }
                       if (data) {
-                        try {
-                          const parsed = JSON.parse(data);
-                          console.log("Received chunk:", parsed);
-                          completeResponse += parsed;
-                          if (onChunk) {
-                            onChunk(parsed);
-                          }
-                        } catch (e) {
-                          console.error("Error parsing chunk:", e);
+                        const parsed = JSON.parse(data);
+                        completeResponse += parsed;
+                        if (onChunk) {
+                          onChunk(parsed);
                         }
                       }
                     }
                   }
                 } catch (e) {
-                  console.error("Error processing chunk:", e);
                   throw e;
                 }
               }
@@ -47366,23 +47337,6 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
     } catch (error) {
       updateState("Error" /* kError */);
-      if (axios_default.isAxiosError(error)) {
-        console.error("API Error:", {
-          message: error.message,
-          code: error.code,
-          status: error.response?.status,
-          statusText: error.response?.statusText,
-          headers: error.response?.headers,
-          data: error.response?.data,
-          config: {
-            url: error.config?.url,
-            method: error.config?.method,
-            headers: error.config?.headers
-          }
-        });
-      } else {
-        console.error("Unexpected error:", error);
-      }
       return void 0;
     }
   }

@@ -16,7 +16,10 @@ import { IAssistantChatRequest,
 import { EApiEvent } from './UIStateMachine';
 
 interface ApiClient {
-    post: <T>(url: string, data: any, config?: any) => Promise<{ data: T }>;
+    post: <T>(url: string, data: any, config?: any) => Promise<{ 
+        data: T;
+        status?: number;
+    }>;
 }
 
 /**
@@ -27,6 +30,41 @@ interface ScreeningOptions {
     request: IAssistantChatRequest;
     apiClient?: ApiClient;
 }
+
+/**
+ * Creates a retryable Axios client with custom configuration.
+ * 
+ * This function creates an Axios instance with a 30-second timeout, JSON content type,
+ * and disables credentials. It also includes retry logic with exponential backoff and jitter.
+ * 
+ * @returns An Axios instance configured for retryable requests
+ */
+function createRetryableAxiosClient() : ApiClient {
+   const client = axios.create({
+      timeout: 30000, // 30 second timeout
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      withCredentials: false
+  });
+  
+  axiosRetry(client, { 
+      retries: 3,
+      retryDelay: (retryCount) => {
+          return axiosRetry.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
+      },
+      retryCondition: (error) => {
+          return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
+                 (error.response?.status ?? 0) >= 500 ||
+                 error.code === 'ECONNABORTED' ||
+                 error.code === 'ERR_NETWORK';
+      },
+      shouldResetTimeout: true
+  });
+
+  return client;
+}
+
 
 /**
  * Options for processing chat input through the assistant service.
@@ -46,39 +84,6 @@ interface ProcessChat {
     apiClient?: ApiClient;
     benefitOfDoubt?: boolean;
     onChunk?: (chunk: string) => void;
-}
-
-/**
- * Calls the screening API to classify the input.
- * 
- * @param options - The options for the screening API call
- * @returns The screening classification response if successful, or undefined if there's an error
- */
-async function callScreeningApi({
-   apiUrl,
-   request,
-   apiClient
-}: ScreeningOptions): Promise<IScreeningClassificationResponse | undefined> {
-
-   if (!apiClient) {
-      const client = axios.create();
-      axiosRetry(client, {
-         retries: 3,
-         retryDelay: axiosRetry.exponentialDelay,
-         retryCondition: (error) => {
-            return axiosRetry.isNetworkOrIdempotentRequestError(error) ||
-               (error.response?.status ?? 0) >= 500;
-         }
-      });
-      apiClient = client;
-   }
-
-   const response = await apiClient.post<IScreeningClassificationResponse>(
-      apiUrl,
-      request
-   );
-
-   return response.data;
 }
 
 /**
@@ -103,30 +108,9 @@ export async function processChat({
     onChunk
 }: ProcessChat): Promise<string | undefined> {
 
-    if (!apiClient) {
-        const client = axios.create({
-            timeout: 30000, // 30 second timeout
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            withCredentials: false
-        });
-        
-        axiosRetry(client, { 
-            retries: 3,
-            retryDelay: (retryCount) => {
-                return axiosRetry.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
-            },
-            retryCondition: (error) => {
-                return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
-                       (error.response?.status ?? 0) >= 500 ||
-                       error.code === 'ECONNABORTED' ||
-                       error.code === 'ERR_NETWORK';
-            },
-            shouldResetTimeout: true
-        });
-        apiClient = client;
-    }
+   if (!apiClient) {
+      apiClient = createRetryableAxiosClient();
+   }
     
     try {
         // Signal start of screening
@@ -140,12 +124,12 @@ export async function processChat({
         };
 
         // First call the screening API
-        const screeningResult = await callScreeningApi({
-            apiUrl: screeningApiUrl,
-            request: chatRequest,
-            apiClient
-        });
-
+        const screeningResponse = await apiClient.post<IScreeningClassificationResponse>(
+            screeningApiUrl,
+            chatRequest
+        );        
+        const screeningResult = screeningResponse.data;
+   
         if (!screeningResult || screeningResult.type === EScreeningClassification.kOffTopic) {
             updateState(EApiEvent.kRejectedFromScreening);
             return undefined;
@@ -161,10 +145,7 @@ export async function processChat({
 
             const streamWithAxios = async () => {
                 try {
-                    const response = await axios({
-                        method: 'POST',
-                        url: chatApiUrl,
-                        data: chatRequest,
+                    const response = await apiClient.post(chatApiUrl, chatRequest, {
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'text/event-stream'
@@ -174,40 +155,35 @@ export async function processChat({
                         withCredentials: false,
                         decompress: true,
                         maxRedirects: 5,
-                        onDownloadProgress: (progressEvent: AxiosProgressEvent) => {
-                            try {
-                                if (!progressEvent.event?.target) return;
-                                
-                                const rawData = progressEvent.event.target.response;
-                                // Only process new data
-                                const newData = rawData.substring(lastProcessedLength);
-                                lastProcessedLength = rawData.length;
-                                
-                                const lines = newData.split('\n');
-                                for (const line of lines) {
-                                    if (line.trim() && line.startsWith('data: ')) {
-                                        const data = line.slice(6).trim();
-                                        if (data === '[DONE]') {
-                                            continue;
-                                        }
-                                        if (data) {
-                                            try {
-                                                const parsed = JSON.parse(data);
-                                                completeResponse += parsed;
-                                                if (onChunk) {
-                                                    onChunk(parsed);
-                                                }
-                                            } catch (e) {
-                                                console.error('Error parsing chunk:', e);
-                                            }
-                                        }
-                                    }
+                       onDownloadProgress: (progressEvent: AxiosProgressEvent) => {
+                          try {
+                             if (!progressEvent.event?.target) return;
+
+                             const rawData = progressEvent.event.target.response;
+                             // Only process new data
+                             const newData = rawData.substring(lastProcessedLength);
+                             lastProcessedLength = rawData.length;
+
+                             const lines = newData.split('\n');
+                             for (const line of lines) {
+                                if (line.trim() && line.startsWith('data: ')) {
+                                   const data = line.slice(6).trim();
+                                   if (data === '[DONE]') {
+                                      continue;
+                                   }
+                                   if (data) {
+                                      const parsed = JSON.parse(data);
+                                      completeResponse += parsed;
+                                      if (onChunk) {
+                                         onChunk(parsed);
+                                      }
+                                   }
                                 }
-                            } catch (e) {
-                                console.error('Error processing chunk:', e);
-                                throw e;
-                            }
-                        }
+                             }
+                          } catch (e) {
+                             throw e;
+                          }
+                       }
                     });
 
                     if (response.status === 200) {
@@ -235,24 +211,8 @@ export async function processChat({
     } catch (error) {
         updateState(EApiEvent.kError);
         
-        if (axios.isAxiosError(error)) {
-            console.error('API Error:', {
-                message: error.message,
-                code: error.code,
-                status: error.response?.status,
-                statusText: error.response?.statusText,
-                headers: error.response?.headers,
-                data: error.response?.data,
-                config: {
-                    url: error.config?.url,
-                    method: error.config?.method,
-                    headers: error.config?.headers
-                }
-            });
-        } else {
-            console.error('Unexpected error:', error);
-        }
-        
         return undefined;
     }
 }
+
+

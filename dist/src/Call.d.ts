@@ -10,6 +10,7 @@ import { EApiEvent } from './UIStateMachine';
 interface ApiClient {
     post: <T>(url: string, data: any, config?: any) => Promise<{
         data: T;
+        status?: number;
     }>;
 }
 /**
