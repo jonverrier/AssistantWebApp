@@ -74,7 +74,7 @@ exports.activeFieldId = uuidv4();
 const local = true;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
-    const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
+    const innerColumnClasses = (0, OuterStyles_1.innerColumnWhiteboardStyles)();
     const columnElementClasses = (0, CommonStyles_1.standardColumnElementStyles)();
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();

@@ -12,8 +12,7 @@ import React from 'react';
 import { BrowserRouter, useRoutes } from "react-router-dom";
 import { App } from "./App";
 import { PlainText } from './PlainText';
-import { FluentProvider } from '@fluentui/react-components';
-import { teamsDarkTheme } from '@fluentui/react-components';
+import { FluentProvider , teamsLightTheme } from '@fluentui/react-components';
 import { EAppMode, getUIStrings } from './UIStrings';
 
 import { kTermsContent } from './TermsContent';
@@ -26,7 +25,7 @@ export interface IRoutedSiteProps {
 export const RoutedSite = (props: IRoutedSiteProps) => {
 
    return (
-      <FluentProvider theme={teamsDarkTheme}>
+      <FluentProvider theme={teamsLightTheme}>
             <BrowserRouter future={{
                v7_startTransition: true,
                v7_relativeSplatPath: true

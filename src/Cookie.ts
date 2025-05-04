@@ -24,9 +24,11 @@ export async function getSessionUuid(cookieApiUrl: string): Promise<string | und
                 'Accept': 'application/json'
             }
         });
+        
+        console.log('Response headers:', response.headers);
 
         // Get the Set-Cookie header
-        const setCookie = response.headers['set-cookie'];
+        const setCookie = response.headers['Set-Cookie'];
         if (!setCookie || !Array.isArray(setCookie) || setCookie.length === 0) {
             console.error('No Set-Cookie header received');
             return undefined;

@@ -69,15 +69,13 @@ export const standardTextStyles = makeStyles({
       textAlign: 'center',
       fontSize: '16pt',
       fontWeight: 'bold',
-      color: 'white',   
       marginBottom: '12px'
    },  
    subHeadingLeft: {
       textAlign: 'left',
       alignSelf: 'flex-start',
       fontSize: '12pt',
-      fontWeight: 'bold',
-      color: 'white', 
+      fontWeight: 'bold', 
       marginTop: '12px',
       marginBottom: '12px'
    },       
@@ -85,7 +83,6 @@ export const standardTextStyles = makeStyles({
       textAlign: 'left',
       alignSelf: 'flex-start',
       fontSize: '10pt',
-      color: 'white',  
       marginBottom: '10px'
    },
    normalGrey: {

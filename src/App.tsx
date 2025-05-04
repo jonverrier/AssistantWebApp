@@ -27,7 +27,7 @@ import { CopyableText } from './CopyableText';
 import { Message, MessageIntent } from './Message';
 import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
 import { processChat } from './Call';
-import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
+import { pageOuterStyles, innerColumnWhiteboardStyles } from './OuterStyles';
 import { Spacer, Footer } from './SiteUtilities';
 import { getSessionUuid } from './Cookie';
 
@@ -59,7 +59,7 @@ const local = true;
 export const App = (props: IAppProps) => {
    
    const pageOuterClasses = pageOuterStyles();
-   const innerColumnClasses = innerColumnStyles();
+   const innerColumnClasses = innerColumnWhiteboardStyles ();
    const columnElementClasses = standardColumnElementStyles();
    const textClasses = standardTextStyles();   
    const linkClasses = standardLinkStyles();

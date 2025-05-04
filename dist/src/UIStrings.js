@@ -31,8 +31,8 @@ exports.CommonUIStrings = {
 };
 exports.TheYardUIStrings = {
     kAppPageCaption: "Yard Talk",
-    kAppPageStrapline: "Where sweat meets sass—and the burpees never end (even when you ask).",
-    kLinks: "[CrossFit main site](https://www.crossfit.com/)",
+    kAppPageStrapline: "Where sweat meets sass, and we lift until we drop.",
+    kLinks: "[CrossFit main site](https://www.crossfit.com/), [The Yard](https://www.theyardpeckham.com/)",
     kChatPreamble: "Chat to the Yard Talk AI by entering your question in the edit box. Treat your content as public:",
     kChatPlaceholder: "Enter your question...",
     kResponsePlaceholder: "When your question is answered, the answer will appear here.",

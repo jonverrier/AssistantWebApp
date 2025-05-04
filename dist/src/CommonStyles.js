@@ -64,7 +64,6 @@ exports.standardTextStyles = (0, react_components_1.makeStyles)({
         textAlign: 'center',
         fontSize: '16pt',
         fontWeight: 'bold',
-        color: 'white',
         marginBottom: '12px'
     },
     subHeadingLeft: {
@@ -72,7 +71,6 @@ exports.standardTextStyles = (0, react_components_1.makeStyles)({
         alignSelf: 'flex-start',
         fontSize: '12pt',
         fontWeight: 'bold',
-        color: 'white',
         marginTop: '12px',
         marginBottom: '12px'
     },
@@ -80,7 +78,6 @@ exports.standardTextStyles = (0, react_components_1.makeStyles)({
         textAlign: 'left',
         alignSelf: 'flex-start',
         fontSize: '10pt',
-        color: 'white',
         marginBottom: '10px'
     },
     normalGrey: {

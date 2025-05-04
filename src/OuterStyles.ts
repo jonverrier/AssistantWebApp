@@ -42,3 +42,17 @@ export const innerColumnStyles = makeStyles({
       width: "100%"
    },
 });
+
+export const innerColumnWhiteboardStyles = makeStyles({
+   root: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',    // start layout at the top       
+      alignItems: 'center',
+      maxWidth: "896px",
+      width: "100%",
+      backgroundImage: "url('assets/img/board-512x384.png')",
+      backgroundRepeat: "repeat",
+      opacity: 0.75
+   },
+});
