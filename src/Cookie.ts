@@ -25,12 +25,17 @@ export async function getSessionUuid(cookieApiUrl: string): Promise<string | und
             }
         });
         
-        console.log('Response headers:', response.headers);
 
         // Get the Set-Cookie header
         const setCookie = response.headers['Set-Cookie'];
+
         if (!setCookie || !Array.isArray(setCookie) || setCookie.length === 0) {
-            console.error('No Set-Cookie header received');
+            
+            // Try to get sessionId from response body as fallback
+            if (response.data && response.data.sessionId) {
+                return response.data.sessionId;
+            }
+            console.error('No Set-Cookie header or sessionId in response body');
             return undefined;
         }
 

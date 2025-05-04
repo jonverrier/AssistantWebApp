@@ -47420,10 +47420,12 @@ You can check this by searching up for matching entries in a lockfile produced b
           "Accept": "application/json"
         }
       });
-      console.log("Response headers:", response.headers);
       const setCookie = response.headers["Set-Cookie"];
       if (!setCookie || !Array.isArray(setCookie) || setCookie.length === 0) {
-        console.error("No Set-Cookie header received");
+        if (response.data && response.data.sessionId) {
+          return response.data.sessionId;
+        }
+        console.error("No Set-Cookie header or sessionId in response body");
         return void 0;
       }
       for (const cookie of setCookie) {
