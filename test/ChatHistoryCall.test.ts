@@ -12,7 +12,7 @@ import {
     IChatMessage,
     EChatRole
 } from '../import/AssistantChatApiTypes';
-import { processChatHistory } from '../src/ChatHistory';
+import { processChatHistory } from '../src/ChatHistoryCall';
 
 const sessionId = '1234567890';
 
@@ -85,7 +85,7 @@ describe('ChatHistory', function() {
         const receivedPages: IChatMessage[][] = [];
 
         const result = await processChatHistory({
-            chatHistoryApiUrl: 'http://chat-history-api-endpoint',
+            messagesApiUrl: 'http://chat-history-api-endpoint',
             sessionId: sessionId,
             limit: 2,
             apiClient: mockApi,
@@ -127,14 +127,13 @@ describe('ChatHistory', function() {
         const error = new Error('API Error');
         mockApi.post.rejects(error);
 
-        const result = await processChatHistory({
-            chatHistoryApiUrl: 'http://chat-history-api-endpoint',
+        await expect(processChatHistory({
+            messagesApiUrl: 'http://chat-history-api-endpoint',
             sessionId: sessionId,
             limit: 2,
             apiClient: mockApi
-        });
+        })).rejects.toThrow(error);
 
-        expect(result).toBeUndefined();
     });
 
     it('should handle empty chat history', async () => {
@@ -148,7 +147,7 @@ describe('ChatHistory', function() {
         mockApi.post.resolves(emptyResponse);
 
         const result = await processChatHistory({
-            chatHistoryApiUrl: 'http://chat-history-api-endpoint',
+            messagesApiUrl: 'http://chat-history-api-endpoint',
             sessionId: sessionId,
             limit: 2,
             apiClient: mockApi
