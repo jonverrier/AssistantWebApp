@@ -8,8 +8,22 @@
 // Copyright (c) 2025 Jon Verrier
 
 /**
- * A response from the assistant chat API.
- * Contains the assistant's response classificataion for screening checks.
+ * A request for a new session, optionally populated with the existing session ID.
+ */
+export interface ISessionRequest {
+   sessionId?: string;
+}
+
+/**
+ * Response to a request for a new session.
+ */
+export interface ISessionResponse {
+   sessionId: string;
+}
+
+/**
+ * An enumeration of possible assistant personalities.
+ * Used to specify the desired personality type for chat interactions.
  */
 export enum EAssistantPersonality {
    kMastersAdviser = 'MastersAdviser'

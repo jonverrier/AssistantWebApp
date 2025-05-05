@@ -7,10 +7,9 @@
  */
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EScreeningClassification = exports.EAssistantPersonality = void 0;
-// Copyright (c) 2025 Jon Verrier
 /**
- * A response from the assistant chat API.
- * Contains the assistant's response classificataion for screening checks.
+ * An enumeration of possible assistant personalities.
+ * Used to specify the desired personality type for chat interactions.
  */
 var EAssistantPersonality;
 (function (EAssistantPersonality) {

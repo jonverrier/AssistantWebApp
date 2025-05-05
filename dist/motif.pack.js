@@ -47411,40 +47411,51 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/Cookie.ts
-  async function getSessionUuid(cookieApiUrl) {
+  async function getSessionUuid(cookieApiUrl, storage = browserStorage) {
     try {
-      const response = await axios_default.get(cookieApiUrl, {
+      const existingSessionId = storage.get(SESSION_STORAGE_KEY);
+      const request = {
+        sessionId: existingSessionId || void 0
+      };
+      const response = await axios_default.post(cookieApiUrl, request, {
         withCredentials: true,
         // Required for cookies to be set
         headers: {
-          "Accept": "application/json"
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         }
       });
-      const setCookie = response.headers["Set-Cookie"];
-      if (!setCookie || !Array.isArray(setCookie) || setCookie.length === 0) {
-        if (response.data && response.data.sessionId) {
-          return response.data.sessionId;
-        }
-        console.error("No Set-Cookie header or sessionId in response body");
+      const sessionId = response?.data?.sessionId || void 0;
+      if (!sessionId) {
+        console.error("No sessionId in response");
         return void 0;
       }
-      for (const cookie of setCookie) {
-        const match2 = cookie.match(/sessionId=([^;]+)/);
-        if (match2) {
-          return match2[1];
-        }
-      }
-      console.error("No sessionId found in cookies");
-      return void 0;
+      storage.set(SESSION_STORAGE_KEY, sessionId);
+      return sessionId;
     } catch (error) {
       console.error("Error getting session UUID:", error);
       return void 0;
     }
   }
+  var SESSION_STORAGE_KEY, browserStorage;
   var init_Cookie = __esm({
     "src/Cookie.ts"() {
       "use strict";
       init_axios2();
+      SESSION_STORAGE_KEY = "motif_session_id";
+      browserStorage = {
+        get: (key) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            return localStorage.getItem(key) || void 0;
+          }
+          return void 0;
+        },
+        set: (key, value) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            localStorage.setItem(key, value);
+          }
+        }
+      };
     }
   });
 

@@ -6,49 +6,79 @@
 /*! Copyright Jon Verrier 2025 */
 
 import axios from 'axios';
+import { ISessionRequest, ISessionResponse } from '../import/AssistantChatApiTypes';
+
+const SESSION_STORAGE_KEY = 'motif_session_id';
+
+/**
+ * Interface for storage operations.
+ * Works in both environments - in Node.js it won't persist session ID locally
+ */
+export interface IStorage {
+    get(key: string): string | undefined;
+    set(key: string, value: string): void;
+}
+
+// Default browser storage implementation
+const browserStorage: IStorage = {
+    get: (key: string): string | undefined => {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            return localStorage.getItem(key) || undefined;
+        }
+        return undefined;
+    },
+    set: (key: string, value: string): void => {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            localStorage.setItem(key, value);
+        }
+    }
+};
 
 /**
  * Calls the cookie API to get a session UUID.
  * 
- * This function makes a GET request to the cookie API, which returns a Set-Cookie
- * header containing a session UUID. The function extracts and returns this UUID.
+ * This function first checks storage for an existing session ID.
+ * If found, it sends that to the server. If not, it requests a new session.
+ * The server's response is stored and returned.
  * 
  * @param cookieApiUrl - The URL of the cookie API
+ * @param storage - Storage implementation to use (defaults to browser storage)
  * @returns The session UUID if successful, undefined if there's an error
  */
-export async function getSessionUuid(cookieApiUrl: string): Promise<string | undefined> {
+export async function getSessionUuid(
+    cookieApiUrl: string, 
+    storage: IStorage = browserStorage
+): Promise<string | undefined> {
     try {
-        const response = await axios.get(cookieApiUrl, {
+        // Check storage first
+        const existingSessionId = storage.get(SESSION_STORAGE_KEY);
+        
+        // Prepare the request
+        const request: ISessionRequest = {
+            sessionId: existingSessionId || undefined
+        };
+
+        // Make the API call
+        const response = await axios.post<ISessionResponse>(cookieApiUrl, request, {
             withCredentials: true,  // Required for cookies to be set
             headers: {
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
             }
         });
+
+        // Get the session ID from the response
+        const sessionId = response?.data?.sessionId || undefined;
         
-
-        // Get the Set-Cookie header
-        const setCookie = response.headers['Set-Cookie'];
-
-        if (!setCookie || !Array.isArray(setCookie) || setCookie.length === 0) {
-            
-            // Try to get sessionId from response body as fallback
-            if (response.data && response.data.sessionId) {
-                return response.data.sessionId;
-            }
-            console.error('No Set-Cookie header or sessionId in response body');
+        if (!sessionId) {
+            console.error('No sessionId in response');
             return undefined;
         }
 
-        // Find the sessionId cookie
-        for (const cookie of setCookie) {
-            const match = cookie.match(/sessionId=([^;]+)/);
-            if (match) {
-                return match[1];  // Return the UUID value
-            }
-        }
-
-        console.error('No sessionId found in cookies');
-        return undefined;
+        // Store the session ID
+        storage.set(SESSION_STORAGE_KEY, sessionId);
+        
+        return sessionId;
 
     } catch (error) {
         console.error('Error getting session UUID:', error);
