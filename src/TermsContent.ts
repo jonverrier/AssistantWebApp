@@ -1,5 +1,5 @@
 export const kTermsContent = 
-`We help businesses create high performing engineering teams using AI-enabled tools. We provide you with services to help you create AI applications for your business. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+`We help businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
