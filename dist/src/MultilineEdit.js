@@ -194,10 +194,12 @@ const MultilineEdit = (props) => {
     if (width !== 0)
         dyNeeded = calculateDyNeeded(width, props.message, props.fontNameForTextWrapCalculation, kMessagePrompt2HBorder, kMessagePromptLineSpace, props.defaultHeightLines) + bump;
     return (react_1.default.createElement("div", { style: { width: '100%', maxWidth: '100%' } },
-        react_1.default.createElement(react_components_1.Text, { className: textFieldClasses.normal }, props.caption),
-        react_1.default.createElement(react_components_1.Textarea, { id: textAreaId, appearance: "outline", placeholder: props.placeholder, maxLength: props.maxLength, textarea: { className: textFieldClasses.textarea }, resize: "none", value: props.message, onChange: onKeyChange, disabled: !props.enabled, style: {
+        react_1.default.createElement(react_components_1.Text, { className: textFieldClasses.normal, style: { paddingLeft: '4px', paddingRight: '4px' } }, props.caption),
+        react_1.default.createElement(react_components_1.Textarea, { id: textAreaId, appearance: "outline", placeholder: props.placeholder, maxLength: props.maxLength, textarea: { className: textFieldClasses.textarea, style: { paddingLeft: '4px', paddingRight: '4px' } }, resize: "none", value: props.message, onChange: onKeyChange, disabled: !props.enabled, style: {
                 height: (dyNeeded).toString() + 'px',
-                width: '100%'
+                width: '100%',
+                paddingLeft: '4px',
+                paddingRight: '4px'
             }, onKeyDown: (e) => onSend(e, props.message), autoFocus: true }),
         react_1.default.createElement("div", { className: columnClasses.root },
             react_1.default.createElement(react_components_1.Text, { className: textFieldClasses.centredHint }, MultilineEditUIStrings_1.EMultilineEditUIStrings.kMessageTextPrompt),

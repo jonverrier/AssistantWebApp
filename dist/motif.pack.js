@@ -45811,21 +45811,23 @@ You can check this by searching up for matching entries in a lockfile produced b
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.normal }, props.caption), /* @__PURE__ */ import_react26.default.createElement(
+        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.normal, style: { paddingLeft: "4px", paddingRight: "4px" } }, props.caption), /* @__PURE__ */ import_react26.default.createElement(
           Textarea,
           {
             id: textAreaId,
             appearance: "outline",
             placeholder: props.placeholder,
             maxLength: props.maxLength,
-            textarea: { className: textFieldClasses.textarea },
+            textarea: { className: textFieldClasses.textarea, style: { paddingLeft: "4px", paddingRight: "4px" } },
             resize: "none",
             value: props.message,
             onChange: onKeyChange,
             disabled: !props.enabled,
             style: {
               height: dyNeeded.toString() + "px",
-              width: "100%"
+              width: "100%",
+              paddingLeft: "4px",
+              paddingRight: "4px"
             },
             onKeyDown: (e) => onSend(e, props.message),
             autoFocus: true
@@ -49780,7 +49782,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_TermsContent = __esm({
     "src/TermsContent.ts"() {
       "use strict";
-      kTermsContent = `We help businesses create high performing engineering teams using AI-enabled tools. We provide you with services to help you create AI applications for your business. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+      kTermsContent = `We help businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
@@ -49865,7 +49867,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "src/PrivacyContent.ts"() {
       "use strict";
       kPrivacyContent = `1. Introduction
-1.1	We help businesses create high performing engineering teams using AI-enabled tools. As well as high performing, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	We help businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
