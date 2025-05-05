@@ -6,7 +6,7 @@
  * Includes styles for the outer page container and inner column layout.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.innerColumnWhiteboardStyles = exports.innerColumnStyles = exports.pageOuterStyles = void 0;
+exports.innerColumnStyles = exports.pageOuterStyles = void 0;
 /*! Copyright Jon Verrier 2025 */
 const react_components_1 = require("@fluentui/react-components");
 exports.pageOuterStyles = (0, react_components_1.makeStyles)({
@@ -40,16 +40,19 @@ exports.innerColumnStyles = (0, react_components_1.makeStyles)({
         width: "100%"
     },
 });
-exports.innerColumnWhiteboardStyles = (0, react_components_1.makeStyles)({
-    root: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'flex-start', // start layout at the top       
-        alignItems: 'center',
-        maxWidth: "896px",
-        width: "100%",
-        backgroundImage: "url('assets/img/board-512x384.png')",
-        backgroundRepeat: "repeat",
-        opacity: 0.9
-    },
+/*
+Use this for the whiteboard background image.
+export const innerColumnWhiteboardStyles = makeStyles({
+   root: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'flex-start',    // start layout at the top
+      alignItems: 'center',
+      maxWidth: "896px",
+      width: "100%",
+      backgroundImage: "url('assets/img/board-512x384.png')",
+      backgroundRepeat: "repeat",
+      opacity: 0.9
+   },
 });
+*/ 

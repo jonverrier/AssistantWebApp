@@ -24,12 +24,11 @@ exports.copyableTextStyles = (0, react_components_1.makeStyles)({
         justifyContent: 'flex-start', // start layout at the top       
         alignItems: 'left',
         width: "100%",
-        ...react_components_1.shorthands.borderColor("gray"),
-        ...react_components_1.shorthands.borderWidth("1px"),
-        ...react_components_1.shorthands.borderStyle("solid"),
-        borderRadius: "4px",
-        padding: "12px",
-        marginBottom: "12px"
+        //...shorthands.borderColor("gray"),
+        //...shorthands.borderWidth("1px"),
+        //...shorthands.borderStyle("solid"),
+        //borderRadius: "4px",
+        padding: "4px"
     },
 });
 exports.copyableTextButtonRowStyles = (0, react_components_1.makeStyles)({

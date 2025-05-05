@@ -17,7 +17,6 @@ var EAppMode;
     EAppMode["kYardTalk"] = "yardtalk";
 })(EAppMode || (exports.EAppMode = EAppMode = {}));
 exports.CommonUIStrings = {
-    kProcessing: "Processing. This may take several seconds.",
     kWarning: "Warning:",
     kInfo: "Information:",
     kError: "Error:",
@@ -27,18 +26,19 @@ exports.CommonUIStrings = {
     kPrivacyTitle: "Privacy Policy",
     kTermsTitle: "Terms of Service",
     kPrivacy: "Privacy",
-    kTerms: "Terms"
+    kTerms: "Terms",
+    kAIWarning: "AI can make mistakes. Think about it."
 };
 exports.TheYardUIStrings = {
     kAppPageCaption: "Yard Talk",
-    kAppPageStrapline: "Where sweat meets sass, and we lift until we drop.",
+    kAppPageStrapline: "Where sweat meets sass.",
+    kOverview: "The Yard Peckham is proudly the home of CrossFit Peckham. Above all else, we are committed to the improvement of human life and dedicated to offering high quality coaching in an environment that will help you achieve your health, fitness and performance goals. We hope our Yard Talk AI will help along the way. Enjoy.",
     kLinks: "[CrossFit main site](https://www.crossfit.com/), [The Yard](https://www.theyardpeckham.com/)",
-    kChatPreamble: "Chat to the Yard Talk AI by entering your question in the edit box. Treat your content as public:",
-    kChatPlaceholder: "Enter your question...",
-    kResponsePlaceholder: "When your question is answered, the answer will appear here.",
-    kLooksOffTopic: "That looks off-topic. Please try again."
+    kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
+    kChatPlaceholder: "Talk to me about fitness...",
+    kLooksOffTopic: "Sorry, that looks off-topic. I just talk about fitness. Please try again."
 };
-// Default UI strings that combine common and requirement strings
+// Default UI strings that combine common and brand strings
 exports.UIStrings = {
     ...exports.CommonUIStrings,
     ...exports.TheYardUIStrings

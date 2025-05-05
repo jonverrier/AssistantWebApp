@@ -10,7 +10,6 @@ export declare enum EAppMode {
     kYardTalk = "yardtalk"
 }
 export interface ICommonUIStrings {
-    kProcessing: string;
     kWarning: string;
     kInfo: string;
     kError: string;
@@ -21,19 +20,20 @@ export interface ICommonUIStrings {
     kTermsTitle: string;
     kPrivacy: string;
     kTerms: string;
+    kAIWarning: string;
 }
-export interface ISpecificationUIStrings {
+export interface IBrandUIStrings {
     kAppPageCaption: string;
     kAppPageStrapline: string;
+    kOverview: string;
     kLinks: string;
     kChatPreamble: string;
     kChatPlaceholder: string;
-    kResponsePlaceholder: string;
     kLooksOffTopic: string;
 }
-export type IUIStrings = ICommonUIStrings & ISpecificationUIStrings;
+export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 export declare const CommonUIStrings: ICommonUIStrings;
-export declare const TheYardUIStrings: ISpecificationUIStrings;
+export declare const TheYardUIStrings: IBrandUIStrings;
 export declare const UIStrings: IUIStrings;
 export declare function getUIStrings(mode: EAppMode): IUIStrings;
 //# sourceMappingURL=UIStrings.d.ts.map

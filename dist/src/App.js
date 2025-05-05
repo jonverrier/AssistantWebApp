@@ -87,7 +87,6 @@ const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
         width: '100%',
         backgroundColor: 'transparent',
         paddingTop: '12px',
-        borderTop: '1px solid #edebe9',
         zIndex: 1
     }
 });
@@ -104,7 +103,7 @@ exports.activeFieldId = uuidv4();
 const local = true;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
-    const innerColumnClasses = (0, OuterStyles_1.innerColumnWhiteboardStyles)();
+    const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
     const columnElementClasses = (0, CommonStyles_1.standardColumnElementStyles)();
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
@@ -250,6 +249,8 @@ const App = (props) => {
         react_1.default.createElement("div", { className: innerColumnClasses.root },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
             react_1.default.createElement(react_components_1.Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline),
+            react_1.default.createElement(SiteUtilities_1.Spacer, null),
+            react_1.default.createElement(react_components_1.Text, null, uiStrings.kOverview),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             [uiStrings.kLinks].map(markdownLinks => {
                 return markdownLinks.split(',').map((link, index) => {

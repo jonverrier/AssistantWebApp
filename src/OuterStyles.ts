@@ -43,6 +43,8 @@ export const innerColumnStyles = makeStyles({
    },
 });
 
+/*
+Use this for the whiteboard background image.
 export const innerColumnWhiteboardStyles = makeStyles({
    root: {
       display: 'flex',
@@ -56,3 +58,4 @@ export const innerColumnWhiteboardStyles = makeStyles({
       opacity: 0.9
    },
 });
+*/

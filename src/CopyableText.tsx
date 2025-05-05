@@ -29,12 +29,11 @@ export const copyableTextStyles = makeStyles({
       justifyContent: 'flex-start',    // start layout at the top       
       alignItems: 'left',
       width: "100%",
-      ...shorthands.borderColor("gray"),
-      ...shorthands.borderWidth("1px"),
-      ...shorthands.borderStyle("solid"),
-      borderRadius: "4px",
-      padding: "12px",
-      marginBottom: "12px"
+      //...shorthands.borderColor("gray"),
+      //...shorthands.borderWidth("1px"),
+      //...shorthands.borderStyle("solid"),
+      //borderRadius: "4px",
+      padding: "4px"
    },
 });
 

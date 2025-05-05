@@ -51,18 +51,19 @@ const useStyles = makeStyles({
         backgroundColor: tokens.colorNeutralBackground2,
     },
     userMessage: {
-        backgroundColor: `${tokens.colorBrandBackground2}CC`, // 80% opacity
+        //backgroundColor: `${tokens.colorBrandBackground2}CC`, // 80% opacity when trying whiteboard theme
+        backgroundColor: tokens.colorBrandBackground2
     },
     assistantMessage: {
-        backgroundColor: `${tokens.colorNeutralBackground2}CC`, // 80% opacity
+        //backgroundColor: `${tokens.colorNeutralBackground2}CC`, // 80% opacity
+        backgroundColor: tokens.colorNeutralBackground2
     },
     avatar: {
         flexShrink: 0,
     },
     timestamp: {
         fontSize: tokens.fontSizeBase200,
-        color: tokens.colorNeutralForeground3,
-        marginTop: tokens.spacingVerticalXS,
+        color: tokens.colorNeutralForeground3
     }
 });
 

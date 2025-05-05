@@ -21,7 +21,7 @@ const UIStrings_1 = require("./UIStrings");
 const TermsContent_1 = require("./TermsContent");
 const PrivacyContent_1 = require("./PrivacyContent");
 const RoutedSite = (props) => {
-    return (react_1.default.createElement(react_components_1.FluentProvider, { theme: react_components_1.teamsLightTheme },
+    return (react_1.default.createElement(react_components_1.FluentProvider, { theme: react_components_1.teamsDarkTheme },
         react_1.default.createElement(react_router_dom_1.BrowserRouter, { future: {
                 v7_startTransition: true,
                 v7_relativeSplatPath: true

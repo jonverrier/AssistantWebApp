@@ -23611,7 +23611,6 @@
       "use strict";
       init_MultilineEditUIStrings();
       CommonUIStrings = {
-        kProcessing: "Processing. This may take several seconds.",
         kWarning: "Warning:",
         kInfo: "Information:",
         kError: "Error:",
@@ -23621,16 +23620,17 @@
         kPrivacyTitle: "Privacy Policy",
         kTermsTitle: "Terms of Service",
         kPrivacy: "Privacy",
-        kTerms: "Terms"
+        kTerms: "Terms",
+        kAIWarning: "AI can make mistakes. Think about it."
       };
       TheYardUIStrings = {
         kAppPageCaption: "Yard Talk",
-        kAppPageStrapline: "Where sweat meets sass, and we lift until we drop.",
+        kAppPageStrapline: "Where sweat meets sass.",
+        kOverview: "The Yard Peckham is proudly the home of CrossFit Peckham. Above all else, we are committed to the improvement of human life and dedicated to offering high quality coaching in an environment that will help you achieve your health, fitness and performance goals. We hope our Yard Talk AI will help along the way. Enjoy.",
         kLinks: "[CrossFit main site](https://www.crossfit.com/), [The Yard](https://www.theyardpeckham.com/)",
-        kChatPreamble: "Chat to the Yard Talk AI by entering your question in the edit box. Treat your content as public:",
-        kChatPlaceholder: "Enter your question...",
-        kResponsePlaceholder: "When your question is answered, the answer will appear here.",
-        kLooksOffTopic: "That looks off-topic. Please try again."
+        kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
+        kChatPlaceholder: "Talk to me about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. I just talk about fitness. Please try again."
       };
       UIStrings = {
         ...CommonUIStrings,
@@ -35957,7 +35957,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/tokens/lib/global/colors.js
-  var grey, whiteAlpha, blackAlpha, white, black, darkRed, cranberry, red, darkOrange, pumpkin, orange, peach, marigold, yellow, gold, brass, brown, forest, seafoam, lightGreen, green, darkGreen, lightTeal, teal, steel, blue, royalBlue, cornflower, navy, lavender, purple, grape, berry, lilac, pink, magenta, plum, beige, mink, platinum, anchor;
+  var grey, whiteAlpha, blackAlpha, grey10Alpha, grey12Alpha, grey14Alpha, white, black, darkRed, cranberry, red, darkOrange, pumpkin, orange, peach, marigold, yellow, gold, brass, brown, forest, seafoam, lightGreen, green, darkGreen, lightTeal, teal, steel, blue, royalBlue, cornflower, navy, lavender, purple, grape, berry, lilac, pink, magenta, plum, beige, mink, platinum, anchor;
   var init_colors = __esm({
     "node_modules/@fluentui/tokens/lib/global/colors.js"() {
       grey = {
@@ -36034,6 +36034,42 @@ You can check this by searching up for matching entries in a lockfile produced b
         "70": "rgba(0, 0, 0, 0.7)",
         "80": "rgba(0, 0, 0, 0.8)",
         "90": "rgba(0, 0, 0, 0.9)"
+      };
+      grey10Alpha = {
+        "5": "rgba(26, 26, 26, 0.05)",
+        "10": "rgba(26, 26, 26, 0.1)",
+        "20": "rgba(26, 26, 26, 0.2)",
+        "30": "rgba(26, 26, 26, 0.3)",
+        "40": "rgba(26, 26, 26, 0.4)",
+        "50": "rgba(26, 26, 26, 0.5)",
+        "60": "rgba(26, 26, 26, 0.6)",
+        "70": "rgba(26, 26, 26, 0.7)",
+        "80": "rgba(26, 26, 26, 0.8)",
+        "90": "rgba(26, 26, 26, 0.9)"
+      };
+      grey12Alpha = {
+        "5": "rgba(31, 31, 31, 0.05)",
+        "10": "rgba(31, 31, 31, 0.1)",
+        "20": "rgba(31, 31, 31, 0.2)",
+        "30": "rgba(31, 31, 31, 0.3)",
+        "40": "rgba(31, 31, 31, 0.4)",
+        "50": "rgba(31, 31, 31, 0.5)",
+        "60": "rgba(31, 31, 31, 0.6)",
+        "70": "rgba(31, 31, 31, 0.7)",
+        "80": "rgba(31, 31, 31, 0.8)",
+        "90": "rgba(31, 31, 31, 0.9)"
+      };
+      grey14Alpha = {
+        "5": "rgba(36, 36, 36, 0.05)",
+        "10": "rgba(36, 36, 36, 0.1)",
+        "20": "rgba(36, 36, 36, 0.2)",
+        "30": "rgba(36, 36, 36, 0.3)",
+        "40": "rgba(36, 36, 36, 0.4)",
+        "50": "rgba(36, 36, 36, 0.5)",
+        "60": "rgba(36, 36, 36, 0.6)",
+        "70": "rgba(36, 36, 36, 0.7)",
+        "80": "rgba(36, 36, 36, 0.8)",
+        "90": "rgba(36, 36, 36, 0.9)"
       };
       white = "#ffffff";
       black = "#000000";
@@ -36651,245 +36687,6 @@ You can check this by searching up for matching entries in a lockfile produced b
         warning: "orange",
         danger: "cranberry"
       };
-    }
-  });
-
-  // node_modules/@fluentui/tokens/lib/alias/lightColorPalette.js
-  var statusColorPaletteTokens, personaColorPaletteTokens, colorPaletteTokens, colorStatusTokens;
-  var init_lightColorPalette = __esm({
-    "node_modules/@fluentui/tokens/lib/alias/lightColorPalette.js"() {
-      init_colorPalette();
-      init_sharedColorNames();
-      init_statusColorMapping();
-      statusColorPaletteTokens = statusSharedColorNames.reduce((acc, sharedColor) => {
-        const color = sharedColor.slice(0, 1).toUpperCase() + sharedColor.slice(1);
-        const sharedColorTokens = {
-          [`colorPalette${color}Background1`]: statusSharedColors[sharedColor].tint60,
-          [`colorPalette${color}Background2`]: statusSharedColors[sharedColor].tint40,
-          [`colorPalette${color}Background3`]: statusSharedColors[sharedColor].primary,
-          [`colorPalette${color}Foreground1`]: statusSharedColors[sharedColor].shade10,
-          [`colorPalette${color}Foreground2`]: statusSharedColors[sharedColor].shade30,
-          [`colorPalette${color}Foreground3`]: statusSharedColors[sharedColor].primary,
-          [`colorPalette${color}BorderActive`]: statusSharedColors[sharedColor].primary,
-          [`colorPalette${color}Border1`]: statusSharedColors[sharedColor].tint40,
-          [`colorPalette${color}Border2`]: statusSharedColors[sharedColor].primary
-        };
-        return Object.assign(acc, sharedColorTokens);
-      }, {});
-      statusColorPaletteTokens.colorPaletteYellowForeground1 = statusSharedColors.yellow.shade30;
-      statusColorPaletteTokens.colorPaletteRedForegroundInverted = statusSharedColors.red.tint20;
-      statusColorPaletteTokens.colorPaletteGreenForegroundInverted = statusSharedColors.green.tint20;
-      statusColorPaletteTokens.colorPaletteYellowForegroundInverted = statusSharedColors.yellow.tint40;
-      personaColorPaletteTokens = personaSharedColorNames.reduce((acc, sharedColor) => {
-        const color = sharedColor.slice(0, 1).toUpperCase() + sharedColor.slice(1);
-        const sharedColorTokens = {
-          [`colorPalette${color}Background2`]: personaSharedColors[sharedColor].tint40,
-          [`colorPalette${color}Foreground2`]: personaSharedColors[sharedColor].shade30,
-          [`colorPalette${color}BorderActive`]: personaSharedColors[sharedColor].primary
-        };
-        return Object.assign(acc, sharedColorTokens);
-      }, {});
-      colorPaletteTokens = {
-        ...statusColorPaletteTokens,
-        ...personaColorPaletteTokens
-      };
-      colorStatusTokens = Object.entries(statusColorMapping).reduce((acc, [statusColor, sharedColor]) => {
-        const color = statusColor.slice(0, 1).toUpperCase() + statusColor.slice(1);
-        const statusColorTokens = {
-          [`colorStatus${color}Background1`]: mappedStatusColors[sharedColor].tint60,
-          [`colorStatus${color}Background2`]: mappedStatusColors[sharedColor].tint40,
-          [`colorStatus${color}Background3`]: mappedStatusColors[sharedColor].primary,
-          [`colorStatus${color}Foreground1`]: mappedStatusColors[sharedColor].shade10,
-          [`colorStatus${color}Foreground2`]: mappedStatusColors[sharedColor].shade30,
-          [`colorStatus${color}Foreground3`]: mappedStatusColors[sharedColor].primary,
-          [`colorStatus${color}ForegroundInverted`]: mappedStatusColors[sharedColor].tint30,
-          [`colorStatus${color}BorderActive`]: mappedStatusColors[sharedColor].primary,
-          [`colorStatus${color}Border1`]: mappedStatusColors[sharedColor].tint40,
-          [`colorStatus${color}Border2`]: mappedStatusColors[sharedColor].primary
-        };
-        return Object.assign(acc, statusColorTokens);
-      }, {});
-      colorStatusTokens.colorStatusDangerBackground3Hover = mappedStatusColors[statusColorMapping.danger].shade10;
-      colorStatusTokens.colorStatusDangerBackground3Pressed = mappedStatusColors[statusColorMapping.danger].shade20;
-      colorStatusTokens.colorStatusWarningForeground1 = mappedStatusColors[statusColorMapping.warning].shade20;
-      colorStatusTokens.colorStatusWarningForeground3 = mappedStatusColors[statusColorMapping.warning].shade20;
-      colorStatusTokens.colorStatusWarningBorder2 = mappedStatusColors[statusColorMapping.warning].shade20;
-    }
-  });
-
-  // node_modules/@fluentui/tokens/lib/alias/lightColor.js
-  var generateColorTokens;
-  var init_lightColor = __esm({
-    "node_modules/@fluentui/tokens/lib/alias/lightColor.js"() {
-      init_colors();
-      generateColorTokens = (brand) => ({
-        colorNeutralForeground1: grey[14],
-        colorNeutralForeground1Hover: grey[14],
-        colorNeutralForeground1Pressed: grey[14],
-        colorNeutralForeground1Selected: grey[14],
-        colorNeutralForeground2: grey[26],
-        colorNeutralForeground2Hover: grey[14],
-        colorNeutralForeground2Pressed: grey[14],
-        colorNeutralForeground2Selected: grey[14],
-        colorNeutralForeground2BrandHover: brand[80],
-        colorNeutralForeground2BrandPressed: brand[70],
-        colorNeutralForeground2BrandSelected: brand[80],
-        colorNeutralForeground3: grey[38],
-        colorNeutralForeground3Hover: grey[26],
-        colorNeutralForeground3Pressed: grey[26],
-        colorNeutralForeground3Selected: grey[26],
-        colorNeutralForeground3BrandHover: brand[80],
-        colorNeutralForeground3BrandPressed: brand[70],
-        colorNeutralForeground3BrandSelected: brand[80],
-        colorNeutralForeground4: grey[44],
-        colorNeutralForegroundDisabled: grey[74],
-        colorNeutralForegroundInvertedDisabled: whiteAlpha[40],
-        colorBrandForegroundLink: brand[70],
-        colorBrandForegroundLinkHover: brand[60],
-        colorBrandForegroundLinkPressed: brand[40],
-        colorBrandForegroundLinkSelected: brand[70],
-        colorNeutralForeground2Link: grey[26],
-        colorNeutralForeground2LinkHover: grey[14],
-        colorNeutralForeground2LinkPressed: grey[14],
-        colorNeutralForeground2LinkSelected: grey[14],
-        colorCompoundBrandForeground1: brand[80],
-        colorCompoundBrandForeground1Hover: brand[70],
-        colorCompoundBrandForeground1Pressed: brand[60],
-        colorBrandForeground1: brand[80],
-        colorBrandForeground2: brand[70],
-        colorBrandForeground2Hover: brand[60],
-        colorBrandForeground2Pressed: brand[30],
-        colorNeutralForeground1Static: grey[14],
-        colorNeutralForegroundStaticInverted: white,
-        colorNeutralForegroundInverted: white,
-        colorNeutralForegroundInvertedHover: white,
-        colorNeutralForegroundInvertedPressed: white,
-        colorNeutralForegroundInvertedSelected: white,
-        colorNeutralForegroundInverted2: white,
-        colorNeutralForegroundOnBrand: white,
-        colorNeutralForegroundInvertedLink: white,
-        colorNeutralForegroundInvertedLinkHover: white,
-        colorNeutralForegroundInvertedLinkPressed: white,
-        colorNeutralForegroundInvertedLinkSelected: white,
-        colorBrandForegroundInverted: brand[100],
-        colorBrandForegroundInvertedHover: brand[110],
-        colorBrandForegroundInvertedPressed: brand[100],
-        colorBrandForegroundOnLight: brand[80],
-        colorBrandForegroundOnLightHover: brand[70],
-        colorBrandForegroundOnLightPressed: brand[50],
-        colorBrandForegroundOnLightSelected: brand[60],
-        colorNeutralBackground1: white,
-        colorNeutralBackground1Hover: grey[96],
-        colorNeutralBackground1Pressed: grey[88],
-        colorNeutralBackground1Selected: grey[92],
-        colorNeutralBackground2: grey[98],
-        colorNeutralBackground2Hover: grey[94],
-        colorNeutralBackground2Pressed: grey[86],
-        colorNeutralBackground2Selected: grey[90],
-        colorNeutralBackground3: grey[96],
-        colorNeutralBackground3Hover: grey[92],
-        colorNeutralBackground3Pressed: grey[84],
-        colorNeutralBackground3Selected: grey[88],
-        colorNeutralBackground4: grey[94],
-        colorNeutralBackground4Hover: grey[98],
-        colorNeutralBackground4Pressed: grey[96],
-        colorNeutralBackground4Selected: white,
-        colorNeutralBackground5: grey[92],
-        colorNeutralBackground5Hover: grey[96],
-        colorNeutralBackground5Pressed: grey[94],
-        colorNeutralBackground5Selected: grey[98],
-        colorNeutralBackground6: grey[90],
-        colorNeutralBackgroundInverted: grey[16],
-        colorNeutralBackgroundStatic: grey[20],
-        colorNeutralBackgroundAlpha: whiteAlpha[50],
-        colorNeutralBackgroundAlpha2: whiteAlpha[80],
-        colorSubtleBackground: "transparent",
-        colorSubtleBackgroundHover: grey[96],
-        colorSubtleBackgroundPressed: grey[88],
-        colorSubtleBackgroundSelected: grey[92],
-        colorSubtleBackgroundLightAlphaHover: whiteAlpha[70],
-        colorSubtleBackgroundLightAlphaPressed: whiteAlpha[50],
-        colorSubtleBackgroundLightAlphaSelected: "transparent",
-        colorSubtleBackgroundInverted: "transparent",
-        colorSubtleBackgroundInvertedHover: blackAlpha[10],
-        colorSubtleBackgroundInvertedPressed: blackAlpha[30],
-        colorSubtleBackgroundInvertedSelected: blackAlpha[20],
-        colorTransparentBackground: "transparent",
-        colorTransparentBackgroundHover: "transparent",
-        colorTransparentBackgroundPressed: "transparent",
-        colorTransparentBackgroundSelected: "transparent",
-        colorNeutralBackgroundDisabled: grey[94],
-        colorNeutralBackgroundInvertedDisabled: whiteAlpha[10],
-        colorNeutralStencil1: grey[90],
-        colorNeutralStencil2: grey[98],
-        colorNeutralStencil1Alpha: blackAlpha[10],
-        colorNeutralStencil2Alpha: blackAlpha[5],
-        colorBackgroundOverlay: blackAlpha[40],
-        colorScrollbarOverlay: blackAlpha[50],
-        colorBrandBackground: brand[80],
-        colorBrandBackgroundHover: brand[70],
-        colorBrandBackgroundPressed: brand[40],
-        colorBrandBackgroundSelected: brand[60],
-        colorCompoundBrandBackground: brand[80],
-        colorCompoundBrandBackgroundHover: brand[70],
-        colorCompoundBrandBackgroundPressed: brand[60],
-        colorBrandBackgroundStatic: brand[80],
-        colorBrandBackground2: brand[160],
-        colorBrandBackground2Hover: brand[150],
-        colorBrandBackground2Pressed: brand[130],
-        colorBrandBackground3Static: brand[60],
-        colorBrandBackground4Static: brand[40],
-        colorBrandBackgroundInverted: white,
-        colorBrandBackgroundInvertedHover: brand[160],
-        colorBrandBackgroundInvertedPressed: brand[140],
-        colorBrandBackgroundInvertedSelected: brand[150],
-        colorNeutralCardBackground: grey[98],
-        colorNeutralCardBackgroundHover: white,
-        colorNeutralCardBackgroundPressed: grey[96],
-        colorNeutralCardBackgroundSelected: grey[92],
-        colorNeutralCardBackgroundDisabled: grey[94],
-        colorNeutralStrokeAccessible: grey[38],
-        colorNeutralStrokeAccessibleHover: grey[34],
-        colorNeutralStrokeAccessiblePressed: grey[30],
-        colorNeutralStrokeAccessibleSelected: brand[80],
-        colorNeutralStroke1: grey[82],
-        colorNeutralStroke1Hover: grey[78],
-        colorNeutralStroke1Pressed: grey[70],
-        colorNeutralStroke1Selected: grey[74],
-        colorNeutralStroke2: grey[88],
-        colorNeutralStroke3: grey[94],
-        colorNeutralStrokeSubtle: grey[88],
-        colorNeutralStrokeOnBrand: white,
-        colorNeutralStrokeOnBrand2: white,
-        colorNeutralStrokeOnBrand2Hover: white,
-        colorNeutralStrokeOnBrand2Pressed: white,
-        colorNeutralStrokeOnBrand2Selected: white,
-        colorBrandStroke1: brand[80],
-        colorBrandStroke2: brand[140],
-        colorBrandStroke2Hover: brand[120],
-        colorBrandStroke2Pressed: brand[80],
-        colorBrandStroke2Contrast: brand[140],
-        colorCompoundBrandStroke: brand[80],
-        colorCompoundBrandStrokeHover: brand[70],
-        colorCompoundBrandStrokePressed: brand[60],
-        colorNeutralStrokeDisabled: grey[88],
-        colorNeutralStrokeInvertedDisabled: whiteAlpha[40],
-        colorTransparentStroke: "transparent",
-        colorTransparentStrokeInteractive: "transparent",
-        colorTransparentStrokeDisabled: "transparent",
-        colorNeutralStrokeAlpha: blackAlpha[5],
-        colorNeutralStrokeAlpha2: whiteAlpha[20],
-        colorStrokeFocus1: white,
-        colorStrokeFocus2: black,
-        colorNeutralShadowAmbient: "rgba(0,0,0,0.12)",
-        colorNeutralShadowKey: "rgba(0,0,0,0.14)",
-        colorNeutralShadowAmbientLighter: "rgba(0,0,0,0.06)",
-        colorNeutralShadowKeyLighter: "rgba(0,0,0,0.07)",
-        colorNeutralShadowAmbientDarker: "rgba(0,0,0,0.20)",
-        colorNeutralShadowKeyDarker: "rgba(0,0,0,0.24)",
-        colorBrandShadowAmbient: "rgba(0,0,0,0.30)",
-        colorBrandShadowKey: "rgba(0,0,0,0.25)"
-      });
     }
   });
 
@@ -37610,40 +37407,6 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // node_modules/@fluentui/tokens/lib/utils/createLightTheme.js
-  var createLightTheme;
-  var init_createLightTheme = __esm({
-    "node_modules/@fluentui/tokens/lib/utils/createLightTheme.js"() {
-      init_lightColorPalette();
-      init_lightColor();
-      init_global();
-      init_shadows();
-      init_durations();
-      init_curves();
-      init_spacings();
-      createLightTheme = (brand) => {
-        const colorTokens = generateColorTokens(brand);
-        return {
-          ...borderRadius3,
-          ...fontSizes,
-          ...lineHeights,
-          ...fontFamilies,
-          ...fontWeights,
-          ...strokeWidths,
-          ...horizontalSpacings,
-          ...verticalSpacings,
-          ...durations,
-          ...curves,
-          ...colorTokens,
-          ...colorPaletteTokens,
-          ...colorStatusTokens,
-          ...createShadowTokens(colorTokens.colorNeutralShadowAmbient, colorTokens.colorNeutralShadowKey),
-          ...createShadowTokens(colorTokens.colorBrandShadowAmbient, colorTokens.colorBrandShadowKey, "Brand")
-        };
-      };
-    }
-  });
-
   // node_modules/@fluentui/tokens/lib/global/brandColors.js
   var brandTeams;
   var init_brandColors = __esm({
@@ -37681,15 +37444,297 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // node_modules/@fluentui/tokens/lib/themes/teams/lightTheme.js
-  var teamsLightTheme;
-  var init_lightTheme = __esm({
-    "node_modules/@fluentui/tokens/lib/themes/teams/lightTheme.js"() {
-      init_createLightTheme();
+  // node_modules/@fluentui/tokens/lib/alias/darkColorPalette.js
+  var statusColorPaletteTokens, personaColorPaletteTokens, colorPaletteTokens, colorStatusTokens;
+  var init_darkColorPalette = __esm({
+    "node_modules/@fluentui/tokens/lib/alias/darkColorPalette.js"() {
+      init_colorPalette();
+      init_sharedColorNames();
+      init_statusColorMapping();
+      statusColorPaletteTokens = statusSharedColorNames.reduce((acc, sharedColor) => {
+        const color = sharedColor.slice(0, 1).toUpperCase() + sharedColor.slice(1);
+        const sharedColorTokens = {
+          [`colorPalette${color}Background1`]: statusSharedColors[sharedColor].shade40,
+          [`colorPalette${color}Background2`]: statusSharedColors[sharedColor].shade30,
+          [`colorPalette${color}Background3`]: statusSharedColors[sharedColor].primary,
+          [`colorPalette${color}Foreground1`]: statusSharedColors[sharedColor].tint30,
+          [`colorPalette${color}Foreground2`]: statusSharedColors[sharedColor].tint40,
+          [`colorPalette${color}Foreground3`]: statusSharedColors[sharedColor].tint20,
+          [`colorPalette${color}BorderActive`]: statusSharedColors[sharedColor].tint30,
+          [`colorPalette${color}Border1`]: statusSharedColors[sharedColor].primary,
+          [`colorPalette${color}Border2`]: statusSharedColors[sharedColor].tint20
+        };
+        return Object.assign(acc, sharedColorTokens);
+      }, {});
+      statusColorPaletteTokens.colorPaletteRedForeground3 = statusSharedColors.red.tint30;
+      statusColorPaletteTokens.colorPaletteRedBorder2 = statusSharedColors.red.tint30;
+      statusColorPaletteTokens.colorPaletteGreenForeground3 = statusSharedColors.green.tint40;
+      statusColorPaletteTokens.colorPaletteGreenBorder2 = statusSharedColors.green.tint40;
+      statusColorPaletteTokens.colorPaletteDarkOrangeForeground3 = statusSharedColors.darkOrange.tint30;
+      statusColorPaletteTokens.colorPaletteDarkOrangeBorder2 = statusSharedColors.darkOrange.tint30;
+      statusColorPaletteTokens.colorPaletteRedForegroundInverted = statusSharedColors.red.primary;
+      statusColorPaletteTokens.colorPaletteGreenForegroundInverted = statusSharedColors.green.primary;
+      statusColorPaletteTokens.colorPaletteYellowForegroundInverted = statusSharedColors.yellow.shade30;
+      personaColorPaletteTokens = personaSharedColorNames.reduce((acc, sharedColor) => {
+        const color = sharedColor.slice(0, 1).toUpperCase() + sharedColor.slice(1);
+        const sharedColorTokens = {
+          [`colorPalette${color}Background2`]: personaSharedColors[sharedColor].shade30,
+          [`colorPalette${color}Foreground2`]: personaSharedColors[sharedColor].tint40,
+          [`colorPalette${color}BorderActive`]: personaSharedColors[sharedColor].tint30
+        };
+        return Object.assign(acc, sharedColorTokens);
+      }, {});
+      personaColorPaletteTokens.colorPaletteDarkRedBackground2 = personaSharedColors.darkRed.shade20;
+      personaColorPaletteTokens.colorPalettePlumBackground2 = personaSharedColors.plum.shade20;
+      colorPaletteTokens = {
+        ...statusColorPaletteTokens,
+        ...personaColorPaletteTokens
+      };
+      colorStatusTokens = Object.entries(statusColorMapping).reduce((acc, [statusColor, sharedColor]) => {
+        const color = statusColor.slice(0, 1).toUpperCase() + statusColor.slice(1);
+        const statusColorTokens = {
+          [`colorStatus${color}Background1`]: mappedStatusColors[sharedColor].shade40,
+          [`colorStatus${color}Background2`]: mappedStatusColors[sharedColor].shade30,
+          [`colorStatus${color}Background3`]: mappedStatusColors[sharedColor].primary,
+          [`colorStatus${color}Foreground1`]: mappedStatusColors[sharedColor].tint30,
+          [`colorStatus${color}Foreground2`]: mappedStatusColors[sharedColor].tint40,
+          [`colorStatus${color}Foreground3`]: mappedStatusColors[sharedColor].tint20,
+          [`colorStatus${color}BorderActive`]: mappedStatusColors[sharedColor].tint30,
+          [`colorStatus${color}ForegroundInverted`]: mappedStatusColors[sharedColor].shade10,
+          [`colorStatus${color}Border1`]: mappedStatusColors[sharedColor].primary,
+          [`colorStatus${color}Border2`]: mappedStatusColors[sharedColor].tint20
+        };
+        return Object.assign(acc, statusColorTokens);
+      }, {});
+      colorStatusTokens.colorStatusDangerBackground3Hover = mappedStatusColors[statusColorMapping.danger].shade10;
+      colorStatusTokens.colorStatusDangerBackground3Pressed = mappedStatusColors[statusColorMapping.danger].shade20;
+      colorStatusTokens.colorStatusDangerForeground3 = mappedStatusColors[statusColorMapping.danger].tint40;
+      colorStatusTokens.colorStatusDangerBorder2 = mappedStatusColors[statusColorMapping.danger].tint30;
+      colorStatusTokens.colorStatusSuccessForeground3 = mappedStatusColors[statusColorMapping.success].tint40;
+      colorStatusTokens.colorStatusSuccessBorder2 = mappedStatusColors[statusColorMapping.success].tint40;
+      colorStatusTokens.colorStatusWarningForegroundInverted = mappedStatusColors[statusColorMapping.warning].shade20;
+    }
+  });
+
+  // node_modules/@fluentui/tokens/lib/alias/teamsDarkColor.js
+  var generateColorTokens;
+  var init_teamsDarkColor = __esm({
+    "node_modules/@fluentui/tokens/lib/alias/teamsDarkColor.js"() {
+      init_colors();
+      generateColorTokens = (brand) => ({
+        colorNeutralForeground1: white,
+        colorNeutralForeground1Hover: white,
+        colorNeutralForeground1Pressed: white,
+        colorNeutralForeground1Selected: white,
+        colorNeutralForeground2: grey[84],
+        colorNeutralForeground2Hover: white,
+        colorNeutralForeground2Pressed: white,
+        colorNeutralForeground2Selected: white,
+        colorNeutralForeground2BrandHover: brand[100],
+        colorNeutralForeground2BrandPressed: brand[90],
+        colorNeutralForeground2BrandSelected: brand[100],
+        colorNeutralForeground3: grey[68],
+        colorNeutralForeground3Hover: grey[84],
+        colorNeutralForeground3Pressed: grey[84],
+        colorNeutralForeground3Selected: grey[84],
+        colorNeutralForeground3BrandHover: brand[100],
+        colorNeutralForeground3BrandPressed: brand[90],
+        colorNeutralForeground3BrandSelected: brand[100],
+        colorNeutralForeground4: grey[60],
+        colorNeutralForegroundDisabled: grey[36],
+        colorNeutralForegroundInvertedDisabled: whiteAlpha[40],
+        colorBrandForegroundLink: brand[100],
+        colorBrandForegroundLinkHover: brand[110],
+        colorBrandForegroundLinkPressed: brand[90],
+        colorBrandForegroundLinkSelected: brand[100],
+        colorNeutralForeground2Link: grey[84],
+        colorNeutralForeground2LinkHover: white,
+        colorNeutralForeground2LinkPressed: white,
+        colorNeutralForeground2LinkSelected: white,
+        colorCompoundBrandForeground1: brand[100],
+        colorCompoundBrandForeground1Hover: brand[110],
+        colorCompoundBrandForeground1Pressed: brand[90],
+        colorBrandForeground1: brand[100],
+        colorBrandForeground2: brand[120],
+        colorBrandForeground2Hover: brand[130],
+        colorBrandForeground2Pressed: brand[160],
+        colorNeutralForeground1Static: grey[14],
+        colorNeutralForegroundStaticInverted: white,
+        colorNeutralForegroundInverted: grey[14],
+        colorNeutralForegroundInvertedHover: grey[14],
+        colorNeutralForegroundInvertedPressed: grey[14],
+        colorNeutralForegroundInvertedSelected: grey[14],
+        colorNeutralForegroundInverted2: grey[14],
+        colorNeutralForegroundOnBrand: white,
+        colorNeutralForegroundInvertedLink: white,
+        colorNeutralForegroundInvertedLinkHover: white,
+        colorNeutralForegroundInvertedLinkPressed: white,
+        colorNeutralForegroundInvertedLinkSelected: white,
+        colorBrandForegroundInverted: brand[80],
+        colorBrandForegroundInvertedHover: brand[70],
+        colorBrandForegroundInvertedPressed: brand[60],
+        colorBrandForegroundOnLight: brand[80],
+        colorBrandForegroundOnLightHover: brand[70],
+        colorBrandForegroundOnLightPressed: brand[50],
+        colorBrandForegroundOnLightSelected: brand[60],
+        colorNeutralBackground1: grey[16],
+        colorNeutralBackground1Hover: grey[24],
+        colorNeutralBackground1Pressed: grey[12],
+        colorNeutralBackground1Selected: grey[22],
+        colorNeutralBackground2: grey[14],
+        colorNeutralBackground2Hover: grey[22],
+        colorNeutralBackground2Pressed: grey[10],
+        colorNeutralBackground2Selected: grey[20],
+        colorNeutralBackground3: grey[12],
+        colorNeutralBackground3Hover: grey[20],
+        colorNeutralBackground3Pressed: grey[8],
+        colorNeutralBackground3Selected: grey[18],
+        colorNeutralBackground4: grey[8],
+        colorNeutralBackground4Hover: grey[16],
+        colorNeutralBackground4Pressed: grey[4],
+        colorNeutralBackground4Selected: grey[14],
+        colorNeutralBackground5: grey[4],
+        colorNeutralBackground5Hover: grey[12],
+        colorNeutralBackground5Pressed: black,
+        colorNeutralBackground5Selected: grey[10],
+        colorNeutralBackground6: grey[20],
+        colorNeutralBackgroundInverted: white,
+        colorNeutralBackgroundStatic: grey[24],
+        colorNeutralBackgroundAlpha: grey10Alpha[50],
+        colorNeutralBackgroundAlpha2: grey12Alpha[70],
+        colorSubtleBackground: "transparent",
+        colorSubtleBackgroundHover: grey[22],
+        colorSubtleBackgroundPressed: grey[18],
+        colorSubtleBackgroundSelected: grey[20],
+        colorSubtleBackgroundLightAlphaHover: grey14Alpha[80],
+        colorSubtleBackgroundLightAlphaPressed: grey14Alpha[50],
+        colorSubtleBackgroundLightAlphaSelected: "transparent",
+        colorSubtleBackgroundInverted: "transparent",
+        colorSubtleBackgroundInvertedHover: blackAlpha[10],
+        colorSubtleBackgroundInvertedPressed: blackAlpha[30],
+        colorSubtleBackgroundInvertedSelected: blackAlpha[20],
+        colorTransparentBackground: "transparent",
+        colorTransparentBackgroundHover: "transparent",
+        colorTransparentBackgroundPressed: "transparent",
+        colorTransparentBackgroundSelected: "transparent",
+        colorNeutralBackgroundDisabled: grey[8],
+        colorNeutralBackgroundInvertedDisabled: whiteAlpha[10],
+        colorNeutralStencil1: grey[34],
+        colorNeutralStencil2: grey[20],
+        colorNeutralStencil1Alpha: whiteAlpha[10],
+        colorNeutralStencil2Alpha: whiteAlpha[5],
+        colorBackgroundOverlay: blackAlpha[50],
+        colorScrollbarOverlay: whiteAlpha[60],
+        colorBrandBackground: brand[70],
+        colorBrandBackgroundHover: brand[80],
+        colorBrandBackgroundPressed: brand[40],
+        colorBrandBackgroundSelected: brand[60],
+        colorCompoundBrandBackground: brand[100],
+        colorCompoundBrandBackgroundHover: brand[110],
+        colorCompoundBrandBackgroundPressed: brand[90],
+        colorBrandBackgroundStatic: brand[80],
+        colorBrandBackground2: brand[20],
+        colorBrandBackground2Hover: brand[40],
+        colorBrandBackground2Pressed: brand[10],
+        colorBrandBackground3Static: brand[60],
+        colorBrandBackground4Static: brand[40],
+        colorBrandBackgroundInverted: white,
+        colorBrandBackgroundInvertedHover: brand[160],
+        colorBrandBackgroundInvertedPressed: brand[140],
+        colorBrandBackgroundInvertedSelected: brand[150],
+        colorNeutralCardBackground: grey[20],
+        colorNeutralCardBackgroundHover: grey[24],
+        colorNeutralCardBackgroundPressed: grey[18],
+        colorNeutralCardBackgroundSelected: grey[22],
+        colorNeutralCardBackgroundDisabled: grey[8],
+        colorNeutralStrokeAccessible: grey[68],
+        colorNeutralStrokeAccessibleHover: grey[74],
+        colorNeutralStrokeAccessiblePressed: grey[70],
+        colorNeutralStrokeAccessibleSelected: brand[100],
+        colorNeutralStroke1: grey[40],
+        colorNeutralStroke1Hover: grey[46],
+        colorNeutralStroke1Pressed: grey[42],
+        colorNeutralStroke1Selected: grey[44],
+        colorNeutralStroke2: grey[32],
+        colorNeutralStroke3: grey[24],
+        colorNeutralStrokeSubtle: grey[4],
+        colorNeutralStrokeOnBrand: grey[16],
+        colorNeutralStrokeOnBrand2: white,
+        colorNeutralStrokeOnBrand2Hover: white,
+        colorNeutralStrokeOnBrand2Pressed: white,
+        colorNeutralStrokeOnBrand2Selected: white,
+        colorBrandStroke1: brand[100],
+        colorBrandStroke2: brand[50],
+        colorBrandStroke2Hover: brand[50],
+        colorBrandStroke2Pressed: brand[30],
+        colorBrandStroke2Contrast: brand[50],
+        colorCompoundBrandStroke: brand[90],
+        colorCompoundBrandStrokeHover: brand[100],
+        colorCompoundBrandStrokePressed: brand[80],
+        colorNeutralStrokeDisabled: grey[26],
+        colorNeutralStrokeInvertedDisabled: whiteAlpha[40],
+        colorTransparentStroke: "transparent",
+        colorTransparentStrokeInteractive: "transparent",
+        colorTransparentStrokeDisabled: "transparent",
+        colorNeutralStrokeAlpha: whiteAlpha[10],
+        colorNeutralStrokeAlpha2: whiteAlpha[20],
+        colorStrokeFocus1: black,
+        colorStrokeFocus2: white,
+        colorNeutralShadowAmbient: "rgba(0,0,0,0.24)",
+        colorNeutralShadowKey: "rgba(0,0,0,0.28)",
+        colorNeutralShadowAmbientLighter: "rgba(0,0,0,0.12)",
+        colorNeutralShadowKeyLighter: "rgba(0,0,0,0.14)",
+        colorNeutralShadowAmbientDarker: "rgba(0,0,0,0.40)",
+        colorNeutralShadowKeyDarker: "rgba(0,0,0,0.48)",
+        colorBrandShadowAmbient: "rgba(0,0,0,0.30)",
+        colorBrandShadowKey: "rgba(0,0,0,0.25)"
+      });
+    }
+  });
+
+  // node_modules/@fluentui/tokens/lib/utils/createTeamsDarkTheme.js
+  var createTeamsDarkTheme;
+  var init_createTeamsDarkTheme = __esm({
+    "node_modules/@fluentui/tokens/lib/utils/createTeamsDarkTheme.js"() {
+      init_darkColorPalette();
+      init_teamsDarkColor();
+      init_global();
+      init_shadows();
+      init_durations();
+      init_curves();
+      init_spacings();
+      createTeamsDarkTheme = (brand) => {
+        const colorTokens = generateColorTokens(brand);
+        return {
+          ...borderRadius3,
+          ...fontSizes,
+          ...lineHeights,
+          ...fontFamilies,
+          ...fontWeights,
+          ...strokeWidths,
+          ...horizontalSpacings,
+          ...verticalSpacings,
+          ...durations,
+          ...curves,
+          ...colorTokens,
+          ...colorPaletteTokens,
+          ...colorStatusTokens,
+          ...createShadowTokens(colorTokens.colorNeutralShadowAmbient, colorTokens.colorNeutralShadowKey),
+          ...createShadowTokens(colorTokens.colorBrandShadowAmbient, colorTokens.colorBrandShadowKey, "Brand")
+        };
+      };
+    }
+  });
+
+  // node_modules/@fluentui/tokens/lib/themes/teams/darkTheme.js
+  var teamsDarkTheme;
+  var init_darkTheme = __esm({
+    "node_modules/@fluentui/tokens/lib/themes/teams/darkTheme.js"() {
+      init_createTeamsDarkTheme();
       init_brandColors();
       init_teamsFontFamilies();
-      teamsLightTheme = {
-        ...createLightTheme(brandTeams),
+      teamsDarkTheme = {
+        ...createTeamsDarkTheme(brandTeams),
         ...fontFamilies2
       };
     }
@@ -37698,7 +37743,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/tokens/lib/themes/teams/index.js
   var init_teams = __esm({
     "node_modules/@fluentui/tokens/lib/themes/teams/index.js"() {
-      init_lightTheme();
+      init_darkTheme();
     }
   });
 
@@ -49165,7 +49210,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/OuterStyles.ts
-  var pageOuterStyles, innerColumnStyles, innerColumnWhiteboardStyles;
+  var pageOuterStyles, innerColumnStyles;
   var init_OuterStyles = __esm({
     "src/OuterStyles.ts"() {
       "use strict";
@@ -49204,20 +49249,6 @@ You can check this by searching up for matching entries in a lockfile produced b
           alignItems: "center",
           maxWidth: "896px",
           width: "100%"
-        }
-      });
-      innerColumnWhiteboardStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          // start layout at the top       
-          alignItems: "center",
-          maxWidth: "896px",
-          width: "100%",
-          backgroundImage: "url('assets/img/board-512x384.png')",
-          backgroundRepeat: "repeat",
-          opacity: 0.9
         }
       });
     }
@@ -49334,12 +49365,11 @@ You can check this by searching up for matching entries in a lockfile produced b
           // start layout at the top       
           alignItems: "left",
           width: "100%",
-          ...shorthands2.borderColor("gray"),
-          ...shorthands2.borderWidth("1px"),
-          ...shorthands2.borderStyle("solid"),
-          borderRadius: "4px",
-          padding: "12px",
-          marginBottom: "12px"
+          //...shorthands.borderColor("gray"),
+          //...shorthands.borderWidth("1px"),
+          //...shorthands.borderStyle("solid"),
+          //borderRadius: "4px",
+          padding: "4px"
         }
       });
       copyableTextButtonRowStyles = makeStyles2({
@@ -49406,20 +49436,19 @@ You can check this by searching up for matching entries in a lockfile produced b
           backgroundColor: tokens.colorNeutralBackground2
         },
         userMessage: {
-          backgroundColor: `${tokens.colorBrandBackground2}CC`
-          // 80% opacity
+          //backgroundColor: `${tokens.colorBrandBackground2}CC`, // 80% opacity when trying whiteboard theme
+          backgroundColor: tokens.colorBrandBackground2
         },
         assistantMessage: {
-          backgroundColor: `${tokens.colorNeutralBackground2}CC`
-          // 80% opacity
+          //backgroundColor: `${tokens.colorNeutralBackground2}CC`, // 80% opacity
+          backgroundColor: tokens.colorNeutralBackground2
         },
         avatar: {
           flexShrink: 0
         },
         timestamp: {
           fontSize: tokens.fontSizeBase200,
-          color: tokens.colorNeutralForeground3,
-          marginTop: tokens.spacingVerticalXS
+          color: tokens.colorNeutralForeground3
         }
       });
       ChatMessage = ({ message }) => {
@@ -49546,7 +49575,6 @@ You can check this by searching up for matching entries in a lockfile produced b
           width: "100%",
           backgroundColor: "transparent",
           paddingTop: "12px",
-          borderTop: "1px solid #edebe9",
           zIndex: 1
         }
       });
@@ -49555,7 +49583,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       local = true;
       App = (props) => {
         const pageOuterClasses = pageOuterStyles();
-        const innerColumnClasses = innerColumnWhiteboardStyles();
+        const innerColumnClasses = innerColumnStyles();
         const columnElementClasses = standardColumnElementStyles();
         const textClasses = standardTextStyles();
         const linkClasses = standardLinkStyles();
@@ -49703,7 +49731,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         }, [chatHistory]);
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
           return markdownLinks.split(",").map((link, index) => {
             const matches = link.match(/\[(.*?)\]\((.*?)\)/);
             if (matches) {
@@ -49928,7 +49956,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_TermsContent();
       init_PrivacyContent();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react33.default.createElement(FluentProvider, { theme: teamsLightTheme }, /* @__PURE__ */ import_react33.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react33.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react33.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
         } }, /* @__PURE__ */ import_react33.default.createElement(Site, { appMode: props.appMode })));

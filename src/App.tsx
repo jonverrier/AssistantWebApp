@@ -23,11 +23,10 @@ import { EAssistantPersonality, EChatRole, IChatMessage } from '../import/Assist
 import { IMultilineEditProps, MultilineEdit } from './MultilineEdit';
 import { EAppMode, getUIStrings } from './UIStrings';
 import { standardTextStyles, standardLinkStyles, standardColumnElementStyles} from './CommonStyles';
-import { CopyableText } from './CopyableText';
 import { Message, MessageIntent } from './Message';
 import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
 import { processChat } from './ChatCall';
-import { pageOuterStyles, innerColumnWhiteboardStyles } from './OuterStyles';
+import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { Spacer, Footer } from './SiteUtilities';
 import { getSessionUuid } from './Cookie';
 import { ChatHistory, ChatMessage } from './ChatHistory';
@@ -63,7 +62,6 @@ const multilineEditContainerStyles = makeStyles({
       width: '100%',
       backgroundColor: 'transparent',
       paddingTop: '12px',
-      borderTop: '1px solid #edebe9',
       zIndex: 1
    }
 });
@@ -93,7 +91,7 @@ const local = true;
 export const App = (props: IAppProps) => {
    
    const pageOuterClasses = pageOuterStyles();
-   const innerColumnClasses = innerColumnWhiteboardStyles ();
+   const innerColumnClasses = innerColumnStyles ();
    const columnElementClasses = standardColumnElementStyles();
    const textClasses = standardTextStyles();   
    const linkClasses = standardLinkStyles();
@@ -286,6 +284,8 @@ export const App = (props: IAppProps) => {
          <div className={innerColumnClasses.root}>
             <Text className={textClasses.heading}>{uiStrings.kAppPageCaption}</Text>
             <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
+            <Spacer />
+            <Text>{uiStrings.kOverview}</Text>
             <Spacer />
             {[uiStrings.kLinks].map(markdownLinks => {
                return markdownLinks.split(',').map((link, index) => {

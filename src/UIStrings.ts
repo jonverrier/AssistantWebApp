@@ -15,7 +15,6 @@ export enum EAppMode {
 
 // Common strings used across all linters
 export interface ICommonUIStrings {
-   kProcessing: string;
    kWarning: string;
    kInfo: string;
    kError: string;
@@ -26,25 +25,25 @@ export interface ICommonUIStrings {
    kTermsTitle: string;
    kPrivacy: string;
    kTerms: string;
+   kAIWarning: string;
 }
 
 // Strings that vary between different white labelled implementations
-export interface ISpecificationUIStrings {
+export interface IBrandUIStrings {
    kAppPageCaption: string;
    kAppPageStrapline: string;
+   kOverview: string;
    kLinks: string;
    kChatPreamble: string;
    kChatPlaceholder: string;
-   kResponsePlaceholder: string;
    kLooksOffTopic: string;
 }
 
 // Combined interface that includes both common and requirement-specific strings
-export type IUIStrings = ICommonUIStrings & ISpecificationUIStrings;
+export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 
 
 export const CommonUIStrings: ICommonUIStrings = {
-   kProcessing: "Processing. This may take several seconds.",
    kWarning: "Warning:",
    kInfo: "Information:",
    kError: "Error:",
@@ -54,22 +53,23 @@ export const CommonUIStrings: ICommonUIStrings = {
    kPrivacyTitle: "Privacy Policy",
    kTermsTitle: "Terms of Service",
    kPrivacy: "Privacy",
-   kTerms: "Terms"
+   kTerms: "Terms",
+   kAIWarning: "AI can make mistakes. Think about it."
 }
 
-export const TheYardUIStrings: ISpecificationUIStrings = {
+export const TheYardUIStrings: IBrandUIStrings = {
    kAppPageCaption: "Yard Talk",
-   kAppPageStrapline: "Where sweat meets sass, and we lift until we drop.",
+   kAppPageStrapline: "Where sweat meets sass.",
+   kOverview: "The Yard Peckham is proudly the home of CrossFit Peckham. Above all else, we are committed to the improvement of human life and dedicated to offering high quality coaching in an environment that will help you achieve your health, fitness and performance goals. We hope our Yard Talk AI will help along the way. Enjoy.",
    kLinks: "[CrossFit main site](https://www.crossfit.com/), [The Yard](https://www.theyardpeckham.com/)",
-   kChatPreamble: "Chat to the Yard Talk AI by entering your question in the edit box. Treat your content as public:",
-   kChatPlaceholder: "Enter your question...",
-   kResponsePlaceholder: "When your question is answered, the answer will appear here.",
-   kLooksOffTopic: "That looks off-topic. Please try again."
+   kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
+   kChatPlaceholder: "Talk to me about fitness...",
+   kLooksOffTopic: "Sorry, that looks off-topic. I just talk about fitness. Please try again."
 }
 
 
 
-// Default UI strings that combine common and requirement strings
+// Default UI strings that combine common and brand strings
 export const UIStrings: IUIStrings = {
    ...CommonUIStrings,
    ...TheYardUIStrings

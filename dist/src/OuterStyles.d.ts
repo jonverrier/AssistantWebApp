@@ -6,5 +6,4 @@
  */
 export declare const pageOuterStyles: () => Record<"root", string>;
 export declare const innerColumnStyles: () => Record<"root", string>;
-export declare const innerColumnWhiteboardStyles: () => Record<"root", string>;
 //# sourceMappingURL=OuterStyles.d.ts.map
