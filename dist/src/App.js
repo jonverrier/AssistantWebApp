@@ -55,12 +55,41 @@ const CommonStyles_1 = require("./CommonStyles");
 const CopyableText_1 = require("./CopyableText");
 const Message_1 = require("./Message");
 const UIStateMachine_1 = require("./UIStateMachine");
-const Call_1 = require("./Call");
+const ChatCall_1 = require("./ChatCall");
 const OuterStyles_1 = require("./OuterStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
 const Cookie_1 = require("./Cookie");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
+const scrollableContentStyles = (0, react_components_1.makeStyles)({
+    root: {
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        minHeight: 0,
+        overflowY: 'auto',
+        width: '100%',
+        position: 'relative',
+        height: '100%'
+    }
+});
+const successContainerStyles = (0, react_components_1.makeStyles)({
+    root: {
+        marginTop: 'auto',
+        width: '100%'
+    }
+});
+const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
+    root: {
+        position: 'sticky',
+        bottom: 0,
+        width: '100%',
+        backgroundColor: 'transparent',
+        paddingTop: '12px',
+        borderTop: '1px solid #edebe9',
+        zIndex: 1
+    }
+});
 // Loca version that works in browser
 //https://stackoverflow.com/questions/105034/how-do-i-create-a-guid-uuid
 function uuidv4() {
@@ -78,6 +107,9 @@ const App = (props) => {
     const columnElementClasses = (0, CommonStyles_1.standardColumnElementStyles)();
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
+    const scrollableContentClasses = scrollableContentStyles();
+    const multilineEditContainerClasses = multilineEditContainerStyles();
+    const successContainerClasses = successContainerStyles();
     const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
     const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
@@ -100,7 +132,7 @@ const App = (props) => {
             return;
         // Reset streamed response
         setStreamedResponse("");
-        const result = await (0, Call_1.processChat)({
+        const result = await (0, ChatCall_1.processChat)({
             screeningApiUrl: screenUrl,
             chatApiUrl: chatUrl,
             input: message,
@@ -181,10 +213,16 @@ const App = (props) => {
                 });
             }),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }),
-            offTopic,
-            error,
-            success,
+            react_1.default.createElement("div", { className: scrollableContentClasses.root },
+                react_1.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' } },
+                    ((state.getState() === UIStateMachine_1.EUIState.kScreening || state.getState() === UIStateMachine_1.EUIState.kChatting) && !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
+                        react_1.default.createElement(SiteUtilities_1.Spacer, null),
+                        react_1.default.createElement(react_components_1.Spinner, { label: "Please wait a few seconds..." }))),
+                    offTopic,
+                    error,
+                    react_1.default.createElement("div", { className: successContainerClasses.root }, success)),
+                react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
+                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement(SiteUtilities_1.Footer, null))));
 };

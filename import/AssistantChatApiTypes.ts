@@ -55,3 +55,39 @@ export enum EScreeningClassification {
 export interface IScreeningClassificationResponse {
    type: EScreeningClassification;
 }
+
+/**
+ * An enumeration of possible chat roles.
+ * Used to identify the sender of a message in chat interactions.
+ */
+export enum EChatRole {
+   kUser = 'user',
+   kAssistant = 'assistant'
+}
+
+/**
+ * A message in a chat interaction.
+ */
+export interface IChatMessage {
+   role: EChatRole;
+   content: string;
+   timestamp: Date;
+}
+
+/**
+ * A request to the chat API.
+ */
+export interface IChatMessageRequest {
+   sessionId: string;
+   limit: number;
+   continuation?: string | undefined;
+}
+
+/**
+ * A response from the chat API.
+ */
+export interface IChatMessageResponse {
+   messages: IChatMessage[];
+   continuation?: string | undefined;
+}
+

@@ -6,7 +6,7 @@
  * Includes types for chat requests.
  */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EScreeningClassification = exports.EAssistantPersonality = void 0;
+exports.EChatRole = exports.EScreeningClassification = exports.EAssistantPersonality = void 0;
 /**
  * An enumeration of possible assistant personalities.
  * Used to specify the desired personality type for chat interactions.
@@ -25,3 +25,12 @@ var EScreeningClassification;
     EScreeningClassification["kOnTopic"] = "onTopic";
     EScreeningClassification["kOffTopic"] = "offTopic";
 })(EScreeningClassification || (exports.EScreeningClassification = EScreeningClassification = {}));
+/**
+ * An enumeration of possible chat roles.
+ * Used to identify the sender of a message in chat interactions.
+ */
+var EChatRole;
+(function (EChatRole) {
+    EChatRole["kUser"] = "user";
+    EChatRole["kAssistant"] = "assistant";
+})(EChatRole || (exports.EChatRole = EChatRole = {}));

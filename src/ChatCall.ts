@@ -1,0 +1,249 @@
+/**
+ * ChatCall.ts
+ * 
+ * Handles API communication with the assistant chat service. Provides functionality
+ * for processing chat input through HTTP requests, with retry logic and state management.
+ */
+/*! Copyright Jon Verrier 2025 */
+
+import axios, { AxiosProgressEvent } from 'axios';
+import axiosRetry from 'axios-retry';
+import { Stream } from 'stream';
+
+import { IAssistantChatRequest, 
+   IScreeningClassificationResponse,
+   EAssistantPersonality,
+   EScreeningClassification } from '../import/AssistantChatApiTypes';
+import { EApiEvent } from './UIStateMachine';
+
+interface ApiClient {
+    post: <T>(url: string, data: any, config?: any) => Promise<{ 
+        data: T;
+        status?: number;
+    }>;
+}
+
+// Add new interface for streaming response
+interface StreamResponse {
+    data: Stream;
+    status: number;
+}
+
+/**
+ * Creates a retryable Axios client with custom configuration.
+ * 
+ * This function creates an Axios instance with a 30-second timeout, JSON content type,
+ * and disables credentials. It also includes retry logic with exponential backoff and jitter.
+ * 
+ * @returns An Axios instance configured for retryable requests
+ */
+function createRetryableAxiosClient() : ApiClient {
+   const client = axios.create({
+      timeout: 30000, // 30 second timeout
+      headers: {
+          'Content-Type': 'application/json',
+      },
+      withCredentials: false
+  });
+  
+  axiosRetry(client, { 
+      retries: 3,
+      retryDelay: (retryCount) => {
+          return axiosRetry.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
+      },
+      retryCondition: (error) => {
+          return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
+                 (error.response?.status ?? 0) >= 500 ||
+                 error.code === 'ECONNABORTED' ||
+                 error.code === 'ERR_NETWORK';
+      },
+      shouldResetTimeout: true
+  });
+
+  return client;
+}
+
+
+/**
+ * Options for processing chat input through the assistant service.
+ * 
+ * This interface defines the parameters required for processing chat input
+ * through the assistant service. It includes the URL for the API endpoint,
+ * the input text to process, a session ID for tracking, and a callback 
+ * function to update the UI state.
+ */
+interface ProcessChat {
+    screeningApiUrl: string;
+    chatApiUrl: string;
+    input: string;
+    sessionId: string;
+    personality: EAssistantPersonality;
+    updateState: (event: EApiEvent) => void;
+    apiClient?: ApiClient;
+    benefitOfDoubt?: boolean;
+    onChunk?: (chunk: string) => void;
+    forceNode?: boolean;
+}
+
+/**
+ * Processes chat input through the assistant service.
+ * 
+ * This function first calls the screening API to classify the input, then if approved,
+ * proceeds to call the main chat API. Includes retry logic for failed requests and 
+ * state management for UI updates. The chat API response is streamed as text chunks.
+ * 
+ * @param options - The options for processing the chat input.
+ * @returns The complete assistant's response string if successful, or undefined if there's an error.
+ */
+export async function processChat({
+    screeningApiUrl,
+    chatApiUrl,
+    input,
+    sessionId,
+    personality,
+    updateState,
+    apiClient,
+    benefitOfDoubt,
+    onChunk,
+    forceNode
+}: ProcessChat): Promise<string | undefined> {
+
+   if (!apiClient) {
+      apiClient = createRetryableAxiosClient();
+   }
+    
+    try {
+        // Signal start of screening
+        updateState(EApiEvent.kStartedScreening);
+
+        const chatRequest: IAssistantChatRequest = {
+            personality,
+            sessionId,
+            input,
+            benefitOfDoubt
+        };
+
+        // First call the screening API
+        const screeningResponse = await apiClient.post<IScreeningClassificationResponse>(
+            screeningApiUrl,
+            chatRequest
+        );        
+        const screeningResult = screeningResponse.data;
+   
+        if (!screeningResult || screeningResult.type === EScreeningClassification.kOffTopic) {
+            updateState(EApiEvent.kRejectedFromScreening);
+            return undefined;
+        }
+
+        updateState(EApiEvent.kPassedScreening);
+        updateState(EApiEvent.kStartedChat);
+
+        // Return a promise that will resolve with the complete response
+        return new Promise((resolve, reject) => {
+            let completeResponse = '';
+            let lastProcessedLength = 0;
+
+            const streamWithAxios = async () => {
+                try {
+                    const config: any = {
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Accept': 'text/event-stream'
+                        },
+                        timeout: 300000, // 5 minute timeout
+                        withCredentials: false,
+                        decompress: true,
+                        maxRedirects: 5,
+                    };
+
+                    if (forceNode) {
+                        // Node.js environment: use response streaming
+                        config.responseType = 'stream';
+                        const response = await apiClient.post<Stream>(chatApiUrl, chatRequest, config) as StreamResponse;
+                        const stream = response.data;
+                        
+                        stream.on('data', (chunk: Buffer) => {
+                            const chunkStr = chunk.toString();
+                            processStreamData(chunkStr);
+                        });
+
+                        stream.on('end', () => {
+                            updateState(EApiEvent.kFinishedChat);
+                            resolve(completeResponse);
+                        });
+
+                        stream.on('error', (error: Error) => {
+                            console.error('Stream error:', error);
+                            updateState(EApiEvent.kError);
+                            reject(error);
+                        });
+                    } else {
+                        // Browser environment: use XHR streaming
+                        config.responseType = 'text';
+                        config.onDownloadProgress = (progressEvent: AxiosProgressEvent) => {
+                            try {
+                                if (!progressEvent.event?.target) return;
+
+                                const rawData = progressEvent.event.target.response;
+                                // Only process new data
+                                const newData = rawData.substring(lastProcessedLength);
+                                lastProcessedLength = rawData.length;
+
+                                processStreamData(newData);
+                            } catch (e) {
+                                console.error('Error in onDownloadProgress:', e);
+                                throw e;
+                            }
+                        };
+
+                        const response = await apiClient.post(chatApiUrl, chatRequest, config);
+
+                        if (response.status === 200) {
+                            updateState(EApiEvent.kFinishedChat);
+                            resolve(completeResponse);
+                        } else {
+                            throw new Error(`Unexpected status: ${response.status}`);
+                        }
+                    }
+
+                } catch (error) {
+                    console.error('Streaming error:', error);
+                    updateState(EApiEvent.kError);
+                    reject(error);
+                }
+            };
+
+            // Helper function to process stream data chunks
+           const processStreamData = (data: string) => {
+              const lines = data.split('\n');
+              for (const line of lines) {
+                 if (line.trim() && line.startsWith('data: ')) {
+                    const data = line.slice(6).trim();
+                    if (data === '[DONE]') continue;
+                    if (data) {
+                       const parsed = JSON.parse(data);
+                       completeResponse += parsed;
+                       if (onChunk) {
+                          onChunk(parsed);
+                       }
+                    }
+                 }
+              }
+           };
+
+            streamWithAxios();
+
+            const timeout = setTimeout(() => {
+                updateState(EApiEvent.kError);
+                reject(new Error('Connection timed out'));
+            }, 300000); // 5 minute timeout
+        });
+
+    } catch (error) {
+        updateState(EApiEvent.kError);
+        
+        return undefined;
+    }
+}
+
+

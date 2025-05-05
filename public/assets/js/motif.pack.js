@@ -792,7 +792,7 @@
             }
             return children;
           }
-          function createContext23(defaultValue) {
+          function createContext24(defaultValue) {
             var context = {
               $$typeof: REACT_CONTEXT_TYPE,
               // As a workaround to support multiple concurrent renderers, we categorize
@@ -979,7 +979,7 @@
             }
             return lazyType;
           }
-          function forwardRef15(render) {
+          function forwardRef17(render) {
             {
               if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
                 error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1078,7 +1078,7 @@
             }
             return dispatcher;
           }
-          function useContext21(Context) {
+          function useContext22(Context) {
             var dispatcher = resolveDispatcher();
             {
               if (Context._context !== void 0) {
@@ -1092,7 +1092,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState10(initialState) {
+          function useState11(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1100,11 +1100,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef13(initialValue) {
+          function useRef14(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect12(create, deps) {
+          function useEffect14(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1116,7 +1116,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useLayoutEffect(create, deps);
           }
-          function useCallback7(callback, deps) {
+          function useCallback8(callback, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useCallback(callback, deps);
           }
@@ -1873,29 +1873,29 @@
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.act = act;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext23;
+          exports.createContext = createContext24;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef3;
-          exports.forwardRef = forwardRef15;
+          exports.forwardRef = forwardRef17;
           exports.isValidElement = isValidElement5;
           exports.lazy = lazy;
           exports.memo = memo2;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
-          exports.useCallback = useCallback7;
-          exports.useContext = useContext21;
+          exports.useCallback = useCallback8;
+          exports.useContext = useContext22;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect12;
+          exports.useEffect = useEffect14;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef13;
-          exports.useState = useState10;
+          exports.useRef = useRef14;
+          exports.useState = useState11;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2391,9 +2391,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React86 = require_react();
+          var React92 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React86.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React92.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4000,7 +4000,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React86.Children.forEach(props.children, function(child) {
+                  React92.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -29485,12 +29485,48 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
     }
   });
 
+  // node_modules/@fluentui/react-utilities/lib/hooks/useBrowserTimer.js
+  function useBrowserTimer(setTimer, cancelTimer) {
+    const id = React11.useRef(void 0);
+    const set = React11.useCallback((fn, delay) => {
+      if (id.current !== void 0) {
+        cancelTimer(id.current);
+      }
+      id.current = setTimer(fn, delay);
+      return id.current;
+    }, [
+      cancelTimer,
+      setTimer
+    ]);
+    const cancel = React11.useCallback(() => {
+      if (id.current !== void 0) {
+        cancelTimer(id.current);
+        id.current = void 0;
+      }
+    }, [
+      cancelTimer
+    ]);
+    React11.useEffect(() => cancel, [
+      cancel
+    ]);
+    return [
+      set,
+      cancel
+    ];
+  }
+  var React11;
+  var init_useBrowserTimer = __esm({
+    "node_modules/@fluentui/react-utilities/lib/hooks/useBrowserTimer.js"() {
+      React11 = __toESM(require_react());
+    }
+  });
+
   // node_modules/@fluentui/react-shared-contexts/lib/ThemeContext/ThemeContext.js
-  var React11, ThemeContext, ThemeProvider;
+  var React12, ThemeContext, ThemeProvider;
   var init_ThemeContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/ThemeContext/ThemeContext.js"() {
-      React11 = __toESM(require_react());
-      ThemeContext = React11.createContext(void 0);
+      React12 = __toESM(require_react());
+      ThemeContext = React12.createContext(void 0);
       ThemeProvider = ThemeContext.Provider;
     }
   });
@@ -29510,11 +29546,11 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   });
 
   // node_modules/@fluentui/react-shared-contexts/lib/ThemeClassNameContext/ThemeClassNameContext.js
-  var React12, ThemeClassNameContext, ThemeClassNameProvider;
+  var React13, ThemeClassNameContext, ThemeClassNameProvider;
   var init_ThemeClassNameContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/ThemeClassNameContext/ThemeClassNameContext.js"() {
-      React12 = __toESM(require_react());
-      ThemeClassNameContext = React12.createContext(void 0);
+      React13 = __toESM(require_react());
+      ThemeClassNameContext = React13.createContext(void 0);
       ThemeClassNameProvider = ThemeClassNameContext.Provider;
     }
   });
@@ -29534,11 +29570,11 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   });
 
   // node_modules/@fluentui/react-shared-contexts/lib/TooltipVisibilityContext/TooltipContext.js
-  var React13, TooltipVisibilityContext, TooltipVisibilityProvider;
+  var React14, TooltipVisibilityContext, TooltipVisibilityProvider;
   var init_TooltipContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/TooltipVisibilityContext/TooltipContext.js"() {
-      React13 = __toESM(require_react());
-      TooltipVisibilityContext = React13.createContext(void 0);
+      React14 = __toESM(require_react());
+      TooltipVisibilityContext = React14.createContext(void 0);
       TooltipVisibilityProvider = TooltipVisibilityContext.Provider;
     }
   });
@@ -29560,13 +29596,13 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   // node_modules/@fluentui/react-shared-contexts/lib/ProviderContext/ProviderContext.js
   function useFluent() {
     var _React_useContext;
-    return (_React_useContext = React14.useContext(ProviderContext)) !== null && _React_useContext !== void 0 ? _React_useContext : providerContextDefaultValue;
+    return (_React_useContext = React15.useContext(ProviderContext)) !== null && _React_useContext !== void 0 ? _React_useContext : providerContextDefaultValue;
   }
-  var React14, ProviderContext, providerContextDefaultValue, Provider;
+  var React15, ProviderContext, providerContextDefaultValue, Provider;
   var init_ProviderContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/ProviderContext/ProviderContext.js"() {
-      React14 = __toESM(require_react());
-      ProviderContext = React14.createContext(void 0);
+      React15 = __toESM(require_react());
+      ProviderContext = React15.createContext(void 0);
       providerContextDefaultValue = {
         // eslint-disable-next-line @nx/workspace-no-restricted-globals -- expected ignore ( SSR friendly acquisition of globals )
         targetDocument: typeof document === "object" ? document : void 0,
@@ -29593,13 +29629,13 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   // node_modules/@fluentui/react-shared-contexts/lib/OverridesContext/OverridesContext.js
   function useOverrides() {
     var _React_useContext;
-    return (_React_useContext = React15.useContext(OverridesContext)) !== null && _React_useContext !== void 0 ? _React_useContext : {};
+    return (_React_useContext = React16.useContext(OverridesContext)) !== null && _React_useContext !== void 0 ? _React_useContext : {};
   }
-  var React15, OverridesContext, OverridesProvider;
+  var React16, OverridesContext, OverridesProvider;
   var init_OverridesContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/OverridesContext/OverridesContext.js"() {
-      React15 = __toESM(require_react());
-      OverridesContext = React15.createContext(void 0);
+      React16 = __toESM(require_react());
+      OverridesContext = React16.createContext(void 0);
       OverridesProvider = OverridesContext.Provider;
     }
   });
@@ -29612,18 +29648,18 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   });
 
   // node_modules/@fluentui/react-shared-contexts/lib/CustomStyleHooksContext/CustomStyleHooksContext.js
-  var React16, CustomStyleHooksContext, noop2, CustomStyleHooksProvider, useCustomStyleHook;
+  var React17, CustomStyleHooksContext, noop2, CustomStyleHooksProvider, useCustomStyleHook;
   var init_CustomStyleHooksContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/CustomStyleHooksContext/CustomStyleHooksContext.js"() {
-      React16 = __toESM(require_react());
-      CustomStyleHooksContext = React16.createContext(void 0);
+      React17 = __toESM(require_react());
+      CustomStyleHooksContext = React17.createContext(void 0);
       noop2 = () => {
       };
       CustomStyleHooksProvider = CustomStyleHooksContext.Provider;
       useCustomStyleHook = (hook) => {
         var _React_useContext;
         var _React_useContext_hook;
-        return (_React_useContext_hook = (_React_useContext = React16.useContext(CustomStyleHooksContext)) === null || _React_useContext === void 0 ? void 0 : _React_useContext[hook]) !== null && _React_useContext_hook !== void 0 ? _React_useContext_hook : noop2;
+        return (_React_useContext_hook = (_React_useContext = React17.useContext(CustomStyleHooksContext)) === null || _React_useContext === void 0 ? void 0 : _React_useContext[hook]) !== null && _React_useContext_hook !== void 0 ? _React_useContext_hook : noop2;
       };
     }
   });
@@ -29644,13 +29680,13 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
 
   // node_modules/@fluentui/react-shared-contexts/lib/BackgroundAppearanceContext/BackgroundAppearanceContext.js
   function useBackgroundAppearance() {
-    return React17.useContext(BackgroundAppearanceContext);
+    return React18.useContext(BackgroundAppearanceContext);
   }
-  var React17, BackgroundAppearanceContext, BackgroundAppearanceProvider;
+  var React18, BackgroundAppearanceContext, BackgroundAppearanceProvider;
   var init_BackgroundAppearanceContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/BackgroundAppearanceContext/BackgroundAppearanceContext.js"() {
-      React17 = __toESM(require_react());
-      BackgroundAppearanceContext = React17.createContext(void 0);
+      React18 = __toESM(require_react());
+      BackgroundAppearanceContext = React18.createContext(void 0);
       BackgroundAppearanceProvider = BackgroundAppearanceContext.Provider;
     }
   });
@@ -29665,15 +29701,15 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   // node_modules/@fluentui/react-shared-contexts/lib/AnnounceContext/AnnounceContext.js
   function useAnnounce() {
     var _React_useContext;
-    return (_React_useContext = React18.useContext(AnnounceContext)) !== null && _React_useContext !== void 0 ? _React_useContext : {
+    return (_React_useContext = React19.useContext(AnnounceContext)) !== null && _React_useContext !== void 0 ? _React_useContext : {
       announce: () => void 0
     };
   }
-  var React18, AnnounceContext, AnnounceProvider;
+  var React19, AnnounceContext, AnnounceProvider;
   var init_AnnounceContext = __esm({
     "node_modules/@fluentui/react-shared-contexts/lib/AnnounceContext/AnnounceContext.js"() {
-      React18 = __toESM(require_react());
-      AnnounceContext = React18.createContext(void 0);
+      React19 = __toESM(require_react());
+      AnnounceContext = React19.createContext(void 0);
       AnnounceProvider = AnnounceContext.Provider;
     }
   });
@@ -29706,10 +29742,10 @@ Be sure to create slots properly by using "slot.always" or "slot.optional" with 
   function isInitializer(value) {
     return typeof value === "function";
   }
-  var React19, useControllableState, useIsControlled;
+  var React20, useControllableState, useIsControlled;
   var init_useControllableState = __esm({
     "node_modules/@fluentui/react-utilities/lib/hooks/useControllableState.js"() {
-      React19 = __toESM(require_react());
+      React20 = __toESM(require_react());
       useControllableState = (options) => {
         "use no memo";
         if (true) {
@@ -29721,19 +29757,19 @@ More info: https://reactjs.org/link/controlled-components
 ${new Error().stack}`);
           }
         }
-        const [internalState, setInternalState] = React19.useState(() => {
+        const [internalState, setInternalState] = React20.useState(() => {
           if (options.defaultState === void 0) {
             return options.initialState;
           }
           return isInitializer(options.defaultState) ? options.defaultState() : options.defaultState;
         });
-        const stateValueRef = React19.useRef(options.state);
-        React19.useEffect(() => {
+        const stateValueRef = React20.useRef(options.state);
+        React20.useEffect(() => {
           stateValueRef.current = options.state;
         }, [
           options.state
         ]);
-        const setControlledState = React19.useCallback((newState) => {
+        const setControlledState = React20.useCallback((newState) => {
           if (isFactoryDispatch(newState)) {
             newState(stateValueRef.current);
           }
@@ -29748,9 +29784,9 @@ ${new Error().stack}`);
       };
       useIsControlled = (controlledValue) => {
         "use no memo";
-        const [isControlled] = React19.useState(() => controlledValue !== void 0);
+        const [isControlled] = React20.useState(() => controlledValue !== void 0);
         if (true) {
-          React19.useEffect(() => {
+          React20.useEffect(() => {
             if (isControlled !== (controlledValue !== void 0)) {
               const error = new Error();
               const controlWarning = isControlled ? "a controlled value to be uncontrolled" : "an uncontrolled value to be controlled";
@@ -29787,16 +29823,16 @@ ${error.stack}`);
   // node_modules/@fluentui/react-utilities/lib/ssr/SSRContext.js
   function useSSRContext() {
     var _React_useContext;
-    return (_React_useContext = React20.useContext(SSRContext)) !== null && _React_useContext !== void 0 ? _React_useContext : defaultSSRContextValue;
+    return (_React_useContext = React21.useContext(SSRContext)) !== null && _React_useContext !== void 0 ? _React_useContext : defaultSSRContextValue;
   }
-  var React20, defaultSSRContextValue, SSRContext;
+  var React21, defaultSSRContextValue, SSRContext;
   var init_SSRContext = __esm({
     "node_modules/@fluentui/react-utilities/lib/ssr/SSRContext.js"() {
-      React20 = __toESM(require_react());
+      React21 = __toESM(require_react());
       defaultSSRContextValue = {
         current: 0
       };
-      SSRContext = /* @__PURE__ */ React20.createContext(void 0);
+      SSRContext = /* @__PURE__ */ React21.createContext(void 0);
     }
   });
 
@@ -29809,23 +29845,23 @@ ${error.stack}`);
   });
 
   // node_modules/@fluentui/react-utilities/lib/hooks/useIsomorphicLayoutEffect.js
-  var React21, useIsomorphicLayoutEffect2;
+  var React22, useIsomorphicLayoutEffect2;
   var init_useIsomorphicLayoutEffect = __esm({
     "node_modules/@fluentui/react-utilities/lib/hooks/useIsomorphicLayoutEffect.js"() {
-      React21 = __toESM(require_react());
+      React22 = __toESM(require_react());
       init_ssr();
-      useIsomorphicLayoutEffect2 = canUseDOM2() ? React21.useLayoutEffect : React21.useEffect;
+      useIsomorphicLayoutEffect2 = canUseDOM2() ? React22.useLayoutEffect : React22.useEffect;
     }
   });
 
   // node_modules/@fluentui/react-utilities/lib/hooks/useEventCallback.js
-  var React22, useEventCallback;
+  var React23, useEventCallback;
   var init_useEventCallback = __esm({
     "node_modules/@fluentui/react-utilities/lib/hooks/useEventCallback.js"() {
-      React22 = __toESM(require_react());
+      React23 = __toESM(require_react());
       init_useIsomorphicLayoutEffect();
       useEventCallback = (fn) => {
-        const callbackRef = React22.useRef(() => {
+        const callbackRef = React23.useRef(() => {
           throw new Error("Cannot call an event handler while rendering");
         });
         useIsomorphicLayoutEffect2(() => {
@@ -29833,7 +29869,7 @@ ${error.stack}`);
         }, [
           fn
         ]);
-        return React22.useCallback((...args) => {
+        return React23.useCallback((...args) => {
           const callback = callbackRef.current;
           return callback(...args);
         }, [
@@ -29845,21 +29881,21 @@ ${error.stack}`);
 
   // node_modules/@fluentui/react-utilities/lib/hooks/useId.js
   function useIdPrefix() {
-    return React23.useContext(IdPrefixContext) || "";
+    return React24.useContext(IdPrefixContext) || "";
   }
   function useId2(prefix2 = "fui-", providedId) {
     "use no memo";
     const contextValue = useSSRContext();
     const idPrefix = useIdPrefix();
-    const _useId = React23["useId"];
+    const _useId = React24["useId"];
     if (_useId) {
       const generatedId = _useId();
-      const escapedId = React23.useMemo(() => generatedId.replace(/:/g, ""), [
+      const escapedId = React24.useMemo(() => generatedId.replace(/:/g, ""), [
         generatedId
       ]);
       return providedId || `${idPrefix}${prefix2}${escapedId}`;
     }
-    return React23.useMemo(() => {
+    return React24.useMemo(() => {
       if (providedId) {
         return providedId;
       }
@@ -29871,12 +29907,12 @@ ${error.stack}`);
       contextValue
     ]);
   }
-  var React23, IdPrefixContext, IdPrefixProvider;
+  var React24, IdPrefixContext, IdPrefixProvider;
   var init_useId = __esm({
     "node_modules/@fluentui/react-utilities/lib/hooks/useId.js"() {
-      React23 = __toESM(require_react());
+      React24 = __toESM(require_react());
       init_ssr();
-      IdPrefixContext = React23.createContext(void 0);
+      IdPrefixContext = React24.createContext(void 0);
       IdPrefixProvider = IdPrefixContext.Provider;
     }
   });
@@ -29884,7 +29920,7 @@ ${error.stack}`);
   // node_modules/@fluentui/react-utilities/lib/hooks/useMergedRefs.js
   function useMergedRefs(...refs) {
     "use no memo";
-    const mergedCallback = React24.useCallback(
+    const mergedCallback = React25.useCallback(
       (value) => {
         mergedCallback.current = value;
         for (const ref of refs) {
@@ -29902,27 +29938,45 @@ ${error.stack}`);
     );
     return mergedCallback;
   }
-  var React24;
+  var React25;
   var init_useMergedRefs = __esm({
     "node_modules/@fluentui/react-utilities/lib/hooks/useMergedRefs.js"() {
-      React24 = __toESM(require_react());
+      React25 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-utilities/lib/hooks/usePrevious.js
-  var React25, usePrevious;
+  var React26, usePrevious;
   var init_usePrevious = __esm({
     "node_modules/@fluentui/react-utilities/lib/hooks/usePrevious.js"() {
-      React25 = __toESM(require_react());
+      React26 = __toESM(require_react());
       usePrevious = (value) => {
-        const ref = React25.useRef(null);
-        React25.useEffect(() => {
+        const ref = React26.useRef(null);
+        React26.useEffect(() => {
           ref.current = value;
         }, [
           value
         ]);
         return ref.current;
       };
+    }
+  });
+
+  // node_modules/@fluentui/react-utilities/lib/hooks/useTimeout.js
+  function useTimeout() {
+    const { targetDocument } = useFluent();
+    const win = targetDocument === null || targetDocument === void 0 ? void 0 : targetDocument.defaultView;
+    const setTimerFn = win ? win.setTimeout : setTimeoutNoop;
+    const clearTimerFn = win ? win.clearTimeout : clearTimeoutNoop;
+    return useBrowserTimer(setTimerFn, clearTimerFn);
+  }
+  var setTimeoutNoop, clearTimeoutNoop;
+  var init_useTimeout = __esm({
+    "node_modules/@fluentui/react-utilities/lib/hooks/useTimeout.js"() {
+      init_useBrowserTimer();
+      init_lib();
+      setTimeoutNoop = (_callback) => -1;
+      clearTimeoutNoop = (_handle) => void 0;
     }
   });
 
@@ -29935,6 +29989,7 @@ ${error.stack}`);
       init_useIsomorphicLayoutEffect();
       init_useMergedRefs();
       init_usePrevious();
+      init_useTimeout();
     }
   });
 
@@ -30018,10 +30073,10 @@ ${error.stack}`);
       [SLOT_ELEMENT_TYPE_SYMBOL]: type
     };
   }
-  var React26;
+  var React27;
   var init_createCompatSlotComponent = __esm({
     "node_modules/@fluentui/react-jsx-runtime/lib/utils/createCompatSlotComponent.js"() {
-      React26 = __toESM(require_react());
+      React27 = __toESM(require_react());
       init_lib2();
     }
   });
@@ -30241,10 +30296,10 @@ Please make sure you don't have multiple versions of "@fluentui/react-utilities"
 You can check this by searching up for matching entries in a lockfile produced by your package manager (yarn.lock, pnpm-lock.yaml or package-lock.json).`);
     }
   }
-  var React27, import_react_is;
+  var React28, import_react_is;
   var init_warnIfElementTypeIsInvalid = __esm({
     "node_modules/@fluentui/react-jsx-runtime/lib/utils/warnIfElementTypeIsInvalid.js"() {
-      React27 = __toESM(require_react());
+      React28 = __toESM(require_react());
       import_react_is = __toESM(require_react_is());
     }
   });
@@ -30262,11 +30317,11 @@ You can check this by searching up for matching entries in a lockfile produced b
       return runtime(type, overrideProps, key, source, self2);
     };
   }
-  var React28;
+  var React29;
   var init_createJSX = __esm({
     "node_modules/@fluentui/react-jsx-runtime/lib/jsx/createJSX.js"() {
       init_lib2();
-      React28 = __toESM(require_react());
+      React29 = __toESM(require_react());
       init_createCompatSlotComponent();
       init_warnIfElementTypeIsInvalid();
     }
@@ -30299,7 +30354,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React86 = require_react();
+          var React92 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30325,7 +30380,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React86.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React92.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -31207,10 +31262,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-jsx-runtime/lib/jsx/jsxSlot.js
-  var React29, jsxSlot;
+  var React30, jsxSlot;
   var init_jsxSlot = __esm({
     "node_modules/@fluentui/react-jsx-runtime/lib/jsx/jsxSlot.js"() {
-      React29 = __toESM(require_react());
+      React30 = __toESM(require_react());
       init_getMetadataFromSlotComponent();
       init_Runtime();
       jsxSlot = (type, overrideProps, key) => {
@@ -31220,7 +31275,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           ...overrideProps
         };
         if (renderFunction) {
-          return Runtime.jsx(React29.Fragment, {
+          return Runtime.jsx(React30.Fragment, {
             children: renderFunction(elementType, props)
           }, key);
         }
@@ -31230,10 +31285,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-jsx-runtime/lib/jsx/jsxsSlot.js
-  var React30, jsxsSlot;
+  var React31, jsxsSlot;
   var init_jsxsSlot = __esm({
     "node_modules/@fluentui/react-jsx-runtime/lib/jsx/jsxsSlot.js"() {
-      React30 = __toESM(require_react());
+      React31 = __toESM(require_react());
       init_getMetadataFromSlotComponent();
       init_Runtime();
       jsxsSlot = (type, overrideProps, key) => {
@@ -31243,10 +31298,10 @@ You can check this by searching up for matching entries in a lockfile produced b
           ...overrideProps
         };
         if (renderFunction) {
-          return Runtime.jsx(React30.Fragment, {
+          return Runtime.jsx(React31.Fragment, {
             children: renderFunction(elementType, {
               ...props,
-              children: Runtime.jsxs(React30.Fragment, {
+              children: Runtime.jsxs(React31.Fragment, {
                 children: props.children
               }, void 0)
             })
@@ -31272,14 +31327,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-icons/lib/contexts/IconDirectionContext.js
-  var React31, IconDirectionContext, IconDirectionContextDefaultValue, IconDirectionContextProvider, useIconContext;
+  var React32, IconDirectionContext, IconDirectionContextDefaultValue, IconDirectionContextProvider, useIconContext;
   var init_IconDirectionContext = __esm({
     "node_modules/@fluentui/react-icons/lib/contexts/IconDirectionContext.js"() {
-      React31 = __toESM(require_react());
-      IconDirectionContext = React31.createContext(void 0);
+      React32 = __toESM(require_react());
+      IconDirectionContext = React32.createContext(void 0);
       IconDirectionContextDefaultValue = {};
       IconDirectionContextProvider = IconDirectionContext.Provider;
-      useIconContext = () => React31.useContext(IconDirectionContext) ? React31.useContext(IconDirectionContext) : IconDirectionContextDefaultValue;
+      useIconContext = () => React32.useContext(IconDirectionContext) ? React32.useContext(IconDirectionContext) : IconDirectionContextDefaultValue;
     }
   });
 
@@ -35670,8 +35725,8 @@ You can check this by searching up for matching entries in a lockfile produced b
   }
   function useTabster(factory = DEFAULT_FACTORY) {
     const { targetDocument } = useFluent();
-    const factoryResultRef = React32.useRef(null);
-    React32.useEffect(() => {
+    const factoryResultRef = React33.useRef(null);
+    React33.useEffect(() => {
       const tabster = createTabsterWithConfig(targetDocument);
       if (tabster) {
         factoryResultRef.current = factory(tabster);
@@ -35695,10 +35750,10 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
     return factoryResultRef;
   }
-  var React32, DEFAULT_FACTORY;
+  var React33, DEFAULT_FACTORY;
   var init_useTabster = __esm({
     "node_modules/@fluentui/react-tabster/lib/hooks/useTabster.js"() {
-      React32 = __toESM(require_react());
+      React33 = __toESM(require_react());
       init_tabster_esm();
       init_lib();
       init_lib2();
@@ -35709,16 +35764,16 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-tabster/lib/hooks/useTabsterAttributes.js
-  var React33, useTabsterAttributes;
+  var React34, useTabsterAttributes;
   var init_useTabsterAttributes = __esm({
     "node_modules/@fluentui/react-tabster/lib/hooks/useTabsterAttributes.js"() {
       init_tabster_esm();
       init_useTabster();
-      React33 = __toESM(require_react());
+      React34 = __toESM(require_react());
       useTabsterAttributes = (props) => {
         useTabster();
         const strAttr = getTabsterAttribute(props, true);
-        return React33.useMemo(() => ({
+        return React34.useMemo(() => ({
           [TABSTER_ATTRIBUTE_NAME]: strAttr
         }), [
           strAttr
@@ -35858,10 +35913,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-tabster/lib/hooks/useFocusVisible.js
   function useFocusVisible(options = {}) {
     const contextValue = useFluent();
-    const scopeRef = React34.useRef(null);
+    const scopeRef = React35.useRef(null);
     var _options_targetDocument;
     const targetDocument = (_options_targetDocument = options.targetDocument) !== null && _options_targetDocument !== void 0 ? _options_targetDocument : contextValue.targetDocument;
-    React34.useEffect(() => {
+    React35.useEffect(() => {
       if ((targetDocument === null || targetDocument === void 0 ? void 0 : targetDocument.defaultView) && scopeRef.current) {
         return applyFocusVisiblePolyfill(scopeRef.current, targetDocument.defaultView);
       }
@@ -35871,10 +35926,10 @@ You can check this by searching up for matching entries in a lockfile produced b
     ]);
     return scopeRef;
   }
-  var React34;
+  var React35;
   var init_useFocusVisible = __esm({
     "node_modules/@fluentui/react-tabster/lib/hooks/useFocusVisible.js"() {
-      React34 = __toESM(require_react());
+      React35 = __toESM(require_react());
       init_lib();
       init_focusVisiblePolyfill();
     }
@@ -37700,7 +37755,7 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-provider/lib/components/FluentProvider/useFluentProviderThemeStyleTag.js
   function useHandleSSRStyleElements(targetDocument, styleTagId) {
-    React35.useState(() => {
+    React36.useState(() => {
       if (!targetDocument) {
         return;
       }
@@ -37710,14 +37765,14 @@ You can check this by searching up for matching entries in a lockfile produced b
       }
     });
   }
-  var React35, useInsertionEffect4, createStyleTag, insertSheet, useFluentProviderThemeStyleTag;
+  var React36, useInsertionEffect4, createStyleTag, insertSheet, useFluentProviderThemeStyleTag;
   var init_useFluentProviderThemeStyleTag = __esm({
     "node_modules/@fluentui/react-provider/lib/components/FluentProvider/useFluentProviderThemeStyleTag.js"() {
       init_lib2();
-      React35 = __toESM(require_react());
+      React36 = __toESM(require_react());
       init_createCSSRuleFromTheme();
       init_useFluentProviderStyles_styles();
-      useInsertionEffect4 = React35["useInsertionEffect"] ? React35["useInsertionEffect"] : useIsomorphicLayoutEffect2;
+      useInsertionEffect4 = React36["useInsertionEffect"] ? React36["useInsertionEffect"] : useIsomorphicLayoutEffect2;
       createStyleTag = (target, elementAttributes) => {
         if (!target) {
           return void 0;
@@ -37743,15 +37798,15 @@ You can check this by searching up for matching entries in a lockfile produced b
       useFluentProviderThemeStyleTag = (options) => {
         "use no memo";
         const { targetDocument, theme, rendererAttributes } = options;
-        const styleTag = React35.useRef();
+        const styleTag = React36.useRef();
         const styleTagId = useId2(fluentProviderClassNames.root);
         const styleElementAttributes = rendererAttributes;
-        const rule = React35.useMemo(() => createCSSRuleFromTheme(`.${styleTagId}`, theme), [
+        const rule = React36.useMemo(() => createCSSRuleFromTheme(`.${styleTagId}`, theme), [
           theme,
           styleTagId
         ]);
         if (true) {
-          React35.useMemo(() => {
+          React36.useMemo(() => {
             if (targetDocument) {
               const providerSelector = `.${fluentProviderClassNames.root}.${styleTagId}`;
               const providerElements = targetDocument.querySelectorAll(providerSelector);
@@ -37815,16 +37870,16 @@ You can check this by searching up for matching entries in a lockfile produced b
     return b;
   }
   function useTheme() {
-    return React36.useContext(ThemeContext);
+    return React37.useContext(ThemeContext);
   }
-  var React36, DEFAULT_STYLE_HOOKS, DEFAULT_RENDERER_ATTRIBUTES, useFluentProvider_unstable;
+  var React37, DEFAULT_STYLE_HOOKS, DEFAULT_RENDERER_ATTRIBUTES, useFluentProvider_unstable;
   var init_useFluentProvider = __esm({
     "node_modules/@fluentui/react-provider/lib/components/FluentProvider/useFluentProvider.js"() {
       init_index_esm2();
       init_lib5();
       init_lib();
       init_lib2();
-      React36 = __toESM(require_react());
+      React37 = __toESM(require_react());
       init_useFluentProviderThemeStyleTag();
       DEFAULT_STYLE_HOOKS = {};
       DEFAULT_RENDERER_ATTRIBUTES = {};
@@ -37833,7 +37888,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const parentContext = useFluent();
         const parentTheme = useTheme();
         const parentOverrides = useOverrides();
-        const parentCustomStyleHooks = React36.useContext(CustomStyleHooksContext) || DEFAULT_STYLE_HOOKS;
+        const parentCustomStyleHooks = React37.useContext(CustomStyleHooksContext) || DEFAULT_STYLE_HOOKS;
         const {
           applyStylesToPortals = true,
           // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -37854,7 +37909,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           rendererAttributes: (_renderer_styleElementAttributes = renderer.styleElementAttributes) !== null && _renderer_styleElementAttributes !== void 0 ? _renderer_styleElementAttributes : DEFAULT_RENDERER_ATTRIBUTES
         });
         if (true) {
-          React36.useEffect(() => {
+          React37.useEffect(() => {
             if (mergedTheme === void 0) {
               console.warn([
                 '@fluentui/react-provider: FluentProvider does not have your "theme" defined.',
@@ -37914,15 +37969,15 @@ You can check this by searching up for matching entries in a lockfile produced b
       // eslint-disable-next-line @typescript-eslint/naming-convention
       overrides_unstable
     } = state;
-    const provider = React37.useMemo(() => ({
+    const provider = React38.useMemo(() => ({
       dir,
       targetDocument
     }), [
       dir,
       targetDocument
     ]);
-    const [tooltip] = React37.useState(() => ({}));
-    const iconDirection = React37.useMemo(() => ({
+    const [tooltip] = React38.useState(() => ({}));
+    const iconDirection = React38.useMemo(() => ({
       textDirection: dir
     }), [
       dir
@@ -37940,23 +37995,23 @@ You can check this by searching up for matching entries in a lockfile produced b
       themeClassName: applyStylesToPortals ? root.className : themeClassName
     };
   }
-  var React37;
+  var React38;
   var init_useFluentProviderContextValues = __esm({
     "node_modules/@fluentui/react-provider/lib/components/FluentProvider/useFluentProviderContextValues.js"() {
-      React37 = __toESM(require_react());
+      React38 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-provider/lib/components/FluentProvider/FluentProvider.js
-  var React38, FluentProvider;
+  var React39, FluentProvider;
   var init_FluentProvider = __esm({
     "node_modules/@fluentui/react-provider/lib/components/FluentProvider/FluentProvider.js"() {
-      React38 = __toESM(require_react());
+      React39 = __toESM(require_react());
       init_renderFluentProvider();
       init_useFluentProvider();
       init_useFluentProviderStyles_styles();
       init_useFluentProviderContextValues();
-      FluentProvider = /* @__PURE__ */ React38.forwardRef((props, ref) => {
+      FluentProvider = /* @__PURE__ */ React39.forwardRef((props, ref) => {
         const state = useFluentProvider_unstable(props, ref);
         useFluentProviderStyles_unstable(state);
         const contextValues = useFluentProviderContextValues_unstable(state);
@@ -38450,17 +38505,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-context-selector/lib/createContext.js
-  var React39, import_scheduler, createProvider, createContext17;
+  var React40, import_scheduler, createProvider, createContext17;
   var init_createContext = __esm({
     "node_modules/@fluentui/react-context-selector/lib/createContext.js"() {
       init_lib2();
-      React39 = __toESM(require_react());
+      React40 = __toESM(require_react());
       import_scheduler = __toESM(require_scheduler2());
       createProvider = (Original) => {
         const Provider2 = (props) => {
-          const valueRef = React39.useRef(props.value);
-          const versionRef = React39.useRef(0);
-          const contextValue = React39.useRef();
+          const valueRef = React40.useRef(props.value);
+          const versionRef = React40.useRef(0);
+          const contextValue = React40.useRef();
           if (!contextValue.current) {
             contextValue.current = {
               value: valueRef,
@@ -38482,7 +38537,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           }, [
             props.value
           ]);
-          return React39.createElement(Original, {
+          return React40.createElement(Original, {
             value: contextValue.current
           }, props.children);
         };
@@ -38492,7 +38547,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         return Provider2;
       };
       createContext17 = (defaultValue) => {
-        const context = React39.createContext({
+        const context = React40.createContext({
           value: {
             current: defaultValue
           },
@@ -38614,12 +38669,12 @@ You can check this by searching up for matching entries in a lockfile produced b
       return resultProps;
     }
   }
-  var React40;
+  var React41;
   var init_useARIAButtonProps = __esm({
     "node_modules/@fluentui/react-aria/lib/button/useARIAButtonProps.js"() {
       init_lib8();
       init_lib2();
-      React40 = __toESM(require_react());
+      React41 = __toESM(require_react());
     }
   });
 
@@ -38684,14 +38739,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-icons/lib/utils/createFluentIcon.js
-  var React41, createFluentIcon;
+  var React42, createFluentIcon;
   var init_createFluentIcon = __esm({
     "node_modules/@fluentui/react-icons/lib/utils/createFluentIcon.js"() {
-      React41 = __toESM(require_react());
+      React42 = __toESM(require_react());
       init_useIconState();
       createFluentIcon = (displayName, width, paths, options) => {
         const viewBoxWidth = width === "1em" ? "20" : width;
-        const Icon = React41.forwardRef((props, ref) => {
+        const Icon = React42.forwardRef((props, ref) => {
           const state = {
             ...useIconState(props, {
               flipInRtl: options === null || options === void 0 ? void 0 : options.flipInRtl
@@ -38702,7 +38757,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             viewBox: `0 0 ${viewBoxWidth} ${viewBoxWidth}`,
             xmlns: "http://www.w3.org/2000/svg"
           };
-          return React41.createElement("svg", state, ...paths.map((d) => React41.createElement("path", {
+          return React42.createElement("svg", state, ...paths.map((d) => React42.createElement("path", {
             d,
             fill: state.fill
           })));
@@ -38965,25 +39020,25 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-button/lib/contexts/ButtonContext.js
-  var React42, buttonContext, buttonContextDefaultValue, ButtonContextProvider, useButtonContext;
+  var React43, buttonContext, buttonContextDefaultValue, ButtonContextProvider, useButtonContext;
   var init_ButtonContext = __esm({
     "node_modules/@fluentui/react-button/lib/contexts/ButtonContext.js"() {
-      React42 = __toESM(require_react());
-      buttonContext = React42.createContext(void 0);
+      React43 = __toESM(require_react());
+      buttonContext = React43.createContext(void 0);
       buttonContextDefaultValue = {};
       ButtonContextProvider = buttonContext.Provider;
       useButtonContext = () => {
         var _React_useContext;
-        return (_React_useContext = React42.useContext(buttonContext)) !== null && _React_useContext !== void 0 ? _React_useContext : buttonContextDefaultValue;
+        return (_React_useContext = React43.useContext(buttonContext)) !== null && _React_useContext !== void 0 ? _React_useContext : buttonContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-button/lib/components/Button/useButton.js
-  var React43, useButton_unstable;
+  var React44, useButton_unstable;
   var init_useButton = __esm({
     "node_modules/@fluentui/react-button/lib/components/Button/useButton.js"() {
-      React43 = __toESM(require_react());
+      React44 = __toESM(require_react());
       init_lib9();
       init_lib2();
       init_ButtonContext();
@@ -39577,15 +39632,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-button/lib/components/Button/Button.js
-  var React44, Button;
+  var React45, Button;
   var init_Button = __esm({
     "node_modules/@fluentui/react-button/lib/components/Button/Button.js"() {
-      React44 = __toESM(require_react());
+      React45 = __toESM(require_react());
       init_renderButton();
       init_useButton();
       init_useButtonStyles_styles();
       init_lib();
-      Button = /* @__PURE__ */ React44.forwardRef((props, ref) => {
+      Button = /* @__PURE__ */ React45.forwardRef((props, ref) => {
         const state = useButton_unstable(props, ref);
         useButtonStyles_unstable(state);
         useCustomStyleHook("useButtonStyles_unstable")(state);
@@ -39628,13 +39683,13 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-field/lib/contexts/FieldContext.js
-  var React45, FieldContext, FieldContextProvider, useFieldContext_unstable;
+  var React46, FieldContext, FieldContextProvider, useFieldContext_unstable;
   var init_FieldContext = __esm({
     "node_modules/@fluentui/react-field/lib/contexts/FieldContext.js"() {
-      React45 = __toESM(require_react());
-      FieldContext = React45.createContext(void 0);
+      React46 = __toESM(require_react());
+      FieldContext = React46.createContext(void 0);
       FieldContextProvider = FieldContext.Provider;
-      useFieldContext_unstable = () => React45.useContext(FieldContext);
+      useFieldContext_unstable = () => React46.useContext(FieldContext);
     }
   });
 
@@ -39703,18 +39758,168 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // node_modules/@fluentui/react-field/lib/index.js
+  // node_modules/@fluentui/react-label/lib/components/Label/useLabel.js
+  var React47, useLabel_unstable;
+  var init_useLabel = __esm({
+    "node_modules/@fluentui/react-label/lib/components/Label/useLabel.js"() {
+      React47 = __toESM(require_react());
+      init_lib2();
+      useLabel_unstable = (props, ref) => {
+        const { disabled = false, required = false, weight = "regular", size = "medium" } = props;
+        return {
+          disabled,
+          required: slot_exports.optional(required === true ? "*" : required || void 0, {
+            defaultProps: {
+              "aria-hidden": "true"
+            },
+            elementType: "span"
+          }),
+          weight,
+          size,
+          components: {
+            root: "label",
+            required: "span"
+          },
+          root: slot_exports.always(getIntrinsicElementProps("label", {
+            // FIXME:
+            // `ref` is wrongly assigned to be `HTMLElement` instead of `HTMLLabelElement`
+            // but since it would be a breaking change to fix it, we are casting ref to it's proper type
+            ref,
+            ...props
+          }), {
+            elementType: "label"
+          })
+        };
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-label/lib/components/Label/renderLabel.js
+  var renderLabel_unstable;
+  var init_renderLabel = __esm({
+    "node_modules/@fluentui/react-label/lib/components/Label/renderLabel.js"() {
+      init_jsx_runtime();
+      init_lib2();
+      renderLabel_unstable = (state) => {
+        assertSlots(state);
+        return /* @__PURE__ */ jsxs(state.root, {
+          children: [
+            state.root.children,
+            state.required && /* @__PURE__ */ jsx(state.required, {})
+          ]
+        });
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-label/lib/components/Label/useLabelStyles.styles.js
+  var labelClassNames, useStyles2, useLabelStyles_unstable;
+  var init_useLabelStyles_styles = __esm({
+    "node_modules/@fluentui/react-label/lib/components/Label/useLabelStyles.styles.js"() {
+      init_index_esm2();
+      labelClassNames = {
+        root: "fui-Label",
+        required: "fui-Label__required"
+      };
+      useStyles2 = /* @__PURE__ */ __styles2({
+        root: {
+          Bahqtrf: "fk6fouc",
+          sj55zd: "f19n0e5"
+        },
+        disabled: {
+          sj55zd: "f1s2aq7o",
+          Bbusuzp: "f1dcs8yz"
+        },
+        required: {
+          sj55zd: "f1whyuy6",
+          uwmqm3: ["fruq291", "f7x41pl"]
+        },
+        small: {
+          Be2twd7: "fy9rknc",
+          Bg96gwp: "fwrc4pm"
+        },
+        medium: {
+          Be2twd7: "fkhj508",
+          Bg96gwp: "f1i3iumi"
+        },
+        large: {
+          Be2twd7: "fod5ikn",
+          Bg96gwp: "faaz57k",
+          Bhrd7zp: "fl43uef"
+        },
+        semibold: {
+          Bhrd7zp: "fl43uef"
+        }
+      }, {
+        d: [".fk6fouc{font-family:var(--fontFamilyBase);}", ".f19n0e5{color:var(--colorNeutralForeground1);}", ".f1s2aq7o{color:var(--colorNeutralForegroundDisabled);}", ".f1whyuy6{color:var(--colorPaletteRedForeground3);}", ".fruq291{padding-left:var(--spacingHorizontalXS);}", ".f7x41pl{padding-right:var(--spacingHorizontalXS);}", ".fy9rknc{font-size:var(--fontSizeBase200);}", ".fwrc4pm{line-height:var(--lineHeightBase200);}", ".fkhj508{font-size:var(--fontSizeBase300);}", ".f1i3iumi{line-height:var(--lineHeightBase300);}", ".fod5ikn{font-size:var(--fontSizeBase400);}", ".faaz57k{line-height:var(--lineHeightBase400);}", ".fl43uef{font-weight:var(--fontWeightSemibold);}"],
+        m: [["@media (forced-colors: active){.f1dcs8yz{color:GrayText;}}", {
+          m: "(forced-colors: active)"
+        }]]
+      });
+      useLabelStyles_unstable = (state) => {
+        "use no memo";
+        const styles = useStyles2();
+        state.root.className = mergeClasses(labelClassNames.root, styles.root, state.disabled && styles.disabled, styles[state.size], state.weight === "semibold" && styles.semibold, state.root.className);
+        if (state.required) {
+          state.required.className = mergeClasses(labelClassNames.required, styles.required, state.disabled && styles.disabled, state.required.className);
+        }
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-label/lib/components/Label/Label.js
+  var React48, Label;
+  var init_Label = __esm({
+    "node_modules/@fluentui/react-label/lib/components/Label/Label.js"() {
+      React48 = __toESM(require_react());
+      init_useLabel();
+      init_renderLabel();
+      init_useLabelStyles_styles();
+      init_lib();
+      Label = /* @__PURE__ */ React48.forwardRef((props, ref) => {
+        const state = useLabel_unstable(props, ref);
+        useLabelStyles_unstable(state);
+        useCustomStyleHook("useLabelStyles_unstable")(state);
+        return renderLabel_unstable(state);
+      });
+      Label.displayName = "Label";
+    }
+  });
+
+  // node_modules/@fluentui/react-label/lib/components/Label/index.js
+  var init_Label2 = __esm({
+    "node_modules/@fluentui/react-label/lib/components/Label/index.js"() {
+      init_Label();
+    }
+  });
+
+  // node_modules/@fluentui/react-label/lib/Label.js
+  var init_Label3 = __esm({
+    "node_modules/@fluentui/react-label/lib/Label.js"() {
+      init_Label2();
+    }
+  });
+
+  // node_modules/@fluentui/react-label/lib/index.js
   var init_lib12 = __esm({
+    "node_modules/@fluentui/react-label/lib/index.js"() {
+      init_Label3();
+    }
+  });
+
+  // node_modules/@fluentui/react-field/lib/index.js
+  var init_lib13 = __esm({
     "node_modules/@fluentui/react-field/lib/index.js"() {
       init_contexts3();
     }
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLinkState.js
-  var React46, useLinkState_unstable;
+  var React49, useLinkState_unstable;
   var init_useLinkState = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLinkState.js"() {
-      React46 = __toESM(require_react());
+      React49 = __toESM(require_react());
       init_lib8();
       useLinkState_unstable = (state) => {
         const { disabled, disabledFocusable } = state;
@@ -39759,27 +39964,27 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/contexts/linkContext.js
-  var React47, LinkContext, linkContextDefaultValue, LinkContextProvider, useLinkContext;
+  var React50, LinkContext, linkContextDefaultValue, LinkContextProvider, useLinkContext;
   var init_linkContext = __esm({
     "node_modules/@fluentui/react-link/lib/contexts/linkContext.js"() {
-      React47 = __toESM(require_react());
-      LinkContext = React47.createContext(void 0);
+      React50 = __toESM(require_react());
+      LinkContext = React50.createContext(void 0);
       linkContextDefaultValue = {
         inline: false
       };
       LinkContextProvider = LinkContext.Provider;
       useLinkContext = () => {
         var _React_useContext;
-        return (_React_useContext = React47.useContext(LinkContext)) !== null && _React_useContext !== void 0 ? _React_useContext : linkContextDefaultValue;
+        return (_React_useContext = React50.useContext(LinkContext)) !== null && _React_useContext !== void 0 ? _React_useContext : linkContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLink.js
-  var React48, useLink_unstable;
+  var React51, useLink_unstable;
   var init_useLink = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLink.js"() {
-      React48 = __toESM(require_react());
+      React51 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_useLinkState();
@@ -39820,14 +40025,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLinkStyles.styles.js
-  var linkClassNames, useStyles2, useLinkStyles_unstable;
+  var linkClassNames, useStyles3, useLinkStyles_unstable;
   var init_useLinkStyles_styles = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLinkStyles.styles.js"() {
       init_index_esm2();
       linkClassNames = {
         root: "fui-Link"
       };
-      useStyles2 = /* @__PURE__ */ __styles2({
+      useStyles3 = /* @__PURE__ */ __styles2({
         focusIndicator: {
           Bttzg6e: "fhgqx19",
           B3uz8dt: "f1olyrje",
@@ -39914,7 +40119,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useLinkStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles2();
+        const styles = useStyles3();
         const {
           appearance,
           disabled,
@@ -39942,15 +40147,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/Link.js
-  var React49, Link3;
+  var React52, Link3;
   var init_Link = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/Link.js"() {
-      React49 = __toESM(require_react());
+      React52 = __toESM(require_react());
       init_useLink();
       init_useLinkStyles_styles();
       init_renderLink();
       init_lib();
-      Link3 = /* @__PURE__ */ React49.forwardRef((props, ref) => {
+      Link3 = /* @__PURE__ */ React52.forwardRef((props, ref) => {
         const state = useLink_unstable(props, ref);
         useLinkStyles_unstable(state);
         useCustomStyleHook("useLinkStyles_unstable")(state);
@@ -39982,18 +40187,345 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/index.js
-  var init_lib13 = __esm({
+  var init_lib14 = __esm({
     "node_modules/@fluentui/react-link/lib/index.js"() {
       init_Link3();
       init_contexts4();
     }
   });
 
+  // node_modules/@fluentui/react-spinner/lib/contexts/SpinnerContext.js
+  var React53, SpinnerContext, SpinnerContextDefaultValue, SpinnerContextProvider, useSpinnerContext;
+  var init_SpinnerContext = __esm({
+    "node_modules/@fluentui/react-spinner/lib/contexts/SpinnerContext.js"() {
+      React53 = __toESM(require_react());
+      SpinnerContext = React53.createContext(void 0);
+      SpinnerContextDefaultValue = {};
+      SpinnerContextProvider = SpinnerContext.Provider;
+      useSpinnerContext = () => {
+        var _React_useContext;
+        return (_React_useContext = React53.useContext(SpinnerContext)) !== null && _React_useContext !== void 0 ? _React_useContext : SpinnerContextDefaultValue;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinner.js
+  var React54, useSpinner_unstable;
+  var init_useSpinner = __esm({
+    "node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinner.js"() {
+      React54 = __toESM(require_react());
+      init_lib2();
+      init_lib12();
+      init_SpinnerContext();
+      useSpinner_unstable = (props, ref) => {
+        const { size: contextSize } = useSpinnerContext();
+        const { appearance = "primary", labelPosition = "after", size = contextSize !== null && contextSize !== void 0 ? contextSize : "medium", delay = 0 } = props;
+        const baseId = useId2("spinner");
+        const { role = "progressbar", ...rest } = props;
+        const nativeRoot = slot_exports.always(getIntrinsicElementProps("div", {
+          // FIXME:
+          // `ref` is wrongly assigned to be `HTMLElement` instead of `HTMLDivElement`
+          // but since it would be a breaking change to fix it, we are casting ref to it's proper type
+          ref,
+          role,
+          ...rest
+        }, [
+          "size"
+        ]), {
+          elementType: "div"
+        });
+        const [isShownAfterDelay, setIsShownAfterDelay] = React54.useState(false);
+        const [setDelayTimeout, clearDelayTimeout] = useTimeout();
+        React54.useEffect(() => {
+          if (delay <= 0) {
+            return;
+          }
+          setDelayTimeout(() => {
+            setIsShownAfterDelay(true);
+          }, delay);
+          return () => {
+            clearDelayTimeout();
+          };
+        }, [
+          setDelayTimeout,
+          clearDelayTimeout,
+          delay
+        ]);
+        const labelShorthand = slot_exports.optional(props.label, {
+          defaultProps: {
+            id: baseId
+          },
+          renderByDefault: false,
+          elementType: Label
+        });
+        const spinnerShortHand = slot_exports.optional(props.spinner, {
+          renderByDefault: true,
+          elementType: "span"
+        });
+        if (labelShorthand && nativeRoot && !nativeRoot["aria-labelledby"]) {
+          nativeRoot["aria-labelledby"] = labelShorthand.id;
+        }
+        const state = {
+          appearance,
+          delay,
+          labelPosition,
+          size,
+          shouldRenderSpinner: !delay || isShownAfterDelay,
+          components: {
+            root: "div",
+            spinner: "span",
+            spinnerTail: "span",
+            label: Label
+          },
+          root: nativeRoot,
+          spinner: spinnerShortHand,
+          spinnerTail: slot_exports.always(props.spinnerTail, {
+            elementType: "span"
+          }),
+          label: labelShorthand
+        };
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/components/Spinner/renderSpinner.js
+  var renderSpinner_unstable;
+  var init_renderSpinner = __esm({
+    "node_modules/@fluentui/react-spinner/lib/components/Spinner/renderSpinner.js"() {
+      init_jsx_runtime();
+      init_lib2();
+      renderSpinner_unstable = (state) => {
+        assertSlots(state);
+        const { labelPosition, shouldRenderSpinner } = state;
+        return /* @__PURE__ */ jsxs(state.root, {
+          children: [
+            state.label && shouldRenderSpinner && (labelPosition === "above" || labelPosition === "before") && /* @__PURE__ */ jsx(state.label, {}),
+            state.spinner && shouldRenderSpinner && /* @__PURE__ */ jsx(state.spinner, {
+              children: state.spinnerTail && /* @__PURE__ */ jsx(state.spinnerTail, {})
+            }),
+            state.label && shouldRenderSpinner && (labelPosition === "below" || labelPosition === "after") && /* @__PURE__ */ jsx(state.label, {})
+          ]
+        });
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinnerStyles.styles.js
+  var spinnerClassNames, useRootBaseClassName2, useRootStyles3, useSpinnerBaseClassName, useSpinnerTailBaseClassName, useSpinnerStyles, useLabelStyles, useSpinnerStyles_unstable;
+  var init_useSpinnerStyles_styles = __esm({
+    "node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinnerStyles.styles.js"() {
+      init_lib();
+      init_index_esm2();
+      spinnerClassNames = {
+        root: "fui-Spinner",
+        spinner: "fui-Spinner__spinner",
+        spinnerTail: "fui-Spinner__spinnerTail",
+        label: "fui-Spinner__label"
+      };
+      useRootBaseClassName2 = /* @__PURE__ */ __resetStyles2("r82apo5", null, [".r82apo5{display:flex;align-items:center;justify-content:center;line-height:0;gap:8px;overflow:hidden;}"]);
+      useRootStyles3 = /* @__PURE__ */ __styles2({
+        vertical: {
+          Beiy3e4: "f1vx9l62"
+        }
+      }, {
+        d: [".f1vx9l62{flex-direction:column;}"]
+      });
+      useSpinnerBaseClassName = /* @__PURE__ */ __resetStyles2("rvgcg50", "r15nd2jo", {
+        r: [".rvgcg50{position:relative;flex-shrink:0;-webkit-mask-image:radial-gradient(closest-side, transparent calc(100% - var(--fui-Spinner--strokeWidth) - 1px), white calc(100% - var(--fui-Spinner--strokeWidth)) calc(100% - 1px), transparent 100%);mask-image:radial-gradient(closest-side, transparent calc(100% - var(--fui-Spinner--strokeWidth) - 1px), white calc(100% - var(--fui-Spinner--strokeWidth)) calc(100% - 1px), transparent 100%);background-color:var(--colorBrandStroke2Contrast);color:var(--colorBrandStroke1);animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-name:rb7n1on;}", "@keyframes rb7n1on{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}", ".r15nd2jo{position:relative;flex-shrink:0;-webkit-mask-image:radial-gradient(closest-side, transparent calc(100% - var(--fui-Spinner--strokeWidth) - 1px), white calc(100% - var(--fui-Spinner--strokeWidth)) calc(100% - 1px), transparent 100%);mask-image:radial-gradient(closest-side, transparent calc(100% - var(--fui-Spinner--strokeWidth) - 1px), white calc(100% - var(--fui-Spinner--strokeWidth)) calc(100% - 1px), transparent 100%);background-color:var(--colorBrandStroke2Contrast);color:var(--colorBrandStroke1);animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:linear;animation-name:r1gx3jof;}", "@keyframes r1gx3jof{0%{transform:rotate(0deg);}100%{transform:rotate(-360deg);}}"],
+        s: ["@media screen and (forced-colors: active){.rvgcg50{background-color:HighlightText;color:Highlight;forced-color-adjust:none;}}", "@media screen and (prefers-reduced-motion: reduce){.rvgcg50{animation-duration:1.8s;}}", "@media screen and (forced-colors: active){.r15nd2jo{background-color:HighlightText;color:Highlight;forced-color-adjust:none;}}", "@media screen and (prefers-reduced-motion: reduce){.r15nd2jo{animation-duration:1.8s;}}"]
+      });
+      useSpinnerTailBaseClassName = /* @__PURE__ */ __resetStyles2("rxov3xa", "r1o544mv", {
+        r: [".rxov3xa{position:absolute;display:block;width:100%;height:100%;-webkit-mask-image:conic-gradient(transparent 105deg, white 105deg);mask-image:conic-gradient(transparent 105deg, white 105deg);animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:var(--curveEasyEase);animation-name:r15mim6k;}", '.rxov3xa::before,.rxov3xa::after{content:"";position:absolute;display:block;width:100%;height:100%;animation:inherit;background-image:conic-gradient(currentcolor 135deg, transparent 135deg);}', "@keyframes r15mim6k{0%{transform:rotate(-135deg);}50%{transform:rotate(0deg);}100%{transform:rotate(225deg);}}", ".rxov3xa::before{animation-name:r18vhmn8;}", "@keyframes r18vhmn8{0%{transform:rotate(0deg);}50%{transform:rotate(105deg);}100%{transform:rotate(0deg);}}", ".rxov3xa::after{animation-name:rkgrvoi;}", "@keyframes rkgrvoi{0%{transform:rotate(0deg);}50%{transform:rotate(225deg);}100%{transform:rotate(0deg);}}", ".r1o544mv{position:absolute;display:block;width:100%;height:100%;-webkit-mask-image:conic-gradient(transparent 105deg, white 105deg);mask-image:conic-gradient(transparent 105deg, white 105deg);animation-duration:1.5s;animation-iteration-count:infinite;animation-timing-function:var(--curveEasyEase);animation-name:r109gmi5;}", '.r1o544mv::before,.r1o544mv::after{content:"";position:absolute;display:block;width:100%;height:100%;animation:inherit;background-image:conic-gradient(currentcolor 135deg, transparent 135deg);}', "@keyframes r109gmi5{0%{transform:rotate(135deg);}50%{transform:rotate(0deg);}100%{transform:rotate(-225deg);}}", ".r1o544mv::before{animation-name:r17whflh;}", "@keyframes r17whflh{0%{transform:rotate(0deg);}50%{transform:rotate(-105deg);}100%{transform:rotate(0deg);}}", ".r1o544mv::after{animation-name:re4odhl;}", "@keyframes re4odhl{0%{transform:rotate(0deg);}50%{transform:rotate(-225deg);}100%{transform:rotate(0deg);}}"],
+        s: ["@media screen and (prefers-reduced-motion: reduce){.rxov3xa{animation-iteration-count:0;background-image:conic-gradient(transparent 120deg, currentcolor 360deg);}.rxov3xa::before,.rxov3xa::after{content:none;}}", "@media screen and (prefers-reduced-motion: reduce){.r1o544mv{animation-iteration-count:0;background-image:conic-gradient(transparent 120deg, currentcolor 360deg);}.r1o544mv::before,.r1o544mv::after{content:none;}}"]
+      });
+      useSpinnerStyles = /* @__PURE__ */ __styles2({
+        inverted: {
+          De3pzq: "fr407j0",
+          sj55zd: "f1f7voed"
+        },
+        rtlTail: {
+          btxmck: "f179dep3",
+          gb5jj2: "fbz9ihp",
+          Br2kee7: "f1wkkxo7"
+        },
+        "extra-tiny": {
+          Bqenvij: "fd461yt",
+          a9b677: "fjw5fx7",
+          qmp6fs: "f1v3ph3m"
+        },
+        tiny: {
+          Bqenvij: "fjamq6b",
+          a9b677: "f64fuq3",
+          qmp6fs: "f1v3ph3m"
+        },
+        "extra-small": {
+          Bqenvij: "frvgh55",
+          a9b677: "fq4mcun",
+          qmp6fs: "f1v3ph3m"
+        },
+        small: {
+          Bqenvij: "fxldao9",
+          a9b677: "f1w9dchk",
+          qmp6fs: "f1v3ph3m"
+        },
+        medium: {
+          Bqenvij: "f1d2rq10",
+          a9b677: "f1szoe96",
+          qmp6fs: "fb52u90"
+        },
+        large: {
+          Bqenvij: "f8ljn23",
+          a9b677: "fpdz1er",
+          qmp6fs: "fb52u90"
+        },
+        "extra-large": {
+          Bqenvij: "fbhnoac",
+          a9b677: "feqmc2u",
+          qmp6fs: "fb52u90"
+        },
+        huge: {
+          Bqenvij: "f1ft4266",
+          a9b677: "fksc0bp",
+          qmp6fs: "fa3u9ii"
+        }
+      }, {
+        d: [".fr407j0{background-color:var(--colorNeutralStrokeAlpha2);}", ".f1f7voed{color:var(--colorNeutralStrokeOnBrand2);}", ".f179dep3{-webkit-mask-image:conic-gradient(white 255deg, transparent 255deg);mask-image:conic-gradient(white 255deg, transparent 255deg);}", ".fbz9ihp::before,.fbz9ihp::after{background-image:conic-gradient(transparent 225deg, currentcolor 225deg);}", ".fd461yt{height:16px;}", ".fjw5fx7{width:16px;}", ".f1v3ph3m{--fui-Spinner--strokeWidth:var(--strokeWidthThick);}", ".fjamq6b{height:20px;}", ".f64fuq3{width:20px;}", ".frvgh55{height:24px;}", ".fq4mcun{width:24px;}", ".fxldao9{height:28px;}", ".f1w9dchk{width:28px;}", ".f1d2rq10{height:32px;}", ".f1szoe96{width:32px;}", ".fb52u90{--fui-Spinner--strokeWidth:var(--strokeWidthThicker);}", ".f8ljn23{height:36px;}", ".fpdz1er{width:36px;}", ".fbhnoac{height:40px;}", ".feqmc2u{width:40px;}", ".f1ft4266{height:44px;}", ".fksc0bp{width:44px;}", ".fa3u9ii{--fui-Spinner--strokeWidth:var(--strokeWidthThickest);}"],
+        m: [["@media screen and (prefers-reduced-motion: reduce){.f1wkkxo7{background-image:conic-gradient(currentcolor 0deg, transparent 240deg);}}", {
+          m: "screen and (prefers-reduced-motion: reduce)"
+        }]]
+      });
+      useLabelStyles = /* @__PURE__ */ __styles2({
+        inverted: {
+          sj55zd: "fonrgv7"
+        },
+        "extra-tiny": {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fkhj508",
+          Bhrd7zp: "figsok6",
+          Bg96gwp: "f1i3iumi"
+        },
+        tiny: {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fkhj508",
+          Bhrd7zp: "figsok6",
+          Bg96gwp: "f1i3iumi"
+        },
+        "extra-small": {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fkhj508",
+          Bhrd7zp: "figsok6",
+          Bg96gwp: "f1i3iumi"
+        },
+        small: {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fkhj508",
+          Bhrd7zp: "figsok6",
+          Bg96gwp: "f1i3iumi"
+        },
+        medium: {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fod5ikn",
+          Bhrd7zp: "fl43uef",
+          Bg96gwp: "faaz57k"
+        },
+        large: {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fod5ikn",
+          Bhrd7zp: "fl43uef",
+          Bg96gwp: "faaz57k"
+        },
+        "extra-large": {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "fod5ikn",
+          Bhrd7zp: "fl43uef",
+          Bg96gwp: "faaz57k"
+        },
+        huge: {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "f1pp30po",
+          Bhrd7zp: "fl43uef",
+          Bg96gwp: "f106mvju"
+        }
+      }, {
+        d: [".fonrgv7{color:var(--colorNeutralForegroundStaticInverted);}", ".fk6fouc{font-family:var(--fontFamilyBase);}", ".fkhj508{font-size:var(--fontSizeBase300);}", ".figsok6{font-weight:var(--fontWeightRegular);}", ".f1i3iumi{line-height:var(--lineHeightBase300);}", ".fod5ikn{font-size:var(--fontSizeBase400);}", ".fl43uef{font-weight:var(--fontWeightSemibold);}", ".faaz57k{line-height:var(--lineHeightBase400);}", ".f1pp30po{font-size:var(--fontSizeBase500);}", ".f106mvju{line-height:var(--lineHeightBase500);}"]
+      });
+      useSpinnerStyles_unstable = (state) => {
+        "use no memo";
+        const {
+          labelPosition,
+          size,
+          appearance
+        } = state;
+        const {
+          dir
+        } = useFluent();
+        const rootBaseClassName = useRootBaseClassName2();
+        const rootStyles = useRootStyles3();
+        const spinnerBaseClassName = useSpinnerBaseClassName();
+        const spinnerStyles = useSpinnerStyles();
+        const spinnerTailBaseClassName = useSpinnerTailBaseClassName();
+        const labelStyles = useLabelStyles();
+        state.root.className = mergeClasses(spinnerClassNames.root, rootBaseClassName, (labelPosition === "above" || labelPosition === "below") && rootStyles.vertical, state.root.className);
+        if (state.spinner) {
+          state.spinner.className = mergeClasses(spinnerClassNames.spinner, spinnerBaseClassName, spinnerStyles[size], appearance === "inverted" && spinnerStyles.inverted, state.spinner.className);
+        }
+        if (state.spinnerTail) {
+          state.spinnerTail.className = mergeClasses(spinnerClassNames.spinnerTail, spinnerTailBaseClassName, dir === "rtl" && spinnerStyles.rtlTail, state.spinnerTail.className);
+        }
+        if (state.label) {
+          state.label.className = mergeClasses(spinnerClassNames.label, labelStyles[size], appearance === "inverted" && labelStyles.inverted, state.label.className);
+        }
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/components/Spinner/Spinner.js
+  var React55, Spinner;
+  var init_Spinner = __esm({
+    "node_modules/@fluentui/react-spinner/lib/components/Spinner/Spinner.js"() {
+      React55 = __toESM(require_react());
+      init_useSpinner();
+      init_renderSpinner();
+      init_useSpinnerStyles_styles();
+      init_lib();
+      Spinner = /* @__PURE__ */ React55.forwardRef((props, ref) => {
+        const state = useSpinner_unstable(props, ref);
+        useSpinnerStyles_unstable(state);
+        useCustomStyleHook("useSpinnerStyles_unstable")(state);
+        return renderSpinner_unstable(state);
+      });
+      Spinner.displayName = "Spinner";
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/components/Spinner/index.js
+  var init_Spinner2 = __esm({
+    "node_modules/@fluentui/react-spinner/lib/components/Spinner/index.js"() {
+      init_Spinner();
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/Spinner.js
+  var init_Spinner3 = __esm({
+    "node_modules/@fluentui/react-spinner/lib/Spinner.js"() {
+      init_Spinner2();
+    }
+  });
+
+  // node_modules/@fluentui/react-spinner/lib/index.js
+  var init_lib15 = __esm({
+    "node_modules/@fluentui/react-spinner/lib/index.js"() {
+      init_Spinner3();
+    }
+  });
+
   // node_modules/@fluentui/react-text/lib/components/Text/useText.js
-  var React50, useText_unstable;
+  var React56, useText_unstable;
   var init_useText = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/useText.js"() {
-      React50 = __toESM(require_react());
+      React56 = __toESM(require_react());
       init_lib2();
       useText_unstable = (props, ref) => {
         const { wrap, truncate, block, italic, underline, strikethrough, size, font, weight, align } = props;
@@ -40040,14 +40572,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/useTextStyles.styles.js
-  var textClassNames, useStyles3, useTextStyles_unstable;
+  var textClassNames, useStyles4, useTextStyles_unstable;
   var init_useTextStyles_styles = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/useTextStyles.styles.js"() {
       init_index_esm2();
       textClassNames = {
         root: "fui-Text"
       };
-      useStyles3 = /* @__PURE__ */ __styles2({
+      useStyles4 = /* @__PURE__ */ __styles2({
         root: {
           Bahqtrf: "fk6fouc",
           Be2twd7: "fkhj508",
@@ -40154,7 +40686,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useTextStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles3();
+        const styles = useStyles4();
         state.root.className = mergeClasses(textClassNames.root, styles.root, state.wrap === false && styles.nowrap, state.truncate && styles.truncate, state.block && styles.block, state.italic && styles.italic, state.underline && styles.underline, state.strikethrough && styles.strikethrough, state.underline && state.strikethrough && styles.strikethroughUnderline, state.size === 100 && styles.base100, state.size === 200 && styles.base200, state.size === 400 && styles.base400, state.size === 500 && styles.base500, state.size === 600 && styles.base600, state.size === 700 && styles.hero700, state.size === 800 && styles.hero800, state.size === 900 && styles.hero900, state.size === 1e3 && styles.hero1000, state.font === "monospace" && styles.monospace, state.font === "numeric" && styles.numeric, state.weight === "medium" && styles.weightMedium, state.weight === "semibold" && styles.weightSemibold, state.weight === "bold" && styles.weightBold, state.align === "center" && styles.alignCenter, state.align === "end" && styles.alignEnd, state.align === "justify" && styles.alignJustify, state.root.className);
         return state;
       };
@@ -40162,15 +40694,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/Text.js
-  var React51, Text;
+  var React57, Text;
   var init_Text = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/Text.js"() {
-      React51 = __toESM(require_react());
+      React57 = __toESM(require_react());
       init_useText();
       init_renderText();
       init_useTextStyles_styles();
       init_lib();
-      Text = /* @__PURE__ */ React51.forwardRef((props, ref) => {
+      Text = /* @__PURE__ */ React57.forwardRef((props, ref) => {
         const state = useText_unstable(props, ref);
         useTextStyles_unstable(state);
         useCustomStyleHook("useTextStyles_unstable")(state);
@@ -40195,7 +40727,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/index.js
-  var init_lib14 = __esm({
+  var init_lib16 = __esm({
     "node_modules/@fluentui/react-text/lib/index.js"() {
       init_Text3();
     }
@@ -40217,11 +40749,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js
-  var React52, useTextarea_unstable;
+  var React58, useTextarea_unstable;
   var init_useTextarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js"() {
-      React52 = __toESM(require_react());
-      init_lib12();
+      React58 = __toESM(require_react());
+      init_lib13();
       init_lib2();
       init_lib();
       useTextarea_unstable = (props, ref) => {
@@ -40284,7 +40816,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextareaStyles.styles.js
-  var textareaClassNames, useRootStyles3, useTextareaStyles, useTextareaResizeStyles, useTextareaStyles_unstable;
+  var textareaClassNames, useRootStyles4, useTextareaStyles, useTextareaResizeStyles, useTextareaStyles_unstable;
   var init_useTextareaStyles_styles = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextareaStyles.styles.js"() {
       init_index_esm2();
@@ -40292,7 +40824,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         root: "fui-Textarea",
         textarea: "fui-Textarea__textarea"
       };
-      useRootStyles3 = /* @__PURE__ */ __styles2({
+      useRootStyles4 = /* @__PURE__ */ __styles2({
         base: {
           mc9l5x: "ftuwxu6",
           B7ck84d: "f1ewtqcl",
@@ -40669,7 +41201,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const disabled = state.textarea.disabled;
         const invalid = `${state.textarea["aria-invalid"]}` === "true";
         const filled = appearance.startsWith("filled");
-        const rootStyles = useRootStyles3();
+        const rootStyles = useRootStyles4();
         state.root.className = mergeClasses(textareaClassNames.root, rootStyles.base, disabled && rootStyles.disabled, !disabled && filled && rootStyles.filled, !disabled && rootStyles[appearance], !disabled && rootStyles.interactive, !disabled && appearance === "outline" && rootStyles.outlineInteractive, !disabled && invalid && rootStyles.invalid, state.root.className);
         const textareaStyles = useTextareaStyles();
         const textareaResizeStyles = useTextareaResizeStyles();
@@ -40680,15 +41212,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js
-  var React53, Textarea;
+  var React59, Textarea;
   var init_Textarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js"() {
-      React53 = __toESM(require_react());
+      React59 = __toESM(require_react());
       init_renderTextarea();
       init_useTextarea();
       init_useTextareaStyles_styles();
       init_lib();
-      Textarea = /* @__PURE__ */ React53.forwardRef((props, ref) => {
+      Textarea = /* @__PURE__ */ React59.forwardRef((props, ref) => {
         const state = useTextarea_unstable(props, ref);
         useTextareaStyles_unstable(state);
         useCustomStyleHook("useTextareaStyles_unstable")(state);
@@ -40713,17 +41245,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/index.js
-  var init_lib15 = __esm({
+  var init_lib17 = __esm({
     "node_modules/@fluentui/react-textarea/lib/index.js"() {
       init_Textarea3();
     }
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js
-  var React54, useToolbar_unstable, useToolbarSelectableState;
+  var React60, useToolbar_unstable, useToolbarSelectableState;
   var init_useToolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js"() {
-      React54 = __toESM(require_react());
+      React60 = __toESM(require_react());
       init_lib2();
       init_lib5();
       useToolbar_unstable = (props, ref) => {
@@ -40856,14 +41388,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbarStyles.styles.js
-  var toolbarClassNames, useStyles4, useToolbarStyles_unstable;
+  var toolbarClassNames, useStyles5, useToolbarStyles_unstable;
   var init_useToolbarStyles_styles = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbarStyles.styles.js"() {
       init_index_esm2();
       toolbarClassNames = {
         root: "fui-Toolbar"
       };
-      useStyles4 = /* @__PURE__ */ __styles2({
+      useStyles5 = /* @__PURE__ */ __styles2({
         root: {
           mc9l5x: "f22iagw",
           Bt984gj: "f122n59",
@@ -40911,7 +41443,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useToolbarStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles4();
+        const styles = useStyles5();
         const {
           vertical,
           size
@@ -40942,16 +41474,16 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js
-  var React55, Toolbar;
+  var React61, Toolbar;
   var init_Toolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js"() {
-      React55 = __toESM(require_react());
+      React61 = __toESM(require_react());
       init_useToolbar();
       init_renderToolbar();
       init_useToolbarStyles_styles();
       init_useToolbarContextValues();
       init_lib();
-      Toolbar = /* @__PURE__ */ React55.forwardRef((props, ref) => {
+      Toolbar = /* @__PURE__ */ React61.forwardRef((props, ref) => {
         const state = useToolbar_unstable(props, ref);
         const contextValues = useToolbarContextValues_unstable(state);
         useToolbarStyles_unstable(state);
@@ -41012,10 +41544,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js
-  var React56, useToolbarButton_unstable;
+  var React62, useToolbarButton_unstable;
   var init_useToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js"() {
-      React56 = __toESM(require_react());
+      React62 = __toESM(require_react());
       init_lib11();
       useToolbarButton_unstable = (props, ref) => {
         const { vertical = false, ...buttonProps } = props;
@@ -41033,15 +41565,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js
-  var React57, ToolbarButton;
+  var React63, ToolbarButton;
   var init_ToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js"() {
-      React57 = __toESM(require_react());
+      React63 = __toESM(require_react());
       init_lib11();
       init_useToolbarButtonStyles_styles();
       init_useToolbarButton();
       init_lib();
-      ToolbarButton = /* @__PURE__ */ React57.forwardRef((props, ref) => {
+      ToolbarButton = /* @__PURE__ */ React63.forwardRef((props, ref) => {
         const state = useToolbarButton_unstable(props, ref);
         useToolbarButtonStyles_unstable(state);
         useCustomStyleHook("useToolbarButtonStyles_unstable")(state);
@@ -41066,7 +41598,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/index.js
-  var init_lib16 = __esm({
+  var init_lib18 = __esm({
     "node_modules/@fluentui/react-toolbar/lib/index.js"() {
       init_Toolbar3();
       init_ToolbarButton3();
@@ -41077,21 +41609,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   function getIntentIcon(intent) {
     switch (intent) {
       case "info":
-        return /* @__PURE__ */ React58.createElement(InfoFilled, null);
+        return /* @__PURE__ */ React64.createElement(InfoFilled, null);
       case "warning":
-        return /* @__PURE__ */ React58.createElement(WarningFilled, null);
+        return /* @__PURE__ */ React64.createElement(WarningFilled, null);
       case "error":
-        return /* @__PURE__ */ React58.createElement(DismissCircleFilled, null);
+        return /* @__PURE__ */ React64.createElement(DismissCircleFilled, null);
       case "success":
-        return /* @__PURE__ */ React58.createElement(CheckmarkCircleFilled, null);
+        return /* @__PURE__ */ React64.createElement(CheckmarkCircleFilled, null);
       default:
         return null;
     }
   }
-  var React58;
+  var React64;
   var init_getIntentIcon = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/getIntentIcon.js"() {
-      React58 = __toESM(require_react());
+      React64 = __toESM(require_react());
       init_lib10();
     }
   });
@@ -41099,11 +41631,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js
   function useMessageBarReflow(enabled = false) {
     const { targetDocument } = useFluent();
-    const forceUpdate = React59.useReducer(() => ({}), {})[1];
-    const reflowingRef = React59.useRef(false);
-    const resizeObserverRef = React59.useRef(null);
-    const prevInlineSizeRef = React59.useRef(-1);
-    const handleResize = React59.useCallback((entries) => {
+    const forceUpdate = React65.useReducer(() => ({}), {})[1];
+    const reflowingRef = React65.useRef(false);
+    const resizeObserverRef = React65.useRef(null);
+    const prevInlineSizeRef = React65.useRef(-1);
+    const handleResize = React65.useCallback((entries) => {
       var _entry_borderBoxSize_, _entry_borderBoxSize;
       if (entries.length > 1) {
         console.error([
@@ -41141,7 +41673,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }, [
       forceUpdate
     ]);
-    const ref = React59.useCallback((el) => {
+    const ref = React65.useCallback((el) => {
       var _resizeObserverRef_current;
       if (!enabled || !el || !(targetDocument === null || targetDocument === void 0 ? void 0 : targetDocument.defaultView)) {
         return;
@@ -41158,7 +41690,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       handleResize,
       enabled
     ]);
-    React59.useEffect(() => {
+    React65.useEffect(() => {
       return () => {
         var _resizeObserverRef_current;
         (_resizeObserverRef_current = resizeObserverRef.current) === null || _resizeObserverRef_current === void 0 ? void 0 : _resizeObserverRef_current.disconnect();
@@ -41169,38 +41701,38 @@ You can check this by searching up for matching entries in a lockfile produced b
       reflowing: reflowingRef.current
     };
   }
-  var React59;
+  var React65;
   var init_useMessageBarReflow = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js"() {
-      React59 = __toESM(require_react());
+      React65 = __toESM(require_react());
       init_lib();
       init_lib2();
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js
-  var React60, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
+  var React66, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
   var init_messageBarTransitionContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js"() {
-      React60 = __toESM(require_react());
-      messageBarTransitionContext = React60.createContext(void 0);
+      React66 = __toESM(require_react());
+      messageBarTransitionContext = React66.createContext(void 0);
       messageBarTransitionContextDefaultValue = {
         className: "",
-        nodeRef: React60.createRef()
+        nodeRef: React66.createRef()
       };
       MessageBarTransitionContextProvider = messageBarTransitionContext.Provider;
       useMessageBarTransitionContext = () => {
         var _React_useContext;
-        return (_React_useContext = React60.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
+        return (_React_useContext = React66.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js
-  var React61, useMessageBar_unstable;
+  var React67, useMessageBar_unstable;
   var init_useMessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js"() {
-      React61 = __toESM(require_react());
+      React67 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_getIntentIcon();
@@ -41213,11 +41745,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         const { ref: reflowRef, reflowing } = useMessageBarReflow(autoReflow);
         const computedLayout = autoReflow ? reflowing ? "multiline" : "singleline" : layout;
         const { className: transitionClassName, nodeRef } = useMessageBarTransitionContext();
-        const actionsRef = React61.useRef(null);
-        const bodyRef = React61.useRef(null);
+        const actionsRef = React67.useRef(null);
+        const bodyRef = React67.useRef(null);
         const { announce } = useAnnounce();
         const titleId = useId2();
-        React61.useEffect(() => {
+        React67.useEffect(() => {
           var _bodyRef_current, _actionsRef_current;
           const bodyMessage = (_bodyRef_current = bodyRef.current) === null || _bodyRef_current === void 0 ? void 0 : _bodyRef_current.textContent;
           const actionsMessage = (_actionsRef_current = actionsRef.current) === null || _actionsRef_current === void 0 ? void 0 : _actionsRef_current.textContent;
@@ -41273,21 +41805,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js
-  var React62, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
+  var React68, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
   var init_messageBarContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js"() {
-      React62 = __toESM(require_react());
-      messageBarContext = React62.createContext(void 0);
+      React68 = __toESM(require_react());
+      messageBarContext = React68.createContext(void 0);
       messageBarContextDefaultValue = {
         titleId: "",
         layout: "singleline",
-        actionsRef: React62.createRef(),
-        bodyRef: React62.createRef()
+        actionsRef: React68.createRef(),
+        bodyRef: React68.createRef()
       };
       MessageBarContextProvider = messageBarContext.Provider;
       useMessageBarContext = () => {
         var _React_useContext;
-        return (_React_useContext = React62.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
+        return (_React_useContext = React68.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
       };
     }
   });
@@ -41316,7 +41848,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarStyles.styles.js
-  var messageBarClassNames, useRootBaseStyles, useIconBaseStyles, useReflowSpacerBaseStyles, useStyles5, useIconIntentStyles, useRootIntentStyles, useMessageBarStyles_unstable;
+  var messageBarClassNames, useRootBaseStyles, useIconBaseStyles, useReflowSpacerBaseStyles, useStyles6, useIconIntentStyles, useRootIntentStyles, useMessageBarStyles_unstable;
   var init_useMessageBarStyles_styles = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarStyles.styles.js"() {
       init_index_esm2();
@@ -41328,7 +41860,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       useRootBaseStyles = /* @__PURE__ */ __resetStyles2("r2oyxsj", "r1wuyrhw", ['.r2oyxsj{white-space:nowrap;display:grid;grid-template-columns:auto 1fr auto auto;grid-template-rows:1fr;grid-template-areas:"icon body secondaryActions actions";padding-left:var(--spacingHorizontalM);border:var(--strokeWidthThin) solid var(--colorNeutralStroke1);border-radius:var(--borderRadiusMedium);align-items:center;min-height:36px;box-sizing:border-box;background-color:var(--colorNeutralBackground3);}', '.r1wuyrhw{white-space:nowrap;display:grid;grid-template-columns:auto 1fr auto auto;grid-template-rows:1fr;grid-template-areas:"icon body secondaryActions actions";padding-right:var(--spacingHorizontalM);border:var(--strokeWidthThin) solid var(--colorNeutralStroke1);border-radius:var(--borderRadiusMedium);align-items:center;min-height:36px;box-sizing:border-box;background-color:var(--colorNeutralBackground3);}']);
       useIconBaseStyles = /* @__PURE__ */ __resetStyles2("r1df1z33", "rivnfjc", [".r1df1z33{grid-area:icon;font-size:var(--fontSizeBase500);margin-right:var(--spacingHorizontalS);color:var(--colorNeutralForeground3);display:flex;align-items:center;}", ".rivnfjc{grid-area:icon;font-size:var(--fontSizeBase500);margin-left:var(--spacingHorizontalS);color:var(--colorNeutralForeground3);display:flex;align-items:center;}"]);
       useReflowSpacerBaseStyles = /* @__PURE__ */ __resetStyles2("r1vx593n", null, [".r1vx593n{margin-bottom:var(--spacingVerticalS);grid-area:secondaryActions;}"]);
-      useStyles5 = /* @__PURE__ */ __styles2({
+      useStyles6 = /* @__PURE__ */ __styles2({
         rootMultiline: {
           Huce71: "f6juhto",
           Bt984gj: "f1s2louj",
@@ -41401,7 +41933,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const iconIntentStyles = useIconIntentStyles();
         const rootIntentStyles = useRootIntentStyles();
         const reflowSpacerStyles = useReflowSpacerBaseStyles();
-        const styles = useStyles5();
+        const styles = useStyles6();
         state.root.className = mergeClasses(messageBarClassNames.root, rootBaseStyles, state.layout === "multiline" && styles.rootMultiline, state.shape === "square" && styles.square, rootIntentStyles[state.intent], state.transitionClassName, state.root.className);
         if (state.icon) {
           state.icon.className = mergeClasses(messageBarClassNames.icon, iconBaseStyles, iconIntentStyles[state.intent], state.icon.className);
@@ -41417,7 +41949,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js
   function useMessageBarContextValue_unstable(state) {
     const { layout, actionsRef, bodyRef, titleId } = state;
-    const messageBarContext2 = React63.useMemo(() => ({
+    const messageBarContext2 = React69.useMemo(() => ({
       layout,
       actionsRef,
       bodyRef,
@@ -41432,24 +41964,24 @@ You can check this by searching up for matching entries in a lockfile produced b
       messageBar: messageBarContext2
     };
   }
-  var React63;
+  var React69;
   var init_useMessageBarContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js"() {
-      React63 = __toESM(require_react());
+      React69 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js
-  var React64, MessageBar;
+  var React70, MessageBar;
   var init_MessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js"() {
-      React64 = __toESM(require_react());
+      React70 = __toESM(require_react());
       init_lib();
       init_useMessageBar();
       init_renderMessageBar();
       init_useMessageBarStyles_styles();
       init_useMessageBarContextValues();
-      MessageBar = /* @__PURE__ */ React64.forwardRef((props, ref) => {
+      MessageBar = /* @__PURE__ */ React70.forwardRef((props, ref) => {
         const state = useMessageBar_unstable(props, ref);
         useMessageBarStyles_unstable(state);
         useCustomStyleHook("useMessageBarStyles_unstable")(state);
@@ -41474,10 +42006,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js
-  var React65, useMessageBarTitle_unstable;
+  var React71, useMessageBarTitle_unstable;
   var init_useMessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js"() {
-      React65 = __toESM(require_react());
+      React71 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarTitle_unstable = (props, ref) => {
@@ -41530,15 +42062,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js
-  var React66, MessageBarTitle;
+  var React72, MessageBarTitle;
   var init_MessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js"() {
-      React66 = __toESM(require_react());
+      React72 = __toESM(require_react());
       init_lib();
       init_useMessageBarTitle();
       init_renderMessageBarTitle();
       init_useMessageBarTitleStyles_styles();
-      MessageBarTitle = /* @__PURE__ */ React66.forwardRef((props, ref) => {
+      MessageBarTitle = /* @__PURE__ */ React72.forwardRef((props, ref) => {
         const state = useMessageBarTitle_unstable(props, ref);
         useMessageBarTitleStyles_unstable(state);
         useCustomStyleHook("useMessageBarTitleStyles_unstable")(state);
@@ -41563,10 +42095,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js
-  var React67, useMessageBarActions_unstable;
+  var React73, useMessageBarActions_unstable;
   var init_useMessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js"() {
-      React67 = __toESM(require_react());
+      React73 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarActions_unstable = (props, ref) => {
@@ -41663,31 +42195,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js
   function useMessageBarActionsContextValue_unstable() {
-    const buttonContext2 = React68.useMemo(() => ({
+    const buttonContext2 = React74.useMemo(() => ({
       size: "small"
     }), []);
     return {
       button: buttonContext2
     };
   }
-  var React68;
+  var React74;
   var init_useMessageBarActionsContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js"() {
-      React68 = __toESM(require_react());
+      React74 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js
-  var React69, MessageBarActions;
+  var React75, MessageBarActions;
   var init_MessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js"() {
-      React69 = __toESM(require_react());
+      React75 = __toESM(require_react());
       init_lib();
       init_useMessageBarActions();
       init_renderMessageBarActions();
       init_useMessageBarActionsStyles_styles();
       init_useMessageBarActionsContextValues();
-      MessageBarActions = /* @__PURE__ */ React69.forwardRef((props, ref) => {
+      MessageBarActions = /* @__PURE__ */ React75.forwardRef((props, ref) => {
         const state = useMessageBarActions_unstable(props, ref);
         useMessageBarActionsStyles_unstable(state);
         useCustomStyleHook("useMessageBarActionsStyles_unstable")(state);
@@ -41712,10 +42244,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js
-  var React70, useMessageBarBody_unstable;
+  var React76, useMessageBarBody_unstable;
   var init_useMessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js"() {
-      React70 = __toESM(require_react());
+      React76 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarBody_unstable = (props, ref) => {
@@ -41741,7 +42273,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/renderMessageBarBody.js"() {
       init_jsx_runtime();
       init_lib2();
-      init_lib13();
+      init_lib14();
       renderMessageBarBody_unstable = (state, contextValues) => {
         assertSlots(state);
         return /* @__PURE__ */ jsx(LinkContextProvider, {
@@ -41772,31 +42304,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js
   function useMessageBarBodyContextValues_unstable(state) {
-    const link = React71.useMemo(() => ({
+    const link = React77.useMemo(() => ({
       inline: true
     }), []);
     return {
       link
     };
   }
-  var React71;
+  var React77;
   var init_useMessageBarBodyContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js"() {
-      React71 = __toESM(require_react());
+      React77 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js
-  var React72, MessageBarBody;
+  var React78, MessageBarBody;
   var init_MessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js"() {
-      React72 = __toESM(require_react());
+      React78 = __toESM(require_react());
       init_lib();
       init_useMessageBarBody();
       init_renderMessageBarBody();
       init_useMessageBarBodyStyles_styles();
       init_useMessageBarBodyContextValues();
-      MessageBarBody = /* @__PURE__ */ React72.forwardRef((props, ref) => {
+      MessageBarBody = /* @__PURE__ */ React78.forwardRef((props, ref) => {
         const state = useMessageBarBody_unstable(props, ref);
         const ctx = useMessageBarBodyContextValues_unstable(state);
         useMessageBarBodyStyles_unstable(state);
@@ -41822,21 +42354,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js
-  var React73, useMessageBarGroup_unstable;
+  var React79, useMessageBarGroup_unstable;
   var init_useMessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js"() {
-      React73 = __toESM(require_react());
+      React79 = __toESM(require_react());
       init_lib2();
       useMessageBarGroup_unstable = (props, ref) => {
         if (true) {
-          React73.Children.forEach(props.children, (c) => {
-            if (!React73.isValidElement(c) || c.type === React73.Fragment) {
+          React79.Children.forEach(props.children, (c) => {
+            if (!React79.isValidElement(c) || c.type === React79.Fragment) {
               throw new Error("MessageBarGroup: children must be valid MessageBar components. Please ensure you're not using fragments. ");
             }
           });
         }
         var _props_children;
-        const children = React73.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React73.isValidElement(c) && c.type !== React73.Fragment ? c : null).filter(Boolean);
+        const children = React79.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React79.isValidElement(c) && c.type !== React79.Fragment ? c : null).filter(Boolean);
         var _props_animate;
         return {
           components: {
@@ -42721,11 +43253,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/react-transition-group/esm/TransitionGroupContext.js
-  var import_react16, TransitionGroupContext_default;
+  var import_react18, TransitionGroupContext_default;
   var init_TransitionGroupContext = __esm({
     "node_modules/react-transition-group/esm/TransitionGroupContext.js"() {
-      import_react16 = __toESM(require_react());
-      TransitionGroupContext_default = import_react16.default.createContext(null);
+      import_react18 = __toESM(require_react());
+      TransitionGroupContext_default = import_react18.default.createContext(null);
     }
   });
 
@@ -42742,13 +43274,13 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/Transition.js
   function noop3() {
   }
-  var import_prop_types2, import_react17, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
+  var import_prop_types2, import_react19, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
   var init_Transition = __esm({
     "node_modules/react-transition-group/esm/Transition.js"() {
       init_objectWithoutPropertiesLoose();
       init_inheritsLoose();
       import_prop_types2 = __toESM(require_prop_types());
-      import_react17 = __toESM(require_react());
+      import_react19 = __toESM(require_react());
       import_react_dom = __toESM(require_react_dom());
       init_config();
       init_PropTypes();
@@ -42961,13 +43493,13 @@ You can check this by searching up for matching entries in a lockfile produced b
           var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose2(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
           return (
             // allows for nested Transitions
-            /* @__PURE__ */ import_react17.default.createElement(TransitionGroupContext_default.Provider, {
+            /* @__PURE__ */ import_react19.default.createElement(TransitionGroupContext_default.Provider, {
               value: null
-            }, typeof children === "function" ? children(status, childProps) : import_react17.default.cloneElement(import_react17.default.Children.only(children), childProps))
+            }, typeof children === "function" ? children(status, childProps) : import_react19.default.cloneElement(import_react19.default.Children.only(children), childProps))
           );
         };
         return Transition2;
-      }(import_react17.default.Component);
+      }(import_react19.default.Component);
       Transition.contextType = TransitionGroupContext_default;
       Transition.propTypes = true ? {
         /**
@@ -43175,10 +43707,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/utils/ChildMapping.js
   function getChildMapping(children, mapFn) {
     var mapper = function mapper2(child) {
-      return mapFn && (0, import_react18.isValidElement)(child) ? mapFn(child) : child;
+      return mapFn && (0, import_react20.isValidElement)(child) ? mapFn(child) : child;
     };
     var result = /* @__PURE__ */ Object.create(null);
-    if (children) import_react18.Children.map(children, function(c) {
+    if (children) import_react20.Children.map(children, function(c) {
       return c;
     }).forEach(function(child) {
       result[child.key] = mapper(child);
@@ -43224,7 +43756,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   }
   function getInitialChildMapping(props, onExited) {
     return getChildMapping(props.children, function(child) {
-      return (0, import_react18.cloneElement)(child, {
+      return (0, import_react20.cloneElement)(child, {
         onExited: onExited.bind(null, child),
         in: true,
         appear: getProp(child, "appear", props),
@@ -43238,24 +43770,24 @@ You can check this by searching up for matching entries in a lockfile produced b
     var children = mergeChildMappings(prevChildMapping, nextChildMapping);
     Object.keys(children).forEach(function(key) {
       var child = children[key];
-      if (!(0, import_react18.isValidElement)(child)) return;
+      if (!(0, import_react20.isValidElement)(child)) return;
       var hasPrev = key in prevChildMapping;
       var hasNext = key in nextChildMapping;
       var prevChild = prevChildMapping[key];
-      var isLeaving = (0, import_react18.isValidElement)(prevChild) && !prevChild.props.in;
+      var isLeaving = (0, import_react20.isValidElement)(prevChild) && !prevChild.props.in;
       if (hasNext && (!hasPrev || isLeaving)) {
-        children[key] = (0, import_react18.cloneElement)(child, {
+        children[key] = (0, import_react20.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: true,
           exit: getProp(child, "exit", nextProps),
           enter: getProp(child, "enter", nextProps)
         });
       } else if (!hasNext && hasPrev && !isLeaving) {
-        children[key] = (0, import_react18.cloneElement)(child, {
+        children[key] = (0, import_react20.cloneElement)(child, {
           in: false
         });
-      } else if (hasNext && hasPrev && (0, import_react18.isValidElement)(prevChild)) {
-        children[key] = (0, import_react18.cloneElement)(child, {
+      } else if (hasNext && hasPrev && (0, import_react20.isValidElement)(prevChild)) {
+        children[key] = (0, import_react20.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: prevChild.props.in,
           exit: getProp(child, "exit", nextProps),
@@ -43265,15 +43797,15 @@ You can check this by searching up for matching entries in a lockfile produced b
     });
     return children;
   }
-  var import_react18;
+  var import_react20;
   var init_ChildMapping = __esm({
     "node_modules/react-transition-group/esm/utils/ChildMapping.js"() {
-      import_react18 = __toESM(require_react());
+      import_react20 = __toESM(require_react());
     }
   });
 
   // node_modules/react-transition-group/esm/TransitionGroup.js
-  var import_prop_types3, import_react19, values, defaultProps, TransitionGroup, TransitionGroup_default;
+  var import_prop_types3, import_react21, values, defaultProps, TransitionGroup, TransitionGroup_default;
   var init_TransitionGroup = __esm({
     "node_modules/react-transition-group/esm/TransitionGroup.js"() {
       init_objectWithoutPropertiesLoose();
@@ -43281,7 +43813,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_assertThisInitialized();
       init_inheritsLoose();
       import_prop_types3 = __toESM(require_prop_types());
-      import_react19 = __toESM(require_react());
+      import_react21 = __toESM(require_react());
       init_TransitionGroupContext();
       init_ChildMapping();
       values = Object.values || function(obj) {
@@ -43353,16 +43885,16 @@ You can check this by searching up for matching entries in a lockfile produced b
           delete props.enter;
           delete props.exit;
           if (Component2 === null) {
-            return /* @__PURE__ */ import_react19.default.createElement(TransitionGroupContext_default.Provider, {
+            return /* @__PURE__ */ import_react21.default.createElement(TransitionGroupContext_default.Provider, {
               value: contextValue
             }, children);
           }
-          return /* @__PURE__ */ import_react19.default.createElement(TransitionGroupContext_default.Provider, {
+          return /* @__PURE__ */ import_react21.default.createElement(TransitionGroupContext_default.Provider, {
             value: contextValue
-          }, /* @__PURE__ */ import_react19.default.createElement(Component2, props, children));
+          }, /* @__PURE__ */ import_react21.default.createElement(Component2, props, children));
         };
         return TransitionGroup2;
-      }(import_react19.default.Component);
+      }(import_react21.default.Component);
       TransitionGroup.propTypes = true ? {
         /**
          * `<TransitionGroup>` renders a `<div>` by default. You can change this
@@ -43430,10 +43962,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js
-  var React77, getClassName, MessageBarTransition, MessageBarTransitionInner;
+  var React83, getClassName, MessageBarTransition, MessageBarTransitionInner;
   var init_MessageBarTransition = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js"() {
-      React77 = __toESM(require_react());
+      React83 = __toESM(require_react());
       init_esm2();
       init_messageBarTransitionContext();
       getClassName = (status, enterClassName, exitClassName, animate) => {
@@ -43449,12 +43981,12 @@ You can check this by searching up for matching entries in a lockfile produced b
         }
       };
       MessageBarTransition = ({ children, enterClassName, exitClassName, animate, ...rest }) => {
-        const nodeRef = React77.useRef(null);
-        return /* @__PURE__ */ React77.createElement(Transition_default, {
+        const nodeRef = React83.useRef(null);
+        return /* @__PURE__ */ React83.createElement(Transition_default, {
           timeout: 250,
           nodeRef,
           ...rest
-        }, (state) => /* @__PURE__ */ React77.createElement(MessageBarTransitionInner, {
+        }, (state) => /* @__PURE__ */ React83.createElement(MessageBarTransitionInner, {
           animate,
           enterClassName,
           exitClassName,
@@ -43464,14 +43996,14 @@ You can check this by searching up for matching entries in a lockfile produced b
       };
       MessageBarTransitionInner = ({ children, state, enterClassName, exitClassName, animate, nodeRef }) => {
         const className = getClassName(state, enterClassName, exitClassName, animate);
-        const context = React77.useMemo(() => ({
+        const context = React83.useMemo(() => ({
           className,
           nodeRef
         }), [
           className,
           nodeRef
         ]);
-        return /* @__PURE__ */ React77.createElement(MessageBarTransitionContextProvider, {
+        return /* @__PURE__ */ React83.createElement(MessageBarTransitionContextProvider, {
           value: context
         }, children);
       };
@@ -43504,14 +44036,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroupStyles.styles.js
-  var messageBarGroupClassNames, useStyles6, useMessageBarGroupStyles_unstable;
+  var messageBarGroupClassNames, useStyles7, useMessageBarGroupStyles_unstable;
   var init_useMessageBarGroupStyles_styles = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroupStyles.styles.js"() {
       init_index_esm2();
       messageBarGroupClassNames = {
         root: "fui-MessageBarGroup"
       };
-      useStyles6 = /* @__PURE__ */ __styles2({
+      useStyles7 = /* @__PURE__ */ __styles2({
         base: {
           Bf5fcs: "f4cll0y",
           vin17d: "fy8si0b"
@@ -43528,7 +44060,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useMessageBarGroupStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles6();
+        const styles = useStyles7();
         state.root.className = mergeClasses(messageBarGroupClassNames.root, state.root.className);
         state.enterStyles = mergeClasses(styles.base, styles.enter);
         state.exitStyles = mergeClasses(styles.base, styles.exit);
@@ -43538,15 +44070,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js
-  var React78, MessageBarGroup;
+  var React84, MessageBarGroup;
   var init_MessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js"() {
-      React78 = __toESM(require_react());
+      React84 = __toESM(require_react());
       init_lib();
       init_useMessageBarGroup();
       init_renderMessageBarGroup();
       init_useMessageBarGroupStyles_styles();
-      MessageBarGroup = /* @__PURE__ */ React78.forwardRef((props, ref) => {
+      MessageBarGroup = /* @__PURE__ */ React84.forwardRef((props, ref) => {
         const state = useMessageBarGroup_unstable(props, ref);
         useMessageBarGroupStyles_unstable(state);
         useCustomStyleHook("useMessageBarGroupStyles_unstable")(state);
@@ -43571,7 +44103,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/index.js
-  var init_lib17 = __esm({
+  var init_lib19 = __esm({
     "node_modules/@fluentui/react-message-bar/lib/index.js"() {
       init_MessageBar3();
       init_MessageBarTitle3();
@@ -43582,17 +44114,18 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-components/lib/index.js
-  var init_lib18 = __esm({
+  var init_lib20 = __esm({
     "node_modules/@fluentui/react-components/lib/index.js"() {
       init_index_esm2();
       init_lib6();
       init_lib4();
       init_lib11();
-      init_lib13();
       init_lib14();
       init_lib15();
       init_lib16();
       init_lib17();
+      init_lib18();
+      init_lib19();
     }
   });
 
@@ -43608,7 +44141,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_CommonStyles = __esm({
     "src/CommonStyles.ts"() {
       "use strict";
-      init_lib18();
+      init_lib20();
       standardColumnElementStyles = makeStyles2({
         root: {
           width: "100%"
@@ -43806,25 +44339,25 @@ You can check this by searching up for matching entries in a lockfile produced b
     offscreenContext = null;
     return Math.max(dyMin, Math.min(dyMax, dyNeeded));
   }
-  var import_react22, MultilineEdit;
+  var import_react24, MultilineEdit;
   var init_MultilineEdit = __esm({
     "src/MultilineEdit.tsx"() {
       "use strict";
-      import_react22 = __toESM(require_react());
-      init_lib18();
+      import_react24 = __toESM(require_react());
+      init_lib20();
       init_lib10();
       init_CommonStyles();
       init_MultilineEditUIStrings();
       MultilineEdit = (props) => {
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
-        const [width, setWidth] = (0, import_react22.useState)(0);
+        const [width, setWidth] = (0, import_react24.useState)(0);
         const textAreaId = "textAreaId;";
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
-        (0, import_react22.useLayoutEffect)(() => {
+        (0, import_react24.useLayoutEffect)(() => {
           const textArea = document.getElementById(
             textAreaId
           );
@@ -43878,7 +44411,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react22.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react22.default.createElement(Text, { className: textFieldClasses.normal }, props.caption), /* @__PURE__ */ import_react22.default.createElement(
+        return /* @__PURE__ */ import_react24.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react24.default.createElement(Text, { className: textFieldClasses.normal }, props.caption), /* @__PURE__ */ import_react24.default.createElement(
           Textarea,
           {
             id: textAreaId,
@@ -43897,12 +44430,12 @@ You can check this by searching up for matching entries in a lockfile produced b
             onKeyDown: (e) => onSend(e, props.message),
             autoFocus: true
           }
-        ), /* @__PURE__ */ import_react22.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react22.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react22.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react22.default.createElement(
+        ), /* @__PURE__ */ import_react24.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react24.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react24.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react24.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Send",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react22.default.createElement(SendRegular, null),
+            icon: /* @__PURE__ */ import_react24.default.createElement(SendRegular, null),
             onClick,
             disabled: !props.enabled || props.message.length === 0
           }
@@ -43912,12 +44445,12 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/CopyableText.tsx
-  var import_react23, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
+  var import_react25, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
   var init_CopyableText = __esm({
     "src/CopyableText.tsx"() {
       "use strict";
-      import_react23 = __toESM(require_react());
-      init_lib18();
+      import_react25 = __toESM(require_react());
+      init_lib20();
       init_lib10();
       init_CommonStyles();
       copyableTextStyles = makeStyles2({
@@ -43955,47 +44488,47 @@ You can check this by searching up for matching entries in a lockfile produced b
           }).catch((err) => {
           });
         };
-        return /* @__PURE__ */ import_react23.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react23.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react23.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react23.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react23.default.createElement(
+        return /* @__PURE__ */ import_react25.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react25.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react25.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react25.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react25.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Copy",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react23.default.createElement(CopyRegular, null),
+            icon: /* @__PURE__ */ import_react25.default.createElement(CopyRegular, null),
             onClick: copyToClipboard
           }
         ))), props.text.split("\n").map((line2, index) => {
           const myId = props.id + "-" + index;
-          return /* @__PURE__ */ import_react23.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
-        })) : /* @__PURE__ */ import_react23.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
+          return /* @__PURE__ */ import_react25.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
+        })) : /* @__PURE__ */ import_react25.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
       };
     }
   });
 
   // src/Message.tsx
-  var import_react24, Message;
+  var import_react26, Message;
   var init_Message = __esm({
     "src/Message.tsx"() {
       "use strict";
-      import_react24 = __toESM(require_react());
-      init_lib18();
+      import_react26 = __toESM(require_react());
+      init_lib20();
       init_lib10();
       init_CommonStyles();
       Message = (props) => {
         const messageClasses = standardColumnElementStyles();
-        const [isDismissed, setIsDismissed] = (0, import_react24.useState)(false);
+        const [isDismissed, setIsDismissed] = (0, import_react26.useState)(false);
         const onDismiss = () => {
           setIsDismissed(true);
           props.onDismiss?.();
         };
-        return !isDismissed && /* @__PURE__ */ import_react24.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react24.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react24.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react24.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react24.default.createElement(
+        return !isDismissed && /* @__PURE__ */ import_react26.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react26.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react26.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react26.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react26.default.createElement(
           MessageBarActions,
           {
-            containerAction: /* @__PURE__ */ import_react24.default.createElement(
+            containerAction: /* @__PURE__ */ import_react26.default.createElement(
               Button,
               {
                 "aria-label": "dismiss",
                 appearance: "transparent",
-                icon: /* @__PURE__ */ import_react24.default.createElement(DismissRegular, null),
+                icon: /* @__PURE__ */ import_react26.default.createElement(DismissRegular, null),
                 onClick: onDismiss
               }
             )
@@ -47174,7 +47707,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // src/Call.ts
+  // src/ChatCall.ts
   function createRetryableAxiosClient() {
     const client = axios_default.create({
       timeout: 3e4,
@@ -47318,8 +47851,8 @@ You can check this by searching up for matching entries in a lockfile produced b
       return void 0;
     }
   }
-  var init_Call = __esm({
-    "src/Call.ts"() {
+  var init_ChatCall = __esm({
+    "src/ChatCall.ts"() {
       "use strict";
       init_axios2();
       init_esm3();
@@ -47333,7 +47866,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_OuterStyles = __esm({
     "src/OuterStyles.ts"() {
       "use strict";
-      init_lib18();
+      init_lib20();
       pageOuterStyles = makeStyles2({
         root: {
           display: "flex",
@@ -47388,24 +47921,46 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/SiteUtilities.tsx
-  var import_react25, MOBILE_BREAKPOINT, Spacer, Footer;
+  var import_react27, MOBILE_BREAKPOINT, useFooterStyles, Spacer, Footer;
   var init_SiteUtilities = __esm({
     "src/SiteUtilities.tsx"() {
       "use strict";
-      import_react25 = __toESM(require_react());
+      import_react27 = __toESM(require_react());
       init_dist2();
       init_CommonStyles();
       init_UIStrings();
+      init_lib20();
       MOBILE_BREAKPOINT = 768;
+      useFooterStyles = makeStyles2({
+        footerContainer: {
+          position: "fixed",
+          bottom: 0,
+          left: 0,
+          right: 0,
+          backgroundColor: "var(--colorNeutralBackground1)",
+          ...shorthands2.padding("12px"),
+          ...shorthands2.borderTop("1px", "solid", "var(--colorNeutralStroke1)"),
+          zIndex: 100
+        },
+        footerContent: {
+          display: "flex",
+          justifyContent: "center",
+          gap: "24px",
+          [`@media (max-width: ${MOBILE_BREAKPOINT}px)`]: {
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "12px"
+          }
+        }
+      });
       Spacer = (props) => {
-        return /* @__PURE__ */ import_react25.default.createElement("div", null, "\xA0\xA0\xA0");
+        return /* @__PURE__ */ import_react27.default.createElement("div", null, "\xA0\xA0\xA0");
       };
       Footer = (props) => {
         const uiStrings = getUIStrings("yardtalk" /* kYardTalk */);
         const linkClasses = standardLinkStyles();
-        const isMobile = window.innerWidth <= MOBILE_BREAKPOINT;
-        const containerStyle = isMobile ? mobileRowElementStyles().root : standardJustifiedRowElementStyles().root;
-        return /* @__PURE__ */ import_react25.default.createElement("div", { className: containerStyle }, /* @__PURE__ */ import_react25.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react25.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react25.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms));
+        const styles = useFooterStyles();
+        return /* @__PURE__ */ import_react27.default.createElement("div", { className: styles.footerContainer }, /* @__PURE__ */ import_react27.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react27.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react27.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react27.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
       };
     }
   });
@@ -47466,12 +48021,12 @@ You can check this by searching up for matching entries in a lockfile produced b
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react26, kFontNameForTextWrapCalculation, kRequirementMaxLength, newSessionUuid, activeFieldId, local, App;
+  var import_react28, kFontNameForTextWrapCalculation, kRequirementMaxLength, scrollableContentStyles, successContainerStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
-      import_react26 = __toESM(require_react());
-      init_lib18();
+      import_react28 = __toESM(require_react());
+      init_lib20();
       init_AssistantChatApiTypes();
       init_MultilineEdit();
       init_UIStrings();
@@ -47479,12 +48034,41 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_CopyableText();
       init_Message();
       init_UIStateMachine();
-      init_Call();
+      init_ChatCall();
       init_OuterStyles();
       init_SiteUtilities();
       init_Cookie();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
+      scrollableContentStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column",
+          flex: 1,
+          minHeight: 0,
+          overflowY: "auto",
+          width: "100%",
+          position: "relative",
+          height: "100%"
+        }
+      });
+      successContainerStyles = makeStyles2({
+        root: {
+          marginTop: "auto",
+          width: "100%"
+        }
+      });
+      multilineEditContainerStyles = makeStyles2({
+        root: {
+          position: "sticky",
+          bottom: 0,
+          width: "100%",
+          backgroundColor: "transparent",
+          paddingTop: "12px",
+          borderTop: "1px solid #edebe9",
+          zIndex: 1
+        }
+      });
       newSessionUuid = uuidv4();
       activeFieldId = uuidv4();
       local = true;
@@ -47494,13 +48078,16 @@ You can check this by searching up for matching entries in a lockfile produced b
         const columnElementClasses = standardColumnElementStyles();
         const textClasses = standardTextStyles();
         const linkClasses = standardLinkStyles();
+        const scrollableContentClasses = scrollableContentStyles();
+        const multilineEditContainerClasses = multilineEditContainerStyles();
+        const successContainerClasses = successContainerStyles();
         const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
         const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
         const cookieApiUrl = local ? "http://localhost:7071/api/Cookie" : "https://motifassistantapi.azurewebsites.net/api/Cookie";
         const uiStrings = getUIStrings(props.appMode);
-        let [state, setState] = (0, import_react26.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
-        let [sessionUuid, setSessionUuid] = (0, import_react26.useState)(newSessionUuid);
-        (0, import_react26.useEffect)(() => {
+        let [state, setState] = (0, import_react28.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+        let [sessionUuid, setSessionUuid] = (0, import_react28.useState)(newSessionUuid);
+        (0, import_react28.useEffect)(() => {
           const getCookie = async () => {
             const existingSession = await getSessionUuid(cookieApiUrl);
             if (existingSession) {
@@ -47509,8 +48096,8 @@ You can check this by searching up for matching entries in a lockfile produced b
           };
           getCookie();
         }, []);
-        const [message, setMessage] = (0, import_react26.useState)("");
-        const [streamedResponse, setStreamedResponse] = (0, import_react26.useState)(void 0);
+        const [message, setMessage] = (0, import_react28.useState)("");
+        const [streamedResponse, setStreamedResponse] = (0, import_react28.useState)(void 0);
         async function callServer() {
           if (!message) return;
           setStreamedResponse("");
@@ -47556,12 +48143,12 @@ You can check this by searching up for matching entries in a lockfile produced b
           onSend,
           onChange
         };
-        let blank = /* @__PURE__ */ import_react26.default.createElement("div", null);
+        let blank = /* @__PURE__ */ import_react28.default.createElement("div", null);
         let offTopic = blank;
         let error = blank;
         let success = blank;
         if (state.getState() === "OffTopic" /* kOffTopic */) {
-          offTopic = /* @__PURE__ */ import_react26.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react26.default.createElement(
+          offTopic = /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react28.default.createElement(
             Message,
             {
               intent: "warning" /* kWarning */,
@@ -47573,7 +48160,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           ));
         }
         if (state.getState() === "Error" /* kError */) {
-          error = /* @__PURE__ */ import_react26.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react26.default.createElement(
+          error = /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react28.default.createElement(
             Message,
             {
               intent: "error" /* kError */,
@@ -47585,7 +48172,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           ));
         }
         if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          success = /* @__PURE__ */ import_react26.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react26.default.createElement(
+          success = /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react28.default.createElement(
             CopyableText,
             {
               placeholder: uiStrings.kResponsePlaceholder,
@@ -47594,46 +48181,46 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           ));
         }
-        return /* @__PURE__ */ import_react26.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react26.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react26.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react26.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+        return /* @__PURE__ */ import_react28.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react28.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react28.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
           return markdownLinks.split(",").map((link, index) => {
             const matches = link.match(/\[(.*?)\]\((.*?)\)/);
             if (matches) {
               const [_, text, url] = matches;
-              return /* @__PURE__ */ import_react26.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+              return /* @__PURE__ */ import_react28.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react26.default.createElement(Spacer, null), /* @__PURE__ */ import_react26.default.createElement(MultilineEdit, { ...multilineEditProps }), offTopic, error, success, /* @__PURE__ */ import_react26.default.createElement(Spacer, null), /* @__PURE__ */ import_react26.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react28.default.createElement(Spacer, null), /* @__PURE__ */ import_react28.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react28.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react28.default.createElement(Spacer, null), /* @__PURE__ */ import_react28.default.createElement(Spinner, { label: "Please wait a few seconds..." })), offTopic, error, /* @__PURE__ */ import_react28.default.createElement("div", { className: successContainerClasses.root }, success)), /* @__PURE__ */ import_react28.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react28.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react28.default.createElement(Spacer, null), /* @__PURE__ */ import_react28.default.createElement(Footer, null)));
       };
     }
   });
 
   // src/PlainText.tsx
-  var import_react27, PlainText;
+  var import_react29, PlainText;
   var init_PlainText = __esm({
     "src/PlainText.tsx"() {
       "use strict";
-      import_react27 = __toESM(require_react());
+      import_react29 = __toESM(require_react());
       init_OuterStyles();
-      init_lib18();
+      init_lib20();
       init_CommonStyles();
       init_SiteUtilities();
       PlainText = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react27.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react27.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react27.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react27.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
+        return /* @__PURE__ */ import_react29.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react29.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react29.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
           if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react27.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
+            return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
           }
           if (line2.match(/https?:\/\/\S+/)) {
             const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react27.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react27.default.createElement(Link3, { key: i, href: part }, part) : part
+            return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react29.default.createElement(Link3, { key: i, href: part }, part) : part
             ));
           }
-          return /* @__PURE__ */ import_react27.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
-        }), /* @__PURE__ */ import_react27.default.createElement(Spacer, null), /* @__PURE__ */ import_react27.default.createElement(Footer, null)));
+          return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
+        }), /* @__PURE__ */ import_react29.default.createElement(Spacer, null), /* @__PURE__ */ import_react29.default.createElement(Footer, null)));
       };
     }
   });
@@ -47806,58 +48393,58 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/Site.tsx
-  var import_react28, RoutedSite, Site;
+  var import_react30, RoutedSite, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react28 = __toESM(require_react());
+      import_react30 = __toESM(require_react());
       init_dist2();
       init_App();
       init_PlainText();
-      init_lib18();
+      init_lib20();
       init_UIStrings();
       init_TermsContent();
       init_PrivacyContent();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react28.default.createElement(FluentProvider, { theme: teamsLightTheme }, /* @__PURE__ */ import_react28.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react30.default.createElement(FluentProvider, { theme: teamsLightTheme }, /* @__PURE__ */ import_react30.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react28.default.createElement(Site, { appMode: props.appMode })));
+        } }, /* @__PURE__ */ import_react30.default.createElement(Site, { appMode: props.appMode })));
       };
       Site = (props) => {
         const uiStrings = getUIStrings(props.appMode);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react28.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react28.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react28.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react28.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react28.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
           }
         ]);
         return routes;
@@ -47868,14 +48455,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react29 = __toESM(require_react());
+      var import_react31 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_UIStrings();
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react29.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
+          /* @__PURE__ */ import_react31.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
         );
       }
     }

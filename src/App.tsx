@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react';
 // Fluent
 import {
    Text,
-   Link as FluentLink, Spinner 
+   Link as FluentLink, Spinner, makeStyles 
 } from '@fluentui/react-components';
 
 // external packages
@@ -26,13 +26,45 @@ import { standardTextStyles, standardLinkStyles, standardColumnElementStyles} fr
 import { CopyableText } from './CopyableText';
 import { Message, MessageIntent } from './Message';
 import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
-import { processChat } from './Call';
+import { processChat } from './ChatCall';
 import { pageOuterStyles, innerColumnWhiteboardStyles } from './OuterStyles';
 import { Spacer, Footer } from './SiteUtilities';
 import { getSessionUuid } from './Cookie';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
+
+const scrollableContentStyles = makeStyles({
+   root: {
+      display: 'flex',
+      flexDirection: 'column',
+      flex: 1,
+      minHeight: 0,
+      overflowY: 'auto',
+      width: '100%',
+      position: 'relative',
+      height: '100%'
+   }
+});
+
+const successContainerStyles = makeStyles({
+   root: {
+      marginTop: 'auto',
+      width: '100%'
+   }
+});
+
+const multilineEditContainerStyles = makeStyles({
+   root: {
+      position: 'sticky',
+      bottom: 0,
+      width: '100%',
+      backgroundColor: 'transparent',
+      paddingTop: '12px',
+      borderTop: '1px solid #edebe9',
+      zIndex: 1
+   }
+});
 
 export interface IAppProps {
    appMode: EAppMode;
@@ -63,6 +95,9 @@ export const App = (props: IAppProps) => {
    const columnElementClasses = standardColumnElementStyles();
    const textClasses = standardTextStyles();   
    const linkClasses = standardLinkStyles();
+   const scrollableContentClasses = scrollableContentStyles();
+   const multilineEditContainerClasses = multilineEditContainerStyles();
+   const successContainerClasses = successContainerStyles();
 
    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
@@ -213,10 +248,24 @@ export const App = (props: IAppProps) => {
                });
             })}
             <Spacer />
-            <MultilineEdit {...multilineEditProps} />
-            {offTopic}
-            {error}
-            {success}
+            <div className={scrollableContentClasses.root}>
+               <div style={{ flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                  {((state.getState() === EUIState.kScreening || state.getState() === EUIState.kChatting) && !streamedResponse) && (
+                     <div className={columnElementClasses.root}>
+                        <Spacer />
+                        <Spinner label="Please wait a few seconds..." />
+                     </div>
+                  )}
+                  {offTopic}
+                  {error}
+                  <div className={successContainerClasses.root}>
+                     {success}
+                  </div>
+               </div>
+               <div className={multilineEditContainerClasses.root}>
+                  <MultilineEdit {...multilineEditProps} />
+               </div>
+            </div>
             <Spacer />
             <Footer />
          </div>
