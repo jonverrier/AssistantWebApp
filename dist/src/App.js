@@ -52,13 +52,14 @@ const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 const MultilineEdit_1 = require("./MultilineEdit");
 const UIStrings_1 = require("./UIStrings");
 const CommonStyles_1 = require("./CommonStyles");
-const CopyableText_1 = require("./CopyableText");
 const Message_1 = require("./Message");
 const UIStateMachine_1 = require("./UIStateMachine");
 const ChatCall_1 = require("./ChatCall");
 const OuterStyles_1 = require("./OuterStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
 const Cookie_1 = require("./Cookie");
+const ChatHistory_1 = require("./ChatHistory");
+const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const scrollableContentStyles = (0, react_components_1.makeStyles)({
@@ -110,24 +111,41 @@ const App = (props) => {
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
     const successContainerClasses = successContainerStyles();
+    const bottomRef = (0, react_1.useRef)(null);
     const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
     const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
+    const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
     let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
     let [sessionUuid, setSessionUuid] = (0, react_1.useState)(newSessionUuid);
+    const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
     (0, react_1.useEffect)(() => {
         const getCookie = async () => {
             const existingSession = await (0, Cookie_1.getSessionUuid)(cookieApiUrl);
             if (existingSession) {
                 setSessionUuid(existingSession);
+                // Fetch chat history when we get a session ID
+                try {
+                    await (0, ChatHistoryCall_1.processChatHistory)({
+                        messagesApiUrl,
+                        sessionId: existingSession,
+                        limit: 50,
+                        onPage: (messages) => {
+                            setChatHistory(prev => [...prev, ...messages]);
+                        }
+                    });
+                }
+                catch (error) {
+                    console.error('Error fetching chat history:', error);
+                }
             }
         };
         getCookie();
     }, []);
-    const [message, setMessage] = (0, react_1.useState)("");
+    const [message, setMessage] = (0, react_1.useState)(undefined);
     const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
-    async function callServer() {
+    async function callChatServer() {
         if (!message)
             return;
         // Reset streamed response
@@ -147,6 +165,15 @@ const App = (props) => {
             },
             forceNode: props.forceNode
         });
+        // Add the assistant message to the chat history when complete and clear the streamed response
+        if (streamedResponse) {
+            setChatHistory(prev => [...prev, {
+                    role: AssistantChatApiTypes_1.EChatRole.kAssistant,
+                    content: streamedResponse,
+                    timestamp: new Date()
+                }]);
+            setStreamedResponse(undefined);
+        }
     }
     ;
     const onDismiss = () => {
@@ -155,8 +182,15 @@ const App = (props) => {
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
     const onSend = (message_) => {
+        // Add the user message to the chat history then clear it
         setMessage(message_);
-        callServer();
+        setChatHistory(prev => [...prev, {
+                role: AssistantChatApiTypes_1.EChatRole.kUser,
+                content: message_,
+                timestamp: new Date()
+            }]);
+        setMessage(undefined);
+        callChatServer();
     };
     const onChange = (message_) => {
         setMessage(message_);
@@ -167,7 +201,7 @@ const App = (props) => {
         caption: uiStrings.kChatPreamble,
         placeholder: uiStrings.kChatPlaceholder,
         maxLength: kRequirementMaxLength,
-        message: message,
+        message: message || "",
         enabled: state.getState() === UIStateMachine_1.EUIState.kWaiting,
         fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
         defaultHeightLines: 10,
@@ -194,8 +228,24 @@ const App = (props) => {
         streamedResponse) {
         success = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
-            react_1.default.createElement(CopyableText_1.CopyableText, { placeholder: uiStrings.kResponsePlaceholder, text: streamedResponse, id: exports.activeFieldId })));
+            react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
+                    role: AssistantChatApiTypes_1.EChatRole.kAssistant,
+                    content: streamedResponse,
+                    timestamp: new Date()
+                } })));
     }
+    // Scroll to the bottom of the chat history when a response is received
+    (0, react_1.useEffect)(() => {
+        if (streamedResponse) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [streamedResponse]);
+    // Scroll to the bottom when new chat history pages are loaded
+    (0, react_1.useEffect)(() => {
+        if (chatHistory.length > 0) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chatHistory]);
     return (react_1.default.createElement("div", { className: pageOuterClasses.root },
         react_1.default.createElement("div", { className: innerColumnClasses.root },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
@@ -215,14 +265,17 @@ const App = (props) => {
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement("div", { className: scrollableContentClasses.root },
                 react_1.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' } },
+                    chatHistory.length > 0 && (react_1.default.createElement("div", { className: columnElementClasses.root },
+                        react_1.default.createElement(ChatHistory_1.ChatHistory, { messages: chatHistory }))),
                     ((state.getState() === UIStateMachine_1.EUIState.kScreening || state.getState() === UIStateMachine_1.EUIState.kChatting) && !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
                         react_1.default.createElement(SiteUtilities_1.Spacer, null),
                         react_1.default.createElement(react_components_1.Spinner, { label: "Please wait a few seconds..." }))),
-                    offTopic,
-                    error,
-                    react_1.default.createElement("div", { className: successContainerClasses.root }, success)),
+                    react_1.default.createElement("div", { className: successContainerClasses.root }, success),
+                    react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
-                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
+                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps })),
+                offTopic,
+                error),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement(SiteUtilities_1.Footer, null))));
 };

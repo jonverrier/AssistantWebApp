@@ -3,6 +3,12 @@
  * 
  * A reusable component that displays a history of chat messages between a user and an assistant.
  * Uses Fluent UI components to provide consistent styling and layout.
+ * 
+ * Features:
+ * - Displays messages in chronological order with user/assistant avatars
+ * - Supports copyable text for assistant responses
+ * - Responsive layout with Fluent UI styling
+ * - Clear visual distinction between user and assistant messages
  */
 
 /*! Copyright Jon Verrier 2025 */
@@ -12,7 +18,6 @@ import React from 'react';
 
 // Fluent
 import { 
-    Text,
     makeStyles,
     tokens,
     Avatar,
@@ -25,6 +30,7 @@ import {
 
 // Types
 import { IChatMessage, EChatRole } from '../import/AssistantChatApiTypes';
+import { CopyableText } from './CopyableText';
 
 const useStyles = makeStyles({
     root: {
@@ -45,10 +51,10 @@ const useStyles = makeStyles({
         backgroundColor: tokens.colorNeutralBackground2,
     },
     userMessage: {
-        backgroundColor: tokens.colorBrandBackground2,
+        backgroundColor: `${tokens.colorBrandBackground2}CC`, // 80% opacity
     },
     assistantMessage: {
-        backgroundColor: tokens.colorNeutralBackground2,
+        backgroundColor: `${tokens.colorNeutralBackground2}CC`, // 80% opacity
     },
     avatar: {
         flexShrink: 0,
@@ -59,6 +65,47 @@ const useStyles = makeStyles({
         marginTop: tokens.spacingVerticalXS,
     }
 });
+
+/**
+ * IChatMessageProps interface
+ * 
+ * Represents the properties for the ChatMessage component.
+ */
+export interface IChatMessageProps {
+    message: IChatMessage;
+}
+
+/**
+ * ChatMessage component
+ * 
+ * Displays a single chat message with user/assistant avatar and timestamp.
+ */
+export const ChatMessage: React.FC<IChatMessageProps> = ({ message }) => {
+    const styles = useStyles();
+
+    return (
+        <div className={styles.messageContainer}>
+            <Avatar
+                className={styles.avatar}
+                icon={message.role === EChatRole.kUser ? <PersonRegular /> : <BotRegular />}
+                color={message.role === EChatRole.kUser ? "brand" : "neutral"}
+            />
+            <div className={mergeClasses(
+                styles.messageContent,
+                message.role === EChatRole.kUser ? styles.userMessage : styles.assistantMessage
+            )}>
+                <CopyableText 
+                    text={message.content} 
+                    placeholder=""
+                    id={`message-${new Date(message.timestamp).getTime()}`}
+                />
+                <div className={styles.timestamp}>
+                    {new Date(message.timestamp).toLocaleTimeString()}
+                </div>
+            </div>
+        </div>
+    );
+};
 
 /**
  * IChatHistoryProps interface
@@ -80,22 +127,7 @@ export const ChatHistory: React.FC<IChatHistoryProps> = ({ messages }) => {
     return (
         <div className={styles.root}>
             {messages.map((message, index) => (
-                <div key={index} className={styles.messageContainer}>
-                    <Avatar
-                        className={styles.avatar}
-                        icon={message.role === EChatRole.kUser ? <PersonRegular /> : <BotRegular />}
-                        color={message.role === EChatRole.kUser ? "brand" : "neutral"}
-                    />
-                    <div className={mergeClasses(
-                        styles.messageContent,
-                        message.role === EChatRole.kUser ? styles.userMessage : styles.assistantMessage
-                    )}>
-                        <Text>{message.content}</Text>
-                        <div className={styles.timestamp}>
-                            {message.timestamp.toLocaleTimeString()}
-                        </div>
-                    </div>
-                </div>
+                <ChatMessage key={index} message={message} />
             ))}
         </div>
     );

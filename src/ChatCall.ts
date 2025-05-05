@@ -6,63 +6,21 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
-import axios, { AxiosProgressEvent } from 'axios';
-import axiosRetry from 'axios-retry';
 import { Stream } from 'stream';
-
+import { AxiosProgressEvent } from 'axios';
 import { IAssistantChatRequest, 
    IScreeningClassificationResponse,
    EAssistantPersonality,
    EScreeningClassification } from '../import/AssistantChatApiTypes';
 import { EApiEvent } from './UIStateMachine';
+import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
 
-interface ApiClient {
-    post: <T>(url: string, data: any, config?: any) => Promise<{ 
-        data: T;
-        status?: number;
-    }>;
-}
 
 // Add new interface for streaming response
 interface StreamResponse {
     data: Stream;
     status: number;
 }
-
-/**
- * Creates a retryable Axios client with custom configuration.
- * 
- * This function creates an Axios instance with a 30-second timeout, JSON content type,
- * and disables credentials. It also includes retry logic with exponential backoff and jitter.
- * 
- * @returns An Axios instance configured for retryable requests
- */
-function createRetryableAxiosClient() : ApiClient {
-   const client = axios.create({
-      timeout: 30000, // 30 second timeout
-      headers: {
-          'Content-Type': 'application/json',
-      },
-      withCredentials: false
-  });
-  
-  axiosRetry(client, { 
-      retries: 3,
-      retryDelay: (retryCount) => {
-          return axiosRetry.exponentialDelay(retryCount) + Math.random() * 1000; // Add jitter
-      },
-      retryCondition: (error) => {
-          return axiosRetry.isNetworkOrIdempotentRequestError(error) || 
-                 (error.response?.status ?? 0) >= 500 ||
-                 error.code === 'ECONNABORTED' ||
-                 error.code === 'ERR_NETWORK';
-      },
-      shouldResetTimeout: true
-  });
-
-  return client;
-}
-
 
 /**
  * Options for processing chat input through the assistant service.

@@ -518,7 +518,7 @@
             }
             return element;
           };
-          function createElement10(type, config, children) {
+          function createElement12(type, config, children) {
             var propName;
             var props = {};
             var key = null;
@@ -792,7 +792,7 @@
             }
             return children;
           }
-          function createContext24(defaultValue) {
+          function createContext25(defaultValue) {
             var context = {
               $$typeof: REACT_CONTEXT_TYPE,
               // As a workaround to support multiple concurrent renderers, we categorize
@@ -979,7 +979,7 @@
             }
             return lazyType;
           }
-          function forwardRef17(render) {
+          function forwardRef19(render) {
             {
               if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
                 error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1078,7 +1078,7 @@
             }
             return dispatcher;
           }
-          function useContext22(Context) {
+          function useContext23(Context) {
             var dispatcher = resolveDispatcher();
             {
               if (Context._context !== void 0) {
@@ -1092,7 +1092,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState11(initialState) {
+          function useState12(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1100,7 +1100,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef14(initialValue) {
+          function useRef15(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
@@ -1617,7 +1617,7 @@
                 error("React.createElement: type is invalid -- expected a string (for built-in components) or a class/function (for composite components) but got: %s.%s", typeString, info);
               }
             }
-            var element = createElement10.apply(this, arguments);
+            var element = createElement12.apply(this, arguments);
             if (element == null) {
               return element;
             }
@@ -1873,18 +1873,18 @@
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.act = act;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext24;
+          exports.createContext = createContext25;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef3;
-          exports.forwardRef = forwardRef17;
+          exports.forwardRef = forwardRef19;
           exports.isValidElement = isValidElement5;
           exports.lazy = lazy;
           exports.memo = memo2;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
           exports.useCallback = useCallback8;
-          exports.useContext = useContext22;
+          exports.useContext = useContext23;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
           exports.useEffect = useEffect14;
@@ -1894,8 +1894,8 @@
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef14;
-          exports.useState = useState11;
+          exports.useRef = useRef15;
+          exports.useState = useState12;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2391,9 +2391,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React92 = require_react();
+          var React100 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React92.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React100.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4000,7 +4000,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React92.Children.forEach(props.children, function(child) {
+                  React100.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -9424,7 +9424,7 @@
               }
             }
           }
-          function createElement10(type, props, rootContainerElement, parentNamespace) {
+          function createElement12(type, props, rootContainerElement, parentNamespace) {
             var isCustomComponentTag;
             var ownerDocument = getOwnerDocumentFromRootContainer(rootContainerElement);
             var domElement;
@@ -10294,7 +10294,7 @@
               }
               parentNamespace = hostContextDev.namespace;
             }
-            var domElement = createElement10(type, props, rootContainerInstance, parentNamespace);
+            var domElement = createElement12(type, props, rootContainerInstance, parentNamespace);
             precacheFiberNode(internalInstanceHandle, domElement);
             updateFiberProps(domElement, props);
             return domElement;
@@ -29993,6 +29993,18 @@ ${error.stack}`);
     }
   });
 
+  // node_modules/@fluentui/react-utilities/lib/utils/mergeCallbacks.js
+  function mergeCallbacks(callback1, callback2) {
+    return (...args) => {
+      callback1 === null || callback1 === void 0 ? void 0 : callback1(...args);
+      callback2 === null || callback2 === void 0 ? void 0 : callback2(...args);
+    };
+  }
+  var init_mergeCallbacks = __esm({
+    "node_modules/@fluentui/react-utilities/lib/utils/mergeCallbacks.js"() {
+    }
+  });
+
   // node_modules/@fluentui/react-utilities/lib/utils/isHTMLElement.js
   function isHTMLElement(element, options) {
     var _typedElement_ownerDocument;
@@ -30009,6 +30021,7 @@ ${error.stack}`);
   var init_utils = __esm({
     "node_modules/@fluentui/react-utilities/lib/utils/index.js"() {
       init_getNativeElementProps();
+      init_mergeCallbacks();
       init_isHTMLElement();
     }
   });
@@ -30354,7 +30367,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React92 = require_react();
+          var React100 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30380,7 +30393,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React92.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React100.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -38769,9 +38782,12 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-icons/lib/icons/chunk-0.js
+  var BotRegular;
   var init_chunk_0 = __esm({
     "node_modules/@fluentui/react-icons/lib/icons/chunk-0.js"() {
       "use client";
+      init_createFluentIcon();
+      BotRegular = /* @__PURE__ */ createFluentIcon("BotRegular", "1em", ["M12 5.5a1 1 0 1 0 0 2 1 1 0 0 0 0-2Zm-5 1a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm3.5-4a.5.5 0 0 0-1 0V3h-3C5.67 3 5 3.67 5 4.5v4c0 .83.67 1.5 1.5 1.5h7c.83 0 1.5-.67 1.5-1.5v-4c0-.83-.67-1.5-1.5-1.5h-3v-.5ZM6.5 4h7c.28 0 .5.22.5.5v4a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-4c0-.28.22-.5.5-.5Zm3.75 14c2.62-.04 4.2-.6 5.12-1.44A3.52 3.52 0 0 0 16.5 14h.01v-.69c0-1-.81-1.8-1.8-1.8h-3.2v-.01H5.3c-.99 0-1.8.81-1.8 1.81v.7c.04.77.25 1.75 1.13 2.55.93.84 2.5 1.4 5.12 1.44h.5Zm-4.94-5.5h9.38c.45 0 .81.37.81.81v.44c0 .69-.13 1.46-.8 2.07C14 16.45 12.66 17 10 17s-4.01-.55-4.7-1.18a2.63 2.63 0 0 1-.8-2.07v-.44c0-.44.36-.8.8-.8Z"]);
     }
   });
 
@@ -38799,11 +38815,12 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-icons/lib/icons/chunk-3.js
-  var SendRegular;
+  var PersonRegular, SendRegular;
   var init_chunk_3 = __esm({
     "node_modules/@fluentui/react-icons/lib/icons/chunk-3.js"() {
       "use client";
       init_createFluentIcon();
+      PersonRegular = /* @__PURE__ */ createFluentIcon("PersonRegular", "1em", ["M10 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM7 6a3 3 0 1 1 6 0 3 3 0 0 1-6 0Zm-2 5a2 2 0 0 0-2 2c0 1.7.83 2.97 2.13 3.8A9.14 9.14 0 0 0 10 18c1.85 0 3.58-.39 4.87-1.2A4.35 4.35 0 0 0 17 13a2 2 0 0 0-2-2H5Zm-1 2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1c0 1.3-.62 2.28-1.67 2.95A8.16 8.16 0 0 1 10 17a8.16 8.16 0 0 1-4.33-1.05A3.36 3.36 0 0 1 4 13Z"]);
       SendRegular = /* @__PURE__ */ createFluentIcon("SendRegular", "1em", ["M2.18 2.11a.5.5 0 0 1 .54-.06l15 7.5a.5.5 0 0 1 0 .9l-15 7.5a.5.5 0 0 1-.7-.58L3.98 10 2.02 2.63a.5.5 0 0 1 .16-.52Zm2.7 8.39-1.61 6.06L16.38 10 3.27 3.44 4.88 9.5h6.62a.5.5 0 1 1 0 1H4.88Z"], {
         flipInRtl: true
       });
@@ -38912,9 +38929,51 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-icons/lib/sizedIcons/chunk-12.js
+  var PresenceAvailable10Filled, PresenceAvailable10Regular, PresenceAvailable12Filled, PresenceAvailable12Regular, PresenceAvailable16Filled, PresenceAvailable16Regular, PresenceAvailable20Filled, PresenceAvailable20Regular, PresenceAway10Filled, PresenceAway12Filled, PresenceAway16Filled, PresenceAway20Filled, PresenceBlocked10Regular, PresenceBlocked12Regular, PresenceBlocked16Regular, PresenceBlocked20Regular, PresenceBusy10Filled, PresenceBusy12Filled, PresenceBusy16Filled, PresenceBusy20Filled, PresenceDnd10Filled, PresenceDnd10Regular, PresenceDnd12Filled, PresenceDnd12Regular, PresenceDnd16Filled, PresenceDnd16Regular, PresenceDnd20Filled, PresenceDnd20Regular, PresenceOffline10Regular, PresenceOffline12Regular, PresenceOffline16Regular, PresenceOffline20Regular, PresenceOof10Regular, PresenceOof12Regular, PresenceOof16Regular, PresenceOof20Regular, PresenceUnknown10Regular, PresenceUnknown12Regular, PresenceUnknown16Regular, PresenceUnknown20Regular;
   var init_chunk_122 = __esm({
     "node_modules/@fluentui/react-icons/lib/sizedIcons/chunk-12.js"() {
       "use client";
+      init_createFluentIcon();
+      PresenceAvailable10Filled = /* @__PURE__ */ createFluentIcon("PresenceAvailable10Filled", "10", ["M5 10A5 5 0 1 0 5 0a5 5 0 0 0 0 10Zm2.1-5.9L4.85 6.35a.5.5 0 0 1-.7 0l-1-1a.5.5 0 0 1 .7-.7l.65.64 1.9-1.9a.5.5 0 0 1 .7.71Z"]);
+      PresenceAvailable10Regular = /* @__PURE__ */ createFluentIcon("PresenceAvailable10Regular", "10", ["M5 0a5 5 0 1 0 0 10A5 5 0 0 0 5 0ZM1 5a4 4 0 1 1 8 0 4 4 0 0 1-8 0Zm6.1-1.6c.2.2.2.5 0 .7L4.85 6.35a.5.5 0 0 1-.7 0l-1-1a.5.5 0 1 1 .7-.7l.65.64 1.9-1.9c.2-.19.5-.19.7 0Z"]);
+      PresenceAvailable12Filled = /* @__PURE__ */ createFluentIcon("PresenceAvailable12Filled", "12", ["M6 12A6 6 0 1 0 6 0a6 6 0 0 0 0 12Zm2.53-6.72L5.78 8.03c-.3.3-.77.3-1.06 0l-1-1a.75.75 0 0 1 1.06-1.06l.47.47 2.22-2.22a.75.75 0 0 1 1.06 1.06Z"]);
+      PresenceAvailable12Regular = /* @__PURE__ */ createFluentIcon("PresenceAvailable12Regular", "12", ["M6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0ZM1.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Zm7.03-1.78c.3.3.3.77 0 1.06L5.78 8.03c-.3.3-.77.3-1.06 0l-1-1a.75.75 0 0 1 1.06-1.06l.47.47 2.22-2.22c.3-.3.77-.3 1.06 0Z"]);
+      PresenceAvailable16Filled = /* @__PURE__ */ createFluentIcon("PresenceAvailable16Filled", "16", ["M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm3.7-9.3-4 4a1 1 0 0 1-1.41 0l-2-2a1 1 0 1 1 1.42-1.4L7 8.58l3.3-3.3a1 1 0 0 1 1.4 1.42Z"]);
+      PresenceAvailable16Regular = /* @__PURE__ */ createFluentIcon("PresenceAvailable16Regular", "16", ["M11.7 6.7a1 1 0 0 0-1.4-1.4L7 8.58l-1.3-1.3a1 1 0 0 0-1.4 1.42l2 2a1 1 0 0 0 1.4 0l4-4ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6a6 6 0 1 0 0 12A6 6 0 0 0 8 2Z"]);
+      PresenceAvailable20Filled = /* @__PURE__ */ createFluentIcon("PresenceAvailable20Filled", "20", ["M10 20a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm4.2-11.8-4.5 4.5a1 1 0 0 1-1.4 0l-2-2a1 1 0 1 1 1.4-1.4L9 10.58l3.8-3.8a1 1 0 1 1 1.4 1.42Z"]);
+      PresenceAvailable20Regular = /* @__PURE__ */ createFluentIcon("PresenceAvailable20Regular", "20", ["M10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm12.2-3.2a1 1 0 0 1 0 1.4l-4.5 4.5a1 1 0 0 1-1.4 0l-2-2a1 1 0 0 1 1.4-1.4L9 10.58l3.8-3.8a1 1 0 0 1 1.4 0Z"]);
+      PresenceAway10Filled = /* @__PURE__ */ createFluentIcon("PresenceAway10Filled", "10", ["M5 10A5 5 0 1 0 5 0a5 5 0 0 0 0 10Zm0-7v1.8l1.35 1.35a.5.5 0 1 1-.7.7l-1.5-1.5A.5.5 0 0 1 4 5V3a.5.5 0 0 1 1 0Z"]);
+      PresenceAway12Filled = /* @__PURE__ */ createFluentIcon("PresenceAway12Filled", "12", ["M6 12A6 6 0 1 0 6 0a6 6 0 0 0 0 12Zm.5-8.75v2.4l1.49 1.28A.75.75 0 1 1 7 8.07l-1.75-1.5A.75.75 0 0 1 5 6V3.25a.75.75 0 0 1 1.5 0Z"]);
+      PresenceAway16Filled = /* @__PURE__ */ createFluentIcon("PresenceAway16Filled", "16", ["M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16Zm.5-11.5v3.02l2.12 1.7a1 1 0 1 1-1.24 1.56l-2.5-2A1 1 0 0 1 6.5 8V4.5a1 1 0 0 1 2 0Z"]);
+      PresenceAway20Filled = /* @__PURE__ */ createFluentIcon("PresenceAway20Filled", "20", ["M10 20a10 10 0 1 0 0-20 10 10 0 0 0 0 20Zm0-14V9.6l2.7 2.7a1 1 0 0 1-1.4 1.42l-3-3A1 1 0 0 1 8 10V6a1 1 0 1 1 2 0Z"]);
+      PresenceBlocked10Regular = /* @__PURE__ */ createFluentIcon("PresenceBlocked10Regular", "10", ["M10 5A5 5 0 1 0 0 5a5 5 0 0 0 10 0ZM9 5a4 4 0 0 1-6.45 3.16l5.61-5.61C8.69 3.22 9 4.08 9 5ZM7.45 1.84 1.84 7.45a4 4 0 0 1 5.61-5.61Z"]);
+      PresenceBlocked12Regular = /* @__PURE__ */ createFluentIcon("PresenceBlocked12Regular", "12", ["M12 6A6 6 0 1 1 0 6a6 6 0 0 1 12 0Zm-1.5 0c0-.97-.3-1.87-.83-2.6L3.39 9.66A4.5 4.5 0 0 0 10.5 6ZM8.6 2.33a4.5 4.5 0 0 0-6.28 6.28l6.29-6.28Z"]);
+      PresenceBlocked16Regular = /* @__PURE__ */ createFluentIcon("PresenceBlocked16Regular", "16", ["M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0Zm-2 0c0-1.3-.41-2.5-1.1-3.48L4.51 12.9A6 6 0 0 0 14 8Zm-2.52-4.9a6 6 0 0 0-8.37 8.37l8.37-8.36Z"]);
+      PresenceBlocked20Regular = /* @__PURE__ */ createFluentIcon("PresenceBlocked20Regular", "20", ["M20 10a10 10 0 1 0-20 0 10 10 0 0 0 20 0Zm-2 0a8 8 0 0 1-12.9 6.32L16.31 5.09A7.97 7.97 0 0 1 18 10Zm-3.1-6.32L3.69 14.91A8 8 0 0 1 14.91 3.68Z"]);
+      PresenceBusy10Filled = /* @__PURE__ */ createFluentIcon("PresenceBusy10Filled", "10", ["M10 5A5 5 0 1 1 0 5a5 5 0 0 1 10 0Z"]);
+      PresenceBusy12Filled = /* @__PURE__ */ createFluentIcon("PresenceBusy12Filled", "12", ["M12 6A6 6 0 1 1 0 6a6 6 0 0 1 12 0Z"]);
+      PresenceBusy16Filled = /* @__PURE__ */ createFluentIcon("PresenceBusy16Filled", "16", ["M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0Z"]);
+      PresenceBusy20Filled = /* @__PURE__ */ createFluentIcon("PresenceBusy20Filled", "20", ["M20 10a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z"]);
+      PresenceDnd10Filled = /* @__PURE__ */ createFluentIcon("PresenceDnd10Filled", "10", ["M5 10A5 5 0 1 0 5 0a5 5 0 0 0 0 10ZM3.5 4.5h3a.5.5 0 0 1 0 1h-3a.5.5 0 0 1 0-1Z"]);
+      PresenceDnd10Regular = /* @__PURE__ */ createFluentIcon("PresenceDnd10Regular", "10", ["M5 0a5 5 0 1 0 0 10A5 5 0 0 0 5 0ZM1 5a4 4 0 1 1 8 0 4 4 0 0 1-8 0Zm2 0c0-.28.22-.5.5-.5h3a.5.5 0 0 1 0 1h-3A.5.5 0 0 1 3 5Z"]);
+      PresenceDnd12Filled = /* @__PURE__ */ createFluentIcon("PresenceDnd12Filled", "12", ["M6 12A6 6 0 1 0 6 0a6 6 0 0 0 0 12ZM3.75 5.25h4.5a.75.75 0 0 1 0 1.5h-4.5a.75.75 0 0 1 0-1.5Z"]);
+      PresenceDnd12Regular = /* @__PURE__ */ createFluentIcon("PresenceDnd12Regular", "12", ["M6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0ZM1.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM3 6c0-.41.34-.75.75-.75h4.5a.75.75 0 0 1 0 1.5h-4.5A.75.75 0 0 1 3 6Z"]);
+      PresenceDnd16Filled = /* @__PURE__ */ createFluentIcon("PresenceDnd16Filled", "16", ["M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16ZM5.25 7h5.5a1 1 0 1 1 0 2h-5.5a1 1 0 1 1 0-2Z"]);
+      PresenceDnd16Regular = /* @__PURE__ */ createFluentIcon("PresenceDnd16Regular", "16", ["M5.25 7a1 1 0 0 0 0 2h5.5a1 1 0 1 0 0-2h-5.5ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6a6 6 0 1 0 0 12A6 6 0 0 0 8 2Z"]);
+      PresenceDnd20Filled = /* @__PURE__ */ createFluentIcon("PresenceDnd20Filled", "20", ["M10 20a10 10 0 1 0 0-20 10 10 0 0 0 0 20ZM7 9h6a1 1 0 1 1 0 2H7a1 1 0 1 1 0-2Z"]);
+      PresenceDnd20Regular = /* @__PURE__ */ createFluentIcon("PresenceDnd20Regular", "20", ["M10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Zm4 0a1 1 0 0 1 1-1h6a1 1 0 1 1 0 2H7a1 1 0 0 1-1-1Z"]);
+      PresenceOffline10Regular = /* @__PURE__ */ createFluentIcon("PresenceOffline10Regular", "10", ["M6.85 3.15c.2.2.2.5 0 .7L5.71 5l1.14 1.15a.5.5 0 1 1-.7.7L5 5.71 3.85 6.85a.5.5 0 1 1-.7-.7L4.29 5 3.15 3.85a.5.5 0 1 1 .7-.7L5 4.29l1.15-1.14c.2-.2.5-.2.7 0ZM0 5a5 5 0 1 1 10 0A5 5 0 0 1 0 5Zm5-4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z"]);
+      PresenceOffline12Regular = /* @__PURE__ */ createFluentIcon("PresenceOffline12Regular", "12", ["M8.03 3.97c.3.3.3.77 0 1.06L7.06 6l.97.97a.75.75 0 0 1-1.06 1.06L6 7.06l-.97.97a.75.75 0 0 1-1.06-1.06L4.94 6l-.97-.97a.75.75 0 0 1 1.06-1.06l.97.97.97-.97c.3-.3.77-.3 1.06 0ZM0 6a6 6 0 1 1 12 0A6 6 0 0 1 0 6Zm6-4.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9Z"]);
+      PresenceOffline16Regular = /* @__PURE__ */ createFluentIcon("PresenceOffline16Regular", "16", ["M10.7 5.3a1 1 0 0 1 0 1.4L9.42 8l1.3 1.3a1 1 0 0 1-1.42 1.4L8 9.42l-1.3 1.3a1 1 0 0 1-1.4-1.42L6.58 8l-1.3-1.3a1 1 0 0 1 1.42-1.4L8 6.58l1.3-1.3a1 1 0 0 1 1.4 0ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6a6 6 0 1 0 0 12A6 6 0 0 0 8 2Z"]);
+      PresenceOffline20Regular = /* @__PURE__ */ createFluentIcon("PresenceOffline20Regular", "20", ["M13.7 6.3a1 1 0 0 1 0 1.4L11.42 10l2.3 2.3a1 1 0 0 1-1.42 1.4L10 11.42l-2.3 2.3a1 1 0 0 1-1.4-1.42L8.58 10l-2.3-2.3a1 1 0 0 1 1.42-1.4L10 8.58l2.3-2.3a1 1 0 0 1 1.4 0ZM0 10a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm10-8a8 8 0 1 0 0 16 8 8 0 0 0 0-16Z"]);
+      PresenceOof10Regular = /* @__PURE__ */ createFluentIcon("PresenceOof10Regular", "10", ["M5.35 3.85a.5.5 0 1 0-.7-.7l-1.5 1.5a.5.5 0 0 0 0 .7l1.5 1.5a.5.5 0 1 0 .7-.7L4.7 5.5h1.8a.5.5 0 1 0 0-1H4.7l.65-.65ZM5 0a5 5 0 1 0 0 10A5 5 0 0 0 5 0ZM1 5a4 4 0 1 1 8 0 4 4 0 0 1-8 0Z"]);
+      PresenceOof12Regular = /* @__PURE__ */ createFluentIcon("PresenceOof12Regular", "12", ["M6.28 4.53a.75.75 0 0 0-1.06-1.06l-2 2c-.3.3-.3.77 0 1.06l2 2a.75.75 0 0 0 1.06-1.06l-.72-.72h2.69a.75.75 0 1 0 0-1.5h-2.7l.73-.72ZM6 0a6 6 0 1 0 0 12A6 6 0 0 0 6 0ZM1.5 6a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0Z"]);
+      PresenceOof16Regular = /* @__PURE__ */ createFluentIcon("PresenceOof16Regular", "16", ["M8.2 6.2a1 1 0 1 0-1.4-1.4L4.3 7.3a1 1 0 0 0 0 1.4l2.5 2.5a1 1 0 0 0 1.4-1.4L7.42 9H11a1 1 0 1 0 0-2H7.41l.8-.8ZM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0ZM2 8a6 6 0 1 1 12 0A6 6 0 0 1 2 8Z"]);
+      PresenceOof20Regular = /* @__PURE__ */ createFluentIcon("PresenceOof20Regular", "20", ["M10.7 7.7A1 1 0 1 0 9.28 6.3l-3 3a1 1 0 0 0 0 1.41l3 3a1 1 0 1 0 1.42-1.41l-1.3-1.3H13a1 1 0 1 0 0-2H9.4l1.3-1.29ZM10 0a10 10 0 1 0 0 20 10 10 0 0 0 0-20ZM2 10a8 8 0 1 1 16 0 8 8 0 0 1-16 0Z"]);
+      PresenceUnknown10Regular = /* @__PURE__ */ createFluentIcon("PresenceUnknown10Regular", "10", ["M5 1a4 4 0 1 0 0 8 4 4 0 0 0 0-8ZM0 5a5 5 0 1 1 10 0A5 5 0 0 1 0 5Z"]);
+      PresenceUnknown12Regular = /* @__PURE__ */ createFluentIcon("PresenceUnknown12Regular", "12", ["M6 1.5a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9ZM0 6a6 6 0 1 1 12 0A6 6 0 0 1 0 6Z"]);
+      PresenceUnknown16Regular = /* @__PURE__ */ createFluentIcon("PresenceUnknown16Regular", "16", ["M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2ZM0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Z"]);
+      PresenceUnknown20Regular = /* @__PURE__ */ createFluentIcon("PresenceUnknown20Regular", "20", ["M10 2a8 8 0 1 0 0 16 8 8 0 0 0 0-16ZM0 10a10 10 0 1 1 20 0 10 10 0 0 1-20 0Z"]);
     }
   });
 
@@ -38999,6 +39058,1301 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // node_modules/@fluentui/react-avatar/lib/components/Avatar/renderAvatar.js
+  var renderAvatar_unstable;
+  var init_renderAvatar = __esm({
+    "node_modules/@fluentui/react-avatar/lib/components/Avatar/renderAvatar.js"() {
+      init_jsx_runtime();
+      init_lib2();
+      renderAvatar_unstable = (state) => {
+        assertSlots(state);
+        return /* @__PURE__ */ jsxs(state.root, {
+          children: [
+            state.initials && /* @__PURE__ */ jsx(state.initials, {}),
+            state.icon && /* @__PURE__ */ jsx(state.icon, {}),
+            state.image && /* @__PURE__ */ jsx(state.image, {}),
+            state.badge && /* @__PURE__ */ jsx(state.badge, {}),
+            state.activeAriaLabelElement
+          ]
+        });
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/utils/getInitials.js
+  function getInitialsLatin(displayName, isRtl, firstInitialOnly) {
+    let initials = "";
+    const splits = displayName.split(" ");
+    if (splits.length !== 0) {
+      initials += splits[0].charAt(0).toUpperCase();
+    }
+    if (!firstInitialOnly) {
+      if (splits.length === 2) {
+        initials += splits[1].charAt(0).toUpperCase();
+      } else if (splits.length === 3) {
+        initials += splits[2].charAt(0).toUpperCase();
+      }
+    }
+    if (isRtl && initials.length > 1) {
+      return initials.charAt(1) + initials.charAt(0);
+    }
+    return initials;
+  }
+  function cleanupDisplayName(displayName) {
+    displayName = displayName.replace(UNWANTED_ENCLOSURES_REGEX, "");
+    displayName = displayName.replace(UNWANTED_CHARS_REGEX, "");
+    displayName = displayName.replace(MULTIPLE_WHITESPACES_REGEX, " ");
+    displayName = displayName.trim();
+    return displayName;
+  }
+  function getInitials(displayName, isRtl, options) {
+    if (!displayName) {
+      return "";
+    }
+    displayName = cleanupDisplayName(displayName);
+    if (UNSUPPORTED_TEXT_REGEX.test(displayName) || !(options === null || options === void 0 ? void 0 : options.allowPhoneInitials) && PHONENUMBER_REGEX.test(displayName)) {
+      return "";
+    }
+    return getInitialsLatin(displayName, isRtl, options === null || options === void 0 ? void 0 : options.firstInitialOnly);
+  }
+  var UNWANTED_ENCLOSURES_REGEX, UNWANTED_CHARS_REGEX, PHONENUMBER_REGEX, MULTIPLE_WHITESPACES_REGEX, UNSUPPORTED_TEXT_REGEX;
+  var init_getInitials = __esm({
+    "node_modules/@fluentui/react-avatar/lib/utils/getInitials.js"() {
+      UNWANTED_ENCLOSURES_REGEX = /[\(\[\{][^\)\]\}]*[\)\]\}]/g;
+      UNWANTED_CHARS_REGEX = /[\0-\u001F\!-/:-@\[-`\{-\u00BF\u0250-\u036F\uD800-\uFFFF]/g;
+      PHONENUMBER_REGEX = /^\d+[\d\s]*(:?ext|x|)\s*\d+$/i;
+      MULTIPLE_WHITESPACES_REGEX = /\s+/g;
+      UNSUPPORTED_TEXT_REGEX = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uAC00-\uD7AF\uD7B0-\uD7FF\u3040-\u309F\u30A0-\u30FF\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF]|[\uD840-\uD869][\uDC00-\uDED6]/;
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/utils/index.js
+  var init_utils2 = __esm({
+    "node_modules/@fluentui/react-avatar/lib/utils/index.js"() {
+      init_getInitials();
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/Badge/useBadge.js
+  var React43, useBadge_unstable;
+  var init_useBadge = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/Badge/useBadge.js"() {
+      React43 = __toESM(require_react());
+      init_lib2();
+      useBadge_unstable = (props, ref) => {
+        const { shape = "circular", size = "medium", iconPosition = "before", appearance = "filled", color = "brand" } = props;
+        const state = {
+          shape,
+          size,
+          iconPosition,
+          appearance,
+          color,
+          components: {
+            root: "div",
+            icon: "span"
+          },
+          root: slot_exports.always(getIntrinsicElementProps("div", {
+            // FIXME:
+            // `ref` is wrongly assigned to be `HTMLElement` instead of `HTMLDivElement`
+            // but since it would be a breaking change to fix it, we are casting ref to it's proper type
+            ref,
+            ...props
+          }), {
+            elementType: "div"
+          }),
+          icon: slot_exports.optional(props.icon, {
+            elementType: "span"
+          })
+        };
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/Badge/renderBadge.js
+  var renderBadge_unstable;
+  var init_renderBadge = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/Badge/renderBadge.js"() {
+      init_jsx_runtime();
+      init_lib2();
+      renderBadge_unstable = (state) => {
+        assertSlots(state);
+        return /* @__PURE__ */ jsxs(state.root, {
+          children: [
+            state.iconPosition === "before" && state.icon && /* @__PURE__ */ jsx(state.icon, {}),
+            state.root.children,
+            state.iconPosition === "after" && state.icon && /* @__PURE__ */ jsx(state.icon, {})
+          ]
+        });
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/Badge/index.js
+  var init_Badge = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/Badge/index.js"() {
+      init_renderBadge();
+      init_useBadge();
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/Badge.js
+  var init_Badge2 = __esm({
+    "node_modules/@fluentui/react-badge/lib/Badge.js"() {
+      init_Badge();
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/PresenceBadge/presenceIcons.js
+  var React44, presenceAwayFilled, presenceAvailableRegular, presenceAvailableFilled, presenceBlockedRegular, presenceBusyFilled, presenceDndFilled, presenceDndRegular, presenceOofRegular, presenceOfflineRegular, presenceUnknownRegular;
+  var init_presenceIcons = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/PresenceBadge/presenceIcons.js"() {
+      React44 = __toESM(require_react());
+      init_lib10();
+      presenceAwayFilled = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceAway10Filled,
+        "extra-small": PresenceAway10Filled,
+        small: PresenceAway12Filled,
+        medium: PresenceAway16Filled,
+        large: PresenceAway20Filled,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceAway20Filled
+      };
+      presenceAvailableRegular = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceAvailable10Regular,
+        "extra-small": PresenceAvailable10Regular,
+        small: PresenceAvailable12Regular,
+        medium: PresenceAvailable16Regular,
+        large: PresenceAvailable20Regular,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceAvailable20Regular
+      };
+      presenceAvailableFilled = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceAvailable10Filled,
+        "extra-small": PresenceAvailable10Filled,
+        small: PresenceAvailable12Filled,
+        medium: PresenceAvailable16Filled,
+        large: PresenceAvailable20Filled,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceAvailable20Filled
+      };
+      presenceBlockedRegular = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceBlocked10Regular,
+        "extra-small": PresenceBlocked10Regular,
+        small: PresenceBlocked12Regular,
+        medium: PresenceBlocked16Regular,
+        large: PresenceBlocked20Regular,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceBlocked20Regular
+      };
+      presenceBusyFilled = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceBusy10Filled,
+        "extra-small": PresenceBusy10Filled,
+        small: PresenceBusy12Filled,
+        medium: PresenceBusy16Filled,
+        large: PresenceBusy20Filled,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceBusy20Filled
+      };
+      presenceDndFilled = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceDnd10Filled,
+        "extra-small": PresenceDnd10Filled,
+        small: PresenceDnd12Filled,
+        medium: PresenceDnd16Filled,
+        large: PresenceDnd20Filled,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceDnd20Filled
+      };
+      presenceDndRegular = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceDnd10Regular,
+        "extra-small": PresenceDnd10Regular,
+        small: PresenceDnd12Regular,
+        medium: PresenceDnd16Regular,
+        large: PresenceDnd20Regular,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceDnd20Regular
+      };
+      presenceOofRegular = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceOof10Regular,
+        "extra-small": PresenceOof10Regular,
+        small: PresenceOof12Regular,
+        medium: PresenceOof16Regular,
+        large: PresenceOof20Regular,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceOof20Regular
+      };
+      presenceOfflineRegular = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceOffline10Regular,
+        "extra-small": PresenceOffline10Regular,
+        small: PresenceOffline12Regular,
+        medium: PresenceOffline16Regular,
+        large: PresenceOffline20Regular,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceOffline20Regular
+      };
+      presenceUnknownRegular = {
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        tiny: PresenceUnknown10Regular,
+        "extra-small": PresenceUnknown10Regular,
+        small: PresenceUnknown12Regular,
+        medium: PresenceUnknown16Regular,
+        large: PresenceUnknown20Regular,
+        // FIXME not all presence icon sizes are available
+        // https://github.com/microsoft/fluentui/issues/20650
+        "extra-large": PresenceUnknown20Regular
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/PresenceBadge/usePresenceBadge.js
+  var React45, iconMap, DEFAULT_STRINGS, usePresenceBadge_unstable;
+  var init_usePresenceBadge = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/PresenceBadge/usePresenceBadge.js"() {
+      React45 = __toESM(require_react());
+      init_lib2();
+      init_presenceIcons();
+      init_Badge();
+      iconMap = (status, outOfOffice, size) => {
+        switch (status) {
+          case "available":
+            return outOfOffice ? presenceAvailableRegular[size] : presenceAvailableFilled[size];
+          case "away":
+            return outOfOffice ? presenceOofRegular[size] : presenceAwayFilled[size];
+          case "blocked":
+            return presenceBlockedRegular[size];
+          case "busy":
+            return outOfOffice ? presenceUnknownRegular[size] : presenceBusyFilled[size];
+          case "do-not-disturb":
+            return outOfOffice ? presenceDndRegular[size] : presenceDndFilled[size];
+          case "offline":
+            return outOfOffice ? presenceOofRegular[size] : presenceOfflineRegular[size];
+          case "out-of-office":
+            return presenceOofRegular[size];
+          case "unknown":
+            return presenceUnknownRegular[size];
+        }
+      };
+      DEFAULT_STRINGS = {
+        busy: "busy",
+        "out-of-office": "out of office",
+        away: "away",
+        available: "available",
+        offline: "offline",
+        "do-not-disturb": "do not disturb",
+        unknown: "unknown",
+        blocked: "blocked"
+      };
+      usePresenceBadge_unstable = (props, ref) => {
+        const { size = "medium", status = "available", outOfOffice = false } = props;
+        const statusText = DEFAULT_STRINGS[status];
+        const oofText = props.outOfOffice && props.status !== "out-of-office" ? ` ${DEFAULT_STRINGS["out-of-office"]}` : "";
+        const IconElement = iconMap(status, outOfOffice, size);
+        const state = {
+          ...useBadge_unstable({
+            "aria-label": statusText + oofText,
+            role: "img",
+            ...props,
+            size,
+            icon: slot_exports.optional(props.icon, {
+              defaultProps: {
+                children: IconElement ? /* @__PURE__ */ React45.createElement(IconElement, null) : null
+              },
+              renderByDefault: true,
+              elementType: "span"
+            })
+          }, ref),
+          status,
+          outOfOffice
+        };
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/PresenceBadge/usePresenceBadgeStyles.styles.js
+  var presenceBadgeClassNames, getIsBusy, useRootClassName, useIconClassName, useStyles2, usePresenceBadgeStyles_unstable;
+  var init_usePresenceBadgeStyles_styles = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/PresenceBadge/usePresenceBadgeStyles.styles.js"() {
+      init_index_esm2();
+      presenceBadgeClassNames = {
+        root: "fui-PresenceBadge",
+        icon: "fui-PresenceBadge__icon"
+      };
+      getIsBusy = (status) => {
+        if (status === "busy" || status === "do-not-disturb" || status === "blocked") {
+          return true;
+        }
+        return false;
+      };
+      useRootClassName = /* @__PURE__ */ __resetStyles2("r832ydo", null, [".r832ydo{display:inline-flex;box-sizing:border-box;align-items:center;justify-content:center;border-radius:var(--borderRadiusCircular);background-color:var(--colorNeutralBackground1);padding:1px;background-clip:content-box;}"]);
+      useIconClassName = /* @__PURE__ */ __resetStyles2("r11ag4qr", null, [".r11ag4qr{display:flex;margin:-1px;}"]);
+      useStyles2 = /* @__PURE__ */ __styles2({
+        statusBusy: {
+          sj55zd: "fvi85wt"
+        },
+        statusAway: {
+          sj55zd: "f14k8a89"
+        },
+        statusAvailable: {
+          sj55zd: "fqa5hgp"
+        },
+        statusOffline: {
+          sj55zd: "f11d4kpn"
+        },
+        statusOutOfOffice: {
+          sj55zd: "fdce8r3"
+        },
+        statusUnknown: {
+          sj55zd: "f11d4kpn"
+        },
+        outOfOffice: {
+          sj55zd: "fr0bkrk"
+        },
+        outOfOfficeAvailable: {
+          sj55zd: "fqa5hgp"
+        },
+        outOfOfficeBusy: {
+          sj55zd: "fvi85wt"
+        },
+        outOfOfficeUnknown: {
+          sj55zd: "f11d4kpn"
+        },
+        tiny: {
+          Bubjx69: "f9ikmtg",
+          a9b677: "f16dn6v3",
+          B2eet1l: "f1w2irj7",
+          B5pe6w7: "fab5kbq",
+          p4uzdd: "f1ms1d91"
+        },
+        large: {
+          Bubjx69: "f9ikmtg",
+          a9b677: "f64fuq3",
+          B5pe6w7: "f1vfi1yj",
+          p4uzdd: "f15s34gz"
+        },
+        extraLarge: {
+          Bubjx69: "f9ikmtg",
+          a9b677: "f1w9dchk",
+          B5pe6w7: "f14efy9b",
+          p4uzdd: "fhipgdu"
+        }
+      }, {
+        d: [".fvi85wt{color:var(--colorPaletteRedBackground3);}", ".f14k8a89{color:var(--colorPaletteMarigoldBackground3);}", ".fqa5hgp{color:var(--colorPaletteLightGreenForeground3);}", ".f11d4kpn{color:var(--colorNeutralForeground3);}", ".fdce8r3{color:var(--colorPaletteBerryForeground3);}", ".fr0bkrk{color:var(--colorNeutralBackground1);}", ".f9ikmtg{aspect-ratio:1;}", ".f16dn6v3{width:6px;}", ".f1w2irj7{background-clip:unset;}", ".fab5kbq svg{width:6px!important;}", ".f1ms1d91 svg{height:6px!important;}", ".f64fuq3{width:20px;}", ".f1vfi1yj svg{width:20px!important;}", ".f15s34gz svg{height:20px!important;}", ".f1w9dchk{width:28px;}", ".f14efy9b svg{width:28px!important;}", ".fhipgdu svg{height:28px!important;}"]
+      });
+      usePresenceBadgeStyles_unstable = (state) => {
+        "use no memo";
+        const rootClassName = useRootClassName();
+        const iconClassName = useIconClassName();
+        const styles = useStyles2();
+        const isBusy = getIsBusy(state.status);
+        state.root.className = mergeClasses(presenceBadgeClassNames.root, rootClassName, isBusy && styles.statusBusy, state.status === "away" && styles.statusAway, state.status === "available" && styles.statusAvailable, state.status === "offline" && styles.statusOffline, state.status === "out-of-office" && styles.statusOutOfOffice, state.status === "unknown" && styles.statusUnknown, state.outOfOffice && styles.outOfOffice, state.outOfOffice && state.status === "available" && styles.outOfOfficeAvailable, state.outOfOffice && isBusy && styles.outOfOfficeBusy, state.outOfOffice && (state.status === "out-of-office" || state.status === "away" || state.status === "offline") && styles.statusOutOfOffice, state.outOfOffice && state.status === "unknown" && styles.outOfOfficeUnknown, state.size === "tiny" && styles.tiny, state.size === "large" && styles.large, state.size === "extra-large" && styles.extraLarge, state.root.className);
+        if (state.icon) {
+          state.icon.className = mergeClasses(presenceBadgeClassNames.icon, iconClassName, state.icon.className);
+        }
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/PresenceBadge/PresenceBadge.js
+  var React46, PresenceBadge;
+  var init_PresenceBadge = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/PresenceBadge/PresenceBadge.js"() {
+      React46 = __toESM(require_react());
+      init_usePresenceBadge();
+      init_usePresenceBadgeStyles_styles();
+      init_lib();
+      init_Badge2();
+      PresenceBadge = /* @__PURE__ */ React46.forwardRef((props, ref) => {
+        const state = usePresenceBadge_unstable(props, ref);
+        usePresenceBadgeStyles_unstable(state);
+        useCustomStyleHook("usePresenceBadgeStyles_unstable")(state);
+        return renderBadge_unstable(state);
+      });
+      PresenceBadge.displayName = "PresenceBadge";
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/components/PresenceBadge/index.js
+  var init_PresenceBadge2 = __esm({
+    "node_modules/@fluentui/react-badge/lib/components/PresenceBadge/index.js"() {
+      init_PresenceBadge();
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/PresenceBadge.js
+  var init_PresenceBadge3 = __esm({
+    "node_modules/@fluentui/react-badge/lib/PresenceBadge.js"() {
+      init_PresenceBadge2();
+    }
+  });
+
+  // node_modules/@fluentui/react-badge/lib/index.js
+  var init_lib11 = __esm({
+    "node_modules/@fluentui/react-badge/lib/index.js"() {
+      init_PresenceBadge3();
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/contexts/AvatarContext.js
+  var React47, avatarContext, avatarContextDefaultValue, AvatarContextProvider, useAvatarContext;
+  var init_AvatarContext = __esm({
+    "node_modules/@fluentui/react-avatar/lib/contexts/AvatarContext.js"() {
+      React47 = __toESM(require_react());
+      avatarContext = React47.createContext(void 0);
+      avatarContextDefaultValue = {};
+      AvatarContextProvider = avatarContext.Provider;
+      useAvatarContext = () => {
+        var _React_useContext;
+        return (_React_useContext = React47.useContext(avatarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : avatarContextDefaultValue;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/components/Avatar/useAvatar.js
+  var React48, DEFAULT_STRINGS2, useAvatar_unstable, getBadgeSize, avatarColors, getHashCode;
+  var init_useAvatar = __esm({
+    "node_modules/@fluentui/react-avatar/lib/components/Avatar/useAvatar.js"() {
+      React48 = __toESM(require_react());
+      init_lib2();
+      init_utils2();
+      init_lib10();
+      init_lib11();
+      init_lib();
+      init_AvatarContext();
+      DEFAULT_STRINGS2 = {
+        active: "active",
+        inactive: "inactive"
+      };
+      useAvatar_unstable = (props, ref) => {
+        const { dir } = useFluent();
+        const { shape: contextShape, size: contextSize } = useAvatarContext();
+        const { name, size = contextSize !== null && contextSize !== void 0 ? contextSize : 32, shape = contextShape !== null && contextShape !== void 0 ? contextShape : "circular", active = "unset", activeAppearance = "ring", idForColor } = props;
+        let { color = "neutral" } = props;
+        if (color === "colorful") {
+          var _ref;
+          color = avatarColors[getHashCode((_ref = idForColor !== null && idForColor !== void 0 ? idForColor : name) !== null && _ref !== void 0 ? _ref : "") % avatarColors.length];
+        }
+        const baseId = useId2("avatar-");
+        const root = slot_exports.always(getIntrinsicElementProps(
+          "span",
+          {
+            role: "img",
+            id: baseId,
+            // aria-label and/or aria-labelledby are resolved below
+            ...props,
+            ref
+          },
+          /* excludedPropNames: */
+          [
+            "name"
+          ]
+        ), {
+          elementType: "span"
+        });
+        const [imageHidden, setImageHidden] = React48.useState(void 0);
+        let image = slot_exports.optional(props.image, {
+          defaultProps: {
+            alt: "",
+            role: "presentation",
+            "aria-hidden": true,
+            hidden: imageHidden
+          },
+          elementType: "img"
+        });
+        if (!(image === null || image === void 0 ? void 0 : image.src)) {
+          image = void 0;
+        }
+        if (image) {
+          image.onError = mergeCallbacks(image.onError, () => setImageHidden(true));
+          image.onLoad = mergeCallbacks(image.onLoad, () => setImageHidden(void 0));
+        }
+        let initials = slot_exports.optional(props.initials, {
+          renderByDefault: true,
+          defaultProps: {
+            children: getInitials(name, dir === "rtl", {
+              firstInitialOnly: size <= 16
+            }),
+            id: baseId + "__initials"
+          },
+          elementType: "span"
+        });
+        if (!(initials === null || initials === void 0 ? void 0 : initials.children)) {
+          initials = void 0;
+        }
+        let icon = void 0;
+        if (!initials && (!image || imageHidden)) {
+          icon = slot_exports.optional(props.icon, {
+            renderByDefault: true,
+            defaultProps: {
+              children: /* @__PURE__ */ React48.createElement(PersonRegular, null),
+              "aria-hidden": true
+            },
+            elementType: "span"
+          });
+        }
+        const badge = slot_exports.optional(props.badge, {
+          defaultProps: {
+            size: getBadgeSize(size),
+            id: baseId + "__badge"
+          },
+          elementType: PresenceBadge
+        });
+        let activeAriaLabelElement;
+        if (!root["aria-label"] && !root["aria-labelledby"]) {
+          if (name) {
+            root["aria-label"] = name;
+            if (badge) {
+              root["aria-labelledby"] = root.id + " " + badge.id;
+            }
+          } else if (initials) {
+            root["aria-labelledby"] = initials.id + (badge ? " " + badge.id : "");
+          }
+          if (active === "active" || active === "inactive") {
+            const activeText = DEFAULT_STRINGS2[active];
+            if (root["aria-labelledby"]) {
+              const activeId = baseId + "__active";
+              root["aria-labelledby"] += " " + activeId;
+              activeAriaLabelElement = /* @__PURE__ */ React48.createElement("span", {
+                hidden: true,
+                id: activeId
+              }, activeText);
+            } else if (root["aria-label"]) {
+              root["aria-label"] += " " + activeText;
+            }
+          }
+        }
+        return {
+          size,
+          shape,
+          active,
+          activeAppearance,
+          activeAriaLabelElement,
+          color,
+          components: {
+            root: "span",
+            initials: "span",
+            icon: "span",
+            image: "img",
+            badge: PresenceBadge
+          },
+          root,
+          initials,
+          icon,
+          image,
+          badge
+        };
+      };
+      getBadgeSize = (size) => {
+        if (size >= 96) {
+          return "extra-large";
+        } else if (size >= 64) {
+          return "large";
+        } else if (size >= 56) {
+          return "medium";
+        } else if (size >= 40) {
+          return "small";
+        } else if (size >= 28) {
+          return "extra-small";
+        } else {
+          return "tiny";
+        }
+      };
+      avatarColors = [
+        "dark-red",
+        "cranberry",
+        "red",
+        "pumpkin",
+        "peach",
+        "marigold",
+        "gold",
+        "brass",
+        "brown",
+        "forest",
+        "seafoam",
+        "dark-green",
+        "light-teal",
+        "teal",
+        "steel",
+        "blue",
+        "royal-blue",
+        "cornflower",
+        "navy",
+        "lavender",
+        "purple",
+        "grape",
+        "lilac",
+        "pink",
+        "magenta",
+        "plum",
+        "beige",
+        "mink",
+        "platinum",
+        "anchor"
+      ];
+      getHashCode = (str) => {
+        let hashCode = 0;
+        for (let len = str.length - 1; len >= 0; len--) {
+          const ch = str.charCodeAt(len);
+          const shift = len % 8;
+          hashCode ^= (ch << shift) + (ch >> 8 - shift);
+        }
+        return hashCode;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/components/Avatar/useAvatarStyles.styles.js
+  var avatarClassNames, useRootClassName2, useImageClassName, useIconInitialsClassName, useStyles3, useSizeStyles, useColorStyles, useRingColorStyles, useAvatarStyles_unstable;
+  var init_useAvatarStyles_styles = __esm({
+    "node_modules/@fluentui/react-avatar/lib/components/Avatar/useAvatarStyles.styles.js"() {
+      init_index_esm2();
+      avatarClassNames = {
+        root: "fui-Avatar",
+        image: "fui-Avatar__image",
+        initials: "fui-Avatar__initials",
+        icon: "fui-Avatar__icon",
+        badge: "fui-Avatar__badge"
+      };
+      useRootClassName2 = /* @__PURE__ */ __resetStyles2("r81b29z", "r1aatmv", {
+        r: [".r81b29z{display:inline-block;flex-shrink:0;position:relative;vertical-align:middle;border-radius:var(--borderRadiusCircular);font-family:var(--fontFamilyBase);font-weight:var(--fontWeightSemibold);font-size:var(--fontSizeBase300);width:32px;height:32px;}", ".r81b29z::before,.r81b29z::after{position:absolute;top:0;left:0;bottom:0;right:0;z-index:-1;margin:calc(-2 * var(--fui-Avatar-ringWidth, 0px));border-radius:inherit;transition-property:margin,opacity;transition-timing-function:var(--curveEasyEaseMax),var(--curveLinear);transition-duration:var(--durationUltraSlow),var(--durationSlower);}", ".r81b29z::before{border-style:solid;border-width:var(--fui-Avatar-ringWidth);}", ".r1aatmv{display:inline-block;flex-shrink:0;position:relative;vertical-align:middle;border-radius:var(--borderRadiusCircular);font-family:var(--fontFamilyBase);font-weight:var(--fontWeightSemibold);font-size:var(--fontSizeBase300);width:32px;height:32px;}", ".r1aatmv::before,.r1aatmv::after{position:absolute;top:0;right:0;bottom:0;left:0;z-index:-1;margin:calc(-2 * var(--fui-Avatar-ringWidth, 0px));border-radius:inherit;transition-property:margin,opacity;transition-timing-function:var(--curveEasyEaseMax),var(--curveLinear);transition-duration:var(--durationUltraSlow),var(--durationSlower);}", ".r1aatmv::before{border-style:solid;border-width:var(--fui-Avatar-ringWidth);}"],
+        s: ["@media screen and (prefers-reduced-motion: reduce){.r81b29z::before,.r81b29z::after{transition-duration:0.01ms;}}", "@media screen and (prefers-reduced-motion: reduce){.r1aatmv::before,.r1aatmv::after{transition-duration:0.01ms;}}"]
+      });
+      useImageClassName = /* @__PURE__ */ __resetStyles2("r136dc0n", "rjly0nl", [".r136dc0n{position:absolute;top:0;left:0;width:100%;height:100%;border-radius:inherit;object-fit:cover;vertical-align:top;}", ".rjly0nl{position:absolute;top:0;right:0;width:100%;height:100%;border-radius:inherit;object-fit:cover;vertical-align:top;}"]);
+      useIconInitialsClassName = /* @__PURE__ */ __resetStyles2("rip04v", "r31uzil", [".rip04v{position:absolute;box-sizing:border-box;top:0;left:0;width:100%;height:100%;line-height:1;border:var(--strokeWidthThin) solid var(--colorTransparentStroke);display:flex;align-items:center;justify-content:center;vertical-align:center;text-align:center;-webkit-user-select:none;-moz-user-select:none;user-select:none;border-radius:inherit;}", ".r31uzil{position:absolute;box-sizing:border-box;top:0;right:0;width:100%;height:100%;line-height:1;border:var(--strokeWidthThin) solid var(--colorTransparentStroke);display:flex;align-items:center;justify-content:center;vertical-align:center;text-align:center;-webkit-user-select:none;-moz-user-select:none;user-select:none;border-radius:inherit;}"]);
+      useStyles3 = /* @__PURE__ */ __styles2({
+        textCaption2Strong: {
+          Be2twd7: "f13mqy1h"
+        },
+        textCaption1Strong: {
+          Be2twd7: "fy9rknc"
+        },
+        textSubtitle2: {
+          Be2twd7: "fod5ikn"
+        },
+        textSubtitle1: {
+          Be2twd7: "f1pp30po"
+        },
+        textTitle3: {
+          Be2twd7: "f1x0m3f5"
+        },
+        squareSmall: {
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "fq9zq91"
+        },
+        squareMedium: {
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "ft85np5"
+        },
+        squareLarge: {
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "f1o0qvyv"
+        },
+        squareXLarge: {
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "f1kijzfu"
+        },
+        activeOrInactive: {
+          Bz10aip: "ftfx35i",
+          Bmy1vo4: "fv0atk9",
+          B3o57yi: "f1iry5bo",
+          Bkqvd7p: "f15n41j8",
+          Hwfdqs: "f1onx1g3"
+        },
+        ring: {
+          Ftih45: "f1wl9k8s"
+        },
+        ringBadgeCutout: {
+          f4a502: "fp2gujx"
+        },
+        ringThick: {
+          of393c: "fq1w1vq"
+        },
+        ringThicker: {
+          of393c: "fzg6ace"
+        },
+        ringThickest: {
+          of393c: "f1nu8p71"
+        },
+        shadow: {
+          Bsft5z2: "f13zj6fq"
+        },
+        shadow4: {
+          Be6vj1x: "fcjn15l"
+        },
+        shadow8: {
+          Be6vj1x: "f1tm8t9f"
+        },
+        shadow16: {
+          Be6vj1x: "f1a1aohj"
+        },
+        shadow28: {
+          Be6vj1x: "fond6v5"
+        },
+        inactive: {
+          abs64n: "fp25eh",
+          Bz10aip: "f1clczzi",
+          Bkqvd7p: "f1l3s34x",
+          Bfgortx: 0,
+          Bnvr3x9: 0,
+          b2tv09: 0,
+          Bucmhp4: 0,
+          iayac2: "flkahu5",
+          b6ubon: "fw457kn",
+          Bqinb2h: "f1wmllxl"
+        },
+        badge: {
+          qhf8xq: "f1euv43f",
+          B5kzvoi: "f1yab3r1",
+          j35jbq: ["f1e31b4d", "f1vgc2s3"]
+        },
+        badgeCutout: {
+          btxmck: "f1eugkqs"
+        },
+        badgeAlign: {
+          Dnlfbu: ["f1tlnv9o", "f1y9kyih"]
+        },
+        tiny: {
+          Bdjeniz: "f1uwoubl",
+          niu6jh: "fid048z"
+        },
+        "extra-small": {
+          Bdjeniz: "f13ar0e0",
+          niu6jh: "fid048z"
+        },
+        small: {
+          Bdjeniz: "fwwuruf",
+          niu6jh: "fid048z"
+        },
+        medium: {
+          Bdjeniz: "f1af27q5",
+          niu6jh: "fid048z"
+        },
+        large: {
+          Bdjeniz: "f18yy57a",
+          niu6jh: "f924bxt"
+        },
+        "extra-large": {
+          Bdjeniz: "f2jg042",
+          niu6jh: "f924bxt"
+        },
+        icon12: {
+          Be2twd7: "f1ugzwwg"
+        },
+        icon16: {
+          Be2twd7: "f4ybsrx"
+        },
+        icon20: {
+          Be2twd7: "fe5j1ua"
+        },
+        icon24: {
+          Be2twd7: "f1rt2boy"
+        },
+        icon28: {
+          Be2twd7: "f24l1pt"
+        },
+        icon32: {
+          Be2twd7: "ffl51b"
+        },
+        icon48: {
+          Be2twd7: "f18m8u13"
+        }
+      }, {
+        d: [".f13mqy1h{font-size:var(--fontSizeBase100);}", ".fy9rknc{font-size:var(--fontSizeBase200);}", ".fod5ikn{font-size:var(--fontSizeBase400);}", ".f1pp30po{font-size:var(--fontSizeBase500);}", ".f1x0m3f5{font-size:var(--fontSizeBase600);}", [".fq9zq91{border-radius:var(--borderRadiusSmall);}", {
+          p: -1
+        }], [".ft85np5{border-radius:var(--borderRadiusMedium);}", {
+          p: -1
+        }], [".f1o0qvyv{border-radius:var(--borderRadiusLarge);}", {
+          p: -1
+        }], [".f1kijzfu{border-radius:var(--borderRadiusXLarge);}", {
+          p: -1
+        }], ".ftfx35i{transform:perspective(1px);}", ".fv0atk9{transition-property:transform,opacity;}", ".f1iry5bo{transition-duration:var(--durationUltraSlow),var(--durationFaster);}", ".f15n41j8{transition-timing-function:var(--curveEasyEaseMax),var(--curveLinear);}", '.f1wl9k8s::before{content:"";}', ".fp2gujx::before{-webkit-mask-image:radial-gradient(circle at bottom calc(var(--fui-Avatar-badgeRadius) + 2 * var(--fui-Avatar-ringWidth)) var(--fui-Avatar-badgeAlign) calc(var(--fui-Avatar-badgeRadius) + 2 * var(--fui-Avatar-ringWidth)), transparent calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) - 0.25px), white calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) + 0.25px));mask-image:radial-gradient(circle at bottom calc(var(--fui-Avatar-badgeRadius) + 2 * var(--fui-Avatar-ringWidth)) var(--fui-Avatar-badgeAlign) calc(var(--fui-Avatar-badgeRadius) + 2 * var(--fui-Avatar-ringWidth)), transparent calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) - 0.25px), white calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) + 0.25px));}", ".fq1w1vq{--fui-Avatar-ringWidth:var(--strokeWidthThick);}", ".fzg6ace{--fui-Avatar-ringWidth:var(--strokeWidthThicker);}", ".f1nu8p71{--fui-Avatar-ringWidth:var(--strokeWidthThickest);}", '.f13zj6fq::after{content:"";}', ".fcjn15l::after{box-shadow:var(--shadow4);}", ".f1tm8t9f::after{box-shadow:var(--shadow8);}", ".f1a1aohj::after{box-shadow:var(--shadow16);}", ".fond6v5::after{box-shadow:var(--shadow28);}", ".fp25eh{opacity:0.8;}", ".f1clczzi{transform:scale(0.875);}", ".f1l3s34x{transition-timing-function:var(--curveDecelerateMin),var(--curveLinear);}", [".flkahu5::before,.flkahu5::after{margin:0;}", {
+          p: -1
+        }], ".fw457kn::before,.fw457kn::after{opacity:0;}", ".f1wmllxl::before,.f1wmllxl::after{transition-timing-function:var(--curveDecelerateMin),var(--curveLinear);}", ".f1euv43f{position:absolute;}", ".f1yab3r1{bottom:0;}", ".f1e31b4d{right:0;}", ".f1vgc2s3{left:0;}", ".f1eugkqs{-webkit-mask-image:radial-gradient(circle at bottom var(--fui-Avatar-badgeRadius) var(--fui-Avatar-badgeAlign) var(--fui-Avatar-badgeRadius), transparent calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) - 0.25px), white calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) + 0.25px));mask-image:radial-gradient(circle at bottom var(--fui-Avatar-badgeRadius) var(--fui-Avatar-badgeAlign) var(--fui-Avatar-badgeRadius), transparent calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) - 0.25px), white calc(var(--fui-Avatar-badgeRadius) + var(--fui-Avatar-badgeGap) + 0.25px));}", ".f1tlnv9o{--fui-Avatar-badgeAlign:right;}", ".f1y9kyih{--fui-Avatar-badgeAlign:left;}", ".f1uwoubl{--fui-Avatar-badgeRadius:3px;}", ".fid048z{--fui-Avatar-badgeGap:var(--strokeWidthThin);}", ".f13ar0e0{--fui-Avatar-badgeRadius:5px;}", ".fwwuruf{--fui-Avatar-badgeRadius:6px;}", ".f1af27q5{--fui-Avatar-badgeRadius:8px;}", ".f18yy57a{--fui-Avatar-badgeRadius:10px;}", ".f924bxt{--fui-Avatar-badgeGap:var(--strokeWidthThick);}", ".f2jg042{--fui-Avatar-badgeRadius:14px;}", ".f1ugzwwg{font-size:12px;}", ".f4ybsrx{font-size:16px;}", ".fe5j1ua{font-size:20px;}", ".f1rt2boy{font-size:24px;}", ".f24l1pt{font-size:28px;}", ".ffl51b{font-size:32px;}", ".f18m8u13{font-size:48px;}"],
+        m: [["@media screen and (prefers-reduced-motion: reduce){.f1onx1g3{transition-duration:0.01ms;}}", {
+          m: "screen and (prefers-reduced-motion: reduce)"
+        }]]
+      });
+      useSizeStyles = /* @__PURE__ */ __styles2({
+        "16": {
+          a9b677: "fjw5fx7",
+          Bqenvij: "fd461yt"
+        },
+        "20": {
+          a9b677: "f64fuq3",
+          Bqenvij: "fjamq6b"
+        },
+        "24": {
+          a9b677: "fq4mcun",
+          Bqenvij: "frvgh55"
+        },
+        "28": {
+          a9b677: "f1w9dchk",
+          Bqenvij: "fxldao9"
+        },
+        "32": {
+          a9b677: "f1szoe96",
+          Bqenvij: "f1d2rq10"
+        },
+        "36": {
+          a9b677: "fpdz1er",
+          Bqenvij: "f8ljn23"
+        },
+        "40": {
+          a9b677: "feqmc2u",
+          Bqenvij: "fbhnoac"
+        },
+        "48": {
+          a9b677: "f124akge",
+          Bqenvij: "ff2sm71"
+        },
+        "56": {
+          a9b677: "f1u66zr1",
+          Bqenvij: "fzki0ko"
+        },
+        "64": {
+          a9b677: "fa9ln6p",
+          Bqenvij: "f16k9i2m"
+        },
+        "72": {
+          a9b677: "fhcae8x",
+          Bqenvij: "f1shusfg"
+        },
+        "96": {
+          a9b677: "f1kyr2gn",
+          Bqenvij: "fypu0ge"
+        },
+        "120": {
+          a9b677: "fwfqyga",
+          Bqenvij: "fjr5b71"
+        },
+        "128": {
+          a9b677: "f1iksgmy",
+          Bqenvij: "fele2au"
+        }
+      }, {
+        d: [".fjw5fx7{width:16px;}", ".fd461yt{height:16px;}", ".f64fuq3{width:20px;}", ".fjamq6b{height:20px;}", ".fq4mcun{width:24px;}", ".frvgh55{height:24px;}", ".f1w9dchk{width:28px;}", ".fxldao9{height:28px;}", ".f1szoe96{width:32px;}", ".f1d2rq10{height:32px;}", ".fpdz1er{width:36px;}", ".f8ljn23{height:36px;}", ".feqmc2u{width:40px;}", ".fbhnoac{height:40px;}", ".f124akge{width:48px;}", ".ff2sm71{height:48px;}", ".f1u66zr1{width:56px;}", ".fzki0ko{height:56px;}", ".fa9ln6p{width:64px;}", ".f16k9i2m{height:64px;}", ".fhcae8x{width:72px;}", ".f1shusfg{height:72px;}", ".f1kyr2gn{width:96px;}", ".fypu0ge{height:96px;}", ".fwfqyga{width:120px;}", ".fjr5b71{height:120px;}", ".f1iksgmy{width:128px;}", ".fele2au{height:128px;}"]
+      });
+      useColorStyles = /* @__PURE__ */ __styles2({
+        neutral: {
+          sj55zd: "f11d4kpn",
+          De3pzq: "f18f03hv"
+        },
+        brand: {
+          sj55zd: "fonrgv7",
+          De3pzq: "f1blnnmj"
+        },
+        "dark-red": {
+          sj55zd: "fqjd1y1",
+          De3pzq: "f1vq2oo4"
+        },
+        cranberry: {
+          sj55zd: "fg9gses",
+          De3pzq: "f1lwxszt"
+        },
+        red: {
+          sj55zd: "f23f7i0",
+          De3pzq: "f1q9qhfq"
+        },
+        pumpkin: {
+          sj55zd: "fjnan08",
+          De3pzq: "fz91bi3"
+        },
+        peach: {
+          sj55zd: "fknu15p",
+          De3pzq: "f1b9nr51"
+        },
+        marigold: {
+          sj55zd: "f9603vw",
+          De3pzq: "f3z4w6d"
+        },
+        gold: {
+          sj55zd: "fmq0uwp",
+          De3pzq: "fg50kya"
+        },
+        brass: {
+          sj55zd: "f28g5vo",
+          De3pzq: "f4w2gd0"
+        },
+        brown: {
+          sj55zd: "ftl572b",
+          De3pzq: "f14wu1f4"
+        },
+        forest: {
+          sj55zd: "f1gymlvd",
+          De3pzq: "f19ut4y6"
+        },
+        seafoam: {
+          sj55zd: "fnnb6wn",
+          De3pzq: "f1n057jc"
+        },
+        "dark-green": {
+          sj55zd: "ff58qw8",
+          De3pzq: "f11t05wk"
+        },
+        "light-teal": {
+          sj55zd: "f1up9qbj",
+          De3pzq: "f42feg1"
+        },
+        teal: {
+          sj55zd: "f135dsb4",
+          De3pzq: "f6hvv1p"
+        },
+        steel: {
+          sj55zd: "f151dlcp",
+          De3pzq: "f1lnp8zf"
+        },
+        blue: {
+          sj55zd: "f1rjv50u",
+          De3pzq: "f1ggcpy6"
+        },
+        "royal-blue": {
+          sj55zd: "f1emykk5",
+          De3pzq: "f12rj61f"
+        },
+        cornflower: {
+          sj55zd: "fqsigj7",
+          De3pzq: "f8k7hur"
+        },
+        navy: {
+          sj55zd: "f1nj97xi",
+          De3pzq: "f19gw0ux"
+        },
+        lavender: {
+          sj55zd: "fwctg0i",
+          De3pzq: "ff379vm"
+        },
+        purple: {
+          sj55zd: "fjrsgpu",
+          De3pzq: "f1mzf1e1"
+        },
+        grape: {
+          sj55zd: "f1fiiydq",
+          De3pzq: "f1o4k8oy"
+        },
+        lilac: {
+          sj55zd: "f1res9jt",
+          De3pzq: "f1x6mz1o"
+        },
+        pink: {
+          sj55zd: "fv3fbbi",
+          De3pzq: "fydlv6t"
+        },
+        magenta: {
+          sj55zd: "f1f1fwnz",
+          De3pzq: "f4xb6j5"
+        },
+        plum: {
+          sj55zd: "f8ptl6j",
+          De3pzq: "fqo8e26"
+        },
+        beige: {
+          sj55zd: "f1ntv3ld",
+          De3pzq: "f101elhj"
+        },
+        mink: {
+          sj55zd: "f1fscmp",
+          De3pzq: "f13g8o5c"
+        },
+        platinum: {
+          sj55zd: "f1dr00v2",
+          De3pzq: "fkh7blw"
+        },
+        anchor: {
+          sj55zd: "f1f3ti53",
+          De3pzq: "fu4yj0j"
+        }
+      }, {
+        d: [".f11d4kpn{color:var(--colorNeutralForeground3);}", ".f18f03hv{background-color:var(--colorNeutralBackground6);}", ".fonrgv7{color:var(--colorNeutralForegroundStaticInverted);}", ".f1blnnmj{background-color:var(--colorBrandBackgroundStatic);}", ".fqjd1y1{color:var(--colorPaletteDarkRedForeground2);}", ".f1vq2oo4{background-color:var(--colorPaletteDarkRedBackground2);}", ".fg9gses{color:var(--colorPaletteCranberryForeground2);}", ".f1lwxszt{background-color:var(--colorPaletteCranberryBackground2);}", ".f23f7i0{color:var(--colorPaletteRedForeground2);}", ".f1q9qhfq{background-color:var(--colorPaletteRedBackground2);}", ".fjnan08{color:var(--colorPalettePumpkinForeground2);}", ".fz91bi3{background-color:var(--colorPalettePumpkinBackground2);}", ".fknu15p{color:var(--colorPalettePeachForeground2);}", ".f1b9nr51{background-color:var(--colorPalettePeachBackground2);}", ".f9603vw{color:var(--colorPaletteMarigoldForeground2);}", ".f3z4w6d{background-color:var(--colorPaletteMarigoldBackground2);}", ".fmq0uwp{color:var(--colorPaletteGoldForeground2);}", ".fg50kya{background-color:var(--colorPaletteGoldBackground2);}", ".f28g5vo{color:var(--colorPaletteBrassForeground2);}", ".f4w2gd0{background-color:var(--colorPaletteBrassBackground2);}", ".ftl572b{color:var(--colorPaletteBrownForeground2);}", ".f14wu1f4{background-color:var(--colorPaletteBrownBackground2);}", ".f1gymlvd{color:var(--colorPaletteForestForeground2);}", ".f19ut4y6{background-color:var(--colorPaletteForestBackground2);}", ".fnnb6wn{color:var(--colorPaletteSeafoamForeground2);}", ".f1n057jc{background-color:var(--colorPaletteSeafoamBackground2);}", ".ff58qw8{color:var(--colorPaletteDarkGreenForeground2);}", ".f11t05wk{background-color:var(--colorPaletteDarkGreenBackground2);}", ".f1up9qbj{color:var(--colorPaletteLightTealForeground2);}", ".f42feg1{background-color:var(--colorPaletteLightTealBackground2);}", ".f135dsb4{color:var(--colorPaletteTealForeground2);}", ".f6hvv1p{background-color:var(--colorPaletteTealBackground2);}", ".f151dlcp{color:var(--colorPaletteSteelForeground2);}", ".f1lnp8zf{background-color:var(--colorPaletteSteelBackground2);}", ".f1rjv50u{color:var(--colorPaletteBlueForeground2);}", ".f1ggcpy6{background-color:var(--colorPaletteBlueBackground2);}", ".f1emykk5{color:var(--colorPaletteRoyalBlueForeground2);}", ".f12rj61f{background-color:var(--colorPaletteRoyalBlueBackground2);}", ".fqsigj7{color:var(--colorPaletteCornflowerForeground2);}", ".f8k7hur{background-color:var(--colorPaletteCornflowerBackground2);}", ".f1nj97xi{color:var(--colorPaletteNavyForeground2);}", ".f19gw0ux{background-color:var(--colorPaletteNavyBackground2);}", ".fwctg0i{color:var(--colorPaletteLavenderForeground2);}", ".ff379vm{background-color:var(--colorPaletteLavenderBackground2);}", ".fjrsgpu{color:var(--colorPalettePurpleForeground2);}", ".f1mzf1e1{background-color:var(--colorPalettePurpleBackground2);}", ".f1fiiydq{color:var(--colorPaletteGrapeForeground2);}", ".f1o4k8oy{background-color:var(--colorPaletteGrapeBackground2);}", ".f1res9jt{color:var(--colorPaletteLilacForeground2);}", ".f1x6mz1o{background-color:var(--colorPaletteLilacBackground2);}", ".fv3fbbi{color:var(--colorPalettePinkForeground2);}", ".fydlv6t{background-color:var(--colorPalettePinkBackground2);}", ".f1f1fwnz{color:var(--colorPaletteMagentaForeground2);}", ".f4xb6j5{background-color:var(--colorPaletteMagentaBackground2);}", ".f8ptl6j{color:var(--colorPalettePlumForeground2);}", ".fqo8e26{background-color:var(--colorPalettePlumBackground2);}", ".f1ntv3ld{color:var(--colorPaletteBeigeForeground2);}", ".f101elhj{background-color:var(--colorPaletteBeigeBackground2);}", ".f1fscmp{color:var(--colorPaletteMinkForeground2);}", ".f13g8o5c{background-color:var(--colorPaletteMinkBackground2);}", ".f1dr00v2{color:var(--colorPalettePlatinumForeground2);}", ".fkh7blw{background-color:var(--colorPalettePlatinumBackground2);}", ".f1f3ti53{color:var(--colorPaletteAnchorForeground2);}", ".fu4yj0j{background-color:var(--colorPaletteAnchorBackground2);}"]
+      });
+      useRingColorStyles = /* @__PURE__ */ __styles2({
+        neutral: {
+          Bic5iru: "f1uuiafn"
+        },
+        brand: {
+          Bic5iru: "f1uuiafn"
+        },
+        "dark-red": {
+          Bic5iru: "f1t2x9on"
+        },
+        cranberry: {
+          Bic5iru: "f1pvshc9"
+        },
+        red: {
+          Bic5iru: "f1ectbk9"
+        },
+        pumpkin: {
+          Bic5iru: "fvzpl0b"
+        },
+        peach: {
+          Bic5iru: "fwj2kd7"
+        },
+        marigold: {
+          Bic5iru: "fr120vy"
+        },
+        gold: {
+          Bic5iru: "f8xmmar"
+        },
+        brass: {
+          Bic5iru: "f1hbety2"
+        },
+        brown: {
+          Bic5iru: "f1vg3s4g"
+        },
+        forest: {
+          Bic5iru: "f1m3olm5"
+        },
+        seafoam: {
+          Bic5iru: "f17xiqtr"
+        },
+        "dark-green": {
+          Bic5iru: "fx32vyh"
+        },
+        "light-teal": {
+          Bic5iru: "f1mkihwv"
+        },
+        teal: {
+          Bic5iru: "fecnooh"
+        },
+        steel: {
+          Bic5iru: "f15hfgzm"
+        },
+        blue: {
+          Bic5iru: "fqproka"
+        },
+        "royal-blue": {
+          Bic5iru: "f17v2w59"
+        },
+        cornflower: {
+          Bic5iru: "fp0q1mo"
+        },
+        navy: {
+          Bic5iru: "f1nlym55"
+        },
+        lavender: {
+          Bic5iru: "f62vk8h"
+        },
+        purple: {
+          Bic5iru: "f15zl69q"
+        },
+        grape: {
+          Bic5iru: "f53w4j7"
+        },
+        lilac: {
+          Bic5iru: "fu2771t"
+        },
+        pink: {
+          Bic5iru: "fzflscs"
+        },
+        magenta: {
+          Bic5iru: "fb6rmqc"
+        },
+        plum: {
+          Bic5iru: "f1a4gm5b"
+        },
+        beige: {
+          Bic5iru: "f1qpf9z1"
+        },
+        mink: {
+          Bic5iru: "f1l7or83"
+        },
+        platinum: {
+          Bic5iru: "fzrj0iu"
+        },
+        anchor: {
+          Bic5iru: "f8oz6wf"
+        }
+      }, {
+        d: [".f1uuiafn::before{color:var(--colorBrandStroke1);}", ".f1t2x9on::before{color:var(--colorPaletteDarkRedBorderActive);}", ".f1pvshc9::before{color:var(--colorPaletteCranberryBorderActive);}", ".f1ectbk9::before{color:var(--colorPaletteRedBorderActive);}", ".fvzpl0b::before{color:var(--colorPalettePumpkinBorderActive);}", ".fwj2kd7::before{color:var(--colorPalettePeachBorderActive);}", ".fr120vy::before{color:var(--colorPaletteMarigoldBorderActive);}", ".f8xmmar::before{color:var(--colorPaletteGoldBorderActive);}", ".f1hbety2::before{color:var(--colorPaletteBrassBorderActive);}", ".f1vg3s4g::before{color:var(--colorPaletteBrownBorderActive);}", ".f1m3olm5::before{color:var(--colorPaletteForestBorderActive);}", ".f17xiqtr::before{color:var(--colorPaletteSeafoamBorderActive);}", ".fx32vyh::before{color:var(--colorPaletteDarkGreenBorderActive);}", ".f1mkihwv::before{color:var(--colorPaletteLightTealBorderActive);}", ".fecnooh::before{color:var(--colorPaletteTealBorderActive);}", ".f15hfgzm::before{color:var(--colorPaletteSteelBorderActive);}", ".fqproka::before{color:var(--colorPaletteBlueBorderActive);}", ".f17v2w59::before{color:var(--colorPaletteRoyalBlueBorderActive);}", ".fp0q1mo::before{color:var(--colorPaletteCornflowerBorderActive);}", ".f1nlym55::before{color:var(--colorPaletteNavyBorderActive);}", ".f62vk8h::before{color:var(--colorPaletteLavenderBorderActive);}", ".f15zl69q::before{color:var(--colorPalettePurpleBorderActive);}", ".f53w4j7::before{color:var(--colorPaletteGrapeBorderActive);}", ".fu2771t::before{color:var(--colorPaletteLilacBorderActive);}", ".fzflscs::before{color:var(--colorPalettePinkBorderActive);}", ".fb6rmqc::before{color:var(--colorPaletteMagentaBorderActive);}", ".f1a4gm5b::before{color:var(--colorPalettePlumBorderActive);}", ".f1qpf9z1::before{color:var(--colorPaletteBeigeBorderActive);}", ".f1l7or83::before{color:var(--colorPaletteMinkBorderActive);}", ".fzrj0iu::before{color:var(--colorPalettePlatinumBorderActive);}", ".f8oz6wf::before{color:var(--colorPaletteAnchorBorderActive);}"]
+      });
+      useAvatarStyles_unstable = (state) => {
+        "use no memo";
+        const {
+          size,
+          shape,
+          active,
+          activeAppearance,
+          color
+        } = state;
+        const rootClassName = useRootClassName2();
+        const imageClassName = useImageClassName();
+        const iconInitialsClassName = useIconInitialsClassName();
+        const styles = useStyles3();
+        const sizeStyles = useSizeStyles();
+        const colorStyles = useColorStyles();
+        const ringColorStyles = useRingColorStyles();
+        const rootClasses = [rootClassName, size !== 32 && sizeStyles[size]];
+        if (state.badge) {
+          rootClasses.push(styles.badgeAlign, styles[state.badge.size || "medium"]);
+        }
+        if (size <= 24) {
+          rootClasses.push(styles.textCaption2Strong);
+        } else if (size <= 28) {
+          rootClasses.push(styles.textCaption1Strong);
+        } else if (size <= 40) {
+        } else if (size <= 56) {
+          rootClasses.push(styles.textSubtitle2);
+        } else if (size <= 96) {
+          rootClasses.push(styles.textSubtitle1);
+        } else {
+          rootClasses.push(styles.textTitle3);
+        }
+        if (shape === "square") {
+          if (size <= 24) {
+            rootClasses.push(styles.squareSmall);
+          } else if (size <= 48) {
+            rootClasses.push(styles.squareMedium);
+          } else if (size <= 72) {
+            rootClasses.push(styles.squareLarge);
+          } else {
+            rootClasses.push(styles.squareXLarge);
+          }
+        }
+        if (active === "active" || active === "inactive") {
+          rootClasses.push(styles.activeOrInactive);
+          if (activeAppearance === "ring" || activeAppearance === "ring-shadow") {
+            rootClasses.push(styles.ring, ringColorStyles[color]);
+            if (state.badge) {
+              rootClasses.push(styles.ringBadgeCutout);
+            }
+            if (size <= 48) {
+              rootClasses.push(styles.ringThick);
+            } else if (size <= 64) {
+              rootClasses.push(styles.ringThicker);
+            } else {
+              rootClasses.push(styles.ringThickest);
+            }
+          }
+          if (activeAppearance === "shadow" || activeAppearance === "ring-shadow") {
+            rootClasses.push(styles.shadow);
+            if (size <= 28) {
+              rootClasses.push(styles.shadow4);
+            } else if (size <= 48) {
+              rootClasses.push(styles.shadow8);
+            } else if (size <= 64) {
+              rootClasses.push(styles.shadow16);
+            } else {
+              rootClasses.push(styles.shadow28);
+            }
+          }
+          if (active === "inactive") {
+            rootClasses.push(styles.inactive);
+          }
+        }
+        state.root.className = mergeClasses(avatarClassNames.root, ...rootClasses, state.root.className);
+        if (state.badge) {
+          state.badge.className = mergeClasses(avatarClassNames.badge, styles.badge, state.badge.className);
+        }
+        if (state.image) {
+          state.image.className = mergeClasses(avatarClassNames.image, imageClassName, colorStyles[color], state.badge && styles.badgeCutout, state.image.className);
+        }
+        if (state.initials) {
+          state.initials.className = mergeClasses(avatarClassNames.initials, iconInitialsClassName, colorStyles[color], state.badge && styles.badgeCutout, state.initials.className);
+        }
+        if (state.icon) {
+          let iconSizeClass;
+          if (size <= 16) {
+            iconSizeClass = styles.icon12;
+          } else if (size <= 24) {
+            iconSizeClass = styles.icon16;
+          } else if (size <= 40) {
+            iconSizeClass = styles.icon20;
+          } else if (size <= 48) {
+            iconSizeClass = styles.icon24;
+          } else if (size <= 56) {
+            iconSizeClass = styles.icon28;
+          } else if (size <= 72) {
+            iconSizeClass = styles.icon32;
+          } else {
+            iconSizeClass = styles.icon48;
+          }
+          state.icon.className = mergeClasses(avatarClassNames.icon, iconInitialsClassName, iconSizeClass, colorStyles[color], state.badge && styles.badgeCutout, state.icon.className);
+        }
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/components/Avatar/Avatar.js
+  var React49, Avatar;
+  var init_Avatar = __esm({
+    "node_modules/@fluentui/react-avatar/lib/components/Avatar/Avatar.js"() {
+      React49 = __toESM(require_react());
+      init_renderAvatar();
+      init_useAvatar();
+      init_lib();
+      init_useAvatarStyles_styles();
+      Avatar = /* @__PURE__ */ React49.forwardRef((props, ref) => {
+        const state = useAvatar_unstable(props, ref);
+        useAvatarStyles_unstable(state);
+        useCustomStyleHook("useAvatarStyles_unstable")(state);
+        return renderAvatar_unstable(state);
+      });
+      Avatar.displayName = "Avatar";
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/components/Avatar/index.js
+  var init_Avatar2 = __esm({
+    "node_modules/@fluentui/react-avatar/lib/components/Avatar/index.js"() {
+      init_Avatar();
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/Avatar.js
+  var init_Avatar3 = __esm({
+    "node_modules/@fluentui/react-avatar/lib/Avatar.js"() {
+      init_Avatar2();
+    }
+  });
+
+  // node_modules/@fluentui/react-avatar/lib/index.js
+  var init_lib12 = __esm({
+    "node_modules/@fluentui/react-avatar/lib/index.js"() {
+      init_Avatar3();
+    }
+  });
+
   // node_modules/@fluentui/react-button/lib/components/Button/renderButton.js
   var renderButton_unstable;
   var init_renderButton = __esm({
@@ -39020,25 +40374,25 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-button/lib/contexts/ButtonContext.js
-  var React43, buttonContext, buttonContextDefaultValue, ButtonContextProvider, useButtonContext;
+  var React50, buttonContext, buttonContextDefaultValue, ButtonContextProvider, useButtonContext;
   var init_ButtonContext = __esm({
     "node_modules/@fluentui/react-button/lib/contexts/ButtonContext.js"() {
-      React43 = __toESM(require_react());
-      buttonContext = React43.createContext(void 0);
+      React50 = __toESM(require_react());
+      buttonContext = React50.createContext(void 0);
       buttonContextDefaultValue = {};
       ButtonContextProvider = buttonContext.Provider;
       useButtonContext = () => {
         var _React_useContext;
-        return (_React_useContext = React43.useContext(buttonContext)) !== null && _React_useContext !== void 0 ? _React_useContext : buttonContextDefaultValue;
+        return (_React_useContext = React50.useContext(buttonContext)) !== null && _React_useContext !== void 0 ? _React_useContext : buttonContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-button/lib/components/Button/useButton.js
-  var React44, useButton_unstable;
+  var React51, useButton_unstable;
   var init_useButton = __esm({
     "node_modules/@fluentui/react-button/lib/components/Button/useButton.js"() {
-      React44 = __toESM(require_react());
+      React51 = __toESM(require_react());
       init_lib9();
       init_lib2();
       init_ButtonContext();
@@ -39632,15 +40986,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-button/lib/components/Button/Button.js
-  var React45, Button;
+  var React52, Button;
   var init_Button = __esm({
     "node_modules/@fluentui/react-button/lib/components/Button/Button.js"() {
-      React45 = __toESM(require_react());
+      React52 = __toESM(require_react());
       init_renderButton();
       init_useButton();
       init_useButtonStyles_styles();
       init_lib();
-      Button = /* @__PURE__ */ React45.forwardRef((props, ref) => {
+      Button = /* @__PURE__ */ React52.forwardRef((props, ref) => {
         const state = useButton_unstable(props, ref);
         useButtonStyles_unstable(state);
         useCustomStyleHook("useButtonStyles_unstable")(state);
@@ -39675,7 +41029,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-button/lib/index.js
-  var init_lib11 = __esm({
+  var init_lib13 = __esm({
     "node_modules/@fluentui/react-button/lib/index.js"() {
       init_Button3();
       init_contexts2();
@@ -39683,13 +41037,13 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-field/lib/contexts/FieldContext.js
-  var React46, FieldContext, FieldContextProvider, useFieldContext_unstable;
+  var React53, FieldContext, FieldContextProvider, useFieldContext_unstable;
   var init_FieldContext = __esm({
     "node_modules/@fluentui/react-field/lib/contexts/FieldContext.js"() {
-      React46 = __toESM(require_react());
-      FieldContext = React46.createContext(void 0);
+      React53 = __toESM(require_react());
+      FieldContext = React53.createContext(void 0);
       FieldContextProvider = FieldContext.Provider;
-      useFieldContext_unstable = () => React46.useContext(FieldContext);
+      useFieldContext_unstable = () => React53.useContext(FieldContext);
     }
   });
 
@@ -39759,10 +41113,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-label/lib/components/Label/useLabel.js
-  var React47, useLabel_unstable;
+  var React54, useLabel_unstable;
   var init_useLabel = __esm({
     "node_modules/@fluentui/react-label/lib/components/Label/useLabel.js"() {
-      React47 = __toESM(require_react());
+      React54 = __toESM(require_react());
       init_lib2();
       useLabel_unstable = (props, ref) => {
         const { disabled = false, required = false, weight = "regular", size = "medium" } = props;
@@ -39813,7 +41167,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-label/lib/components/Label/useLabelStyles.styles.js
-  var labelClassNames, useStyles2, useLabelStyles_unstable;
+  var labelClassNames, useStyles4, useLabelStyles_unstable;
   var init_useLabelStyles_styles = __esm({
     "node_modules/@fluentui/react-label/lib/components/Label/useLabelStyles.styles.js"() {
       init_index_esm2();
@@ -39821,7 +41175,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         root: "fui-Label",
         required: "fui-Label__required"
       };
-      useStyles2 = /* @__PURE__ */ __styles2({
+      useStyles4 = /* @__PURE__ */ __styles2({
         root: {
           Bahqtrf: "fk6fouc",
           sj55zd: "f19n0e5"
@@ -39858,7 +41212,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useLabelStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles2();
+        const styles = useStyles4();
         state.root.className = mergeClasses(labelClassNames.root, styles.root, state.disabled && styles.disabled, styles[state.size], state.weight === "semibold" && styles.semibold, state.root.className);
         if (state.required) {
           state.required.className = mergeClasses(labelClassNames.required, styles.required, state.disabled && styles.disabled, state.required.className);
@@ -39869,15 +41223,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-label/lib/components/Label/Label.js
-  var React48, Label;
+  var React55, Label;
   var init_Label = __esm({
     "node_modules/@fluentui/react-label/lib/components/Label/Label.js"() {
-      React48 = __toESM(require_react());
+      React55 = __toESM(require_react());
       init_useLabel();
       init_renderLabel();
       init_useLabelStyles_styles();
       init_lib();
-      Label = /* @__PURE__ */ React48.forwardRef((props, ref) => {
+      Label = /* @__PURE__ */ React55.forwardRef((props, ref) => {
         const state = useLabel_unstable(props, ref);
         useLabelStyles_unstable(state);
         useCustomStyleHook("useLabelStyles_unstable")(state);
@@ -39902,24 +41256,24 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-label/lib/index.js
-  var init_lib12 = __esm({
+  var init_lib14 = __esm({
     "node_modules/@fluentui/react-label/lib/index.js"() {
       init_Label3();
     }
   });
 
   // node_modules/@fluentui/react-field/lib/index.js
-  var init_lib13 = __esm({
+  var init_lib15 = __esm({
     "node_modules/@fluentui/react-field/lib/index.js"() {
       init_contexts3();
     }
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLinkState.js
-  var React49, useLinkState_unstable;
+  var React56, useLinkState_unstable;
   var init_useLinkState = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLinkState.js"() {
-      React49 = __toESM(require_react());
+      React56 = __toESM(require_react());
       init_lib8();
       useLinkState_unstable = (state) => {
         const { disabled, disabledFocusable } = state;
@@ -39964,27 +41318,27 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/contexts/linkContext.js
-  var React50, LinkContext, linkContextDefaultValue, LinkContextProvider, useLinkContext;
+  var React57, LinkContext, linkContextDefaultValue, LinkContextProvider, useLinkContext;
   var init_linkContext = __esm({
     "node_modules/@fluentui/react-link/lib/contexts/linkContext.js"() {
-      React50 = __toESM(require_react());
-      LinkContext = React50.createContext(void 0);
+      React57 = __toESM(require_react());
+      LinkContext = React57.createContext(void 0);
       linkContextDefaultValue = {
         inline: false
       };
       LinkContextProvider = LinkContext.Provider;
       useLinkContext = () => {
         var _React_useContext;
-        return (_React_useContext = React50.useContext(LinkContext)) !== null && _React_useContext !== void 0 ? _React_useContext : linkContextDefaultValue;
+        return (_React_useContext = React57.useContext(LinkContext)) !== null && _React_useContext !== void 0 ? _React_useContext : linkContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLink.js
-  var React51, useLink_unstable;
+  var React58, useLink_unstable;
   var init_useLink = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLink.js"() {
-      React51 = __toESM(require_react());
+      React58 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_useLinkState();
@@ -40025,14 +41379,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLinkStyles.styles.js
-  var linkClassNames, useStyles3, useLinkStyles_unstable;
+  var linkClassNames, useStyles5, useLinkStyles_unstable;
   var init_useLinkStyles_styles = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLinkStyles.styles.js"() {
       init_index_esm2();
       linkClassNames = {
         root: "fui-Link"
       };
-      useStyles3 = /* @__PURE__ */ __styles2({
+      useStyles5 = /* @__PURE__ */ __styles2({
         focusIndicator: {
           Bttzg6e: "fhgqx19",
           B3uz8dt: "f1olyrje",
@@ -40119,7 +41473,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useLinkStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles3();
+        const styles = useStyles5();
         const {
           appearance,
           disabled,
@@ -40147,15 +41501,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/Link.js
-  var React52, Link3;
+  var React59, Link3;
   var init_Link = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/Link.js"() {
-      React52 = __toESM(require_react());
+      React59 = __toESM(require_react());
       init_useLink();
       init_useLinkStyles_styles();
       init_renderLink();
       init_lib();
-      Link3 = /* @__PURE__ */ React52.forwardRef((props, ref) => {
+      Link3 = /* @__PURE__ */ React59.forwardRef((props, ref) => {
         const state = useLink_unstable(props, ref);
         useLinkStyles_unstable(state);
         useCustomStyleHook("useLinkStyles_unstable")(state);
@@ -40187,7 +41541,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/index.js
-  var init_lib14 = __esm({
+  var init_lib16 = __esm({
     "node_modules/@fluentui/react-link/lib/index.js"() {
       init_Link3();
       init_contexts4();
@@ -40195,27 +41549,27 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-spinner/lib/contexts/SpinnerContext.js
-  var React53, SpinnerContext, SpinnerContextDefaultValue, SpinnerContextProvider, useSpinnerContext;
+  var React60, SpinnerContext, SpinnerContextDefaultValue, SpinnerContextProvider, useSpinnerContext;
   var init_SpinnerContext = __esm({
     "node_modules/@fluentui/react-spinner/lib/contexts/SpinnerContext.js"() {
-      React53 = __toESM(require_react());
-      SpinnerContext = React53.createContext(void 0);
+      React60 = __toESM(require_react());
+      SpinnerContext = React60.createContext(void 0);
       SpinnerContextDefaultValue = {};
       SpinnerContextProvider = SpinnerContext.Provider;
       useSpinnerContext = () => {
         var _React_useContext;
-        return (_React_useContext = React53.useContext(SpinnerContext)) !== null && _React_useContext !== void 0 ? _React_useContext : SpinnerContextDefaultValue;
+        return (_React_useContext = React60.useContext(SpinnerContext)) !== null && _React_useContext !== void 0 ? _React_useContext : SpinnerContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinner.js
-  var React54, useSpinner_unstable;
+  var React61, useSpinner_unstable;
   var init_useSpinner = __esm({
     "node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinner.js"() {
-      React54 = __toESM(require_react());
+      React61 = __toESM(require_react());
       init_lib2();
-      init_lib12();
+      init_lib14();
       init_SpinnerContext();
       useSpinner_unstable = (props, ref) => {
         const { size: contextSize } = useSpinnerContext();
@@ -40234,9 +41588,9 @@ You can check this by searching up for matching entries in a lockfile produced b
         ]), {
           elementType: "div"
         });
-        const [isShownAfterDelay, setIsShownAfterDelay] = React54.useState(false);
+        const [isShownAfterDelay, setIsShownAfterDelay] = React61.useState(false);
         const [setDelayTimeout, clearDelayTimeout] = useTimeout();
-        React54.useEffect(() => {
+        React61.useEffect(() => {
           if (delay <= 0) {
             return;
           }
@@ -40482,15 +41836,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-spinner/lib/components/Spinner/Spinner.js
-  var React55, Spinner;
+  var React62, Spinner;
   var init_Spinner = __esm({
     "node_modules/@fluentui/react-spinner/lib/components/Spinner/Spinner.js"() {
-      React55 = __toESM(require_react());
+      React62 = __toESM(require_react());
       init_useSpinner();
       init_renderSpinner();
       init_useSpinnerStyles_styles();
       init_lib();
-      Spinner = /* @__PURE__ */ React55.forwardRef((props, ref) => {
+      Spinner = /* @__PURE__ */ React62.forwardRef((props, ref) => {
         const state = useSpinner_unstable(props, ref);
         useSpinnerStyles_unstable(state);
         useCustomStyleHook("useSpinnerStyles_unstable")(state);
@@ -40515,17 +41869,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-spinner/lib/index.js
-  var init_lib15 = __esm({
+  var init_lib17 = __esm({
     "node_modules/@fluentui/react-spinner/lib/index.js"() {
       init_Spinner3();
     }
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/useText.js
-  var React56, useText_unstable;
+  var React63, useText_unstable;
   var init_useText = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/useText.js"() {
-      React56 = __toESM(require_react());
+      React63 = __toESM(require_react());
       init_lib2();
       useText_unstable = (props, ref) => {
         const { wrap, truncate, block, italic, underline, strikethrough, size, font, weight, align } = props;
@@ -40572,14 +41926,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/useTextStyles.styles.js
-  var textClassNames, useStyles4, useTextStyles_unstable;
+  var textClassNames, useStyles6, useTextStyles_unstable;
   var init_useTextStyles_styles = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/useTextStyles.styles.js"() {
       init_index_esm2();
       textClassNames = {
         root: "fui-Text"
       };
-      useStyles4 = /* @__PURE__ */ __styles2({
+      useStyles6 = /* @__PURE__ */ __styles2({
         root: {
           Bahqtrf: "fk6fouc",
           Be2twd7: "fkhj508",
@@ -40686,7 +42040,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useTextStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles4();
+        const styles = useStyles6();
         state.root.className = mergeClasses(textClassNames.root, styles.root, state.wrap === false && styles.nowrap, state.truncate && styles.truncate, state.block && styles.block, state.italic && styles.italic, state.underline && styles.underline, state.strikethrough && styles.strikethrough, state.underline && state.strikethrough && styles.strikethroughUnderline, state.size === 100 && styles.base100, state.size === 200 && styles.base200, state.size === 400 && styles.base400, state.size === 500 && styles.base500, state.size === 600 && styles.base600, state.size === 700 && styles.hero700, state.size === 800 && styles.hero800, state.size === 900 && styles.hero900, state.size === 1e3 && styles.hero1000, state.font === "monospace" && styles.monospace, state.font === "numeric" && styles.numeric, state.weight === "medium" && styles.weightMedium, state.weight === "semibold" && styles.weightSemibold, state.weight === "bold" && styles.weightBold, state.align === "center" && styles.alignCenter, state.align === "end" && styles.alignEnd, state.align === "justify" && styles.alignJustify, state.root.className);
         return state;
       };
@@ -40694,15 +42048,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/Text.js
-  var React57, Text;
+  var React64, Text;
   var init_Text = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/Text.js"() {
-      React57 = __toESM(require_react());
+      React64 = __toESM(require_react());
       init_useText();
       init_renderText();
       init_useTextStyles_styles();
       init_lib();
-      Text = /* @__PURE__ */ React57.forwardRef((props, ref) => {
+      Text = /* @__PURE__ */ React64.forwardRef((props, ref) => {
         const state = useText_unstable(props, ref);
         useTextStyles_unstable(state);
         useCustomStyleHook("useTextStyles_unstable")(state);
@@ -40727,7 +42081,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/index.js
-  var init_lib16 = __esm({
+  var init_lib18 = __esm({
     "node_modules/@fluentui/react-text/lib/index.js"() {
       init_Text3();
     }
@@ -40749,11 +42103,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js
-  var React58, useTextarea_unstable;
+  var React65, useTextarea_unstable;
   var init_useTextarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js"() {
-      React58 = __toESM(require_react());
-      init_lib13();
+      React65 = __toESM(require_react());
+      init_lib15();
       init_lib2();
       init_lib();
       useTextarea_unstable = (props, ref) => {
@@ -41212,15 +42566,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js
-  var React59, Textarea;
+  var React66, Textarea;
   var init_Textarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js"() {
-      React59 = __toESM(require_react());
+      React66 = __toESM(require_react());
       init_renderTextarea();
       init_useTextarea();
       init_useTextareaStyles_styles();
       init_lib();
-      Textarea = /* @__PURE__ */ React59.forwardRef((props, ref) => {
+      Textarea = /* @__PURE__ */ React66.forwardRef((props, ref) => {
         const state = useTextarea_unstable(props, ref);
         useTextareaStyles_unstable(state);
         useCustomStyleHook("useTextareaStyles_unstable")(state);
@@ -41245,17 +42599,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/index.js
-  var init_lib17 = __esm({
+  var init_lib19 = __esm({
     "node_modules/@fluentui/react-textarea/lib/index.js"() {
       init_Textarea3();
     }
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js
-  var React60, useToolbar_unstable, useToolbarSelectableState;
+  var React67, useToolbar_unstable, useToolbarSelectableState;
   var init_useToolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js"() {
-      React60 = __toESM(require_react());
+      React67 = __toESM(require_react());
       init_lib2();
       init_lib5();
       useToolbar_unstable = (props, ref) => {
@@ -41388,14 +42742,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbarStyles.styles.js
-  var toolbarClassNames, useStyles5, useToolbarStyles_unstable;
+  var toolbarClassNames, useStyles7, useToolbarStyles_unstable;
   var init_useToolbarStyles_styles = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbarStyles.styles.js"() {
       init_index_esm2();
       toolbarClassNames = {
         root: "fui-Toolbar"
       };
-      useStyles5 = /* @__PURE__ */ __styles2({
+      useStyles7 = /* @__PURE__ */ __styles2({
         root: {
           mc9l5x: "f22iagw",
           Bt984gj: "f122n59",
@@ -41443,7 +42797,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useToolbarStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles5();
+        const styles = useStyles7();
         const {
           vertical,
           size
@@ -41474,16 +42828,16 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js
-  var React61, Toolbar;
+  var React68, Toolbar;
   var init_Toolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js"() {
-      React61 = __toESM(require_react());
+      React68 = __toESM(require_react());
       init_useToolbar();
       init_renderToolbar();
       init_useToolbarStyles_styles();
       init_useToolbarContextValues();
       init_lib();
-      Toolbar = /* @__PURE__ */ React61.forwardRef((props, ref) => {
+      Toolbar = /* @__PURE__ */ React68.forwardRef((props, ref) => {
         const state = useToolbar_unstable(props, ref);
         const contextValues = useToolbarContextValues_unstable(state);
         useToolbarStyles_unstable(state);
@@ -41513,7 +42867,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_useToolbarButtonStyles_styles = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButtonStyles.styles.js"() {
       init_index_esm2();
-      init_lib11();
+      init_lib13();
       useBaseStyles = /* @__PURE__ */ __styles2({
         vertical: {
           Beiy3e4: "f1vx9l62"
@@ -41544,11 +42898,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js
-  var React62, useToolbarButton_unstable;
+  var React69, useToolbarButton_unstable;
   var init_useToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js"() {
-      React62 = __toESM(require_react());
-      init_lib11();
+      React69 = __toESM(require_react());
+      init_lib13();
       useToolbarButton_unstable = (props, ref) => {
         const { vertical = false, ...buttonProps } = props;
         const state = useButton_unstable({
@@ -41565,15 +42919,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js
-  var React63, ToolbarButton;
+  var React70, ToolbarButton;
   var init_ToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js"() {
-      React63 = __toESM(require_react());
-      init_lib11();
+      React70 = __toESM(require_react());
+      init_lib13();
       init_useToolbarButtonStyles_styles();
       init_useToolbarButton();
       init_lib();
-      ToolbarButton = /* @__PURE__ */ React63.forwardRef((props, ref) => {
+      ToolbarButton = /* @__PURE__ */ React70.forwardRef((props, ref) => {
         const state = useToolbarButton_unstable(props, ref);
         useToolbarButtonStyles_unstable(state);
         useCustomStyleHook("useToolbarButtonStyles_unstable")(state);
@@ -41598,7 +42952,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/index.js
-  var init_lib18 = __esm({
+  var init_lib20 = __esm({
     "node_modules/@fluentui/react-toolbar/lib/index.js"() {
       init_Toolbar3();
       init_ToolbarButton3();
@@ -41609,21 +42963,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   function getIntentIcon(intent) {
     switch (intent) {
       case "info":
-        return /* @__PURE__ */ React64.createElement(InfoFilled, null);
+        return /* @__PURE__ */ React71.createElement(InfoFilled, null);
       case "warning":
-        return /* @__PURE__ */ React64.createElement(WarningFilled, null);
+        return /* @__PURE__ */ React71.createElement(WarningFilled, null);
       case "error":
-        return /* @__PURE__ */ React64.createElement(DismissCircleFilled, null);
+        return /* @__PURE__ */ React71.createElement(DismissCircleFilled, null);
       case "success":
-        return /* @__PURE__ */ React64.createElement(CheckmarkCircleFilled, null);
+        return /* @__PURE__ */ React71.createElement(CheckmarkCircleFilled, null);
       default:
         return null;
     }
   }
-  var React64;
+  var React71;
   var init_getIntentIcon = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/getIntentIcon.js"() {
-      React64 = __toESM(require_react());
+      React71 = __toESM(require_react());
       init_lib10();
     }
   });
@@ -41631,11 +42985,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js
   function useMessageBarReflow(enabled = false) {
     const { targetDocument } = useFluent();
-    const forceUpdate = React65.useReducer(() => ({}), {})[1];
-    const reflowingRef = React65.useRef(false);
-    const resizeObserverRef = React65.useRef(null);
-    const prevInlineSizeRef = React65.useRef(-1);
-    const handleResize = React65.useCallback((entries) => {
+    const forceUpdate = React72.useReducer(() => ({}), {})[1];
+    const reflowingRef = React72.useRef(false);
+    const resizeObserverRef = React72.useRef(null);
+    const prevInlineSizeRef = React72.useRef(-1);
+    const handleResize = React72.useCallback((entries) => {
       var _entry_borderBoxSize_, _entry_borderBoxSize;
       if (entries.length > 1) {
         console.error([
@@ -41673,7 +43027,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }, [
       forceUpdate
     ]);
-    const ref = React65.useCallback((el) => {
+    const ref = React72.useCallback((el) => {
       var _resizeObserverRef_current;
       if (!enabled || !el || !(targetDocument === null || targetDocument === void 0 ? void 0 : targetDocument.defaultView)) {
         return;
@@ -41690,7 +43044,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       handleResize,
       enabled
     ]);
-    React65.useEffect(() => {
+    React72.useEffect(() => {
       return () => {
         var _resizeObserverRef_current;
         (_resizeObserverRef_current = resizeObserverRef.current) === null || _resizeObserverRef_current === void 0 ? void 0 : _resizeObserverRef_current.disconnect();
@@ -41701,38 +43055,38 @@ You can check this by searching up for matching entries in a lockfile produced b
       reflowing: reflowingRef.current
     };
   }
-  var React65;
+  var React72;
   var init_useMessageBarReflow = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js"() {
-      React65 = __toESM(require_react());
+      React72 = __toESM(require_react());
       init_lib();
       init_lib2();
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js
-  var React66, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
+  var React73, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
   var init_messageBarTransitionContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js"() {
-      React66 = __toESM(require_react());
-      messageBarTransitionContext = React66.createContext(void 0);
+      React73 = __toESM(require_react());
+      messageBarTransitionContext = React73.createContext(void 0);
       messageBarTransitionContextDefaultValue = {
         className: "",
-        nodeRef: React66.createRef()
+        nodeRef: React73.createRef()
       };
       MessageBarTransitionContextProvider = messageBarTransitionContext.Provider;
       useMessageBarTransitionContext = () => {
         var _React_useContext;
-        return (_React_useContext = React66.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
+        return (_React_useContext = React73.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js
-  var React67, useMessageBar_unstable;
+  var React74, useMessageBar_unstable;
   var init_useMessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js"() {
-      React67 = __toESM(require_react());
+      React74 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_getIntentIcon();
@@ -41745,11 +43099,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         const { ref: reflowRef, reflowing } = useMessageBarReflow(autoReflow);
         const computedLayout = autoReflow ? reflowing ? "multiline" : "singleline" : layout;
         const { className: transitionClassName, nodeRef } = useMessageBarTransitionContext();
-        const actionsRef = React67.useRef(null);
-        const bodyRef = React67.useRef(null);
+        const actionsRef = React74.useRef(null);
+        const bodyRef = React74.useRef(null);
         const { announce } = useAnnounce();
         const titleId = useId2();
-        React67.useEffect(() => {
+        React74.useEffect(() => {
           var _bodyRef_current, _actionsRef_current;
           const bodyMessage = (_bodyRef_current = bodyRef.current) === null || _bodyRef_current === void 0 ? void 0 : _bodyRef_current.textContent;
           const actionsMessage = (_actionsRef_current = actionsRef.current) === null || _actionsRef_current === void 0 ? void 0 : _actionsRef_current.textContent;
@@ -41805,21 +43159,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js
-  var React68, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
+  var React75, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
   var init_messageBarContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js"() {
-      React68 = __toESM(require_react());
-      messageBarContext = React68.createContext(void 0);
+      React75 = __toESM(require_react());
+      messageBarContext = React75.createContext(void 0);
       messageBarContextDefaultValue = {
         titleId: "",
         layout: "singleline",
-        actionsRef: React68.createRef(),
-        bodyRef: React68.createRef()
+        actionsRef: React75.createRef(),
+        bodyRef: React75.createRef()
       };
       MessageBarContextProvider = messageBarContext.Provider;
       useMessageBarContext = () => {
         var _React_useContext;
-        return (_React_useContext = React68.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
+        return (_React_useContext = React75.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
       };
     }
   });
@@ -41848,7 +43202,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarStyles.styles.js
-  var messageBarClassNames, useRootBaseStyles, useIconBaseStyles, useReflowSpacerBaseStyles, useStyles6, useIconIntentStyles, useRootIntentStyles, useMessageBarStyles_unstable;
+  var messageBarClassNames, useRootBaseStyles, useIconBaseStyles, useReflowSpacerBaseStyles, useStyles8, useIconIntentStyles, useRootIntentStyles, useMessageBarStyles_unstable;
   var init_useMessageBarStyles_styles = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarStyles.styles.js"() {
       init_index_esm2();
@@ -41860,7 +43214,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       useRootBaseStyles = /* @__PURE__ */ __resetStyles2("r2oyxsj", "r1wuyrhw", ['.r2oyxsj{white-space:nowrap;display:grid;grid-template-columns:auto 1fr auto auto;grid-template-rows:1fr;grid-template-areas:"icon body secondaryActions actions";padding-left:var(--spacingHorizontalM);border:var(--strokeWidthThin) solid var(--colorNeutralStroke1);border-radius:var(--borderRadiusMedium);align-items:center;min-height:36px;box-sizing:border-box;background-color:var(--colorNeutralBackground3);}', '.r1wuyrhw{white-space:nowrap;display:grid;grid-template-columns:auto 1fr auto auto;grid-template-rows:1fr;grid-template-areas:"icon body secondaryActions actions";padding-right:var(--spacingHorizontalM);border:var(--strokeWidthThin) solid var(--colorNeutralStroke1);border-radius:var(--borderRadiusMedium);align-items:center;min-height:36px;box-sizing:border-box;background-color:var(--colorNeutralBackground3);}']);
       useIconBaseStyles = /* @__PURE__ */ __resetStyles2("r1df1z33", "rivnfjc", [".r1df1z33{grid-area:icon;font-size:var(--fontSizeBase500);margin-right:var(--spacingHorizontalS);color:var(--colorNeutralForeground3);display:flex;align-items:center;}", ".rivnfjc{grid-area:icon;font-size:var(--fontSizeBase500);margin-left:var(--spacingHorizontalS);color:var(--colorNeutralForeground3);display:flex;align-items:center;}"]);
       useReflowSpacerBaseStyles = /* @__PURE__ */ __resetStyles2("r1vx593n", null, [".r1vx593n{margin-bottom:var(--spacingVerticalS);grid-area:secondaryActions;}"]);
-      useStyles6 = /* @__PURE__ */ __styles2({
+      useStyles8 = /* @__PURE__ */ __styles2({
         rootMultiline: {
           Huce71: "f6juhto",
           Bt984gj: "f1s2louj",
@@ -41933,7 +43287,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const iconIntentStyles = useIconIntentStyles();
         const rootIntentStyles = useRootIntentStyles();
         const reflowSpacerStyles = useReflowSpacerBaseStyles();
-        const styles = useStyles6();
+        const styles = useStyles8();
         state.root.className = mergeClasses(messageBarClassNames.root, rootBaseStyles, state.layout === "multiline" && styles.rootMultiline, state.shape === "square" && styles.square, rootIntentStyles[state.intent], state.transitionClassName, state.root.className);
         if (state.icon) {
           state.icon.className = mergeClasses(messageBarClassNames.icon, iconBaseStyles, iconIntentStyles[state.intent], state.icon.className);
@@ -41949,7 +43303,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js
   function useMessageBarContextValue_unstable(state) {
     const { layout, actionsRef, bodyRef, titleId } = state;
-    const messageBarContext2 = React69.useMemo(() => ({
+    const messageBarContext2 = React76.useMemo(() => ({
       layout,
       actionsRef,
       bodyRef,
@@ -41964,24 +43318,24 @@ You can check this by searching up for matching entries in a lockfile produced b
       messageBar: messageBarContext2
     };
   }
-  var React69;
+  var React76;
   var init_useMessageBarContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js"() {
-      React69 = __toESM(require_react());
+      React76 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js
-  var React70, MessageBar;
+  var React77, MessageBar;
   var init_MessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js"() {
-      React70 = __toESM(require_react());
+      React77 = __toESM(require_react());
       init_lib();
       init_useMessageBar();
       init_renderMessageBar();
       init_useMessageBarStyles_styles();
       init_useMessageBarContextValues();
-      MessageBar = /* @__PURE__ */ React70.forwardRef((props, ref) => {
+      MessageBar = /* @__PURE__ */ React77.forwardRef((props, ref) => {
         const state = useMessageBar_unstable(props, ref);
         useMessageBarStyles_unstable(state);
         useCustomStyleHook("useMessageBarStyles_unstable")(state);
@@ -42006,10 +43360,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js
-  var React71, useMessageBarTitle_unstable;
+  var React78, useMessageBarTitle_unstable;
   var init_useMessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js"() {
-      React71 = __toESM(require_react());
+      React78 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarTitle_unstable = (props, ref) => {
@@ -42062,15 +43416,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js
-  var React72, MessageBarTitle;
+  var React79, MessageBarTitle;
   var init_MessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js"() {
-      React72 = __toESM(require_react());
+      React79 = __toESM(require_react());
       init_lib();
       init_useMessageBarTitle();
       init_renderMessageBarTitle();
       init_useMessageBarTitleStyles_styles();
-      MessageBarTitle = /* @__PURE__ */ React72.forwardRef((props, ref) => {
+      MessageBarTitle = /* @__PURE__ */ React79.forwardRef((props, ref) => {
         const state = useMessageBarTitle_unstable(props, ref);
         useMessageBarTitleStyles_unstable(state);
         useCustomStyleHook("useMessageBarTitleStyles_unstable")(state);
@@ -42095,10 +43449,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js
-  var React73, useMessageBarActions_unstable;
+  var React80, useMessageBarActions_unstable;
   var init_useMessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js"() {
-      React73 = __toESM(require_react());
+      React80 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarActions_unstable = (props, ref) => {
@@ -42131,7 +43485,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/renderMessageBarActions.js"() {
       init_jsx_runtime();
       init_lib2();
-      init_lib11();
+      init_lib13();
       renderMessageBarActions_unstable = (state, contexts) => {
         assertSlots(state);
         if (state.layout === "multiline") {
@@ -42195,31 +43549,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js
   function useMessageBarActionsContextValue_unstable() {
-    const buttonContext2 = React74.useMemo(() => ({
+    const buttonContext2 = React81.useMemo(() => ({
       size: "small"
     }), []);
     return {
       button: buttonContext2
     };
   }
-  var React74;
+  var React81;
   var init_useMessageBarActionsContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js"() {
-      React74 = __toESM(require_react());
+      React81 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js
-  var React75, MessageBarActions;
+  var React82, MessageBarActions;
   var init_MessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js"() {
-      React75 = __toESM(require_react());
+      React82 = __toESM(require_react());
       init_lib();
       init_useMessageBarActions();
       init_renderMessageBarActions();
       init_useMessageBarActionsStyles_styles();
       init_useMessageBarActionsContextValues();
-      MessageBarActions = /* @__PURE__ */ React75.forwardRef((props, ref) => {
+      MessageBarActions = /* @__PURE__ */ React82.forwardRef((props, ref) => {
         const state = useMessageBarActions_unstable(props, ref);
         useMessageBarActionsStyles_unstable(state);
         useCustomStyleHook("useMessageBarActionsStyles_unstable")(state);
@@ -42244,10 +43598,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js
-  var React76, useMessageBarBody_unstable;
+  var React83, useMessageBarBody_unstable;
   var init_useMessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js"() {
-      React76 = __toESM(require_react());
+      React83 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarBody_unstable = (props, ref) => {
@@ -42273,7 +43627,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/renderMessageBarBody.js"() {
       init_jsx_runtime();
       init_lib2();
-      init_lib14();
+      init_lib16();
       renderMessageBarBody_unstable = (state, contextValues) => {
         assertSlots(state);
         return /* @__PURE__ */ jsx(LinkContextProvider, {
@@ -42304,31 +43658,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js
   function useMessageBarBodyContextValues_unstable(state) {
-    const link = React77.useMemo(() => ({
+    const link = React84.useMemo(() => ({
       inline: true
     }), []);
     return {
       link
     };
   }
-  var React77;
+  var React84;
   var init_useMessageBarBodyContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js"() {
-      React77 = __toESM(require_react());
+      React84 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js
-  var React78, MessageBarBody;
+  var React85, MessageBarBody;
   var init_MessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js"() {
-      React78 = __toESM(require_react());
+      React85 = __toESM(require_react());
       init_lib();
       init_useMessageBarBody();
       init_renderMessageBarBody();
       init_useMessageBarBodyStyles_styles();
       init_useMessageBarBodyContextValues();
-      MessageBarBody = /* @__PURE__ */ React78.forwardRef((props, ref) => {
+      MessageBarBody = /* @__PURE__ */ React85.forwardRef((props, ref) => {
         const state = useMessageBarBody_unstable(props, ref);
         const ctx = useMessageBarBodyContextValues_unstable(state);
         useMessageBarBodyStyles_unstable(state);
@@ -42354,21 +43708,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js
-  var React79, useMessageBarGroup_unstable;
+  var React86, useMessageBarGroup_unstable;
   var init_useMessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js"() {
-      React79 = __toESM(require_react());
+      React86 = __toESM(require_react());
       init_lib2();
       useMessageBarGroup_unstable = (props, ref) => {
         if (true) {
-          React79.Children.forEach(props.children, (c) => {
-            if (!React79.isValidElement(c) || c.type === React79.Fragment) {
+          React86.Children.forEach(props.children, (c) => {
+            if (!React86.isValidElement(c) || c.type === React86.Fragment) {
               throw new Error("MessageBarGroup: children must be valid MessageBar components. Please ensure you're not using fragments. ");
             }
           });
         }
         var _props_children;
-        const children = React79.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React79.isValidElement(c) && c.type !== React79.Fragment ? c : null).filter(Boolean);
+        const children = React86.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React86.isValidElement(c) && c.type !== React86.Fragment ? c : null).filter(Boolean);
         var _props_animate;
         return {
           components: {
@@ -43253,11 +44607,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/react-transition-group/esm/TransitionGroupContext.js
-  var import_react18, TransitionGroupContext_default;
+  var import_react20, TransitionGroupContext_default;
   var init_TransitionGroupContext = __esm({
     "node_modules/react-transition-group/esm/TransitionGroupContext.js"() {
-      import_react18 = __toESM(require_react());
-      TransitionGroupContext_default = import_react18.default.createContext(null);
+      import_react20 = __toESM(require_react());
+      TransitionGroupContext_default = import_react20.default.createContext(null);
     }
   });
 
@@ -43274,13 +44628,13 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/Transition.js
   function noop3() {
   }
-  var import_prop_types2, import_react19, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
+  var import_prop_types2, import_react21, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
   var init_Transition = __esm({
     "node_modules/react-transition-group/esm/Transition.js"() {
       init_objectWithoutPropertiesLoose();
       init_inheritsLoose();
       import_prop_types2 = __toESM(require_prop_types());
-      import_react19 = __toESM(require_react());
+      import_react21 = __toESM(require_react());
       import_react_dom = __toESM(require_react_dom());
       init_config();
       init_PropTypes();
@@ -43493,13 +44847,13 @@ You can check this by searching up for matching entries in a lockfile produced b
           var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose2(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
           return (
             // allows for nested Transitions
-            /* @__PURE__ */ import_react19.default.createElement(TransitionGroupContext_default.Provider, {
+            /* @__PURE__ */ import_react21.default.createElement(TransitionGroupContext_default.Provider, {
               value: null
-            }, typeof children === "function" ? children(status, childProps) : import_react19.default.cloneElement(import_react19.default.Children.only(children), childProps))
+            }, typeof children === "function" ? children(status, childProps) : import_react21.default.cloneElement(import_react21.default.Children.only(children), childProps))
           );
         };
         return Transition2;
-      }(import_react19.default.Component);
+      }(import_react21.default.Component);
       Transition.contextType = TransitionGroupContext_default;
       Transition.propTypes = true ? {
         /**
@@ -43707,10 +45061,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/utils/ChildMapping.js
   function getChildMapping(children, mapFn) {
     var mapper = function mapper2(child) {
-      return mapFn && (0, import_react20.isValidElement)(child) ? mapFn(child) : child;
+      return mapFn && (0, import_react22.isValidElement)(child) ? mapFn(child) : child;
     };
     var result = /* @__PURE__ */ Object.create(null);
-    if (children) import_react20.Children.map(children, function(c) {
+    if (children) import_react22.Children.map(children, function(c) {
       return c;
     }).forEach(function(child) {
       result[child.key] = mapper(child);
@@ -43756,7 +45110,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   }
   function getInitialChildMapping(props, onExited) {
     return getChildMapping(props.children, function(child) {
-      return (0, import_react20.cloneElement)(child, {
+      return (0, import_react22.cloneElement)(child, {
         onExited: onExited.bind(null, child),
         in: true,
         appear: getProp(child, "appear", props),
@@ -43770,24 +45124,24 @@ You can check this by searching up for matching entries in a lockfile produced b
     var children = mergeChildMappings(prevChildMapping, nextChildMapping);
     Object.keys(children).forEach(function(key) {
       var child = children[key];
-      if (!(0, import_react20.isValidElement)(child)) return;
+      if (!(0, import_react22.isValidElement)(child)) return;
       var hasPrev = key in prevChildMapping;
       var hasNext = key in nextChildMapping;
       var prevChild = prevChildMapping[key];
-      var isLeaving = (0, import_react20.isValidElement)(prevChild) && !prevChild.props.in;
+      var isLeaving = (0, import_react22.isValidElement)(prevChild) && !prevChild.props.in;
       if (hasNext && (!hasPrev || isLeaving)) {
-        children[key] = (0, import_react20.cloneElement)(child, {
+        children[key] = (0, import_react22.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: true,
           exit: getProp(child, "exit", nextProps),
           enter: getProp(child, "enter", nextProps)
         });
       } else if (!hasNext && hasPrev && !isLeaving) {
-        children[key] = (0, import_react20.cloneElement)(child, {
+        children[key] = (0, import_react22.cloneElement)(child, {
           in: false
         });
-      } else if (hasNext && hasPrev && (0, import_react20.isValidElement)(prevChild)) {
-        children[key] = (0, import_react20.cloneElement)(child, {
+      } else if (hasNext && hasPrev && (0, import_react22.isValidElement)(prevChild)) {
+        children[key] = (0, import_react22.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: prevChild.props.in,
           exit: getProp(child, "exit", nextProps),
@@ -43797,15 +45151,15 @@ You can check this by searching up for matching entries in a lockfile produced b
     });
     return children;
   }
-  var import_react20;
+  var import_react22;
   var init_ChildMapping = __esm({
     "node_modules/react-transition-group/esm/utils/ChildMapping.js"() {
-      import_react20 = __toESM(require_react());
+      import_react22 = __toESM(require_react());
     }
   });
 
   // node_modules/react-transition-group/esm/TransitionGroup.js
-  var import_prop_types3, import_react21, values, defaultProps, TransitionGroup, TransitionGroup_default;
+  var import_prop_types3, import_react23, values, defaultProps, TransitionGroup, TransitionGroup_default;
   var init_TransitionGroup = __esm({
     "node_modules/react-transition-group/esm/TransitionGroup.js"() {
       init_objectWithoutPropertiesLoose();
@@ -43813,7 +45167,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_assertThisInitialized();
       init_inheritsLoose();
       import_prop_types3 = __toESM(require_prop_types());
-      import_react21 = __toESM(require_react());
+      import_react23 = __toESM(require_react());
       init_TransitionGroupContext();
       init_ChildMapping();
       values = Object.values || function(obj) {
@@ -43885,16 +45239,16 @@ You can check this by searching up for matching entries in a lockfile produced b
           delete props.enter;
           delete props.exit;
           if (Component2 === null) {
-            return /* @__PURE__ */ import_react21.default.createElement(TransitionGroupContext_default.Provider, {
+            return /* @__PURE__ */ import_react23.default.createElement(TransitionGroupContext_default.Provider, {
               value: contextValue
             }, children);
           }
-          return /* @__PURE__ */ import_react21.default.createElement(TransitionGroupContext_default.Provider, {
+          return /* @__PURE__ */ import_react23.default.createElement(TransitionGroupContext_default.Provider, {
             value: contextValue
-          }, /* @__PURE__ */ import_react21.default.createElement(Component2, props, children));
+          }, /* @__PURE__ */ import_react23.default.createElement(Component2, props, children));
         };
         return TransitionGroup2;
-      }(import_react21.default.Component);
+      }(import_react23.default.Component);
       TransitionGroup.propTypes = true ? {
         /**
          * `<TransitionGroup>` renders a `<div>` by default. You can change this
@@ -43962,10 +45316,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js
-  var React83, getClassName, MessageBarTransition, MessageBarTransitionInner;
+  var React90, getClassName, MessageBarTransition, MessageBarTransitionInner;
   var init_MessageBarTransition = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js"() {
-      React83 = __toESM(require_react());
+      React90 = __toESM(require_react());
       init_esm2();
       init_messageBarTransitionContext();
       getClassName = (status, enterClassName, exitClassName, animate) => {
@@ -43981,12 +45335,12 @@ You can check this by searching up for matching entries in a lockfile produced b
         }
       };
       MessageBarTransition = ({ children, enterClassName, exitClassName, animate, ...rest }) => {
-        const nodeRef = React83.useRef(null);
-        return /* @__PURE__ */ React83.createElement(Transition_default, {
+        const nodeRef = React90.useRef(null);
+        return /* @__PURE__ */ React90.createElement(Transition_default, {
           timeout: 250,
           nodeRef,
           ...rest
-        }, (state) => /* @__PURE__ */ React83.createElement(MessageBarTransitionInner, {
+        }, (state) => /* @__PURE__ */ React90.createElement(MessageBarTransitionInner, {
           animate,
           enterClassName,
           exitClassName,
@@ -43996,14 +45350,14 @@ You can check this by searching up for matching entries in a lockfile produced b
       };
       MessageBarTransitionInner = ({ children, state, enterClassName, exitClassName, animate, nodeRef }) => {
         const className = getClassName(state, enterClassName, exitClassName, animate);
-        const context = React83.useMemo(() => ({
+        const context = React90.useMemo(() => ({
           className,
           nodeRef
         }), [
           className,
           nodeRef
         ]);
-        return /* @__PURE__ */ React83.createElement(MessageBarTransitionContextProvider, {
+        return /* @__PURE__ */ React90.createElement(MessageBarTransitionContextProvider, {
           value: context
         }, children);
       };
@@ -44036,14 +45390,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroupStyles.styles.js
-  var messageBarGroupClassNames, useStyles7, useMessageBarGroupStyles_unstable;
+  var messageBarGroupClassNames, useStyles9, useMessageBarGroupStyles_unstable;
   var init_useMessageBarGroupStyles_styles = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroupStyles.styles.js"() {
       init_index_esm2();
       messageBarGroupClassNames = {
         root: "fui-MessageBarGroup"
       };
-      useStyles7 = /* @__PURE__ */ __styles2({
+      useStyles9 = /* @__PURE__ */ __styles2({
         base: {
           Bf5fcs: "f4cll0y",
           vin17d: "fy8si0b"
@@ -44060,7 +45414,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useMessageBarGroupStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles7();
+        const styles = useStyles9();
         state.root.className = mergeClasses(messageBarGroupClassNames.root, state.root.className);
         state.enterStyles = mergeClasses(styles.base, styles.enter);
         state.exitStyles = mergeClasses(styles.base, styles.exit);
@@ -44070,15 +45424,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js
-  var React84, MessageBarGroup;
+  var React91, MessageBarGroup;
   var init_MessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js"() {
-      React84 = __toESM(require_react());
+      React91 = __toESM(require_react());
       init_lib();
       init_useMessageBarGroup();
       init_renderMessageBarGroup();
       init_useMessageBarGroupStyles_styles();
-      MessageBarGroup = /* @__PURE__ */ React84.forwardRef((props, ref) => {
+      MessageBarGroup = /* @__PURE__ */ React91.forwardRef((props, ref) => {
         const state = useMessageBarGroup_unstable(props, ref);
         useMessageBarGroupStyles_unstable(state);
         useCustomStyleHook("useMessageBarGroupStyles_unstable")(state);
@@ -44103,7 +45457,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/index.js
-  var init_lib19 = __esm({
+  var init_lib21 = __esm({
     "node_modules/@fluentui/react-message-bar/lib/index.js"() {
       init_MessageBar3();
       init_MessageBarTitle3();
@@ -44114,18 +45468,19 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-components/lib/index.js
-  var init_lib20 = __esm({
+  var init_lib22 = __esm({
     "node_modules/@fluentui/react-components/lib/index.js"() {
       init_index_esm2();
       init_lib6();
       init_lib4();
-      init_lib11();
-      init_lib14();
-      init_lib15();
+      init_lib12();
+      init_lib13();
       init_lib16();
       init_lib17();
       init_lib18();
       init_lib19();
+      init_lib20();
+      init_lib21();
     }
   });
 
@@ -44141,7 +45496,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_CommonStyles = __esm({
     "src/CommonStyles.ts"() {
       "use strict";
-      init_lib20();
+      init_lib22();
       standardColumnElementStyles = makeStyles2({
         root: {
           width: "100%"
@@ -44339,25 +45694,25 @@ You can check this by searching up for matching entries in a lockfile produced b
     offscreenContext = null;
     return Math.max(dyMin, Math.min(dyMax, dyNeeded));
   }
-  var import_react24, MultilineEdit;
+  var import_react26, MultilineEdit;
   var init_MultilineEdit = __esm({
     "src/MultilineEdit.tsx"() {
       "use strict";
-      import_react24 = __toESM(require_react());
-      init_lib20();
+      import_react26 = __toESM(require_react());
+      init_lib22();
       init_lib10();
       init_CommonStyles();
       init_MultilineEditUIStrings();
       MultilineEdit = (props) => {
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
-        const [width, setWidth] = (0, import_react24.useState)(0);
+        const [width, setWidth] = (0, import_react26.useState)(0);
         const textAreaId = "textAreaId;";
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
-        (0, import_react24.useLayoutEffect)(() => {
+        (0, import_react26.useLayoutEffect)(() => {
           const textArea = document.getElementById(
             textAreaId
           );
@@ -44411,7 +45766,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react24.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react24.default.createElement(Text, { className: textFieldClasses.normal }, props.caption), /* @__PURE__ */ import_react24.default.createElement(
+        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.normal }, props.caption), /* @__PURE__ */ import_react26.default.createElement(
           Textarea,
           {
             id: textAreaId,
@@ -44430,12 +45785,12 @@ You can check this by searching up for matching entries in a lockfile produced b
             onKeyDown: (e) => onSend(e, props.message),
             autoFocus: true
           }
-        ), /* @__PURE__ */ import_react24.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react24.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react24.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react24.default.createElement(
+        ), /* @__PURE__ */ import_react26.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react26.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react26.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Send",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react24.default.createElement(SendRegular, null),
+            icon: /* @__PURE__ */ import_react26.default.createElement(SendRegular, null),
             onClick,
             disabled: !props.enabled || props.message.length === 0
           }
@@ -44444,91 +45799,31 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // src/CopyableText.tsx
-  var import_react25, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
-  var init_CopyableText = __esm({
-    "src/CopyableText.tsx"() {
-      "use strict";
-      import_react25 = __toESM(require_react());
-      init_lib20();
-      init_lib10();
-      init_CommonStyles();
-      copyableTextStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          // start layout at the top       
-          alignItems: "left",
-          width: "100%",
-          ...shorthands2.borderColor("gray"),
-          ...shorthands2.borderWidth("1px"),
-          ...shorthands2.borderStyle("solid"),
-          borderRadius: "4px",
-          padding: "12px",
-          marginBottom: "12px"
-        }
-      });
-      copyableTextButtonRowStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "flex-end",
-          // start layout at the right       
-          alignItems: "right",
-          width: "100%"
-        }
-      });
-      CopyableText = (props) => {
-        const textClasses = standardTextStyles();
-        const copyableTextClasses = copyableTextStyles();
-        const copyableTextButtonRowClasses = copyableTextButtonRowStyles();
-        const copyToClipboard = () => {
-          navigator.clipboard.writeText(props.text).then(() => {
-          }).catch((err) => {
-          });
-        };
-        return /* @__PURE__ */ import_react25.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react25.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react25.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react25.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react25.default.createElement(
-          ToolbarButton,
-          {
-            "aria-label": "Copy",
-            appearance: "subtle",
-            icon: /* @__PURE__ */ import_react25.default.createElement(CopyRegular, null),
-            onClick: copyToClipboard
-          }
-        ))), props.text.split("\n").map((line2, index) => {
-          const myId = props.id + "-" + index;
-          return /* @__PURE__ */ import_react25.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
-        })) : /* @__PURE__ */ import_react25.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
-      };
-    }
-  });
-
   // src/Message.tsx
-  var import_react26, Message;
+  var import_react27, Message;
   var init_Message = __esm({
     "src/Message.tsx"() {
       "use strict";
-      import_react26 = __toESM(require_react());
-      init_lib20();
+      import_react27 = __toESM(require_react());
+      init_lib22();
       init_lib10();
       init_CommonStyles();
       Message = (props) => {
         const messageClasses = standardColumnElementStyles();
-        const [isDismissed, setIsDismissed] = (0, import_react26.useState)(false);
+        const [isDismissed, setIsDismissed] = (0, import_react27.useState)(false);
         const onDismiss = () => {
           setIsDismissed(true);
           props.onDismiss?.();
         };
-        return !isDismissed && /* @__PURE__ */ import_react26.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react26.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react26.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react26.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react26.default.createElement(
+        return !isDismissed && /* @__PURE__ */ import_react27.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react27.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react27.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react27.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react27.default.createElement(
           MessageBarActions,
           {
-            containerAction: /* @__PURE__ */ import_react26.default.createElement(
+            containerAction: /* @__PURE__ */ import_react27.default.createElement(
               Button,
               {
                 "aria-label": "dismiss",
                 appearance: "transparent",
-                icon: /* @__PURE__ */ import_react26.default.createElement(DismissRegular, null),
+                icon: /* @__PURE__ */ import_react27.default.createElement(DismissRegular, null),
                 onClick: onDismiss
               }
             )
@@ -44693,7 +45988,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     return !!(thing && isFunction2(thing.append) && thing[Symbol.toStringTag] === "FormData" && thing[Symbol.iterator]);
   }
   var toString, getPrototypeOf, kindOf, kindOfTest, typeOfTest, isArray, isUndefined, isArrayBuffer, isString2, isFunction2, isNumber2, isObject3, isBoolean2, isPlainObject, isDate, isFile, isBlob, isFileList, isStream, isFormData, isURLSearchParams, isReadableStream, isRequest, isResponse, isHeaders, trim2, _global, isContextDefined, extend, stripBOM, inherits, toFlatObject, endsWith, toArray, isTypedArray, forEachEntry, matchAll, isHTMLForm, toCamelCase, hasOwnProperty, isRegExp, reduceDescriptors, freezeMethods, toObjectSet, noop4, toFiniteNumber, toJSONObject, isAsyncFn, isThenable, _setImmediate, asap, utils_default;
-  var init_utils2 = __esm({
+  var init_utils3 = __esm({
     "node_modules/axios/lib/utils.js"() {
       "use strict";
       init_bind();
@@ -45011,7 +46306,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_AxiosError = __esm({
     "node_modules/axios/lib/core/AxiosError.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       utils_default.inherits(AxiosError, Error, {
         toJSON: function toJSON() {
           return {
@@ -45190,7 +46485,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_toFormData = __esm({
     "node_modules/axios/lib/helpers/toFormData.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_AxiosError();
       init_null();
       predicates = utils_default.toFlatObject(utils_default, {}, null, function filter2(prop) {
@@ -45273,7 +46568,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_buildURL = __esm({
     "node_modules/axios/lib/helpers/buildURL.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_AxiosURLSearchParams();
     }
   });
@@ -45283,7 +46578,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_InterceptorManager = __esm({
     "node_modules/axios/lib/core/InterceptorManager.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       InterceptorManager = class {
         constructor() {
           this.handlers = [];
@@ -45419,7 +46714,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     origin: () => origin
   });
   var hasBrowserEnv, _navigator, hasStandardBrowserEnv, hasStandardBrowserWebWorkerEnv, origin;
-  var init_utils3 = __esm({
+  var init_utils4 = __esm({
     "node_modules/axios/lib/platform/common/utils.js"() {
       hasBrowserEnv = typeof window !== "undefined" && typeof document !== "undefined";
       _navigator = typeof navigator === "object" && navigator || void 0;
@@ -45437,7 +46732,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_platform = __esm({
     "node_modules/axios/lib/platform/index.js"() {
       init_browser();
-      init_utils3();
+      init_utils4();
       platform_default = {
         ...utils_exports,
         ...browser_default
@@ -45460,7 +46755,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_toURLEncodedForm = __esm({
     "node_modules/axios/lib/helpers/toURLEncodedForm.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_toFormData();
       init_platform();
     }
@@ -45521,7 +46816,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_formDataToJSON = __esm({
     "node_modules/axios/lib/helpers/formDataToJSON.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       formDataToJSON_default = formDataToJSON;
     }
   });
@@ -45544,7 +46839,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_defaults = __esm({
     "node_modules/axios/lib/defaults/index.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_AxiosError();
       init_transitional();
       init_toFormData();
@@ -45653,7 +46948,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_parseHeaders = __esm({
     "node_modules/axios/lib/helpers/parseHeaders.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       ignoreDuplicateOf = utils_default.toObjectSet([
         "age",
         "authorization",
@@ -45754,7 +47049,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_AxiosHeaders = __esm({
     "node_modules/axios/lib/core/AxiosHeaders.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_parseHeaders();
       $internals = Symbol("internals");
       isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
@@ -45944,7 +47239,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_transformData = __esm({
     "node_modules/axios/lib/core/transformData.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_defaults();
       init_AxiosHeaders();
     }
@@ -45970,7 +47265,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/axios/lib/cancel/CanceledError.js"() {
       "use strict";
       init_AxiosError();
-      init_utils2();
+      init_utils3();
       utils_default.inherits(CanceledError, AxiosError_default, {
         __CANCEL__: true
       });
@@ -46099,7 +47394,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/axios/lib/helpers/progressEventReducer.js"() {
       init_speedometer();
       init_throttle();
-      init_utils2();
+      init_utils3();
       progressEventReducer = (listener, isDownloadStream, freq = 3) => {
         let bytesNotified = 0;
         const _speedometer = speedometer_default(50, 250);
@@ -46155,7 +47450,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var cookies_default;
   var init_cookies = __esm({
     "node_modules/axios/lib/helpers/cookies.js"() {
-      init_utils2();
+      init_utils3();
       init_platform();
       cookies_default = platform_default.hasStandardBrowserEnv ? (
         // Standard browser envs support document.cookie
@@ -46309,7 +47604,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_mergeConfig = __esm({
     "node_modules/axios/lib/core/mergeConfig.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_AxiosHeaders();
       headersToObject = (thing) => thing instanceof AxiosHeaders_default ? { ...thing } : thing;
     }
@@ -46320,7 +47615,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_resolveConfig = __esm({
     "node_modules/axios/lib/helpers/resolveConfig.js"() {
       init_platform();
-      init_utils2();
+      init_utils3();
       init_isURLSameOrigin();
       init_cookies();
       init_buildFullPath();
@@ -46365,7 +47660,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var isXHRAdapterSupported, xhr_default;
   var init_xhr = __esm({
     "node_modules/axios/lib/adapters/xhr.js"() {
-      init_utils2();
+      init_utils3();
       init_settle();
       init_transitional();
       init_AxiosError();
@@ -46509,7 +47804,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/axios/lib/helpers/composeSignals.js"() {
       init_CanceledError();
       init_AxiosError();
-      init_utils2();
+      init_utils3();
       composeSignals = (signals, timeout2) => {
         const { length: length2 } = signals = signals ? signals.filter(Boolean) : [];
         if (timeout2 || length2) {
@@ -46634,7 +47929,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_fetch = __esm({
     "node_modules/axios/lib/adapters/fetch.js"() {
       init_platform();
-      init_utils2();
+      init_utils3();
       init_AxiosError();
       init_composeSignals();
       init_trackStream();
@@ -46811,7 +48106,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var knownAdapters, renderReason, isResolvedHandle, adapters_default;
   var init_adapters = __esm({
     "node_modules/axios/lib/adapters/adapters.js"() {
-      init_utils2();
+      init_utils3();
       init_null();
       init_xhr();
       init_fetch();
@@ -47012,7 +48307,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_Axios = __esm({
     "node_modules/axios/lib/core/Axios.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_buildURL();
       init_InterceptorManager();
       init_dispatchRequest();
@@ -47318,7 +48613,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_isAxiosError = __esm({
     "node_modules/axios/lib/helpers/isAxiosError.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
     }
   });
 
@@ -47413,7 +48708,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_axios = __esm({
     "node_modules/axios/lib/axios.js"() {
       "use strict";
-      init_utils2();
+      init_utils3();
       init_bind();
       init_Axios();
       init_mergeConfig();
@@ -47707,7 +49002,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // src/ChatCall.ts
+  // src/ChatCallUtils.ts
   function createRetryableAxiosClient() {
     const client = axios_default.create({
       timeout: 3e4,
@@ -47729,6 +49024,15 @@ You can check this by searching up for matching entries in a lockfile produced b
     });
     return client;
   }
+  var init_ChatCallUtils = __esm({
+    "src/ChatCallUtils.ts"() {
+      "use strict";
+      init_axios2();
+      init_esm3();
+    }
+  });
+
+  // src/ChatCall.ts
   async function processChat({
     screeningApiUrl,
     chatApiUrl,
@@ -47854,10 +49158,9 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_ChatCall = __esm({
     "src/ChatCall.ts"() {
       "use strict";
-      init_axios2();
-      init_esm3();
       init_AssistantChatApiTypes();
       init_UIStateMachine();
+      init_ChatCallUtils();
     }
   });
 
@@ -47866,7 +49169,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_OuterStyles = __esm({
     "src/OuterStyles.ts"() {
       "use strict";
-      init_lib20();
+      init_lib22();
       pageOuterStyles = makeStyles2({
         root: {
           display: "flex",
@@ -47914,22 +49217,22 @@ You can check this by searching up for matching entries in a lockfile produced b
           width: "100%",
           backgroundImage: "url('assets/img/board-512x384.png')",
           backgroundRepeat: "repeat",
-          opacity: 0.75
+          opacity: 0.9
         }
       });
     }
   });
 
   // src/SiteUtilities.tsx
-  var import_react27, MOBILE_BREAKPOINT, useFooterStyles, Spacer, Footer;
+  var import_react28, MOBILE_BREAKPOINT, useFooterStyles, Spacer, Footer;
   var init_SiteUtilities = __esm({
     "src/SiteUtilities.tsx"() {
       "use strict";
-      import_react27 = __toESM(require_react());
+      import_react28 = __toESM(require_react());
       init_dist2();
       init_CommonStyles();
       init_UIStrings();
-      init_lib20();
+      init_lib22();
       MOBILE_BREAKPOINT = 768;
       useFooterStyles = makeStyles2({
         footerContainer: {
@@ -47954,13 +49257,13 @@ You can check this by searching up for matching entries in a lockfile produced b
         }
       });
       Spacer = (props) => {
-        return /* @__PURE__ */ import_react27.default.createElement("div", null, "\xA0\xA0\xA0");
+        return /* @__PURE__ */ import_react28.default.createElement("div", null, "\xA0\xA0\xA0");
       };
       Footer = (props) => {
         const uiStrings = getUIStrings("yardtalk" /* kYardTalk */);
         const linkClasses = standardLinkStyles();
         const styles = useFooterStyles();
-        return /* @__PURE__ */ import_react27.default.createElement("div", { className: styles.footerContainer }, /* @__PURE__ */ import_react27.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react27.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react27.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react27.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
+        return /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
       };
     }
   });
@@ -48014,6 +49317,183 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // src/CopyableText.tsx
+  var import_react29, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
+  var init_CopyableText = __esm({
+    "src/CopyableText.tsx"() {
+      "use strict";
+      import_react29 = __toESM(require_react());
+      init_lib22();
+      init_lib10();
+      init_CommonStyles();
+      copyableTextStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "flex-start",
+          // start layout at the top       
+          alignItems: "left",
+          width: "100%",
+          ...shorthands2.borderColor("gray"),
+          ...shorthands2.borderWidth("1px"),
+          ...shorthands2.borderStyle("solid"),
+          borderRadius: "4px",
+          padding: "12px",
+          marginBottom: "12px"
+        }
+      });
+      copyableTextButtonRowStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "flex-end",
+          // start layout at the right       
+          alignItems: "right",
+          width: "100%"
+        }
+      });
+      CopyableText = (props) => {
+        const textClasses = standardTextStyles();
+        const copyableTextClasses = copyableTextStyles();
+        const copyableTextButtonRowClasses = copyableTextButtonRowStyles();
+        const copyToClipboard = () => {
+          navigator.clipboard.writeText(props.text).then(() => {
+          }).catch((err) => {
+          });
+        };
+        return /* @__PURE__ */ import_react29.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react29.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react29.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react29.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react29.default.createElement(
+          ToolbarButton,
+          {
+            "aria-label": "Copy",
+            appearance: "subtle",
+            icon: /* @__PURE__ */ import_react29.default.createElement(CopyRegular, null),
+            onClick: copyToClipboard
+          }
+        ))), props.text.split("\n").map((line2, index) => {
+          const myId = props.id + "-" + index;
+          return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
+        })) : /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
+      };
+    }
+  });
+
+  // src/ChatHistory.tsx
+  var import_react30, useStyles10, ChatMessage, ChatHistory;
+  var init_ChatHistory = __esm({
+    "src/ChatHistory.tsx"() {
+      "use strict";
+      import_react30 = __toESM(require_react());
+      init_lib22();
+      init_lib10();
+      init_AssistantChatApiTypes();
+      init_CopyableText();
+      useStyles10 = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column",
+          gap: tokens.spacingVerticalM,
+          padding: tokens.spacingVerticalM
+        },
+        messageContainer: {
+          display: "flex",
+          gap: tokens.spacingHorizontalM,
+          alignItems: "flex-start"
+        },
+        messageContent: {
+          flex: 1,
+          padding: tokens.spacingVerticalS,
+          borderRadius: tokens.borderRadiusMedium,
+          backgroundColor: tokens.colorNeutralBackground2
+        },
+        userMessage: {
+          backgroundColor: `${tokens.colorBrandBackground2}CC`
+          // 80% opacity
+        },
+        assistantMessage: {
+          backgroundColor: `${tokens.colorNeutralBackground2}CC`
+          // 80% opacity
+        },
+        avatar: {
+          flexShrink: 0
+        },
+        timestamp: {
+          fontSize: tokens.fontSizeBase200,
+          color: tokens.colorNeutralForeground3,
+          marginTop: tokens.spacingVerticalXS
+        }
+      });
+      ChatMessage = ({ message }) => {
+        const styles = useStyles10();
+        return /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react30.default.createElement(
+          Avatar,
+          {
+            className: styles.avatar,
+            icon: message.role === "user" /* kUser */ ? /* @__PURE__ */ import_react30.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react30.default.createElement(BotRegular, null),
+            color: message.role === "user" /* kUser */ ? "brand" : "neutral"
+          }
+        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: mergeClasses(
+          styles.messageContent,
+          message.role === "user" /* kUser */ ? styles.userMessage : styles.assistantMessage
+        ) }, /* @__PURE__ */ import_react30.default.createElement(
+          CopyableText,
+          {
+            text: message.content,
+            placeholder: "",
+            id: `message-${new Date(message.timestamp).getTime()}`
+          }
+        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, new Date(message.timestamp).toLocaleTimeString())));
+      };
+      ChatHistory = ({ messages }) => {
+        const styles = useStyles10();
+        return /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react30.default.createElement(ChatMessage, { key: index, message })));
+      };
+    }
+  });
+
+  // src/ChatHistoryCall.ts
+  async function processChatHistory({
+    messagesApiUrl,
+    sessionId,
+    limit,
+    onPage,
+    apiClient
+  }) {
+    if (!apiClient) {
+      apiClient = createRetryableAxiosClient();
+    }
+    const allMessages = [];
+    let continuation;
+    try {
+      do {
+        const request = {
+          sessionId,
+          limit,
+          continuation
+        };
+        const response = await apiClient.post(
+          messagesApiUrl,
+          request
+        );
+        const { messages, continuation: nextContinuation } = response.data;
+        allMessages.push(...messages);
+        if (onPage) {
+          onPage(messages);
+        }
+        continuation = nextContinuation;
+      } while (continuation);
+      return allMessages;
+    } catch (error) {
+      console.error("Error retrieving messages:", error);
+      throw error;
+    }
+  }
+  var init_ChatHistoryCall = __esm({
+    "src/ChatHistoryCall.ts"() {
+      "use strict";
+      init_ChatCallUtils();
+    }
+  });
+
   // src/App.tsx
   function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(
@@ -48021,23 +49501,24 @@ You can check this by searching up for matching entries in a lockfile produced b
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react28, kFontNameForTextWrapCalculation, kRequirementMaxLength, scrollableContentStyles, successContainerStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
+  var import_react31, kFontNameForTextWrapCalculation, kRequirementMaxLength, scrollableContentStyles, successContainerStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
-      import_react28 = __toESM(require_react());
-      init_lib20();
+      import_react31 = __toESM(require_react());
+      init_lib22();
       init_AssistantChatApiTypes();
       init_MultilineEdit();
       init_UIStrings();
       init_CommonStyles();
-      init_CopyableText();
       init_Message();
       init_UIStateMachine();
       init_ChatCall();
       init_OuterStyles();
       init_SiteUtilities();
       init_Cookie();
+      init_ChatHistory();
+      init_ChatHistoryCall();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
       scrollableContentStyles = makeStyles2({
@@ -48081,24 +49562,39 @@ You can check this by searching up for matching entries in a lockfile produced b
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
         const successContainerClasses = successContainerStyles();
+        const bottomRef = (0, import_react31.useRef)(null);
         const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
         const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
         const cookieApiUrl = local ? "http://localhost:7071/api/Cookie" : "https://motifassistantapi.azurewebsites.net/api/Cookie";
+        const messagesApiUrl = local ? "http://localhost:7071/api/GetMessages" : "https://motifassistantapi.azurewebsites.net/api/GetMessages";
         const uiStrings = getUIStrings(props.appMode);
-        let [state, setState] = (0, import_react28.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
-        let [sessionUuid, setSessionUuid] = (0, import_react28.useState)(newSessionUuid);
-        (0, import_react28.useEffect)(() => {
+        let [state, setState] = (0, import_react31.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+        let [sessionUuid, setSessionUuid] = (0, import_react31.useState)(newSessionUuid);
+        const [chatHistory, setChatHistory] = (0, import_react31.useState)([]);
+        (0, import_react31.useEffect)(() => {
           const getCookie = async () => {
             const existingSession = await getSessionUuid(cookieApiUrl);
             if (existingSession) {
               setSessionUuid(existingSession);
+              try {
+                await processChatHistory({
+                  messagesApiUrl,
+                  sessionId: existingSession,
+                  limit: 50,
+                  onPage: (messages) => {
+                    setChatHistory((prev2) => [...prev2, ...messages]);
+                  }
+                });
+              } catch (error2) {
+                console.error("Error fetching chat history:", error2);
+              }
             }
           };
           getCookie();
         }, []);
-        const [message, setMessage] = (0, import_react28.useState)("");
-        const [streamedResponse, setStreamedResponse] = (0, import_react28.useState)(void 0);
-        async function callServer() {
+        const [message, setMessage] = (0, import_react31.useState)(void 0);
+        const [streamedResponse, setStreamedResponse] = (0, import_react31.useState)(void 0);
+        async function callChatServer() {
           if (!message) return;
           setStreamedResponse("");
           const result = await processChat({
@@ -48116,6 +49612,14 @@ You can check this by searching up for matching entries in a lockfile produced b
             },
             forceNode: props.forceNode
           });
+          if (streamedResponse) {
+            setChatHistory((prev2) => [...prev2, {
+              role: "assistant" /* kAssistant */,
+              content: streamedResponse,
+              timestamp: /* @__PURE__ */ new Date()
+            }]);
+            setStreamedResponse(void 0);
+          }
         }
         ;
         const onDismiss = () => {
@@ -48125,7 +49629,13 @@ You can check this by searching up for matching entries in a lockfile produced b
         };
         const onSend = (message_) => {
           setMessage(message_);
-          callServer();
+          setChatHistory((prev2) => [...prev2, {
+            role: "user" /* kUser */,
+            content: message_,
+            timestamp: /* @__PURE__ */ new Date()
+          }]);
+          setMessage(void 0);
+          callChatServer();
         };
         const onChange = (message_) => {
           setMessage(message_);
@@ -48136,19 +49646,19 @@ You can check this by searching up for matching entries in a lockfile produced b
           caption: uiStrings.kChatPreamble,
           placeholder: uiStrings.kChatPlaceholder,
           maxLength: kRequirementMaxLength,
-          message,
+          message: message || "",
           enabled: state.getState() === "Waiting" /* kWaiting */,
           fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
           defaultHeightLines: 10,
           onSend,
           onChange
         };
-        let blank = /* @__PURE__ */ import_react28.default.createElement("div", null);
+        let blank = /* @__PURE__ */ import_react31.default.createElement("div", null);
         let offTopic = blank;
         let error = blank;
         let success = blank;
         if (state.getState() === "OffTopic" /* kOffTopic */) {
-          offTopic = /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react28.default.createElement(
+          offTopic = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
             Message,
             {
               intent: "warning" /* kWarning */,
@@ -48160,7 +49670,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           ));
         }
         if (state.getState() === "Error" /* kError */) {
-          error = /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react28.default.createElement(
+          error = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
             Message,
             {
               intent: "error" /* kError */,
@@ -48172,55 +49682,67 @@ You can check this by searching up for matching entries in a lockfile produced b
           ));
         }
         if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          success = /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react28.default.createElement(
-            CopyableText,
+          success = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
+            ChatMessage,
             {
-              placeholder: uiStrings.kResponsePlaceholder,
-              text: streamedResponse,
-              id: activeFieldId
+              message: {
+                role: "assistant" /* kAssistant */,
+                content: streamedResponse,
+                timestamp: /* @__PURE__ */ new Date()
+              }
             }
           ));
         }
-        return /* @__PURE__ */ import_react28.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react28.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react28.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+        (0, import_react31.useEffect)(() => {
+          if (streamedResponse) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, [streamedResponse]);
+        (0, import_react31.useEffect)(() => {
+          if (chatHistory.length > 0) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, [chatHistory]);
+        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
           return markdownLinks.split(",").map((link, index) => {
             const matches = link.match(/\[(.*?)\]\((.*?)\)/);
             if (matches) {
               const [_, text, url] = matches;
-              return /* @__PURE__ */ import_react28.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+              return /* @__PURE__ */ import_react31.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react28.default.createElement(Spacer, null), /* @__PURE__ */ import_react28.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react28.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react28.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react28.default.createElement(Spacer, null), /* @__PURE__ */ import_react28.default.createElement(Spinner, { label: "Please wait a few seconds..." })), offTopic, error, /* @__PURE__ */ import_react28.default.createElement("div", { className: successContainerClasses.root }, success)), /* @__PURE__ */ import_react28.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react28.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react28.default.createElement(Spacer, null), /* @__PURE__ */ import_react28.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: "Please wait a few seconds..." })), /* @__PURE__ */ import_react31.default.createElement("div", { className: successContainerClasses.root }, success), /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps })), offTopic, error), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
       };
     }
   });
 
   // src/PlainText.tsx
-  var import_react29, PlainText;
+  var import_react32, PlainText;
   var init_PlainText = __esm({
     "src/PlainText.tsx"() {
       "use strict";
-      import_react29 = __toESM(require_react());
+      import_react32 = __toESM(require_react());
       init_OuterStyles();
-      init_lib20();
+      init_lib22();
       init_CommonStyles();
       init_SiteUtilities();
       PlainText = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react29.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react29.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react29.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
           if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
+            return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
           }
           if (line2.match(/https?:\/\/\S+/)) {
             const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react29.default.createElement(Link3, { key: i, href: part }, part) : part
+            return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react32.default.createElement(Link3, { key: i, href: part }, part) : part
             ));
           }
-          return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
-        }), /* @__PURE__ */ import_react29.default.createElement(Spacer, null), /* @__PURE__ */ import_react29.default.createElement(Footer, null)));
+          return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
+        }), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
       };
     }
   });
@@ -48393,58 +49915,58 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/Site.tsx
-  var import_react30, RoutedSite, Site;
+  var import_react33, RoutedSite, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react30 = __toESM(require_react());
+      import_react33 = __toESM(require_react());
       init_dist2();
       init_App();
       init_PlainText();
-      init_lib20();
+      init_lib22();
       init_UIStrings();
       init_TermsContent();
       init_PrivacyContent();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react30.default.createElement(FluentProvider, { theme: teamsLightTheme }, /* @__PURE__ */ import_react30.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react33.default.createElement(FluentProvider, { theme: teamsLightTheme }, /* @__PURE__ */ import_react33.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react30.default.createElement(Site, { appMode: props.appMode })));
+        } }, /* @__PURE__ */ import_react33.default.createElement(Site, { appMode: props.appMode })));
       };
       Site = (props) => {
         const uiStrings = getUIStrings(props.appMode);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react30.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react30.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
           }
         ]);
         return routes;
@@ -48455,14 +49977,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react31 = __toESM(require_react());
+      var import_react34 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_UIStrings();
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react31.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
+          /* @__PURE__ */ import_react34.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
         );
       }
     }

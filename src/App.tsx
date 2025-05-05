@@ -8,7 +8,7 @@
 /*! Copyright Jon Verrier 2025 */
 
 // React
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 // Fluent
 import {
@@ -17,7 +17,7 @@ import {
 } from '@fluentui/react-components';
 
 // external packages
-import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
+import { EAssistantPersonality, EChatRole, IChatMessage } from '../import/AssistantChatApiTypes';
 
 // local packages
 import { IMultilineEditProps, MultilineEdit } from './MultilineEdit';
@@ -30,6 +30,8 @@ import { processChat } from './ChatCall';
 import { pageOuterStyles, innerColumnWhiteboardStyles } from './OuterStyles';
 import { Spacer, Footer } from './SiteUtilities';
 import { getSessionUuid } from './Cookie';
+import { ChatHistory, ChatMessage } from './ChatHistory';
+import { processChatHistory } from './ChatHistoryCall';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
@@ -98,30 +100,46 @@ export const App = (props: IAppProps) => {
    const scrollableContentClasses = scrollableContentStyles();
    const multilineEditContainerClasses = multilineEditContainerStyles();
    const successContainerClasses = successContainerStyles();
+   const bottomRef = useRef<HTMLDivElement>(null);
 
    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
    const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
+   const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
 
    const uiStrings = getUIStrings(props.appMode);
 
    let [state, setState] = useState<AssistantUIStateMachine>(new AssistantUIStateMachine(EUIState.kWaiting));
    let [sessionUuid, setSessionUuid] = useState<string>(newSessionUuid);
+   const [chatHistory, setChatHistory] = useState<IChatMessage[]>([]);
 
    useEffect(() => {
       const getCookie = async () => {
          const existingSession = await getSessionUuid(cookieApiUrl);
          if (existingSession) {
             setSessionUuid(existingSession);
+            // Fetch chat history when we get a session ID
+            try {
+               await processChatHistory({
+                  messagesApiUrl,
+                  sessionId: existingSession,
+                  limit: 50,
+                  onPage: (messages) => {
+                     setChatHistory(prev => [...prev, ...messages]);
+                  }
+               });
+            } catch (error) {
+               console.error('Error fetching chat history:', error);
+            }
          }
       };
       getCookie();
    }, []);
 
-   const [message, setMessage] = useState("");
+   const [message, setMessage] = useState<string|undefined>(undefined);
    const [streamedResponse, setStreamedResponse] = useState<string|undefined>(undefined);
 
-   async function callServer() : Promise<void> {
+   async function callChatServer() : Promise<void> {
 
       if (!message) return;
 
@@ -143,6 +161,16 @@ export const App = (props: IAppProps) => {
          },
          forceNode: props.forceNode
       });
+
+      // Add the assistant message to the chat history when complete and clear the streamed response
+      if (streamedResponse) {
+         setChatHistory(prev => [...prev, {
+            role: EChatRole.kAssistant,
+            content: streamedResponse,
+            timestamp: new Date()
+         }]);
+         setStreamedResponse(undefined);
+      }
    };
    
    const onDismiss = () => {
@@ -152,8 +180,17 @@ export const App = (props: IAppProps) => {
    };
 
    const onSend = (message_: string) => {
+      // Add the user message to the chat history then clear it
       setMessage(message_);
-      callServer();
+
+      setChatHistory(prev => [...prev, {
+         role: EChatRole.kUser,
+         content: message_,
+         timestamp: new Date()
+      }]);
+
+      setMessage(undefined)
+      callChatServer();
    };
 
    const onChange = (message_: string) => {
@@ -166,7 +203,7 @@ export const App = (props: IAppProps) => {
       caption: uiStrings.kChatPreamble,
       placeholder: uiStrings.kChatPlaceholder,
       maxLength: kRequirementMaxLength,
-      message: message,
+      message: message || "",
       enabled: state.getState() === EUIState.kWaiting,
       fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
       defaultHeightLines: 10,
@@ -219,14 +256,30 @@ export const App = (props: IAppProps) => {
       success = (
          <div className={columnElementClasses.root}>
             &nbsp;&nbsp;&nbsp;                  
-            <CopyableText 
-               placeholder={uiStrings.kResponsePlaceholder} 
-               text={streamedResponse} 
-               id = {activeFieldId}
+            <ChatMessage 
+               message={{
+                  role: EChatRole.kAssistant,
+                  content: streamedResponse,
+                  timestamp: new Date()
+               }}
             />
          </div>
       );
    }
+
+   // Scroll to the bottom of the chat history when a response is received
+   useEffect(() => {
+      if (streamedResponse) {
+         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+   }, [streamedResponse]);
+
+   // Scroll to the bottom when new chat history pages are loaded
+   useEffect(() => {
+      if (chatHistory.length > 0) {
+         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+   }, [chatHistory]);
 
    return (
       <div className={pageOuterClasses.root}>
@@ -250,21 +303,28 @@ export const App = (props: IAppProps) => {
             <Spacer />
             <div className={scrollableContentClasses.root}>
                <div style={{ flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                  {chatHistory.length > 0 && (
+                     <div className={columnElementClasses.root}>
+                        <ChatHistory messages={chatHistory} />
+                     </div>
+                  )}
                   {((state.getState() === EUIState.kScreening || state.getState() === EUIState.kChatting) && !streamedResponse) && (
                      <div className={columnElementClasses.root}>
                         <Spacer />
                         <Spinner label="Please wait a few seconds..." />
                      </div>
                   )}
-                  {offTopic}
-                  {error}
                   <div className={successContainerClasses.root}>
                      {success}
                   </div>
+                  <div ref={bottomRef} />
                </div>
+               
                <div className={multilineEditContainerClasses.root}>
                   <MultilineEdit {...multilineEditProps} />
                </div>
+               {offTopic}
+               {error}
             </div>
             <Spacer />
             <Footer />

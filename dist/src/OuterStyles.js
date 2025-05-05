@@ -50,6 +50,6 @@ exports.innerColumnWhiteboardStyles = (0, react_components_1.makeStyles)({
         width: "100%",
         backgroundImage: "url('assets/img/board-512x384.png')",
         backgroundRepeat: "repeat",
-        opacity: 0.75
+        opacity: 0.9
     },
 });
