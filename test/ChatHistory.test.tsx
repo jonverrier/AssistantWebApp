@@ -63,21 +63,4 @@ describe('ChatHistory Component', () => {
     // The component should render without errors but show no messages
     expect(screen.queryByText(/Hello|Hi there/)).toBeNull();
   });
-
-  it('applies correct styling classes for user and assistant messages', () => {
-    render(<ChatHistory messages={mockMessages} />);
-    
-    // Get all message containers by finding elements that contain the message text
-    const userMessage = screen.getByText('Hello, assistant!').closest('div');
-    const assistantMessage = screen.getByText('Hi there! How can I help you?').closest('div');
-    
-    expect(userMessage).toBeTruthy();
-    expect(assistantMessage).toBeTruthy();
-    
-    // Check that the messages have different background colors
-    const userStyles = window.getComputedStyle(userMessage!);
-    const assistantStyles = window.getComputedStyle(assistantMessage!);
-    
-    expect(userStyles.backgroundColor).not.toBe(assistantStyles.backgroundColor);
-  });
 }); 

@@ -22,6 +22,9 @@ global.Node = dom.window.Node;
 // Add EventTarget polyfill
 global.EventTarget = dom.window.EventTarget;
 
+// Add Element polyfill
+global.Element = dom.window.Element;
+
 // Create a new object with the properties we need
 const newGlobal = {
   window: dom.window,
@@ -71,6 +74,10 @@ Object.defineProperties(global, {
     value: newGlobal.navigator,
     configurable: true,
   },
+  Element: {
+    value: dom.window.Element,
+    configurable: true,
+  }
 });
 
 // Create a sandbox that will be used across all tests

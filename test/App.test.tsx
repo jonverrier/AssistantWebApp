@@ -27,8 +27,16 @@ for (let appMode of appModes) {
    describe('App Component', () => {
       const uiStrings = getUIStrings(appMode);
 
+      beforeEach(() => {
+         // Mock scrollIntoView since it's not implemented in JSDOM
+         Element.prototype.scrollIntoView = function() {};
+      });
+
       afterEach(() => {
          cleanup();
+         // Clean up the mock
+         // @ts-ignore - TypeScript doesn't know we added this property
+         delete Element.prototype.scrollIntoView;
       });
 
       it('should render the main heading and description', async () => {
@@ -80,25 +88,16 @@ for (let appMode of appModes) {
       const kResponseCheckInterval = 2000; // Check every two seconds
       const kTestTimeout = 12000; // Overall test timeout
 
-      it('should show response when chatting', async () => {
-         // Took ages to get this working.
-         // 1. Need to render with 'forceNode' so the Axios calls work in Mocha. 
-         // 2. We just look for the presence of a field with the second ID. 
-         // The CopyableText component is used to display the response, and
-         // it splits paragraphs and then provides an incremented ID for each one.
-
-         // Render the component
-         const { rerender } = renderWithRouter(<App appMode={appMode} forceNode={true} />);
-
-         // Get the active field ID after we have rendered the component
-         const targetId = activeFieldId + '-1';
+      it('should update chat history when chatting', async () => {
+         // Need to render with 'forceNode' so the Axios calls work in Mocha
+         renderWithRouter(<App appMode={appMode} forceNode={true} />);
 
          // Get the textarea through the MultilineEdit component
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
          
-         // Check that response element doesn't exist initially
-         const initialResponse = screen.queryByTestId(targetId);
-         expect(initialResponse).toBeNull();         
+         // Check that chat history is empty initially
+         const initialMessages = screen.queryAllByRole('img');
+         expect(initialMessages).toHaveLength(0);
          
          // First set the value
          await act(async () => {
@@ -124,26 +123,27 @@ for (let appMode of appModes) {
             });
          });
 
-         // Wait for the response 
+         // Wait for chat history to update with both user and assistant messages
          await waitFor(
             () => {
-               const responseElement = screen.queryByTestId(targetId);
-               expect(responseElement).toBeTruthy();
+               // Look for avatar icons which indicate messages in chat history
+               const messages = screen.getAllByRole('img');
+               // Should have both user and assistant messages
+               expect(messages).toHaveLength(2);
+               
+               // Verify user message content
+               expect(screen.getByText('I want a 200kg deadlift')).toBeTruthy();
             },
             {
                timeout: kResponseTimeout,
                interval: kResponseCheckInterval,
                onTimeout: (error) => {
-                  console.error('Timeout waiting for response:', error);
+                  console.error('Timeout waiting for chat history update:', error);
                   throw error;
                }
             }
          );
 
-         // Get the final response element 
-         const finalResponse = screen.queryByTestId(targetId);
-         expect(finalResponse).toBeTruthy();
       }).timeout(kTestTimeout);
-      
    });
 }
