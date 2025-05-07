@@ -25,7 +25,7 @@
       {
          "type": "node",
          "request": "launch",
-         "name": "Debug Call Tests Only",
+         "name": "Debug App Tests Only",
          "skipFiles": ["<node_internals>/**"],
          "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
          "args": [

@@ -7,11 +7,8 @@ import { expect } from 'expect';
 import sinon from 'sinon';
 import { sandbox } from './setup';
 
-import { EApiEvent } from '../src/UIStateMachine';
-import { 
-    IChatMessage,
-    EChatRole
-} from '../import/AssistantChatApiTypes';
+import { IChatMessage, EChatRole } from 'prompt-repository';
+
 import { processChatHistory } from '../src/ChatHistoryCall';
 
 const sessionId = '1234567890';

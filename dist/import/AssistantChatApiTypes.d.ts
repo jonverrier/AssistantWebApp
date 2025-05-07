@@ -4,6 +4,7 @@
  * Type definitions and interfaces for the assistant chat API.
  * Includes types for chat requests.
  */
+import { IChatMessage } from "prompt-repository";
 /**
  * A request for a new session, optionally populated with the existing session ID.
  */
@@ -25,12 +26,20 @@ export declare enum EAssistantPersonality {
 }
 /**
  * A request to the assistant chat API.
+ * Use this for one-shot screening of the specific new input
  */
-export interface IAssistantChatRequest {
+export interface IAssistantSimpleChatRequest {
     personality: EAssistantPersonality;
     sessionId: string;
     input: string;
     benefitOfDoubt?: boolean;
+}
+/**
+ * A request to the assistant chat API including hostory.
+ * Use this for full chat sessions including prior context
+ */
+export interface IAssistantFullChatRequest extends IAssistantSimpleChatRequest {
+    history: IChatMessage[];
 }
 /**
  * A response from the assistant chat API.
@@ -46,36 +55,5 @@ export declare enum EScreeningClassification {
  */
 export interface IScreeningClassificationResponse {
     type: EScreeningClassification;
-}
-/**
- * An enumeration of possible chat roles.
- * Used to identify the sender of a message in chat interactions.
- */
-export declare enum EChatRole {
-    kUser = "user",
-    kAssistant = "assistant"
-}
-/**
- * A message in a chat interaction.
- */
-export interface IChatMessage {
-    role: EChatRole;
-    content: string;
-    timestamp: Date;
-}
-/**
- * A request to the chat API.
- */
-export interface IChatMessageRequest {
-    sessionId: string;
-    limit: number;
-    continuation?: string | undefined;
-}
-/**
- * A response from the chat API.
- */
-export interface IChatMessageResponse {
-    messages: IChatMessage[];
-    continuation?: string | undefined;
 }
 //# sourceMappingURL=AssistantChatApiTypes.d.ts.map

@@ -9,7 +9,7 @@ import { render, screen, fireEvent, waitFor, cleanup, act } from "@testing-libra
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 
-import { App, activeFieldId } from "../src/App";
+import { App } from "../src/App";
 import { EAppMode, getUIStrings, IUIStrings } from "../src/UIStrings";
 
 // Helper function to render App component with Router context
@@ -40,7 +40,7 @@ for (let appMode of appModes) {
       });
 
       it('should render the main heading and description', async () => {
-         renderWithRouter(<App appMode={appMode} forceNode={false} />);
+         renderWithRouter(<App appMode={appMode} forceNode={true} />);
 
          // Check for main heading
          await waitFor(() => {
@@ -54,7 +54,7 @@ for (let appMode of appModes) {
       });
 
       it('should render the text input area', () => {
-         renderWithRouter(<App appMode={appMode} forceNode={false} />);
+         renderWithRouter(<App appMode={appMode} forceNode={true} />);
 
          // Check for the text input area
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder);
@@ -62,7 +62,7 @@ for (let appMode of appModes) {
       });
 
       it('should render external links', () => {
-         renderWithRouter(<App appMode={appMode} forceNode={false} />);
+         renderWithRouter(<App appMode={appMode} forceNode={true} />);
 
          // Check for first link link
          const links = uiStrings.kLinks;
@@ -76,7 +76,7 @@ for (let appMode of appModes) {
       });
 
       it('should handle text input changes', () => {
-         renderWithRouter(<App appMode={appMode} forceNode={false} />);
+         renderWithRouter(<App appMode={appMode} forceNode={true} />);
 
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
          fireEvent.change(textarea, { target: { value: 'Test requirement' } });

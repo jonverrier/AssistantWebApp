@@ -13,7 +13,7 @@ import {
     IChatMessageRequest,
     IChatMessageResponse,
     IChatMessage
-} from '../import/AssistantChatApiTypes';
+} from 'prompt-repository';
 
 import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
 

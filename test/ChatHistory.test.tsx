@@ -8,8 +8,11 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import expect from 'expect';
+
+import { EChatRole } from 'prompt-repository';
+
 import { ChatHistory } from '../src/ChatHistory';
-import { EChatRole } from '../import/AssistantChatApiTypes';
+
 
 describe('ChatHistory Component', () => {
   const mockMessages = [

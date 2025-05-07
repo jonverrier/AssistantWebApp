@@ -47,6 +47,7 @@ const react_1 = __importStar(require("react"));
 // Fluent
 const react_components_1 = require("@fluentui/react-components");
 // external packages
+const prompt_repository_1 = require("prompt-repository");
 const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 // local packages
 const MultilineEdit_1 = require("./MultilineEdit");
@@ -147,12 +148,17 @@ const App = (props) => {
     async function callChatServer() {
         if (!message)
             return;
+        let localMessage = message;
+        setMessage(undefined);
         // Reset streamed response
         setStreamedResponse("");
+        // Keep track of the complete response
+        let completeResponse = "";
         const result = await (0, ChatCall_1.processChat)({
             screeningApiUrl: screenUrl,
             chatApiUrl: chatUrl,
-            input: message,
+            input: localMessage,
+            history: chatHistory,
             updateState: (event) => {
                 state.transition(event);
                 setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
@@ -160,19 +166,24 @@ const App = (props) => {
             sessionId: sessionUuid,
             personality: AssistantChatApiTypes_1.EAssistantPersonality.kMastersAdviser,
             onChunk: (chunk) => {
-                setStreamedResponse(prev => prev + chunk);
+                if (chunk) {
+                    completeResponse += chunk;
+                    setStreamedResponse(prev => prev + chunk);
+                }
+            },
+            onComplete: () => {
+                // Add the assistant message to the chat history when complete
+                if (completeResponse) {
+                    setChatHistory(prev => [...prev, {
+                            role: prompt_repository_1.EChatRole.kAssistant,
+                            content: completeResponse,
+                            timestamp: new Date()
+                        }]);
+                    setStreamedResponse(undefined);
+                }
             },
             forceNode: props.forceNode
         });
-        // Add the assistant message to the chat history when complete and clear the streamed response
-        if (streamedResponse) {
-            setChatHistory(prev => [...prev, {
-                    role: AssistantChatApiTypes_1.EChatRole.kAssistant,
-                    content: streamedResponse,
-                    timestamp: new Date()
-                }]);
-            setStreamedResponse(undefined);
-        }
     }
     ;
     const onDismiss = () => {
@@ -181,14 +192,14 @@ const App = (props) => {
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
     const onSend = (message_) => {
-        // Add the user message to the chat history then clear it
+        // Add the user message to the chat history
         setMessage(message_);
         setChatHistory(prev => [...prev, {
-                role: AssistantChatApiTypes_1.EChatRole.kUser,
+                role: prompt_repository_1.EChatRole.kUser,
                 content: message_,
                 timestamp: new Date()
             }]);
-        setMessage(undefined);
+        // Call the chat server - message will be cleared after processing
         callChatServer();
     };
     const onChange = (message_) => {
@@ -228,7 +239,7 @@ const App = (props) => {
         success = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
             react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
-                    role: AssistantChatApiTypes_1.EChatRole.kAssistant,
+                    role: prompt_repository_1.EChatRole.kAssistant,
                     content: streamedResponse,
                     timestamp: new Date()
                 } })));

@@ -6,9 +6,15 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
+// 3rd party imports
 import { Stream } from 'stream';
 import { AxiosProgressEvent } from 'axios';
-import { IAssistantChatRequest, 
+
+// External project imports
+import { IChatMessage, EChatRole } from 'prompt-repository';
+
+// Internal project imports
+import { IAssistantFullChatRequest, 
    IScreeningClassificationResponse,
    EAssistantPersonality,
    EScreeningClassification } from '../import/AssistantChatApiTypes';
@@ -25,22 +31,23 @@ interface StreamResponse {
 /**
  * Options for processing chat input through the assistant service.
  * 
- * This interface defines the parameters required for processing chat input
- * through the assistant service. It includes the URL for the API endpoint,
- * the input text to process, a session ID for tracking, and a callback 
- * function to update the UI state.
+ * This interface defines the configuration parameters needed when making
+ * API calls to the assistant service, including URLs, input text, session
+ * tracking, and state management callbacks.
  */
 interface ProcessChat {
     screeningApiUrl: string;
     chatApiUrl: string;
     input: string;
+    history: IChatMessage[];  
     sessionId: string;
     personality: EAssistantPersonality;
+    benefitOfDoubt?: boolean;     
     updateState: (event: EApiEvent) => void;
-    apiClient?: ApiClient;
-    benefitOfDoubt?: boolean;
-    onChunk?: (chunk: string) => void;
-    forceNode?: boolean;
+    onChunk: (chunk: string) => void;
+    onComplete: () => void;
+    apiClient?: ApiClient;    
+    forceNode?: boolean;    
 }
 
 /**
@@ -57,12 +64,14 @@ export async function processChat({
     screeningApiUrl,
     chatApiUrl,
     input,
+    history,
     sessionId,
     personality,
     updateState,
     apiClient,
     benefitOfDoubt,
     onChunk,
+    onComplete,
     forceNode
 }: ProcessChat): Promise<string | undefined> {
 
@@ -71,29 +80,35 @@ export async function processChat({
    }
     
     try {
-        // Signal start of screening
-        updateState(EApiEvent.kStartedScreening);
-
-        const chatRequest: IAssistantChatRequest = {
+        const chatRequest: IAssistantFullChatRequest = {
             personality,
             sessionId,
             input,
-            benefitOfDoubt
+            benefitOfDoubt,
+            history
         };
 
-        // First call the screening API
-        const screeningResponse = await apiClient.post<IScreeningClassificationResponse>(
-            screeningApiUrl,
-            chatRequest
-        );        
-        const screeningResult = screeningResponse.data;
-   
-        if (!screeningResult || screeningResult.type === EScreeningClassification.kOffTopic) {
-            updateState(EApiEvent.kRejectedFromScreening);
-            return undefined;
+        // Only make a new call to the screening API if there are no assistant responses in history
+        const hasAssistantResponses = history.some(msg => msg.role === EChatRole.kAssistant);
+        
+        // Signal start of screening
+        updateState(EApiEvent.kStartedScreening);        
+        
+        if (!hasAssistantResponses) {
+            // Call the screening API
+            const screeningResponse = await apiClient.post<IScreeningClassificationResponse>(
+                screeningApiUrl,
+                chatRequest
+            );        
+            const screeningResult = screeningResponse.data;
+    
+            if (!screeningResult || screeningResult.type === EScreeningClassification.kOffTopic) {
+                updateState(EApiEvent.kRejectedFromScreening);
+                return undefined;
+            }
         }
 
-        updateState(EApiEvent.kPassedScreening);
+        updateState(EApiEvent.kPassedScreening);        
         updateState(EApiEvent.kStartedChat);
 
         // Return a promise that will resolve with the complete response
@@ -127,6 +142,7 @@ export async function processChat({
 
                         stream.on('end', () => {
                             updateState(EApiEvent.kFinishedChat);
+                            onComplete();
                             resolve(completeResponse);
                         });
 
@@ -158,6 +174,7 @@ export async function processChat({
 
                         if (response.status === 200) {
                             updateState(EApiEvent.kFinishedChat);
+                            onComplete();
                             resolve(completeResponse);
                         } else {
                             throw new Error(`Unexpected status: ${response.status}`);
@@ -181,9 +198,7 @@ export async function processChat({
                     if (data) {
                        const parsed = JSON.parse(data);
                        completeResponse += parsed;
-                       if (onChunk) {
-                          onChunk(parsed);
-                       }
+                       onChunk(parsed);
                     }
                  }
               }

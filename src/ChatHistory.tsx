@@ -29,7 +29,7 @@ import {
 } from "@fluentui/react-icons";
 
 // Types
-import { IChatMessage, EChatRole } from '../import/AssistantChatApiTypes';
+import { IChatMessage, EChatRole } from 'prompt-repository';
 import { CopyableText } from './CopyableText';
 
 const useStyles = makeStyles({

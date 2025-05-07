@@ -8,9 +8,10 @@ import { expect } from 'expect';
 import sinon from 'sinon';
 import { sandbox } from './setup';
 
+// External project imports
 import { EApiEvent } from '../src/UIStateMachine';
 import { 
-    IAssistantChatRequest, 
+    IAssistantFullChatRequest, 
     EAssistantPersonality,
     EScreeningClassification 
 } from '../import/AssistantChatApiTypes';
@@ -119,6 +120,7 @@ describe('processChat', function() {
             screeningApiUrl: 'http://screening-api-endpoint',
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'What is the best way to improve my CrossFit performance?',
+            history: [],
             personality: EAssistantPersonality.kMastersAdviser,
             sessionId: sessionId,
             updateState: mockUpdateState,
@@ -126,7 +128,11 @@ describe('processChat', function() {
             onChunk: (chunk) => {
                 receivedChunks.push(chunk);
                 expect(chunk).toBeTruthy();
-            }
+            },
+            onComplete: () => {
+                // Do nothing
+            },
+            forceNode: false
         });
 
         // Wait for all chunks to be processed
@@ -134,7 +140,7 @@ describe('processChat', function() {
 
         expect(mockApi.post.firstCall.args[0]).toBe('http://screening-api-endpoint');
         
-        const sentRequest = mockApi.post.firstCall.args[1] as IAssistantChatRequest;
+        const sentRequest = mockApi.post.firstCall.args[1] as IAssistantFullChatRequest;
         expect(sentRequest.personality).toBe(EAssistantPersonality.kMastersAdviser);
         expect(sentRequest.input).toBe('What is the best way to improve my CrossFit performance?');
         expect(sentRequest.sessionId).toBe(sessionId);
@@ -165,10 +171,18 @@ describe('processChat', function() {
             screeningApiUrl: 'http://screening-api-endpoint',
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'What is the best way to improve my CrossFit performance?',
+            history: [],
             personality: EAssistantPersonality.kMastersAdviser,
             sessionId: sessionId,
             updateState: mockUpdateState,
-            apiClient: mockApi
+            apiClient: mockApi,
+            onChunk: () => {
+                // Do nothing               
+            },
+            onComplete: () => {
+                // Do nothing
+            },
+            forceNode: false
         });
 
         expect(result).toBeUndefined();
@@ -192,10 +206,18 @@ describe('processChat', function() {
             screeningApiUrl: 'http://screening-api-endpoint',
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'Tell me about cake recipes',
+            history: [],
             personality: EAssistantPersonality.kMastersAdviser,
             sessionId: sessionId,
             updateState: mockUpdateState,
-            apiClient: mockApi
+            apiClient: mockApi,
+            onChunk: () => {
+                // Do nothing
+            },
+            onComplete: () => {
+                // Do nothing
+            },
+            forceNode: false
         });
 
         expect(mockApi.post.firstCall.args[0]).toBe('http://screening-api-endpoint');
