@@ -49,13 +49,6 @@ const scrollableContentStyles = makeStyles({
    }
 });
 
-const successContainerStyles = makeStyles({
-   root: {
-      marginTop: 'auto',
-      width: '100%'
-   }
-});
-
 const multilineEditContainerStyles = makeStyles({
    root: {
       position: 'sticky',
@@ -98,7 +91,6 @@ export const App = (props: IAppProps) => {
    const linkClasses = standardLinkStyles();
    const scrollableContentClasses = scrollableContentStyles();
    const multilineEditContainerClasses = multilineEditContainerStyles();
-   const successContainerClasses = successContainerStyles();
    const bottomRef = useRef<HTMLDivElement>(null);
 
    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
@@ -224,7 +216,7 @@ export const App = (props: IAppProps) => {
    let blank = <div></div>;
    let offTopic = blank;
    let error = blank;
-   let success = blank;
+   let streaming = blank;
    
    if (state.getState() === EUIState.kOffTopic) {
       offTopic = (
@@ -262,9 +254,8 @@ export const App = (props: IAppProps) => {
          state.getState() === EUIState.kWaiting) &&
       streamedResponse
    ) {
-      success = (
+      streaming = (
          <div className={columnElementClasses.root}>
-            &nbsp;&nbsp;&nbsp;                  
             <ChatMessage 
                message={{
                   role: EChatRole.kAssistant,
@@ -325,8 +316,8 @@ export const App = (props: IAppProps) => {
                         <Spinner label="Please wait a few seconds..." />
                      </div>
                   )}
-                  <div className={successContainerClasses.root}>
-                     {success}
+                  <div className={columnElementClasses.root}>
+                     {streaming}
                   </div>
                   <div ref={bottomRef} />
                </div>

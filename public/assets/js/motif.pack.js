@@ -57274,10 +57274,25 @@ ${str(snapshot)}`);
           }
         };
         streamWithAxios();
+        let isCompleted = false;
         const timeout2 = setTimeout(() => {
-          updateState("Error" /* kError */);
-          reject(new Error("Connection timed out"));
+          if (!isCompleted) {
+            updateState("Error" /* kError */);
+            reject(new Error("Connection timed out"));
+          }
         }, 3e5);
+        const originalResolve = resolve;
+        resolve = (value) => {
+          isCompleted = true;
+          clearTimeout(timeout2);
+          originalResolve(value);
+        };
+        const originalReject = reject;
+        reject = (error) => {
+          isCompleted = true;
+          clearTimeout(timeout2);
+          originalReject(error);
+        };
       });
     } catch (error) {
       updateState("Error" /* kError */);
@@ -57492,7 +57507,7 @@ ${str(snapshot)}`);
   });
 
   // src/ChatHistory.tsx
-  var import_react30, import_prompt_repository2, useStyles10, ChatMessage, ChatHistory;
+  var import_react30, import_prompt_repository2, useStyles10, formatTimestamp, ChatMessage, ChatHistory;
   var init_ChatHistory = __esm({
     "src/ChatHistory.tsx"() {
       "use strict";
@@ -57506,7 +57521,8 @@ ${str(snapshot)}`);
           display: "flex",
           flexDirection: "column",
           gap: tokens.spacingVerticalM,
-          padding: tokens.spacingVerticalM
+          paddingTop: tokens.spacingVerticalM,
+          paddingBottom: tokens.spacingVerticalM
         },
         messageContainer: {
           display: "flex",
@@ -57535,6 +57551,26 @@ ${str(snapshot)}`);
           color: tokens.colorNeutralForeground3
         }
       });
+      formatTimestamp = (timestamp) => {
+        const date = timestamp;
+        const now = /* @__PURE__ */ new Date();
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const isToday = date.toDateString() === now.toDateString();
+        const isYesterday = date.toDateString() === yesterday.toDateString();
+        const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        if (isToday) {
+          return `Today at ${time}`;
+        } else if (isYesterday) {
+          return `Yesterday at ${time}`;
+        } else {
+          return date.toLocaleDateString("en-US", {
+            weekday: "long",
+            day: "2-digit",
+            month: "long"
+          }) + ` at ${time}`;
+        }
+      };
       ChatMessage = ({ message }) => {
         const styles = useStyles10();
         return /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react30.default.createElement(
@@ -57554,7 +57590,7 @@ ${str(snapshot)}`);
             placeholder: "",
             id: `message-${new Date(message.timestamp).getTime()}`
           }
-        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, new Date(message.timestamp).toLocaleTimeString())));
+        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, formatTimestamp(new Date(message.timestamp)))));
       };
       ChatHistory = ({ messages }) => {
         const styles = useStyles10();
@@ -57614,7 +57650,7 @@ ${str(snapshot)}`);
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react31, import_prompt_repository3, kFontNameForTextWrapCalculation, kRequirementMaxLength, scrollableContentStyles, successContainerStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
+  var import_react31, import_prompt_repository3, kFontNameForTextWrapCalculation, kRequirementMaxLength, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
@@ -57647,12 +57683,6 @@ ${str(snapshot)}`);
           height: "100%"
         }
       });
-      successContainerStyles = makeStyles2({
-        root: {
-          marginTop: "auto",
-          width: "100%"
-        }
-      });
       multilineEditContainerStyles = makeStyles2({
         root: {
           position: "sticky",
@@ -57674,7 +57704,6 @@ ${str(snapshot)}`);
         const linkClasses = standardLinkStyles();
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
-        const successContainerClasses = successContainerStyles();
         const bottomRef = (0, import_react31.useRef)(null);
         const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
         const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
@@ -57777,7 +57806,7 @@ ${str(snapshot)}`);
         let blank = /* @__PURE__ */ import_react31.default.createElement("div", null);
         let offTopic = blank;
         let error = blank;
-        let success = blank;
+        let streaming = blank;
         if (state.getState() === "OffTopic" /* kOffTopic */) {
           offTopic = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
             Message,
@@ -57803,7 +57832,7 @@ ${str(snapshot)}`);
           ));
         }
         if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          success = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
+          streaming = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(
             ChatMessage,
             {
               message: {
@@ -57833,7 +57862,7 @@ ${str(snapshot)}`);
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: "Please wait a few seconds..." })), /* @__PURE__ */ import_react31.default.createElement("div", { className: successContainerClasses.root }, success), /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps })), offTopic, error), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: "Please wait a few seconds..." })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps })), offTopic, error), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
       };
     }
   });

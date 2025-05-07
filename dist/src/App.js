@@ -75,12 +75,6 @@ const scrollableContentStyles = (0, react_components_1.makeStyles)({
         height: '100%'
     }
 });
-const successContainerStyles = (0, react_components_1.makeStyles)({
-    root: {
-        marginTop: 'auto',
-        width: '100%'
-    }
-});
 const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
     root: {
         position: 'sticky',
@@ -110,7 +104,6 @@ const App = (props) => {
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
-    const successContainerClasses = successContainerStyles();
     const bottomRef = (0, react_1.useRef)(null);
     const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
@@ -221,7 +214,7 @@ const App = (props) => {
     let blank = react_1.default.createElement("div", null);
     let offTopic = blank;
     let error = blank;
-    let success = blank;
+    let streaming = blank;
     if (state.getState() === UIStateMachine_1.EUIState.kOffTopic) {
         offTopic = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
@@ -236,8 +229,7 @@ const App = (props) => {
         state.getState() === UIStateMachine_1.EUIState.kChatting ||
         state.getState() === UIStateMachine_1.EUIState.kWaiting) &&
         streamedResponse) {
-        success = (react_1.default.createElement("div", { className: columnElementClasses.root },
-            "\u00A0\u00A0\u00A0",
+        streaming = (react_1.default.createElement("div", { className: columnElementClasses.root },
             react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
                     role: prompt_repository_1.EChatRole.kAssistant,
                     content: streamedResponse,
@@ -282,7 +274,7 @@ const App = (props) => {
                     ((state.getState() === UIStateMachine_1.EUIState.kScreening || state.getState() === UIStateMachine_1.EUIState.kChatting) && !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
                         react_1.default.createElement(SiteUtilities_1.Spacer, null),
                         react_1.default.createElement(react_components_1.Spinner, { label: "Please wait a few seconds..." }))),
-                    react_1.default.createElement("div", { className: successContainerClasses.root }, success),
+                    react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
                     react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
                     react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps })),

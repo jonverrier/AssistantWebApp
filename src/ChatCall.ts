@@ -206,10 +206,30 @@ export async function processChat({
 
             streamWithAxios();
 
+            // Timeout for the stream
+            let isCompleted = false;
             const timeout = setTimeout(() => {
-                updateState(EApiEvent.kError);
-                reject(new Error('Connection timed out'));
+                if (!isCompleted) {
+                    updateState(EApiEvent.kError);
+                    reject(new Error('Connection timed out'));
+                }
             }, 300000); // 5 minute timeout
+
+            // Clear timeout when stream ends
+            const originalResolve = resolve;
+            resolve = (value) => {
+                isCompleted = true;
+                clearTimeout(timeout);
+                originalResolve(value);
+            };
+
+            // Clear timeout on reject too
+            const originalReject = reject;
+            reject = (error) => {
+                isCompleted = true;
+                clearTimeout(timeout);
+                originalReject(error);
+            };
         });
 
     } catch (error) {
