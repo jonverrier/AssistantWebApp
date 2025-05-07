@@ -157,7 +157,7 @@ const App = (props) => {
                 setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
             },
             sessionId: sessionUuid,
-            personality: AssistantChatApiTypes_1.EAssistantPersonality.kMastersAdviser,
+            personality: AssistantChatApiTypes_1.EAssistantPersonality.kGeneralAdvisor,
             onChunk: (chunk) => {
                 if (chunk) {
                     completeResponse += chunk;

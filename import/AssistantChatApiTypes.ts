@@ -28,7 +28,8 @@ export interface ISessionResponse {
  * Used to specify the desired personality type for chat interactions.
  */
 export enum EAssistantPersonality {
-   kMastersAdviser = 'MastersAdviser'
+   kMastersAdviser = 'MastersAdviser',
+   kGeneralAdvisor = 'GeneralAdvisor'
 }
 
 /**

@@ -57580,17 +57580,25 @@ ${str(snapshot)}`);
             icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react30.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react30.default.createElement(BotRegular, null),
             color: message.role === import_prompt_repository2.EChatRole.kUser ? "brand" : "neutral"
           }
-        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: mergeClasses(
-          styles.messageContent,
-          message.role === import_prompt_repository2.EChatRole.kUser ? styles.userMessage : styles.assistantMessage
-        ) }, /* @__PURE__ */ import_react30.default.createElement(
-          CopyableText,
+        ), /* @__PURE__ */ import_react30.default.createElement(
+          "div",
           {
-            text: message.content,
-            placeholder: "",
-            id: `message-${new Date(message.timestamp).getTime()}`
-          }
-        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, formatTimestamp(new Date(message.timestamp)))));
+            className: mergeClasses(
+              styles.messageContent,
+              message.role === import_prompt_repository2.EChatRole.kUser ? styles.userMessage : styles.assistantMessage
+            ),
+            "data-testid": "message-content"
+          },
+          /* @__PURE__ */ import_react30.default.createElement(
+            CopyableText,
+            {
+              text: message.content,
+              placeholder: "",
+              id: `message-${new Date(message.timestamp).getTime()}`
+            }
+          ),
+          /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, formatTimestamp(new Date(message.timestamp)))
+        ));
       };
       ChatHistory = ({ messages }) => {
         const styles = useStyles10();
@@ -57752,7 +57760,7 @@ ${str(snapshot)}`);
               setState(new AssistantUIStateMachine(state.getState()));
             },
             sessionId: sessionUuid,
-            personality: "MastersAdviser" /* kMastersAdviser */,
+            personality: "GeneralAdvisor" /* kGeneralAdvisor */,
             onChunk: (chunk) => {
               if (chunk) {
                 completeResponse += chunk;

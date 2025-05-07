@@ -120,10 +120,13 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({ message }) => {
                 icon={message.role === EChatRole.kUser ? <PersonRegular /> : <BotRegular />}
                 color={message.role === EChatRole.kUser ? "brand" : "neutral"}
             />
-            <div className={mergeClasses(
-                styles.messageContent,
-                message.role === EChatRole.kUser ? styles.userMessage : styles.assistantMessage
-            )}>
+            <div 
+                className={mergeClasses(
+                    styles.messageContent,
+                    message.role === EChatRole.kUser ? styles.userMessage : styles.assistantMessage
+                )}
+                data-testid="message-content"
+            >
                 <CopyableText 
                     text={message.content} 
                     placeholder=""

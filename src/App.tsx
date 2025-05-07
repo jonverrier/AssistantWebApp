@@ -152,7 +152,7 @@ export const App = (props: IAppProps) => {
             setState(new AssistantUIStateMachine(state.getState()));         
          },
          sessionId: sessionUuid,
-         personality: EAssistantPersonality.kMastersAdviser,
+         personality: EAssistantPersonality.kGeneralAdvisor,
          onChunk: (chunk: string) => {
             if (chunk) {
                completeResponse += chunk;

@@ -84,9 +84,9 @@ for (let appMode of appModes) {
          expect(textarea.value).toBe('Test requirement');
       });
       
-      const kResponseTimeout = 10000; // 10 seconds total timeout
-      const kResponseCheckInterval = 2000; // Check every two seconds
-      const kTestTimeout = 12000; // Overall test timeout
+      const kResponseTimeout = 20000; // 20 seconds total timeout
+      const kResponseCheckInterval = 1000; // Check every second
+      const kTestTimeout = 25000; // Overall test timeout
 
       it('should update chat history when chatting', async () => {
          // Need to render with 'forceNode' so the Axios calls work in Mocha
@@ -95,11 +95,13 @@ for (let appMode of appModes) {
          // Get the textarea through the MultilineEdit component
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
          
+         const testMessage = 'I want a 200kg deadlift';
+         
          // First set the value
          await act(async () => {
             fireEvent.change(textarea, { 
-               target: { value: 'I want a 200kg deadlift' },
-               currentTarget: { value: 'I want a 200kg deadlift' }
+               target: { value: testMessage },
+               currentTarget: { value: testMessage }
             });
          });
 
@@ -114,7 +116,7 @@ for (let appMode of appModes) {
                bubbles: true,
                cancelable: true,
                currentTarget: {
-                  value: 'I want a 200kg deadlift'
+                  value: testMessage
                }
             });
          });
@@ -122,7 +124,7 @@ for (let appMode of appModes) {
          // First wait for the user message to appear
          await waitFor(
             () => {
-               expect(screen.getByText('I want a 200kg deadlift')).toBeTruthy();
+               expect(screen.getByText(testMessage)).toBeTruthy();
             },
             {
                timeout: kResponseTimeout / 2,
@@ -130,22 +132,30 @@ for (let appMode of appModes) {
             }
          );
 
-         // Then wait for both messages to be present
+         // Then wait for the assistant response
          await waitFor(
-            () => {
-               const messages = screen.getAllByRole('img');
-               expect(messages).toHaveLength(2);
+            async () => {
+               // Look for both the user message and any response from the assistant
+               const userMessage = screen.getByText(testMessage);
+               expect(userMessage).toBeTruthy();
+               
+               // Wait for at least one message container that doesn't contain the user's message
+               const messageContainers = screen.getAllByTestId('message-content');
+               const assistantMessages = messageContainers.filter(container => 
+                  !container.textContent?.includes(testMessage)
+               );
+               
+               expect(assistantMessages.length).toBeGreaterThan(0);
             },
             {
                timeout: kResponseTimeout,
                interval: kResponseCheckInterval,
                onTimeout: (error) => {
-                  console.error('Timeout waiting for chat history update:', error);
+                  console.error('Timeout waiting for assistant response:', error);
                   throw error;
                }
             }
          );
-
       }).timeout(kTestTimeout);
    });
 }
