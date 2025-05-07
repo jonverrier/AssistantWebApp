@@ -29,7 +29,7 @@ import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
 import { processChat } from './ChatCall';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { Spacer, Footer } from './SiteUtilities';
-import { getSessionUuid } from './Cookie';
+import { getSessionUuid } from './SessionCall';
 import { ChatHistory, ChatMessage } from './ChatHistory';
 import { processChatHistory } from './ChatHistoryCall';
 
@@ -103,7 +103,7 @@ export const App = (props: IAppProps) => {
 
    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
-   const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
+   const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
    const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
 
    const uiStrings = getUIStrings(props.appMode);
@@ -113,8 +113,8 @@ export const App = (props: IAppProps) => {
    const [chatHistory, setChatHistory] = useState<IChatMessage[]>([]);
 
    useEffect(() => {
-      const getCookie = async () => {
-         const existingSession = await getSessionUuid(cookieApiUrl);
+      const getSession = async () => {
+         const existingSession = await getSessionUuid(sessionApiUrl);
          if (existingSession) {
             setSessionUuid(existingSession);
             // Fetch chat history when we get a session ID
@@ -132,7 +132,7 @@ export const App = (props: IAppProps) => {
             }
          }
       };
-      getCookie();
+      getSession();
    }, []);
 
    const [message, setMessage] = useState<string|undefined>(undefined);

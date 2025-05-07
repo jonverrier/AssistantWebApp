@@ -5,7 +5,7 @@
 
 import { expect } from 'expect';
 import { axiosPostStub } from './setup';
-import { getSessionUuid, IStorage } from '../src/Cookie';
+import { getSessionUuid, IStorage } from '../src/SessionCall';
 
 describe('getSessionUuid', function() {
     let mockStorage: IStorage;
@@ -43,7 +43,6 @@ describe('getSessionUuid', function() {
             sessionId: undefined
         });
         expect(axiosPostStub.firstCall.args[2]).toEqual({
-            withCredentials: true,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

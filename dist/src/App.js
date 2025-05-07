@@ -58,7 +58,7 @@ const UIStateMachine_1 = require("./UIStateMachine");
 const ChatCall_1 = require("./ChatCall");
 const OuterStyles_1 = require("./OuterStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
-const Cookie_1 = require("./Cookie");
+const SessionCall_1 = require("./SessionCall");
 const ChatHistory_1 = require("./ChatHistory");
 const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
@@ -114,15 +114,15 @@ const App = (props) => {
     const bottomRef = (0, react_1.useRef)(null);
     const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
-    const cookieApiUrl = local ? 'http://localhost:7071/api/Cookie' : 'https://motifassistantapi.azurewebsites.net/api/Cookie';
+    const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
     const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
     let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
     let [sessionUuid, setSessionUuid] = (0, react_1.useState)(newSessionUuid);
     const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
     (0, react_1.useEffect)(() => {
-        const getCookie = async () => {
-            const existingSession = await (0, Cookie_1.getSessionUuid)(cookieApiUrl);
+        const getSession = async () => {
+            const existingSession = await (0, SessionCall_1.getSessionUuid)(sessionApiUrl);
             if (existingSession) {
                 setSessionUuid(existingSession);
                 // Fetch chat history when we get a session ID
@@ -141,7 +141,7 @@ const App = (props) => {
                 }
             }
         };
-        getCookie();
+        getSession();
     }, []);
     const [message, setMessage] = (0, react_1.useState)(undefined);
     const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);

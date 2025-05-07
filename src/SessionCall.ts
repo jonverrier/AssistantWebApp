@@ -60,7 +60,6 @@ export async function getSessionUuid(
 
         // Make the API call
         const response = await axios.post<ISessionResponse>(cookieApiUrl, request, {
-            withCredentials: true,  // Required for cookies to be set
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

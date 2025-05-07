@@ -57385,7 +57385,7 @@ ${str(snapshot)}`);
     }
   });
 
-  // src/Cookie.ts
+  // src/SessionCall.ts
   async function getSessionUuid(cookieApiUrl, storage = browserStorage) {
     try {
       const existingSessionId = storage.get(SESSION_STORAGE_KEY);
@@ -57393,8 +57393,6 @@ ${str(snapshot)}`);
         sessionId: existingSessionId || void 0
       };
       const response = await axios_default.post(cookieApiUrl, request, {
-        withCredentials: true,
-        // Required for cookies to be set
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
@@ -57413,8 +57411,8 @@ ${str(snapshot)}`);
     }
   }
   var SESSION_STORAGE_KEY, browserStorage;
-  var init_Cookie = __esm({
-    "src/Cookie.ts"() {
+  var init_SessionCall = __esm({
+    "src/SessionCall.ts"() {
       "use strict";
       init_axios2();
       SESSION_STORAGE_KEY = "motif_session_id";
@@ -57632,7 +57630,7 @@ ${str(snapshot)}`);
       init_ChatCall();
       init_OuterStyles();
       init_SiteUtilities();
-      init_Cookie();
+      init_SessionCall();
       init_ChatHistory();
       init_ChatHistoryCall();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
@@ -57680,15 +57678,15 @@ ${str(snapshot)}`);
         const bottomRef = (0, import_react31.useRef)(null);
         const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
         const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
-        const cookieApiUrl = local ? "http://localhost:7071/api/Cookie" : "https://motifassistantapi.azurewebsites.net/api/Cookie";
+        const sessionApiUrl = local ? "http://localhost:7071/api/Session" : "https://motifassistantapi.azurewebsites.net/api/Session";
         const messagesApiUrl = local ? "http://localhost:7071/api/GetMessages" : "https://motifassistantapi.azurewebsites.net/api/GetMessages";
         const uiStrings = getUIStrings(props.appMode);
         let [state, setState] = (0, import_react31.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
         let [sessionUuid, setSessionUuid] = (0, import_react31.useState)(newSessionUuid);
         const [chatHistory, setChatHistory] = (0, import_react31.useState)([]);
         (0, import_react31.useEffect)(() => {
-          const getCookie = async () => {
-            const existingSession = await getSessionUuid(cookieApiUrl);
+          const getSession = async () => {
+            const existingSession = await getSessionUuid(sessionApiUrl);
             if (existingSession) {
               setSessionUuid(existingSession);
               try {
@@ -57705,7 +57703,7 @@ ${str(snapshot)}`);
               }
             }
           };
-          getCookie();
+          getSession();
         }, []);
         const [message, setMessage] = (0, import_react31.useState)(void 0);
         const [streamedResponse, setStreamedResponse] = (0, import_react31.useState)(void 0);

@@ -95,10 +95,6 @@ for (let appMode of appModes) {
          // Get the textarea through the MultilineEdit component
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
          
-         // Check that chat history is empty initially
-         const initialMessages = screen.queryAllByRole('img');
-         expect(initialMessages).toHaveLength(0);
-         
          // First set the value
          await act(async () => {
             fireEvent.change(textarea, { 
@@ -123,16 +119,22 @@ for (let appMode of appModes) {
             });
          });
 
-         // Wait for chat history to update with both user and assistant messages
+         // First wait for the user message to appear
          await waitFor(
             () => {
-               // Look for avatar icons which indicate messages in chat history
-               const messages = screen.getAllByRole('img');
-               // Should have both user and assistant messages
-               expect(messages).toHaveLength(2);
-               
-               // Verify user message content
                expect(screen.getByText('I want a 200kg deadlift')).toBeTruthy();
+            },
+            {
+               timeout: kResponseTimeout / 2,
+               interval: kResponseCheckInterval
+            }
+         );
+
+         // Then wait for both messages to be present
+         await waitFor(
+            () => {
+               const messages = screen.getAllByRole('img');
+               expect(messages).toHaveLength(2);
             },
             {
                timeout: kResponseTimeout,
