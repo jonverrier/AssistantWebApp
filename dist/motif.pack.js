@@ -57631,10 +57631,10 @@ ${str(snapshot)}`);
           messagesApiUrl,
           request
         );
-        const { messages, continuation: nextContinuation } = response.data;
-        allMessages.push(...messages);
+        const { records, continuation: nextContinuation } = response.data;
+        allMessages.push(...records);
         if (onPage) {
-          onPage(messages);
+          onPage(records);
         }
         continuation = nextContinuation;
       } while (continuation);

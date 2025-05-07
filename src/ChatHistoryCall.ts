@@ -64,14 +64,14 @@ export async function processChatHistory({
                 request
             );
 
-            const { messages, continuation: nextContinuation } = response.data;
+            const { records, continuation: nextContinuation } = response.data;
 
             // Add messages to our collection
-            allMessages.push(...messages);
+            allMessages.push(...records);
 
             // Call the onPage callback if provided
             if (onPage) {
-                onPage(messages);
+                onPage(records);
             }
 
             // Update continuation for next iteration

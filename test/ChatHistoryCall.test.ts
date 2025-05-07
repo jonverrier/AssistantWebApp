@@ -32,10 +32,10 @@ describe('ChatHistory', function() {
     });
 
     it('should process chat history with pagination successfully', async () => {
-        // Mock responses for two pages of messages
+        // Mock responses for two pages of records
         const firstPageResponse = {
             data: {
-                messages: [
+                records: [
                     {
                         role: EChatRole.kUser,
                         content: 'First user message',
@@ -53,7 +53,7 @@ describe('ChatHistory', function() {
 
         const secondPageResponse = {
             data: {
-                messages: [
+                records: [
                     {
                         role: EChatRole.kUser,
                         content: 'Second user message',
@@ -86,8 +86,8 @@ describe('ChatHistory', function() {
             sessionId: sessionId,
             limit: 2,
             apiClient: mockApi,
-            onPage: (messages) => {
-                receivedPages.push(messages);
+            onPage: (records) => {
+                receivedPages.push(records);
             }
         });
 
@@ -136,7 +136,7 @@ describe('ChatHistory', function() {
     it('should handle empty chat history', async () => {
         const emptyResponse = {
             data: {
-                messages: [],
+                records: [],
                 continuation: undefined
             }
         };
