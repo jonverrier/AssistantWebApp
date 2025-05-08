@@ -53552,12 +53552,52 @@ ${str(snapshot)}`);
     }
   });
 
+  // ../PromptRepository/dist/src/FormatChatMessage.js
+  var require_FormatChatMessage = __commonJS({
+    "../PromptRepository/dist/src/FormatChatMessage.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.formatChatMessageTimestamp = void 0;
+      exports.renderChatMessageAsText = renderChatMessageAsText;
+      var entry_1 = require_entry();
+      function renderChatMessageAsText(message) {
+        const originator = message.role === entry_1.EChatRole.kUser ? "User" : "Assistant";
+        const timestamp = (0, exports.formatChatMessageTimestamp)(new Date(message.timestamp), true);
+        return `[${timestamp}] ${originator}:
+${message.content}
+`;
+      }
+      var formatChatMessageTimestamp2 = (timestamp, fullDate = false) => {
+        const date = timestamp;
+        const now = /* @__PURE__ */ new Date();
+        const yesterday = new Date(now);
+        yesterday.setDate(yesterday.getDate() - 1);
+        const isToday = date.toDateString() === now.toDateString();
+        const isYesterday = date.toDateString() === yesterday.toDateString();
+        const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        const fullDateStr = date.toLocaleDateString("en-US", {
+          weekday: "long",
+          day: "2-digit",
+          month: "long"
+        });
+        if (isToday) {
+          return fullDate ? `Today (${fullDateStr}) at ${time}` : `Today at ${time}`;
+        } else if (isYesterday) {
+          return fullDate ? `Yesterday (${fullDateStr}) at ${time}` : `Yesterday at ${time}`;
+        } else {
+          return `${fullDateStr} at ${time}`;
+        }
+      };
+      exports.formatChatMessageTimestamp = formatChatMessageTimestamp2;
+    }
+  });
+
   // ../PromptRepository/dist/src/entry.js
   var require_entry = __commonJS({
     "../PromptRepository/dist/src/entry.js"(exports) {
       "use strict";
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.EChatRole = exports.EModelProvider = exports.EModel = exports.ParameterTypeEnum = exports.ParameterTypeString = exports.ParameterTypeNumber = exports.InvalidOperationError = exports.InvalidParameterError = exports.throwIfFalse = exports.throwIfNull = exports.throwIfUndefined = exports.ChatDriverFactory = exports.PromptInMemoryRepository = exports.PromptFileRepository = void 0;
+      exports.ChatMessageClassName = exports.EChatRole = exports.EModelProvider = exports.EModel = exports.ParameterTypeEnum = exports.ParameterTypeString = exports.ParameterTypeNumber = exports.renderChatMessageAsText = exports.formatChatMessageTimestamp = exports.InvalidOperationError = exports.InvalidParameterError = exports.throwIfFalse = exports.throwIfNull = exports.throwIfUndefined = exports.ChatDriverFactory = exports.PromptInMemoryRepository = exports.PromptFileRepository = void 0;
       var PromptRepository_1 = require_PromptRepository();
       Object.defineProperty(exports, "PromptFileRepository", { enumerable: true, get: function() {
         return PromptRepository_1.PromptFileRepository;
@@ -53585,6 +53625,13 @@ ${str(snapshot)}`);
       Object.defineProperty(exports, "InvalidOperationError", { enumerable: true, get: function() {
         return Asserts_1.InvalidOperationError;
       } });
+      var FormatChatMessage_1 = require_FormatChatMessage();
+      Object.defineProperty(exports, "formatChatMessageTimestamp", { enumerable: true, get: function() {
+        return FormatChatMessage_1.formatChatMessageTimestamp;
+      } });
+      Object.defineProperty(exports, "renderChatMessageAsText", { enumerable: true, get: function() {
+        return FormatChatMessage_1.renderChatMessageAsText;
+      } });
       exports.ParameterTypeNumber = "kNumber";
       exports.ParameterTypeString = "kString";
       exports.ParameterTypeEnum = "kEnum";
@@ -53602,6 +53649,7 @@ ${str(snapshot)}`);
         EChatRole5["kUser"] = "user";
         EChatRole5["kAssistant"] = "assistant";
       })(EChatRole4 || (exports.EChatRole = EChatRole4 = {}));
+      exports.ChatMessageClassName = "IChatMessage";
     }
   });
 
@@ -57507,7 +57555,7 @@ ${str(snapshot)}`);
   });
 
   // src/ChatHistory.tsx
-  var import_react30, import_prompt_repository2, useStyles10, formatTimestamp, ChatMessage, ChatHistory;
+  var import_react30, import_prompt_repository2, useStyles10, ChatMessage, ChatHistory;
   var init_ChatHistory = __esm({
     "src/ChatHistory.tsx"() {
       "use strict";
@@ -57551,26 +57599,6 @@ ${str(snapshot)}`);
           color: tokens.colorNeutralForeground3
         }
       });
-      formatTimestamp = (timestamp) => {
-        const date = timestamp;
-        const now = /* @__PURE__ */ new Date();
-        const yesterday = new Date(now);
-        yesterday.setDate(yesterday.getDate() - 1);
-        const isToday = date.toDateString() === now.toDateString();
-        const isYesterday = date.toDateString() === yesterday.toDateString();
-        const time = date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-        if (isToday) {
-          return `Today at ${time}`;
-        } else if (isYesterday) {
-          return `Yesterday at ${time}`;
-        } else {
-          return date.toLocaleDateString("en-US", {
-            weekday: "long",
-            day: "2-digit",
-            month: "long"
-          }) + ` at ${time}`;
-        }
-      };
       ChatMessage = ({ message }) => {
         const styles = useStyles10();
         return /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react30.default.createElement(
@@ -57597,7 +57625,7 @@ ${str(snapshot)}`);
               id: `message-${new Date(message.timestamp).getTime()}`
             }
           ),
-          /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, formatTimestamp(new Date(message.timestamp)))
+          /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
         ));
       };
       ChatHistory = ({ messages }) => {
@@ -57658,7 +57686,7 @@ ${str(snapshot)}`);
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react31, import_prompt_repository3, kFontNameForTextWrapCalculation, kRequirementMaxLength, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
+  var import_react31, import_prompt_repository3, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
@@ -57679,6 +57707,8 @@ ${str(snapshot)}`);
       init_ChatHistoryCall();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
+      kChatHistoryPageSize = 50;
+      kIdleTimeoutMs = 3e4;
       scrollableContentStyles = makeStyles2({
         root: {
           display: "flex",
@@ -57730,7 +57760,7 @@ ${str(snapshot)}`);
                 await processChatHistory({
                   messagesApiUrl,
                   sessionId: existingSession,
-                  limit: 50,
+                  limit: kChatHistoryPageSize,
                   onPage: (messages) => {
                     setChatHistory((prev2) => [...prev2, ...messages]);
                   }
@@ -57744,11 +57774,26 @@ ${str(snapshot)}`);
         }, []);
         const [message, setMessage] = (0, import_react31.useState)(void 0);
         const [streamedResponse, setStreamedResponse] = (0, import_react31.useState)(void 0);
+        const [streamedResponseId, setStreamedResponseId] = (0, import_react31.useState)(void 0);
+        const [idleSince, setIdleSince] = (0, import_react31.useState)(/* @__PURE__ */ new Date());
+        (0, import_react31.useEffect)(() => {
+          const timer = setInterval(() => {
+            const idleTime = Date.now() - idleSince.getTime();
+            if (idleTime >= kIdleTimeoutMs) {
+              isArchiveDue();
+            }
+          }, 1e3);
+          return () => clearInterval(timer);
+        }, [idleSince]);
+        const isArchiveDue = () => {
+          console.log("Checking if archive is due after idle period");
+        };
         async function callChatServer() {
           if (!message) return;
           let localMessage = message;
           setMessage(void 0);
           setStreamedResponse("");
+          setStreamedResponseId(uuidv4);
           let completeResponse = "";
           const result = await processChat({
             screeningApiUrl: screenUrl,
@@ -57770,11 +57815,14 @@ ${str(snapshot)}`);
             onComplete: () => {
               if (completeResponse) {
                 setChatHistory((prev2) => [...prev2, {
+                  id: uuidv4(),
+                  className: import_prompt_repository3.ChatMessageClassName,
                   role: import_prompt_repository3.EChatRole.kAssistant,
                   content: completeResponse,
                   timestamp: /* @__PURE__ */ new Date()
                 }]);
                 setStreamedResponse(void 0);
+                setStreamedResponseId(void 0);
               }
             },
             forceNode: props.forceNode
@@ -57783,12 +57831,15 @@ ${str(snapshot)}`);
         ;
         const onDismiss = () => {
           setStreamedResponse(void 0);
+          setStreamedResponseId(void 0);
           state.transition("Reset" /* kReset */);
           setState(new AssistantUIStateMachine(state.getState()));
         };
         const onSend = (message_) => {
           setMessage(message_);
           setChatHistory((prev2) => [...prev2, {
+            id: uuidv4(),
+            className: import_prompt_repository3.ChatMessageClassName,
             role: import_prompt_repository3.EChatRole.kUser,
             content: message_,
             timestamp: /* @__PURE__ */ new Date()
@@ -57797,6 +57848,7 @@ ${str(snapshot)}`);
         };
         const onChange = (message_) => {
           setMessage(message_);
+          setIdleSince(/* @__PURE__ */ new Date());
           state.transition("Reset" /* kReset */);
           setState(new AssistantUIStateMachine(state.getState()));
         };
@@ -57844,6 +57896,8 @@ ${str(snapshot)}`);
             ChatMessage,
             {
               message: {
+                id: streamedResponseId,
+                className: import_prompt_repository3.ChatMessageClassName,
                 role: import_prompt_repository3.EChatRole.kAssistant,
                 content: streamedResponse,
                 timestamp: /* @__PURE__ */ new Date()

@@ -29,7 +29,7 @@ import {
 } from "@fluentui/react-icons";
 
 // Types
-import { IChatMessage, EChatRole } from 'prompt-repository';
+import { IChatMessage, EChatRole, formatChatMessageTimestamp } from 'prompt-repository';
 import { CopyableText } from './CopyableText';
 
 const useStyles = makeStyles({
@@ -78,34 +78,6 @@ export interface IChatMessageProps {
 }
 
 /**
- * Formats a timestamp into a human-readable string
- * Returns 'Today', 'Yesterday', or 'Dayname DD Month' with time
- */
-const formatTimestamp = (timestamp: Date): string => {
-    const date = timestamp;
-    const now = new Date();
-    const yesterday = new Date(now);
-    yesterday.setDate(yesterday.getDate() - 1);
-
-    const isToday = date.toDateString() === now.toDateString();
-    const isYesterday = date.toDateString() === yesterday.toDateString();
-
-    const time = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-
-    if (isToday) {
-        return `Today at ${time}`;
-    } else if (isYesterday) {
-        return `Yesterday at ${time}`;
-    } else {
-        return date.toLocaleDateString('en-US', { 
-            weekday: 'long',
-            day: '2-digit',
-            month: 'long'
-        }) + ` at ${time}`;
-    }
-};
-
-/**
  * ChatMessage component
  * 
  * Displays a single chat message with user/assistant avatar and timestamp.
@@ -133,7 +105,7 @@ export const ChatMessage: React.FC<IChatMessageProps> = ({ message }) => {
                     id={`message-${new Date(message.timestamp).getTime()}`}
                 />
                 <div className={styles.timestamp}>
-                    {formatTimestamp(new Date(message.timestamp))}
+                    {formatChatMessageTimestamp(message.timestamp)}
                 </div>
             </div>
         </div>

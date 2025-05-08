@@ -35,6 +35,8 @@ import { processChatHistory } from './ChatHistoryCall';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
+const kChatHistoryPageSize = 50;
+const kIdleTimeoutMs = 30000; // 30 seconds in milliseconds
 
 const scrollableContentStyles = makeStyles({
    root: {
@@ -114,7 +116,7 @@ export const App = (props: IAppProps) => {
                await processChatHistory({
                   messagesApiUrl,
                   sessionId: existingSession,
-                  limit: 50,
+                  limit: kChatHistoryPageSize,
                   onPage: (messages) => {
                      setChatHistory(prev => [...prev, ...messages]);
                   }
@@ -130,6 +132,24 @@ export const App = (props: IAppProps) => {
    const [message, setMessage] = useState<string|undefined>(undefined);
    const [streamedResponse, setStreamedResponse] = useState<string|undefined>(undefined);
    const [streamedResponseId, setStreamedResponseId] = useState<string|undefined>(undefined);
+   const [idleSince, setIdleSince] = useState<Date>(new Date());
+
+   // Check for idle timeout
+   useEffect(() => {
+      const timer = setInterval(() => {
+         const idleTime = Date.now() - idleSince.getTime();
+         if (idleTime >= kIdleTimeoutMs) {
+            isArchiveDue();
+         }
+      }, 1000); // Check every second
+
+      return () => clearInterval(timer);
+   }, [idleSince]);
+
+   const isArchiveDue = () => {
+      // TODO: Implement archive check logic here
+      console.log('Checking if archive is due after idle period');
+   };
 
    async function callChatServer() : Promise<void> {
       if (!message) return;
@@ -204,6 +224,7 @@ export const App = (props: IAppProps) => {
 
    const onChange = (message_: string) => {
       setMessage(message_);
+      setIdleSince(new Date()); // Reset idle timer on input change
       state.transition(EApiEvent.kReset);
       setState(new AssistantUIStateMachine(state.getState()));      
    };

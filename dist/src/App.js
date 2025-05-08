@@ -63,6 +63,8 @@ const ChatHistory_1 = require("./ChatHistory");
 const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
+const kChatHistoryPageSize = 50;
+const kIdleTimeoutMs = 30000; // 30 seconds in milliseconds
 const scrollableContentStyles = (0, react_components_1.makeStyles)({
     root: {
         display: 'flex',
@@ -123,7 +125,7 @@ const App = (props) => {
                     await (0, ChatHistoryCall_1.processChatHistory)({
                         messagesApiUrl,
                         sessionId: existingSession,
-                        limit: 50,
+                        limit: kChatHistoryPageSize,
                         onPage: (messages) => {
                             setChatHistory(prev => [...prev, ...messages]);
                         }
@@ -138,6 +140,22 @@ const App = (props) => {
     }, []);
     const [message, setMessage] = (0, react_1.useState)(undefined);
     const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
+    const [streamedResponseId, setStreamedResponseId] = (0, react_1.useState)(undefined);
+    const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
+    // Check for idle timeout
+    (0, react_1.useEffect)(() => {
+        const timer = setInterval(() => {
+            const idleTime = Date.now() - idleSince.getTime();
+            if (idleTime >= kIdleTimeoutMs) {
+                isArchiveDue();
+            }
+        }, 1000); // Check every second
+        return () => clearInterval(timer);
+    }, [idleSince]);
+    const isArchiveDue = () => {
+        // TODO: Implement archive check logic here
+        console.log('Checking if archive is due after idle period');
+    };
     async function callChatServer() {
         if (!message)
             return;
@@ -145,6 +163,7 @@ const App = (props) => {
         setMessage(undefined);
         // Reset streamed response
         setStreamedResponse("");
+        setStreamedResponseId(uuidv4);
         // Keep track of the complete response
         let completeResponse = "";
         const result = await (0, ChatCall_1.processChat)({
@@ -168,11 +187,14 @@ const App = (props) => {
                 // Add the assistant message to the chat history when complete
                 if (completeResponse) {
                     setChatHistory(prev => [...prev, {
+                            id: uuidv4(),
+                            className: prompt_repository_1.ChatMessageClassName,
                             role: prompt_repository_1.EChatRole.kAssistant,
                             content: completeResponse,
                             timestamp: new Date()
                         }]);
                     setStreamedResponse(undefined);
+                    setStreamedResponseId(undefined);
                 }
             },
             forceNode: props.forceNode
@@ -181,6 +203,7 @@ const App = (props) => {
     ;
     const onDismiss = () => {
         setStreamedResponse(undefined);
+        setStreamedResponseId(undefined);
         state.transition(UIStateMachine_1.EApiEvent.kReset);
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
@@ -188,6 +211,8 @@ const App = (props) => {
         // Add the user message to the chat history
         setMessage(message_);
         setChatHistory(prev => [...prev, {
+                id: uuidv4(),
+                className: prompt_repository_1.ChatMessageClassName,
                 role: prompt_repository_1.EChatRole.kUser,
                 content: message_,
                 timestamp: new Date()
@@ -197,6 +222,7 @@ const App = (props) => {
     };
     const onChange = (message_) => {
         setMessage(message_);
+        setIdleSince(new Date()); // Reset idle timer on input change
         state.transition(UIStateMachine_1.EApiEvent.kReset);
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
@@ -231,6 +257,8 @@ const App = (props) => {
         streamedResponse) {
         streaming = (react_1.default.createElement("div", { className: columnElementClasses.root },
             react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
+                    id: streamedResponseId,
+                    className: prompt_repository_1.ChatMessageClassName,
                     role: prompt_repository_1.EChatRole.kAssistant,
                     content: streamedResponse,
                     timestamp: new Date()

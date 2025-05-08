@@ -68,3 +68,17 @@ export interface IScreeningClassificationResponse {
    type: EScreeningClassification;
 }
 
+/**
+ * A request to summarise an message.
+ */
+export interface ISummariseMessageRequest {
+   messages: IChatMessage[];
+   wordCount: number;
+}
+
+/**
+ * A response from the summarise message API.
+ */
+export interface ISummariseMessageResponse {
+   summary: IChatMessage;
+};
