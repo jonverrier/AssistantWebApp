@@ -9,7 +9,9 @@ import { sandbox } from './setup';
 
 import { IChatMessage, EChatRole } from 'prompt-repository';
 
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 import { processChatHistory } from '../src/ChatHistoryCall';
+import { createRetryableAxiosClient } from '../src/ChatCallUtils';
 
 const sessionId = '1234567890';
 
@@ -152,4 +154,5 @@ describe('ChatHistory', function() {
 
         expect(result).toEqual([]);
     });
+
 }); 

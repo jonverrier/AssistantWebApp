@@ -9,7 +9,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import expect from 'expect';
 
-import { EChatRole } from 'prompt-repository';
+import { EChatRole, ChatMessageClassName } from 'prompt-repository';
 
 import { ChatHistory } from '../src/ChatHistory';
 
@@ -17,11 +17,15 @@ import { ChatHistory } from '../src/ChatHistory';
 describe('ChatHistory Component', () => {
   const mockMessages = [
     {
+      id: '1234-5678-9abc-def0',
+      className: ChatMessageClassName,
       role: EChatRole.kUser,
       content: 'Hello, assistant!',
       timestamp: new Date('2024-03-20T10:00:00')
     },
     {
+      id: '1234-5678-9abc-def1',
+      className: ChatMessageClassName,
       role: EChatRole.kAssistant,
       content: 'Hi there! How can I help you?',
       timestamp: new Date('2024-03-20T10:00:05')

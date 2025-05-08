@@ -85,4 +85,53 @@ export async function processChatHistory({
         console.error('Error retrieving messages:', error);
         throw error;
     }
+}
+
+/**
+ * Interface for the query to remove a log entry
+ */
+interface IRemoveLogEntryQuery {
+    sessionId: string;
+    timestamp: Date;
+}
+
+/**
+ * Interface for the response from removing a log entry
+ */
+interface IRemoveLogEntryResponse {
+    success: boolean;
+}
+
+/**
+ * Removes a specific message from the chat history.
+ * 
+ * @param removeLogEntryUrl - The URL of the RemoveLogEntry API endpoint
+ * @param query - The query specifying which message to remove
+ * @param apiClient - Optional API client to use for the request
+ * @returns A promise that resolves with the response from the server
+ */
+export async function removeLogEntry({
+    removeLogEntryUrl,
+    query,
+    apiClient
+}: {
+    removeLogEntryUrl: string;
+    query: IRemoveLogEntryQuery;
+    apiClient?: ApiClient;
+}): Promise<IRemoveLogEntryResponse> {
+    if (!apiClient) {
+        apiClient = createRetryableAxiosClient();
+    }
+
+    try {
+        const response = await apiClient.post<IRemoveLogEntryResponse>(
+            removeLogEntryUrl,
+            query
+        );
+
+        return response.data;
+    } catch (error) {
+        console.error('Error removing log entry:', error);
+        throw error;
+    }
 } 

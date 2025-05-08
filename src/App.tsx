@@ -17,7 +17,7 @@ import {
 } from '@fluentui/react-components';
 
 // external packages
-import { EChatRole, IChatMessage } from 'prompt-repository';
+import { ChatMessageClassName, EChatRole, IChatMessage } from 'prompt-repository';
 import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 // local packages
@@ -129,6 +129,7 @@ export const App = (props: IAppProps) => {
 
    const [message, setMessage] = useState<string|undefined>(undefined);
    const [streamedResponse, setStreamedResponse] = useState<string|undefined>(undefined);
+   const [streamedResponseId, setStreamedResponseId] = useState<string|undefined>(undefined);
 
    async function callChatServer() : Promise<void> {
       if (!message) return;
@@ -138,6 +139,7 @@ export const App = (props: IAppProps) => {
 
       // Reset streamed response
       setStreamedResponse("");
+      setStreamedResponseId(uuidv4);
 
       // Keep track of the complete response
       let completeResponse = "";
@@ -163,11 +165,14 @@ export const App = (props: IAppProps) => {
             // Add the assistant message to the chat history when complete
             if (completeResponse) {
                setChatHistory(prev => [...prev, {
+                  id: uuidv4(),
+                  className: ChatMessageClassName,
                   role: EChatRole.kAssistant,
                   content: completeResponse,
                   timestamp: new Date()
                }]);
                setStreamedResponse(undefined);
+               setStreamedResponseId(undefined);
             }
          },
          forceNode: props.forceNode
@@ -176,6 +181,7 @@ export const App = (props: IAppProps) => {
    
    const onDismiss = () => {
       setStreamedResponse(undefined);
+      setStreamedResponseId(undefined);
       state.transition(EApiEvent.kReset);
       setState(new AssistantUIStateMachine(state.getState()));      
    };
@@ -185,6 +191,8 @@ export const App = (props: IAppProps) => {
       setMessage(message_);
 
       setChatHistory(prev => [...prev, {
+         id: uuidv4(),
+         className: ChatMessageClassName,
          role: EChatRole.kUser,
          content: message_,
          timestamp: new Date()
@@ -258,6 +266,8 @@ export const App = (props: IAppProps) => {
          <div className={columnElementClasses.root}>
             <ChatMessage 
                message={{
+                  id: streamedResponseId,
+                  className: ChatMessageClassName,
                   role: EChatRole.kAssistant,
                   content: streamedResponse,
                   timestamp: new Date()
