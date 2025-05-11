@@ -32,11 +32,14 @@ import { Spacer, Footer } from './SiteUtilities';
 import { getSessionUuid } from './SessionCall';
 import { ChatHistory, ChatMessage } from './ChatHistory';
 import { processChatHistory } from './ChatHistoryCall';
+import { archive, shouldArchive } from './ArchiveCall';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const kChatHistoryPageSize = 50;
 const kIdleTimeoutMs = 30000; // 30 seconds in milliseconds
+const kSummaryLength = 200;
+const kIdleCheckIntervalMs = 5000; // Check every 5 seconds
 
 const scrollableContentStyles = makeStyles({
    root: {
@@ -99,12 +102,19 @@ export const App = (props: IAppProps) => {
    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
    const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
    const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
+   const archiveApiUrl = local ? 'http://localhost:7071/api/ArchiveMessages' : 'https://motifassistantapi.azurewebsites.net/api/ArchiveMessages';
+   const summariseApiUrl = local ? 'http://localhost:7071/api/SummariseMessages' : 'https://motifassistantapi.azurewebsites.net/api/SummariseMessages';
 
    const uiStrings = getUIStrings(props.appMode);
 
    let [state, setState] = useState<AssistantUIStateMachine>(new AssistantUIStateMachine(EUIState.kWaiting));
    let [sessionUuid, setSessionUuid] = useState<string>(newSessionUuid);
+   
    const [chatHistory, setChatHistory] = useState<IChatMessage[]>([]);
+   const [message, setMessage] = useState<string|undefined>(undefined);
+   const [streamedResponse, setStreamedResponse] = useState<string|undefined>(undefined);
+   const [streamedResponseId, setStreamedResponseId] = useState<string|undefined>(undefined);
+   const [idleSince, setIdleSince] = useState<Date>(new Date());
 
    useEffect(() => {
       const getSession = async () => {
@@ -129,26 +139,39 @@ export const App = (props: IAppProps) => {
       getSession();
    }, []);
 
-   const [message, setMessage] = useState<string|undefined>(undefined);
-   const [streamedResponse, setStreamedResponse] = useState<string|undefined>(undefined);
-   const [streamedResponseId, setStreamedResponseId] = useState<string|undefined>(undefined);
-   const [idleSince, setIdleSince] = useState<Date>(new Date());
 
    // Check for idle timeout
    useEffect(() => {
-      const timer = setInterval(() => {
+      const timer = setInterval(async () => {
          const idleTime = Date.now() - idleSince.getTime();
-         if (idleTime >= kIdleTimeoutMs) {
-            isArchiveDue();
+
+         if (idleTime >= kIdleTimeoutMs && state.getState() === EUIState.kWaiting) {
+            if (shouldArchive(chatHistory)) {
+               setIdleSince(new Date());
+
+               setState(new AssistantUIStateMachine(EUIState.kArchiving));
+               const newHistory = await archive({
+                  archiveApiUrl : archiveApiUrl,
+                  summarizeApiUrl : summariseApiUrl,
+                  sessionId: sessionUuid,
+                  messages: chatHistory,
+                  wordCount: kSummaryLength,
+                  updateState: handleStateUpdate
+               });
+               
+               setIdleSince(new Date());
+               setChatHistory(newHistory);
+               setState(new AssistantUIStateMachine(EUIState.kWaiting));
+            }
          }
-      }, 1000); // Check every second
+      }, kIdleCheckIntervalMs); // Check every second
 
       return () => clearInterval(timer);
    }, [idleSince]);
 
-   const isArchiveDue = () => {
-      // TODO: Implement archive check logic here
-      console.log('Checking if archive is due after idle period');
+   const handleStateUpdate = (event: EApiEvent) => {
+      state.transition(event);
+      setState(new AssistantUIStateMachine(state.getState()));         
    };
 
    async function callChatServer() : Promise<void> {
@@ -169,10 +192,7 @@ export const App = (props: IAppProps) => {
          chatApiUrl: chatUrl,
          input: localMessage,
          history: chatHistory,
-         updateState: (event: EApiEvent) => {
-            state.transition(event);
-            setState(new AssistantUIStateMachine(state.getState()));         
-         },
+         updateState: handleStateUpdate,
          sessionId: sessionUuid,
          personality: EAssistantPersonality.kGeneralAdvisor,
          onChunk: (chunk: string) => {
@@ -245,6 +265,7 @@ export const App = (props: IAppProps) => {
    let blank = <div></div>;
    let offTopic = blank;
    let error = blank;
+   let archiving = blank;
    let streaming = blank;
    
    if (state.getState() === EUIState.kOffTopic) {
@@ -276,6 +297,20 @@ export const App = (props: IAppProps) => {
          </div>
       );
    }
+   
+   if (state.getState() === EUIState.kArchiving) {
+      archiving = (
+         <div className={columnElementClasses.root}>
+            &nbsp;&nbsp;&nbsp;                  
+            <Message
+               intent={MessageIntent.kInfo}
+               title={uiStrings.kArchiving}
+               body={uiStrings.kArchivingDescription}
+               dismissable={false}
+            />
+         </div>
+      );
+   }   
 
    if (
       (state.getState() === EUIState.kScreening ||
@@ -358,6 +393,7 @@ export const App = (props: IAppProps) => {
                </div>
                {offTopic}
                {error}
+               {archiving}
             </div>
             <Spacer />
             <Footer />

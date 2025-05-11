@@ -27,7 +27,9 @@ exports.CommonUIStrings = {
     kTermsTitle: "Terms of Service",
     kPrivacy: "Privacy",
     kTerms: "Terms",
-    kAIWarning: "AI can make mistakes. Think about it."
+    kAIWarning: "AI can make mistakes. Think about it.",
+    kArchiving: "Archiving",
+    kArchivingDescription: "Summarising and then clearing old messages to make room for new ones."
 };
 exports.TheYardUIStrings = {
     kAppPageCaption: "Yard Talk",

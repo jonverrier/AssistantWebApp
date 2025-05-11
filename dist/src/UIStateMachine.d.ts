@@ -7,7 +7,8 @@ export declare enum EUIState {
     kScreening = "Screening",
     kChatting = "Chatting",
     kOffTopic = "OffTopic",
-    kError = "Error"
+    kError = "Error",
+    kArchiving = "Archiving"
 }
 export declare enum EApiEvent {
     kStartedScreening = "StartedScreening",
@@ -16,7 +17,9 @@ export declare enum EApiEvent {
     kPassedScreening = "PassedScreening",
     kFinishedChat = "FinishedChat",
     kError = "Error",
-    kReset = "Reset"
+    kReset = "Reset",
+    kStartedArchiving = "StartedArchiving",
+    kFinishedArchiving = "FinishedArchiving"
 }
 export declare class AssistantUIStateMachine {
     private state;

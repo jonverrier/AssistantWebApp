@@ -67,6 +67,31 @@ describe('AssistantUIStateMachine', () => {
     });      
   });
 
+  describe('archiving transitions', () => {
+    it('should transition from Waiting to Archiving on StartedArchiving', () => {
+      stateMachine.transition(EApiEvent.kStartedArchiving);
+      expect(stateMachine.getState()).toBe(EUIState.kArchiving);
+    });
+
+    it('should transition from Archiving to Waiting on FinishedArchiving', () => {
+      stateMachine.transition(EApiEvent.kStartedArchiving);
+      stateMachine.transition(EApiEvent.kFinishedArchiving);
+      expect(stateMachine.getState()).toBe(EUIState.kWaiting);
+    });
+
+    it('should transition from Archiving to Error on Error', () => {
+      stateMachine.transition(EApiEvent.kStartedArchiving);
+      stateMachine.transition(EApiEvent.kError);
+      expect(stateMachine.getState()).toBe(EUIState.kError);
+    });
+
+    it('should throw error on invalid transition from Archiving', () => {
+      stateMachine.transition(EApiEvent.kStartedArchiving);
+      expect(() => stateMachine.transition(EApiEvent.kStartedScreening))
+        .toThrow(`Invalid state change: Cannot transition from ${EUIState.kArchiving} with event ${EApiEvent.kStartedScreening}`);
+    });
+  });
+
   describe('error handling', () => {
     it('should throw error on invalid transition from Waiting', () => {
       expect(() => stateMachine.transition(EApiEvent.kPassedScreening))

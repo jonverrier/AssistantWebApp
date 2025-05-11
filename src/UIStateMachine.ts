@@ -9,7 +9,8 @@ export enum EUIState {
    kScreening = 'Screening',
    kChatting = 'Chatting',
    kOffTopic = 'OffTopic',
-   kError = 'Error'
+   kError = 'Error',
+   kArchiving = 'Archiving'
 }
 
 export enum EApiEvent {
@@ -19,7 +20,9 @@ export enum EApiEvent {
    kPassedScreening = 'PassedScreening',
    kFinishedChat = 'FinishedChat',
    kError = 'Error',
-   kReset = 'Reset'
+   kReset = 'Reset',
+   kStartedArchiving = 'StartedArchiving',
+   kFinishedArchiving = 'FinishedArchiving'
 }
 
 export class AssistantUIStateMachine {
@@ -37,6 +40,9 @@ export class AssistantUIStateMachine {
             }
             else if (event === EApiEvent.kReset) {
                this.state = EUIState.kWaiting;
+            }
+            else if (event === EApiEvent.kStartedArchiving) {
+               this.state = EUIState.kArchiving;
             }
             else {
                throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
@@ -90,6 +96,17 @@ export class AssistantUIStateMachine {
          case EUIState.kError:
             if (event === EApiEvent.kReset) {
                this.state = EUIState.kWaiting;
+            }
+            else {
+               throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
+            }
+            break;
+         case EUIState.kArchiving:
+            if (event === EApiEvent.kFinishedArchiving) {
+               this.state = EUIState.kWaiting;
+            }
+            else if (event === EApiEvent.kError) {
+               this.state = EUIState.kError;
             }
             else {
                throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);

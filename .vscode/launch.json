@@ -7,7 +7,7 @@
       {
          "type": "node",
          "request": "launch",
-         "name": "Debug All Tests",
+         "name": "Debug Tests",
          "skipFiles": ["<node_internals>/**"],
          "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
          "args": [
@@ -25,7 +25,7 @@
       {
          "type": "node",
          "request": "launch",
-         "name": "Debug App Tests Only",
+         "name": "Debug Tests-mini",
          "skipFiles": ["<node_internals>/**"],
          "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
          "args": [
@@ -33,7 +33,7 @@
             "--require",
             "ts-node/register",
             "${workspaceFolder}/test/setup.ts",
-            "${workspaceFolder}/test/App.test.tsx"
+            "${workspaceFolder}/test/ArchiveCall.test.ts"
          ],
          "console": "integratedTerminal",
          "internalConsoleOptions": "neverOpen"

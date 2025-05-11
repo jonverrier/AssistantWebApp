@@ -10,11 +10,14 @@ import { IChatMessage,
    IArchiveMessageRequest, 
    IArchiveMessageResponse, 
    renderChatMessageAsText } from 'prompt-repository';
+import { ISummariseMessageRequest,
+   ISummariseMessageResponse } from '../import/AssistantChatApiTypes';
 import { encode } from 'gpt-tokenizer';
 import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { EApiEvent } from './UIStateMachine';
 
 // Constants for archive settings
-const kMaxMessagesBeforeArchive = 100;  // Maximum number of messages before suggesting archive
+const kMaxMessagesBeforeArchive = 4; // 100;  // Maximum number of messages before suggesting archive
 const kArchivePageSize = 50;
 const kTokenThreshold = (14*1024);
 
@@ -22,10 +25,13 @@ const kTokenThreshold = (14*1024);
  * Options for archiving chat messages
  */
 interface ArchiveOptions {
+    apiClient?: ApiClient;   
     archiveApiUrl: string;
+    summarizeApiUrl: string;    
     sessionId: string;
     messages: IChatMessage[];
-    apiClient?: ApiClient;
+    wordCount: number;    
+    updateState: (event: EApiEvent) => void;
 }
 
 /**
@@ -62,17 +68,21 @@ export function shouldArchive(messages: IChatMessage[]): boolean {
 /**
  * Archives chat messages by:
  * 1. Calculating key timestamps (first message and mid-point)
- * 2. Calling the archive API to archive older messages, handling pagination
- * 3. Returning the remaining active messages
+ * 2. Generating a summary of the messages to archive
+ * 3. Calling the archive API to archive older messages, handling pagination
+ * 4. Returning the remaining active messages with the summary
  * 
- * @param options - The options for archiving messages
- * @returns Promise that resolves with remaining messages after archiving
+ * @param options - The options for archiving messages including API endpoints, session ID, messages and word count
+ * @returns Promise that resolves with remaining messages after archiving, including the generated summary
  */
 export async function archive({
     archiveApiUrl,
+    summarizeApiUrl,
     sessionId,
     messages,
-    apiClient
+    wordCount,
+    apiClient,
+    updateState
 }: ArchiveOptions): Promise<IChatMessage[]> {
     if (messages.length === 0) return messages;
 
@@ -80,11 +90,40 @@ export async function archive({
         apiClient = createRetryableAxiosClient();
     }
 
+    let newSummaryMessage : IChatMessage | undefined = undefined;
+
+    updateState(EApiEvent.kStartedArchiving);
+
     // Calculate key timestamps
-    const firstMessageTime = new Date(messages[0].timestamp).toISOString();
+    const firstMessageTime = new Date(new Date(messages[0].timestamp).getTime() - 1).toISOString();
     const midPointIndex = Math.floor(messages.length / 2);
     const midPointTime = new Date(messages[midPointIndex].timestamp).toISOString();
 
+    // Keep messages from the midpoint onwards
+    const recentMessages = messages.slice(midPointIndex);
+
+    try {
+        // Prepare the summarize request
+        const summarizeRequest: ISummariseMessageRequest = {
+            sessionId,
+            messages: recentMessages,
+            wordCount
+        };
+
+        // Call the summarize API
+        const response = await apiClient.post<ISummariseMessageResponse>(
+            summarizeApiUrl,
+            summarizeRequest
+        );
+
+        newSummaryMessage = response.data.summary;
+
+    } catch (error) {
+        console.error('Error summarizing messages:', error);
+        updateState(EApiEvent.kError);
+        throw error;
+    }
+    
     try {
         let totalArchived = 0;
         let continuation: string | undefined;
@@ -115,15 +154,20 @@ export async function archive({
         } while (continuation);
 
         if (totalArchived === 0) {
+            updateState (EApiEvent.kError);         
             throw new Error('Archive operation failed - no messages were archived');
         }
 
-        // Keep messages from the midpoint onwards
-        const recentMessages = messages.slice(midPointIndex);
+        if (newSummaryMessage) {
+            recentMessages.unshift(newSummaryMessage);
+        }
+
+        updateState(EApiEvent.kFinishedArchiving);        
         return recentMessages;
 
     } catch (error) {
         console.error('Error archiving messages:', error);
+        updateState(EApiEvent.kError);
         throw error;
     }
-} 
+}

@@ -13,6 +13,7 @@ var EUIState;
     EUIState["kChatting"] = "Chatting";
     EUIState["kOffTopic"] = "OffTopic";
     EUIState["kError"] = "Error";
+    EUIState["kArchiving"] = "Archiving";
 })(EUIState || (exports.EUIState = EUIState = {}));
 var EApiEvent;
 (function (EApiEvent) {
@@ -23,6 +24,8 @@ var EApiEvent;
     EApiEvent["kFinishedChat"] = "FinishedChat";
     EApiEvent["kError"] = "Error";
     EApiEvent["kReset"] = "Reset";
+    EApiEvent["kStartedArchiving"] = "StartedArchiving";
+    EApiEvent["kFinishedArchiving"] = "FinishedArchiving";
 })(EApiEvent || (exports.EApiEvent = EApiEvent = {}));
 class AssistantUIStateMachine {
     state;
@@ -37,6 +40,9 @@ class AssistantUIStateMachine {
                 }
                 else if (event === EApiEvent.kReset) {
                     this.state = EUIState.kWaiting;
+                }
+                else if (event === EApiEvent.kStartedArchiving) {
+                    this.state = EUIState.kArchiving;
                 }
                 else {
                     throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
@@ -85,6 +91,17 @@ class AssistantUIStateMachine {
             case EUIState.kError:
                 if (event === EApiEvent.kReset) {
                     this.state = EUIState.kWaiting;
+                }
+                else {
+                    throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
+                }
+                break;
+            case EUIState.kArchiving:
+                if (event === EApiEvent.kFinishedArchiving) {
+                    this.state = EUIState.kWaiting;
+                }
+                else if (event === EApiEvent.kError) {
+                    this.state = EUIState.kError;
                 }
                 else {
                     throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);

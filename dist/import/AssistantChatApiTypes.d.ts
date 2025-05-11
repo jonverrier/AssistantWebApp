@@ -61,6 +61,7 @@ export interface IScreeningClassificationResponse {
  * A request to summarise an message.
  */
 export interface ISummariseMessageRequest {
+    sessionId: string;
     messages: IChatMessage[];
     wordCount: number;
 }

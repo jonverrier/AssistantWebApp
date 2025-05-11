@@ -61,10 +61,13 @@ const SiteUtilities_1 = require("./SiteUtilities");
 const SessionCall_1 = require("./SessionCall");
 const ChatHistory_1 = require("./ChatHistory");
 const ChatHistoryCall_1 = require("./ChatHistoryCall");
+const ArchiveCall_1 = require("./ArchiveCall");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const kChatHistoryPageSize = 50;
 const kIdleTimeoutMs = 30000; // 30 seconds in milliseconds
+const kSummaryLength = 200;
+const kIdleCheckIntervalMs = 5000; // Check every 5 seconds
 const scrollableContentStyles = (0, react_components_1.makeStyles)({
     root: {
         display: 'flex',
@@ -111,10 +114,16 @@ const App = (props) => {
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
     const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
     const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
+    const archiveApiUrl = local ? 'http://localhost:7071/api/ArchiveMessages' : 'https://motifassistantapi.azurewebsites.net/api/ArchiveMessages';
+    const summariseApiUrl = local ? 'http://localhost:7071/api/SummariseMessages' : 'https://motifassistantapi.azurewebsites.net/api/SummariseMessages';
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
     let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
     let [sessionUuid, setSessionUuid] = (0, react_1.useState)(newSessionUuid);
     const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
+    const [message, setMessage] = (0, react_1.useState)(undefined);
+    const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
+    const [streamedResponseId, setStreamedResponseId] = (0, react_1.useState)(undefined);
+    const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
     (0, react_1.useEffect)(() => {
         const getSession = async () => {
             const existingSession = await (0, SessionCall_1.getSessionUuid)(sessionApiUrl);
@@ -138,23 +147,33 @@ const App = (props) => {
         };
         getSession();
     }, []);
-    const [message, setMessage] = (0, react_1.useState)(undefined);
-    const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
-    const [streamedResponseId, setStreamedResponseId] = (0, react_1.useState)(undefined);
-    const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
     // Check for idle timeout
     (0, react_1.useEffect)(() => {
-        const timer = setInterval(() => {
+        const timer = setInterval(async () => {
             const idleTime = Date.now() - idleSince.getTime();
-            if (idleTime >= kIdleTimeoutMs) {
-                isArchiveDue();
+            if (idleTime >= kIdleTimeoutMs && state.getState() === UIStateMachine_1.EUIState.kWaiting) {
+                if ((0, ArchiveCall_1.shouldArchive)(chatHistory)) {
+                    setIdleSince(new Date());
+                    setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kArchiving));
+                    const newHistory = await (0, ArchiveCall_1.archive)({
+                        archiveApiUrl: archiveApiUrl,
+                        summarizeApiUrl: summariseApiUrl,
+                        sessionId: sessionUuid,
+                        messages: chatHistory,
+                        wordCount: kSummaryLength,
+                        updateState: handleStateUpdate
+                    });
+                    setIdleSince(new Date());
+                    setChatHistory(newHistory);
+                    setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+                }
             }
-        }, 1000); // Check every second
+        }, kIdleCheckIntervalMs); // Check every second
         return () => clearInterval(timer);
     }, [idleSince]);
-    const isArchiveDue = () => {
-        // TODO: Implement archive check logic here
-        console.log('Checking if archive is due after idle period');
+    const handleStateUpdate = (event) => {
+        state.transition(event);
+        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
     async function callChatServer() {
         if (!message)
@@ -171,10 +190,7 @@ const App = (props) => {
             chatApiUrl: chatUrl,
             input: localMessage,
             history: chatHistory,
-            updateState: (event) => {
-                state.transition(event);
-                setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-            },
+            updateState: handleStateUpdate,
             sessionId: sessionUuid,
             personality: AssistantChatApiTypes_1.EAssistantPersonality.kGeneralAdvisor,
             onChunk: (chunk) => {
@@ -240,6 +256,7 @@ const App = (props) => {
     let blank = react_1.default.createElement("div", null);
     let offTopic = blank;
     let error = blank;
+    let archiving = blank;
     let streaming = blank;
     if (state.getState() === UIStateMachine_1.EUIState.kOffTopic) {
         offTopic = (react_1.default.createElement("div", { className: columnElementClasses.root },
@@ -250,6 +267,11 @@ const App = (props) => {
         error = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
             react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kError, title: uiStrings.kError, body: uiStrings.kServerErrorDescription, dismissable: true, onDismiss: onDismiss })));
+    }
+    if (state.getState() === UIStateMachine_1.EUIState.kArchiving) {
+        archiving = (react_1.default.createElement("div", { className: columnElementClasses.root },
+            "\u00A0\u00A0\u00A0",
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kArchiving, body: uiStrings.kArchivingDescription, dismissable: false })));
     }
     if ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
         state.getState() === UIStateMachine_1.EUIState.kChatting ||
@@ -307,7 +329,8 @@ const App = (props) => {
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
                     react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps })),
                 offTopic,
-                error),
+                error,
+                archiving),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement(SiteUtilities_1.Footer, null))));
 };
