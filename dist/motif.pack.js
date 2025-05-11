@@ -59573,13 +59573,15 @@ ${message.content}
     let newSummaryMessage = void 0;
     updateState("StartedArchiving" /* kStartedArchiving */);
     const firstMessageTime = new Date(new Date(messages[0].timestamp).getTime() - 1).toISOString();
-    const midPointIndex = Math.floor(messages.length / 2);
+    const midPointIndex = Math.ceil(messages.length / 2) + Math.ceil(messages.length / 2) % 2;
     const midPointTime = new Date(messages[midPointIndex].timestamp).toISOString();
     const recentMessages = messages.slice(midPointIndex);
+    const olderMessages = messages.slice(0, midPointIndex);
     try {
       const summarizeRequest = {
         sessionId,
-        messages: recentMessages,
+        messages: olderMessages,
+        // Summarize the older messages instead of recent ones
         wordCount
       };
       const response = await apiClient.post(
@@ -59590,7 +59592,7 @@ ${message.content}
     } catch (error) {
       console.error("Error summarizing messages:", error);
       updateState("Error" /* kError */);
-      throw error;
+      return messages;
     }
     try {
       let totalArchived = 0;
@@ -59612,10 +59614,6 @@ ${message.content}
         }
         continuation = response.data.continuation;
       } while (continuation);
-      if (totalArchived === 0) {
-        updateState("Error" /* kError */);
-        throw new Error("Archive operation failed - no messages were archived");
-      }
       if (newSummaryMessage) {
         recentMessages.unshift(newSummaryMessage);
       }
@@ -59624,7 +59622,7 @@ ${message.content}
     } catch (error) {
       console.error("Error archiving messages:", error);
       updateState("Error" /* kError */);
-      throw error;
+      return messages;
     }
   }
   var import_prompt_repository3, kMaxMessagesBeforeArchive, kArchivePageSize, kTokenThreshold;
@@ -59765,7 +59763,7 @@ ${message.content}
             }
           }, kIdleCheckIntervalMs);
           return () => clearInterval(timer);
-        }, [idleSince]);
+        }, [idleSince, chatHistory, sessionUuid, state]);
         const handleStateUpdate = (event) => {
           state.transition(event);
           setState(new AssistantUIStateMachine(state.getState()));

@@ -168,9 +168,9 @@ const App = (props) => {
                     setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
                 }
             }
-        }, kIdleCheckIntervalMs); // Check every second
+        }, kIdleCheckIntervalMs);
         return () => clearInterval(timer);
-    }, [idleSince]);
+    }, [idleSince, chatHistory, sessionUuid, state]);
     const handleStateUpdate = (event) => {
         state.transition(event);
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));

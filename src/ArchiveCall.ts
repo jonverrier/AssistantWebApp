@@ -73,7 +73,8 @@ export function shouldArchive(messages: IChatMessage[]): boolean {
  * 4. Returning the remaining active messages with the summary
  * 
  * @param options - The options for archiving messages including API endpoints, session ID, messages and word count
- * @returns Promise that resolves with remaining messages after archiving, including the generated summary
+ * @returns Promise that resolves with remaining messages after archiving, including the generated summary. 
+ * If there is an error, we return the old set of messages.
  */
 export async function archive({
     archiveApiUrl,
@@ -96,17 +97,19 @@ export async function archive({
 
     // Calculate key timestamps
     const firstMessageTime = new Date(new Date(messages[0].timestamp).getTime() - 1).toISOString();
-    const midPointIndex = Math.floor(messages.length / 2);
+    const midPointIndex = Math.ceil(messages.length / 2) + (Math.ceil(messages.length / 2) % 2);
     const midPointTime = new Date(messages[midPointIndex].timestamp).toISOString();
 
     // Keep messages from the midpoint onwards
     const recentMessages = messages.slice(midPointIndex);
+    // Get the older messages that will be archived
+    const olderMessages = messages.slice(0, midPointIndex);
 
     try {
         // Prepare the summarize request
         const summarizeRequest: ISummariseMessageRequest = {
             sessionId,
-            messages: recentMessages,
+            messages: olderMessages,  // Summarize the older messages instead of recent ones
             wordCount
         };
 
@@ -121,7 +124,7 @@ export async function archive({
     } catch (error) {
         console.error('Error summarizing messages:', error);
         updateState(EApiEvent.kError);
-        throw error;
+        return messages;
     }
     
     try {
@@ -153,11 +156,6 @@ export async function archive({
 
         } while (continuation);
 
-        if (totalArchived === 0) {
-            updateState (EApiEvent.kError);         
-            throw new Error('Archive operation failed - no messages were archived');
-        }
-
         if (newSummaryMessage) {
             recentMessages.unshift(newSummaryMessage);
         }
@@ -168,6 +166,6 @@ export async function archive({
     } catch (error) {
         console.error('Error archiving messages:', error);
         updateState(EApiEvent.kError);
-        throw error;
+        return messages;
     }
 }

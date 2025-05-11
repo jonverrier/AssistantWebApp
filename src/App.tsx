@@ -164,10 +164,10 @@ export const App = (props: IAppProps) => {
                setState(new AssistantUIStateMachine(EUIState.kWaiting));
             }
          }
-      }, kIdleCheckIntervalMs); // Check every second
+      }, kIdleCheckIntervalMs);
 
       return () => clearInterval(timer);
-   }, [idleSince]);
+   }, [idleSince, chatHistory, sessionUuid, state]);
 
    const handleStateUpdate = (event: EApiEvent) => {
       state.transition(event);
