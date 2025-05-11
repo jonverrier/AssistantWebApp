@@ -101,6 +101,7 @@ const newSessionUuid = uuidv4();
 // This is used to identify the field into which the response is streamed.
 exports.activeFieldId = uuidv4();
 const local = true;
+const kMinArchivingDisplayMs = 2000;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
@@ -155,17 +156,20 @@ const App = (props) => {
                 if ((0, ArchiveCall_1.shouldArchive)(chatHistory)) {
                     setIdleSince(new Date());
                     setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kArchiving));
-                    const newHistory = await (0, ArchiveCall_1.archive)({
-                        archiveApiUrl: archiveApiUrl,
-                        summarizeApiUrl: summariseApiUrl,
-                        sessionId: sessionUuid,
-                        messages: chatHistory,
-                        wordCount: kSummaryLength,
-                        updateState: handleStateUpdate
-                    });
-                    setIdleSince(new Date());
-                    setChatHistory(newHistory);
-                    setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+                    // Add minimum duration for archiving state
+                    setTimeout(async () => {
+                        const newHistory = await (0, ArchiveCall_1.archive)({
+                            archiveApiUrl: archiveApiUrl,
+                            summarizeApiUrl: summariseApiUrl,
+                            sessionId: sessionUuid,
+                            messages: chatHistory,
+                            wordCount: kSummaryLength,
+                            updateState: handleStateUpdate
+                        });
+                        setIdleSince(new Date());
+                        setChatHistory(newHistory);
+                        setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+                    }, kMinArchivingDisplayMs); // Minimum display time for archiving state
                 }
             }
         }, kIdleCheckIntervalMs);
@@ -325,12 +329,12 @@ const App = (props) => {
                         react_1.default.createElement(SiteUtilities_1.Spacer, null),
                         react_1.default.createElement(react_components_1.Spinner, { label: "Please wait a few seconds..." }))),
                     react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
+                    offTopic,
+                    error,
+                    archiving,
                     react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
-                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps })),
-                offTopic,
-                error,
-                archiving),
+                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement(SiteUtilities_1.Footer, null))));
 };

@@ -53646,11 +53646,11 @@ ${message.content}
       (function(EModelProvider2) {
         EModelProvider2["kOpenAI"] = "kOpenAI";
       })(EModelProvider || (exports.EModelProvider = EModelProvider = {}));
-      var EChatRole4;
-      (function(EChatRole5) {
-        EChatRole5["kUser"] = "user";
-        EChatRole5["kAssistant"] = "assistant";
-      })(EChatRole4 || (exports.EChatRole = EChatRole4 = {}));
+      var EChatRole5;
+      (function(EChatRole6) {
+        EChatRole6["kUser"] = "user";
+        EChatRole6["kAssistant"] = "assistant";
+      })(EChatRole5 || (exports.EChatRole = EChatRole5 = {}));
       exports.ChatMessageClassName = "IChatMessage";
     }
   });
@@ -59573,7 +59573,16 @@ ${message.content}
     let newSummaryMessage = void 0;
     updateState("StartedArchiving" /* kStartedArchiving */);
     const firstMessageTime = new Date(new Date(messages[0].timestamp).getTime() - 1).toISOString();
-    const midPointIndex = Math.ceil(messages.length / 2) + Math.ceil(messages.length / 2) % 2;
+    let midPointIndex = Math.ceil(messages.length / 2) + Math.ceil(messages.length / 2) % 2;
+    while (midPointIndex < messages.length && messages[midPointIndex].role !== import_prompt_repository3.EChatRole.kUser) {
+      midPointIndex++;
+    }
+    if (midPointIndex >= messages.length) {
+      midPointIndex = Math.ceil(messages.length / 2);
+      while (midPointIndex > 0 && messages[midPointIndex].role !== import_prompt_repository3.EChatRole.kUser) {
+        midPointIndex--;
+      }
+    }
     const midPointTime = new Date(messages[midPointIndex].timestamp).toISOString();
     const recentMessages = messages.slice(midPointIndex);
     const olderMessages = messages.slice(0, midPointIndex);
@@ -59646,7 +59655,7 @@ ${message.content}
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, App;
+  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, kMinArchivingDisplayMs, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
@@ -59697,6 +59706,7 @@ ${message.content}
       newSessionUuid = uuidv4();
       activeFieldId = uuidv4();
       local = true;
+      kMinArchivingDisplayMs = 2e3;
       App = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
@@ -59748,17 +59758,19 @@ ${message.content}
               if (shouldArchive(chatHistory)) {
                 setIdleSince(/* @__PURE__ */ new Date());
                 setState(new AssistantUIStateMachine("Archiving" /* kArchiving */));
-                const newHistory = await archive({
-                  archiveApiUrl,
-                  summarizeApiUrl: summariseApiUrl,
-                  sessionId: sessionUuid,
-                  messages: chatHistory,
-                  wordCount: kSummaryLength,
-                  updateState: handleStateUpdate
-                });
-                setIdleSince(/* @__PURE__ */ new Date());
-                setChatHistory(newHistory);
-                setState(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+                setTimeout(async () => {
+                  const newHistory = await archive({
+                    archiveApiUrl,
+                    summarizeApiUrl: summariseApiUrl,
+                    sessionId: sessionUuid,
+                    messages: chatHistory,
+                    wordCount: kSummaryLength,
+                    updateState: handleStateUpdate
+                  });
+                  setIdleSince(/* @__PURE__ */ new Date());
+                  setChatHistory(newHistory);
+                  setState(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+                }, kMinArchivingDisplayMs);
               }
             }
           }, kIdleCheckIntervalMs);
@@ -59913,7 +59925,7 @@ ${message.content}
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: "Please wait a few seconds..." })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps })), offTopic, error, archiving), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: "Please wait a few seconds..." })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
       };
     }
   });

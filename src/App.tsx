@@ -87,6 +87,8 @@ export const activeFieldId: string = uuidv4();
 
 const local = true;
 
+const kMinArchivingDisplayMs = 2000;
+
 export const App = (props: IAppProps) => {
    
    const pageOuterClasses = pageOuterStyles();
@@ -148,20 +150,23 @@ export const App = (props: IAppProps) => {
          if (idleTime >= kIdleTimeoutMs && state.getState() === EUIState.kWaiting) {
             if (shouldArchive(chatHistory)) {
                setIdleSince(new Date());
-
                setState(new AssistantUIStateMachine(EUIState.kArchiving));
-               const newHistory = await archive({
-                  archiveApiUrl : archiveApiUrl,
-                  summarizeApiUrl : summariseApiUrl,
-                  sessionId: sessionUuid,
-                  messages: chatHistory,
-                  wordCount: kSummaryLength,
-                  updateState: handleStateUpdate
-               });
                
-               setIdleSince(new Date());
-               setChatHistory(newHistory);
-               setState(new AssistantUIStateMachine(EUIState.kWaiting));
+               // Add minimum duration for archiving state
+               setTimeout(async () => {
+                  const newHistory = await archive({
+                     archiveApiUrl : archiveApiUrl,
+                     summarizeApiUrl : summariseApiUrl,
+                     sessionId: sessionUuid,
+                     messages: chatHistory,
+                     wordCount: kSummaryLength,
+                     updateState: handleStateUpdate
+                  });
+                  
+                  setIdleSince(new Date());
+                  setChatHistory(newHistory);
+                  setState(new AssistantUIStateMachine(EUIState.kWaiting));
+               }, kMinArchivingDisplayMs); // Minimum display time for archiving state
             }
          }
       }, kIdleCheckIntervalMs);
@@ -385,15 +390,15 @@ export const App = (props: IAppProps) => {
                   <div className={columnElementClasses.root}>
                      {streaming}
                   </div>
+                  {offTopic}
+                  {error}
+                  {archiving}                  
                   <div ref={bottomRef} />
                </div>
                
                <div className={multilineEditContainerClasses.root}>
                   <MultilineEdit {...multilineEditProps} />
                </div>
-               {offTopic}
-               {error}
-               {archiving}
             </div>
             <Spacer />
             <Footer />

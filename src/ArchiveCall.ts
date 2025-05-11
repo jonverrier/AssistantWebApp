@@ -9,7 +9,8 @@
 import { IChatMessage, 
    IArchiveMessageRequest, 
    IArchiveMessageResponse, 
-   renderChatMessageAsText } from 'prompt-repository';
+   renderChatMessageAsText,
+   EChatRole } from 'prompt-repository';
 import { ISummariseMessageRequest,
    ISummariseMessageResponse } from '../import/AssistantChatApiTypes';
 import { encode } from 'gpt-tokenizer';
@@ -97,7 +98,20 @@ export async function archive({
 
     // Calculate key timestamps
     const firstMessageTime = new Date(new Date(messages[0].timestamp).getTime() - 1).toISOString();
-    const midPointIndex = Math.ceil(messages.length / 2) + (Math.ceil(messages.length / 2) % 2);
+    
+    // Calculate midpoint and ensure it lands on a user message
+    let midPointIndex = Math.ceil(messages.length / 2) + (Math.ceil(messages.length / 2) % 2);
+    // Advance to next user message if current message is not from user
+    while (midPointIndex < messages.length && messages[midPointIndex].role !== EChatRole.kUser) {
+        midPointIndex++;
+    }
+    // If we couldn't find a user message after midpoint, go backwards to find the last user message before midpoint
+    if (midPointIndex >= messages.length) {
+        midPointIndex = Math.ceil(messages.length / 2);
+        while (midPointIndex > 0 && messages[midPointIndex].role !== EChatRole.kUser) {
+            midPointIndex--;
+        }
+    }
     const midPointTime = new Date(messages[midPointIndex].timestamp).toISOString();
 
     // Keep messages from the midpoint onwards
