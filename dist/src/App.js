@@ -101,7 +101,7 @@ function uuidv4() {
 const newSessionUuid = uuidv4();
 // This is used to identify the field into which the response is streamed.
 exports.activeFieldId = uuidv4();
-const local = true;
+const local = window.location.hostname === 'localhost';
 const kMinArchivingDisplayMs = 2000;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
