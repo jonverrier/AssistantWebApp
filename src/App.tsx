@@ -86,7 +86,7 @@ const newSessionUuid: string = uuidv4();
 // This is used to identify the field into which the response is streamed.
 export const activeFieldId: string = uuidv4();
 
-const local = true;
+const local = false;
 
 const kMinArchivingDisplayMs = 2000;
 
