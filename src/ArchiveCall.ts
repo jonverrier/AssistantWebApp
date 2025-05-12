@@ -18,7 +18,7 @@ import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
 import { EApiEvent } from './UIStateMachine';
 
 // Constants for archive settings
-const kMaxMessagesBeforeArchive = 4; // 100;  // Maximum number of messages before suggesting archive
+const kMaxMessagesBeforeArchive = 100; // 100;  // Maximum number of messages before suggesting archive
 const kArchivePageSize = 50;
 const kTokenThreshold = (14*1024);
 
