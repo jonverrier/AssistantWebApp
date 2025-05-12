@@ -26,8 +26,9 @@ export interface ICommonUIStrings {
    kPrivacy: string;
    kTerms: string;
    kAIWarning: string;
-   kArchiving: string;
+   kArchivingPleaseWait: string;
    kArchivingDescription: string;
+   kProcessingPleaseWait: string;
 }
 
 // Strings that vary between different white labelled implementations
@@ -57,8 +58,9 @@ export const CommonUIStrings: ICommonUIStrings = {
    kPrivacy: "Privacy",
    kTerms: "Terms",
    kAIWarning: "AI can make mistakes. Think about it.",
-   kArchiving: "Archiving",
-   kArchivingDescription: "Summarising and then clearing old messages to make room for new ones."
+   kProcessingPleaseWait: "Please wait a few seconds...",
+   kArchivingPleaseWait: "Please wait a few seconds...",
+   kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones."
 }
 
 export const TheYardUIStrings: IBrandUIStrings = {
@@ -67,7 +69,7 @@ export const TheYardUIStrings: IBrandUIStrings = {
    kOverview: "The Yard Peckham is proudly the home of CrossFit Peckham. Above all else, we are committed to the improvement of human life and dedicated to offering high quality coaching in an environment that will help you achieve your health, fitness and performance goals. We hope our Yard Talk AI will help along the way. Enjoy.",
    kLinks: "[CrossFit main site](https://www.crossfit.com/), [The Yard](https://www.theyardpeckham.com/)",
    kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
-   kChatPlaceholder: "Talk to me about fitness...",
+   kChatPlaceholder: "Lets talk about fitness...",
    kLooksOffTopic: "Sorry, that looks off-topic. I just talk about fitness. Please try again."
 }
 

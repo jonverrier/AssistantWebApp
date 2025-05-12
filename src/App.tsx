@@ -309,7 +309,7 @@ export const App = (props: IAppProps) => {
             &nbsp;&nbsp;&nbsp;                  
             <Message
                intent={MessageIntent.kInfo}
-               title={uiStrings.kArchiving}
+               title={uiStrings.kArchivingPleaseWait}
                body={uiStrings.kArchivingDescription}
                dismissable={false}
             />
@@ -384,7 +384,7 @@ export const App = (props: IAppProps) => {
                   {((state.getState() === EUIState.kScreening || state.getState() === EUIState.kChatting) && !streamedResponse) && (
                      <div className={columnElementClasses.root}>
                         <Spacer />
-                        <Spinner label="Please wait a few seconds..." />
+                        <Spinner label={uiStrings.kProcessingPleaseWait} />
                      </div>
                   )}
                   <div className={columnElementClasses.root}>
