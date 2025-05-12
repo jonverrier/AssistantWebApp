@@ -59723,7 +59723,7 @@ ${message.content}
       });
       newSessionUuid = uuidv4();
       activeFieldId = uuidv4();
-      local = true;
+      local = window.location.hostname === "localhost";
       kMinArchivingDisplayMs = 2e3;
       App = (props) => {
         const pageOuterClasses = pageOuterStyles();
