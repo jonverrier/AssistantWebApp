@@ -21,8 +21,9 @@ export interface ICommonUIStrings {
     kPrivacy: string;
     kTerms: string;
     kAIWarning: string;
-    kArchiving: string;
+    kArchivingPleaseWait: string;
     kArchivingDescription: string;
+    kProcessingPleaseWait: string;
 }
 export interface IBrandUIStrings {
     kAppPageCaption: string;

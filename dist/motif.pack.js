@@ -1106,11 +1106,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef15(initialValue) {
+          function useRef16(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect14(create, deps) {
+          function useEffect15(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1893,14 +1893,14 @@
           exports.useContext = useContext23;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect14;
+          exports.useEffect = useEffect15;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef15;
+          exports.useRef = useRef16;
           exports.useState = useState12;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
@@ -23628,8 +23628,9 @@
         kPrivacy: "Privacy",
         kTerms: "Terms",
         kAIWarning: "AI can make mistakes. Think about it.",
-        kArchiving: "Archiving",
-        kArchivingDescription: "Summarising and then clearing old messages to make room for new ones."
+        kProcessingPleaseWait: "Please wait a few seconds...",
+        kArchivingPleaseWait: "Please wait a few seconds...",
+        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones."
       };
       TheYardUIStrings = {
         kAppPageCaption: "Yard Talk",
@@ -23637,8 +23638,8 @@
         kOverview: "The Yard Peckham is proudly the home of CrossFit Peckham. Above all else, we are committed to the improvement of human life and dedicated to offering high quality coaching in an environment that will help you achieve your health, fitness and performance goals. We hope our Yard Talk AI will help along the way. Enjoy.",
         kLinks: "[CrossFit main site](https://www.crossfit.com/), [The Yard](https://www.theyardpeckham.com/)",
         kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
-        kChatPlaceholder: "Talk to me about fitness...",
-        kLooksOffTopic: "Sorry, that looks off-topic. I just talk about fitness. Please try again."
+        kChatPlaceholder: "Let's talk about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
       };
       UIStrings = {
         ...CommonUIStrings,
@@ -57426,7 +57427,7 @@ ${message.content}
       init_CommonStyles();
       init_UIStrings();
       init_lib22();
-      MOBILE_BREAKPOINT = 768;
+      MOBILE_BREAKPOINT = 512;
       useFooterStyles = makeStyles2({
         footerContainer: {
           position: "fixed",
@@ -57436,7 +57437,11 @@ ${message.content}
           backgroundColor: "var(--colorNeutralBackground1)",
           ...shorthands2.padding("12px"),
           ...shorthands2.borderTop("1px", "solid", "var(--colorNeutralStroke1)"),
-          zIndex: 100
+          zIndex: 100,
+          "&::after": {
+            content: '""',
+            height: "var(--footer-height)"
+          }
         },
         footerContent: {
           display: "flex",
@@ -57456,7 +57461,19 @@ ${message.content}
         const uiStrings = getUIStrings("yardtalk" /* kYardTalk */);
         const linkClasses = standardLinkStyles();
         const styles = useFooterStyles();
-        return /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
+        const footerRef = (0, import_react28.useRef)(null);
+        (0, import_react28.useEffect)(() => {
+          const updateFooterHeight = () => {
+            if (footerRef.current) {
+              const height = footerRef.current.offsetHeight;
+              document.documentElement.style.setProperty("--footer-height", `${height}px`);
+            }
+          };
+          updateFooterHeight();
+          window.addEventListener("resize", updateFooterHeight);
+          return () => window.removeEventListener("resize", updateFooterHeight);
+        }, []);
+        return /* @__PURE__ */ import_react28.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
       };
     }
   });
@@ -59642,7 +59659,7 @@ ${message.content}
       init_main();
       init_ChatCallUtils();
       init_UIStateMachine();
-      kMaxMessagesBeforeArchive = 4;
+      kMaxMessagesBeforeArchive = 100;
       kArchivePageSize = 50;
       kTokenThreshold = 14 * 1024;
     }
@@ -59690,7 +59707,8 @@ ${message.content}
           overflowY: "auto",
           width: "100%",
           position: "relative",
-          height: "100%"
+          height: "100%",
+          paddingBottom: "var(--footer-height)"
         }
       });
       multilineEditContainerStyles = makeStyles2({
@@ -59886,7 +59904,7 @@ ${message.content}
             Message,
             {
               intent: "info" /* kInfo */,
-              title: uiStrings.kArchiving,
+              title: uiStrings.kArchivingPleaseWait,
               body: uiStrings.kArchivingDescription,
               dismissable: false
             }
@@ -59925,7 +59943,7 @@ ${message.content}
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: "Please wait a few seconds..." })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
       };
     }
   });

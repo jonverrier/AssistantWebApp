@@ -5,13 +5,13 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { standardLinkStyles } from './CommonStyles';
 import { EAppMode, getUIStrings } from './UIStrings';
 import { makeStyles, shorthands } from '@fluentui/react-components';
 
-const MOBILE_BREAKPOINT = 768;
+const MOBILE_BREAKPOINT = 512;
 
 const useFooterStyles = makeStyles({
   footerContainer: {
@@ -23,6 +23,10 @@ const useFooterStyles = makeStyles({
     ...shorthands.padding('12px'),
     ...shorthands.borderTop('1px', 'solid', 'var(--colorNeutralStroke1)'),
     zIndex: 100,
+    '&::after': {
+      content: '""',
+      height: 'var(--footer-height)',
+    }
   },
   footerContent: {
     display: 'flex',
@@ -50,13 +54,28 @@ export const Footer = (props: IFooterProps) => {
    const uiStrings = getUIStrings(EAppMode.kYardTalk);   
    const linkClasses = standardLinkStyles();
    const styles = useFooterStyles();
+   const footerRef = useRef<HTMLDivElement>(null);
+   
+   useEffect(() => {
+     const updateFooterHeight = () => {
+       if (footerRef.current) {
+         const height = footerRef.current.offsetHeight;
+         document.documentElement.style.setProperty('--footer-height', `${height}px`);
+       }
+     };
+
+     updateFooterHeight();
+     window.addEventListener('resize', updateFooterHeight);
+     return () => window.removeEventListener('resize', updateFooterHeight);
+   }, []);
    
    return (
-      <div className={styles.footerContainer}>
+      <div ref={footerRef} className={styles.footerContainer}>
          <div className={styles.footerContent}>
             <Link to="/index" className={linkClasses.centred}>{uiStrings.kHome}</Link>         
             <Link to="/privacy" className={linkClasses.centred}>{uiStrings.kPrivacy}</Link>
             <Link to="/terms" className={linkClasses.centred}>{uiStrings.kTerms}</Link>
          </div>
-      </div>);
+      </div>
+   );
 }

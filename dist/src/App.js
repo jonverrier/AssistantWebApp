@@ -77,7 +77,8 @@ const scrollableContentStyles = (0, react_components_1.makeStyles)({
         overflowY: 'auto',
         width: '100%',
         position: 'relative',
-        height: '100%'
+        height: '100%',
+        paddingBottom: 'var(--footer-height)'
     }
 });
 const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
@@ -275,7 +276,7 @@ const App = (props) => {
     if (state.getState() === UIStateMachine_1.EUIState.kArchiving) {
         archiving = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
-            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kArchiving, body: uiStrings.kArchivingDescription, dismissable: false })));
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kArchivingPleaseWait, body: uiStrings.kArchivingDescription, dismissable: false })));
     }
     if ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
         state.getState() === UIStateMachine_1.EUIState.kChatting ||
@@ -327,7 +328,7 @@ const App = (props) => {
                         react_1.default.createElement(ChatHistory_1.ChatHistory, { messages: chatHistory }))),
                     ((state.getState() === UIStateMachine_1.EUIState.kScreening || state.getState() === UIStateMachine_1.EUIState.kChatting) && !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
                         react_1.default.createElement(SiteUtilities_1.Spacer, null),
-                        react_1.default.createElement(react_components_1.Spinner, { label: "Please wait a few seconds..." }))),
+                        react_1.default.createElement(react_components_1.Spinner, { label: uiStrings.kProcessingPleaseWait }))),
                     react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
                     offTopic,
                     error,
