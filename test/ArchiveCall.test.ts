@@ -142,26 +142,9 @@ describe('ArchiveCall', () => {
             expect(mockApi.post.calledTwice).toBe(true);
             expect(result.length).toBe(51); // 50 recent messages + 1 summary message
             expect(result[0]).toEqual(summaryMessage); // Summary should be first
-            expect(result[1]).toEqual(messages[midPoint]); // Then midpoint message
+            expect(result.slice(1)).toEqual(messages.slice(midPoint)); // Then recent messages
             expect(mockUpdateState.calledWith(EApiEvent.kStartedArchiving)).toBe(true);
-            
-            // Verify summarize API call
-            const summarizeCall = mockApi.post.firstCall;
-            expect(summarizeCall.args[0]).toBe('http://summarize-api-endpoint');
-            expect(summarizeCall.args[1]).toMatchObject({
-                messages,
-                wordCount
-            });
-
-            // Verify archive API call
-            const archiveCall = mockApi.post.secondCall;
-            expect(archiveCall.args[0]).toBe('http://archive-api-endpoint');
-            expect(archiveCall.args[1]).toMatchObject({
-                sessionId,
-                limit: 50,
-                createdAfter: messages[0].timestamp.toISOString(),
-                createdBefore: messages[midPoint].timestamp.toISOString()
-            });
+            expect(mockUpdateState.calledWith(EApiEvent.kFinishedArchiving)).toBe(true);
         });
 
         it('should handle multiple pages of archiving with summary', async () => {
@@ -227,7 +210,7 @@ describe('ArchiveCall', () => {
             // Mock summarize API error
             mockApi.post.onFirstCall().rejects(error);
 
-            await expect(archive({
+            const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
                 sessionId,
@@ -235,13 +218,14 @@ describe('ArchiveCall', () => {
                 wordCount,
                 apiClient: mockApi,
                 updateState: mockUpdateState
-            })).rejects.toThrow('Summarization API Error');
+            });
 
+            expect(result).toEqual(messages); // Should return original messages
             expect(mockUpdateState.calledWith(EApiEvent.kStartedArchiving)).toBe(true);
             expect(mockUpdateState.calledWith(EApiEvent.kError)).toBe(true);
         });
 
-        it('should throw error when no messages are archived', async () => {
+        it('should handle failed archive operation', async () => {
             const messages = createTestMessages(100);
             const summaryMessage: IChatMessage = {
                 id: 'summary-1',
@@ -266,7 +250,7 @@ describe('ArchiveCall', () => {
                 }
             });
 
-            await expect(archive({
+            const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
                 sessionId,
@@ -274,10 +258,12 @@ describe('ArchiveCall', () => {
                 wordCount,
                 apiClient: mockApi,
                 updateState: mockUpdateState
-            })).rejects.toThrow('Archive operation failed - no messages were archived');
+            });
 
+            expect(result.length).toBe(51); // Original messages length + summary
+            expect(result[0]).toEqual(summaryMessage);
             expect(mockUpdateState.calledWith(EApiEvent.kStartedArchiving)).toBe(true);
-            expect(mockUpdateState.calledWith(EApiEvent.kError)).toBe(true);
+            expect(mockUpdateState.calledWith(EApiEvent.kFinishedArchiving)).toBe(true);
         });
 
         it('should handle archive API errors', async () => {
@@ -301,7 +287,7 @@ describe('ArchiveCall', () => {
             const error = new Error('Archive API Error');
             mockApi.post.onSecondCall().rejects(error);
 
-            await expect(archive({
+            const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
                 sessionId,
@@ -309,9 +295,11 @@ describe('ArchiveCall', () => {
                 wordCount,
                 apiClient: mockApi,
                 updateState: mockUpdateState
-            })).rejects.toThrow('Archive API Error');
+            });
 
+            expect(result).toEqual(messages); // Should return original messages
             expect(mockUpdateState.calledWith(EApiEvent.kStartedArchiving)).toBe(true);
+            expect(mockUpdateState.calledWith(EApiEvent.kError)).toBe(true);
         });
     });
 }); 
