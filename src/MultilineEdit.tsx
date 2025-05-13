@@ -236,7 +236,17 @@ export const MultilineEdit = (props: IMultilineEditProps) => {
          kMessagePrompt2HBorder, kMessagePromptLineSpace, props.defaultHeightLines) + bump;
 
    return (<div  style={{width: '100%', maxWidth: '100%'}}>
-      <Text className={textFieldClasses.normal} style={{ paddingLeft: '4px', paddingRight: '4px' }}>{props.caption}</Text>
+      <Text 
+        className={textFieldClasses.normal} 
+        style={{ 
+          width: '100%',
+          paddingLeft: '4px',
+          paddingRight: '4px',
+          display: 'block'  // This ensures the text behaves as a block element
+        }}
+      >
+        {props.caption}
+      </Text>
       <Textarea
          id={textAreaId}
          appearance="outline"
