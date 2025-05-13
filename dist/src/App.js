@@ -101,7 +101,7 @@ function uuidv4() {
 const newSessionUuid = uuidv4();
 // This is used to identify the field into which the response is streamed.
 exports.activeFieldId = uuidv4();
-const local = true;
+const local = window.location.hostname === 'localhost';
 const kMinArchivingDisplayMs = 2000;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
@@ -128,6 +128,9 @@ const App = (props) => {
     const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
     (0, react_1.useEffect)(() => {
         const getSession = async () => {
+            // Show loading state while fetching session and history
+            state.transition(UIStateMachine_1.EApiEvent.kStartedLoading);
+            setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
             const existingSession = await (0, SessionCall_1.getSessionUuid)(sessionApiUrl);
             if (existingSession) {
                 setSessionUuid(existingSession);
@@ -141,9 +144,12 @@ const App = (props) => {
                             setChatHistory(prev => [...prev, ...messages]);
                         }
                     });
+                    state.transition(UIStateMachine_1.EApiEvent.kFinishedLoading);
+                    setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
                 }
                 catch (error) {
-                    console.error('Error fetching chat history:', error);
+                    state.transition(UIStateMachine_1.EApiEvent.kError);
+                    setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
                 }
             }
         };
@@ -326,7 +332,10 @@ const App = (props) => {
                 react_1.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' } },
                     chatHistory.length > 0 && (react_1.default.createElement("div", { className: columnElementClasses.root },
                         react_1.default.createElement(ChatHistory_1.ChatHistory, { messages: chatHistory }))),
-                    ((state.getState() === UIStateMachine_1.EUIState.kScreening || state.getState() === UIStateMachine_1.EUIState.kChatting) && !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
+                    ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
+                        state.getState() === UIStateMachine_1.EUIState.kChatting ||
+                        state.getState() === UIStateMachine_1.EUIState.kLoading) &&
+                        !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
                         react_1.default.createElement(SiteUtilities_1.Spacer, null),
                         react_1.default.createElement(react_components_1.Spinner, { label: uiStrings.kProcessingPleaseWait }))),
                     react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),

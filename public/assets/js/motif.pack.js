@@ -54026,6 +54026,8 @@ ${message.content}
                 this.state = "Waiting" /* kWaiting */;
               } else if (event === "StartedArchiving" /* kStartedArchiving */) {
                 this.state = "Archiving" /* kArchiving */;
+              } else if (event === "StartedLoading" /* kStartedLoading */) {
+                this.state = "Loading" /* kLoading */;
               } else {
                 throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
               }
@@ -54070,6 +54072,15 @@ ${message.content}
               break;
             case "Archiving" /* kArchiving */:
               if (event === "FinishedArchiving" /* kFinishedArchiving */) {
+                this.state = "Waiting" /* kWaiting */;
+              } else if (event === "Error" /* kError */) {
+                this.state = "Error" /* kError */;
+              } else {
+                throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
+              }
+              break;
+            case "Loading" /* kLoading */:
+              if (event === "FinishedLoading" /* kFinishedLoading */) {
                 this.state = "Waiting" /* kWaiting */;
               } else if (event === "Error" /* kError */) {
                 this.state = "Error" /* kError */;
@@ -59750,6 +59761,8 @@ ${message.content}
         const [idleSince, setIdleSince] = (0, import_react31.useState)(/* @__PURE__ */ new Date());
         (0, import_react31.useEffect)(() => {
           const getSession = async () => {
+            state.transition("StartedLoading" /* kStartedLoading */);
+            setState(new AssistantUIStateMachine(state.getState()));
             const existingSession = await getSessionUuid(sessionApiUrl);
             if (existingSession) {
               setSessionUuid(existingSession);
@@ -59762,8 +59775,11 @@ ${message.content}
                     setChatHistory((prev2) => [...prev2, ...messages]);
                   }
                 });
+                state.transition("FinishedLoading" /* kFinishedLoading */);
+                setState(new AssistantUIStateMachine(state.getState()));
               } catch (error2) {
-                console.error("Error fetching chat history:", error2);
+                state.transition("Error" /* kError */);
+                setState(new AssistantUIStateMachine(state.getState()));
               }
             }
           };
@@ -59943,7 +59959,7 @@ ${message.content}
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
       };
     }
   });
