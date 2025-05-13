@@ -53938,7 +53938,20 @@ ${message.content}
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.normal, style: { paddingLeft: "4px", paddingRight: "4px" } }, props.caption), /* @__PURE__ */ import_react26.default.createElement(
+        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(
+          Text,
+          {
+            className: textFieldClasses.normal,
+            style: {
+              width: "100%",
+              paddingLeft: "4px",
+              paddingRight: "4px",
+              display: "block"
+              // This ensures the text behaves as a block element
+            }
+          },
+          props.caption
+        ), /* @__PURE__ */ import_react26.default.createElement(
           Textarea,
           {
             id: textAreaId,
