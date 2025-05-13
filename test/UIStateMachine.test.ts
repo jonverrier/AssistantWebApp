@@ -64,7 +64,20 @@ describe('AssistantUIStateMachine', () => {
       stateMachine.transition(EApiEvent.kPassedScreening);
       stateMachine.transition(EApiEvent.kError);
       expect(stateMachine.getState()).toBe(EUIState.kError);
-    });      
+    });     
+    
+    it('should transition from Waiting to Loading on StartedLoading', () => {
+      stateMachine.transition(EApiEvent.kStartedLoading);
+      expect(stateMachine.getState()).toBe(EUIState.kLoading);
+    });
+
+    it('should transition from Loading to Waiting on FinishedLoading', () => {
+      stateMachine.transition(EApiEvent.kStartedLoading);
+      stateMachine.transition(EApiEvent.kFinishedLoading);
+      expect(stateMachine.getState()).toBe(EUIState.kWaiting);
+    });
+    
+    
   });
 
   describe('archiving transitions', () => {
@@ -116,6 +129,12 @@ describe('AssistantUIStateMachine', () => {
       stateMachine.transition(EApiEvent.kRejectedFromScreening);
       expect(() => stateMachine.transition(EApiEvent.kStartedScreening))
         .toThrow(`Invalid state change: Cannot transition from ${EUIState.kOffTopic} with event ${EApiEvent.kStartedScreening}`);
+    });
+
+    it('should throw error on invalid transition from Loading', () => {
+      stateMachine.transition(EApiEvent.kStartedLoading);
+      expect(() => stateMachine.transition(EApiEvent.kStartedScreening))
+        .toThrow(`Invalid state change: Cannot transition from ${EUIState.kLoading} with event ${EApiEvent.kStartedScreening}`);
     });
   });
 }); 

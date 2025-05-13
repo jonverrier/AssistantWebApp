@@ -14,6 +14,7 @@ var EUIState;
     EUIState["kOffTopic"] = "OffTopic";
     EUIState["kError"] = "Error";
     EUIState["kArchiving"] = "Archiving";
+    EUIState["kLoading"] = "Loading";
 })(EUIState || (exports.EUIState = EUIState = {}));
 var EApiEvent;
 (function (EApiEvent) {
@@ -26,6 +27,8 @@ var EApiEvent;
     EApiEvent["kReset"] = "Reset";
     EApiEvent["kStartedArchiving"] = "StartedArchiving";
     EApiEvent["kFinishedArchiving"] = "FinishedArchiving";
+    EApiEvent["kStartedLoading"] = "StartedLoading";
+    EApiEvent["kFinishedLoading"] = "FinishedLoading";
 })(EApiEvent || (exports.EApiEvent = EApiEvent = {}));
 class AssistantUIStateMachine {
     state;
@@ -43,6 +46,9 @@ class AssistantUIStateMachine {
                 }
                 else if (event === EApiEvent.kStartedArchiving) {
                     this.state = EUIState.kArchiving;
+                }
+                else if (event === EApiEvent.kStartedLoading) {
+                    this.state = EUIState.kLoading;
                 }
                 else {
                     throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
@@ -98,6 +104,17 @@ class AssistantUIStateMachine {
                 break;
             case EUIState.kArchiving:
                 if (event === EApiEvent.kFinishedArchiving) {
+                    this.state = EUIState.kWaiting;
+                }
+                else if (event === EApiEvent.kError) {
+                    this.state = EUIState.kError;
+                }
+                else {
+                    throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
+                }
+                break;
+            case EUIState.kLoading:
+                if (event === EApiEvent.kFinishedLoading) {
                     this.state = EUIState.kWaiting;
                 }
                 else if (event === EApiEvent.kError) {

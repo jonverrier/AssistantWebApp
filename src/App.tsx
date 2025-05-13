@@ -121,6 +121,10 @@ export const App = (props: IAppProps) => {
 
    useEffect(() => {
       const getSession = async () => {
+         // Show loading state while fetching session and history
+         state.transition(EApiEvent.kStartedLoading);
+         setState(new AssistantUIStateMachine(state.getState()));
+
          const existingSession = await getSessionUuid(sessionApiUrl);
          if (existingSession) {
             setSessionUuid(existingSession);
@@ -134,8 +138,11 @@ export const App = (props: IAppProps) => {
                      setChatHistory(prev => [...prev, ...messages]);
                   }
                });
+               state.transition(EApiEvent.kFinishedLoading);
+               setState(new AssistantUIStateMachine(state.getState()));
             } catch (error) {
-               console.error('Error fetching chat history:', error);
+               state.transition(EApiEvent.kError);
+               setState(new AssistantUIStateMachine(state.getState()));
             }
          }
       };
@@ -382,7 +389,10 @@ export const App = (props: IAppProps) => {
                         <ChatHistory messages={chatHistory} />
                      </div>
                   )}
-                  {((state.getState() === EUIState.kScreening || state.getState() === EUIState.kChatting) && !streamedResponse) && (
+                  {((state.getState() === EUIState.kScreening || 
+                     state.getState() === EUIState.kChatting || 
+                     state.getState() === EUIState.kLoading) && 
+                    !streamedResponse) && (
                      <div className={columnElementClasses.root}>
                         <Spacer />
                         <Spinner label={uiStrings.kProcessingPleaseWait} />
