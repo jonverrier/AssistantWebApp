@@ -1106,11 +1106,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef16(initialValue) {
+          function useRef17(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect15(create, deps) {
+          function useEffect16(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1893,14 +1893,14 @@
           exports.useContext = useContext23;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect15;
+          exports.useEffect = useEffect16;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef16;
+          exports.useRef = useRef17;
           exports.useState = useState12;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
@@ -53879,17 +53879,19 @@ ${message.content}
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
         const [width, setWidth] = (0, import_react26.useState)(0);
-        const textAreaId = "textAreaId;";
+        const textareaRef = (0, import_react26.useRef)(null);
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
+        (0, import_react26.useEffect)(() => {
+          if (props.enabled && textareaRef.current) {
+            textareaRef.current.focus();
+          }
+        }, [props.enabled, props.message]);
         (0, import_react26.useLayoutEffect)(() => {
-          const textArea = document.getElementById(
-            textAreaId
-          );
-          if (textArea) {
-            let dx = textArea.offsetWidth;
+          if (textareaRef.current) {
+            let dx = textareaRef.current.offsetWidth;
             if (width !== dx) {
               setWidth(dx);
             }
@@ -53954,7 +53956,7 @@ ${message.content}
         ), /* @__PURE__ */ import_react26.default.createElement(
           Textarea,
           {
-            id: textAreaId,
+            ref: textareaRef,
             appearance: "outline",
             placeholder: props.placeholder,
             maxLength: props.maxLength,
@@ -53969,8 +53971,7 @@ ${message.content}
               paddingLeft: "4px",
               paddingRight: "4px"
             },
-            onKeyDown: (e) => onSend(e, props.message),
-            autoFocus: true
+            onKeyDown: (e) => onSend(e, props.message)
           }
         ), /* @__PURE__ */ import_react26.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react26.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react26.default.createElement(
           ToolbarButton,

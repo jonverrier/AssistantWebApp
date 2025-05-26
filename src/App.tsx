@@ -189,9 +189,9 @@ export const App = (props: IAppProps) => {
 
    async function callChatServer() : Promise<void> {
       if (!message) return;
-
+      
       let localMessage = message;
-      setMessage(undefined);
+      setMessage(undefined); // Clear message once we go to get the response      
 
       // Reset streamed response
       setStreamedResponse("");
@@ -226,6 +226,7 @@ export const App = (props: IAppProps) => {
                }]);
                setStreamedResponse(undefined);
                setStreamedResponseId(undefined);
+
             }
          },
          forceNode: props.forceNode

@@ -190,7 +190,7 @@ const App = (props) => {
         if (!message)
             return;
         let localMessage = message;
-        setMessage(undefined);
+        setMessage(undefined); // Clear message once we go to get the response      
         // Reset streamed response
         setStreamedResponse("");
         setStreamedResponseId(uuidv4);

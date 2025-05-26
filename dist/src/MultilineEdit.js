@@ -135,17 +135,22 @@ const MultilineEdit = (props) => {
     const textFieldClasses = (0, CommonStyles_1.standardTextStyles)();
     const columnClasses = (0, CommonStyles_1.standardCenteredRowElementStyles)();
     const [width, setWidth] = (0, react_1.useState)(0);
-    const textAreaId = "textAreaId;";
+    const textareaRef = (0, react_1.useRef)(null);
     // extract the first number from the font string
     const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
     const kMessagePrompt2VBorder = fontSize * 2; // How much to allow for top + bottom inset
     const kMessagePrompt2HBorder = fontSize * 2; // How much to allow for left & right inset
     const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16); // How much to allow between lines      
-    // Dynamic function to capture the widthas we need if for calculations to reset hight as the content text grows
+    // Focus management
+    (0, react_1.useEffect)(() => {
+        if (props.enabled && textareaRef.current) {
+            textareaRef.current.focus();
+        }
+    }, [props.enabled, props.message]);
+    // Dynamic function to capture the width as we need it for calculations to reset height as the content text grows
     (0, react_1.useLayoutEffect)(() => {
-        const textArea = document.getElementById(textAreaId);
-        if (textArea) {
-            let dx = textArea.offsetWidth;
+        if (textareaRef.current) {
+            let dx = textareaRef.current.offsetWidth;
             if (width !== dx) {
                 setWidth(dx);
             }
@@ -200,12 +205,12 @@ const MultilineEdit = (props) => {
                 paddingRight: '4px',
                 display: 'block' // This ensures the text behaves as a block element
             } }, props.caption),
-        react_1.default.createElement(react_components_1.Textarea, { id: textAreaId, appearance: "outline", placeholder: props.placeholder, maxLength: props.maxLength, textarea: { className: textFieldClasses.textarea, style: { paddingLeft: '4px', paddingRight: '4px' } }, resize: "none", value: props.message, onChange: onKeyChange, disabled: !props.enabled, style: {
+        react_1.default.createElement(react_components_1.Textarea, { ref: textareaRef, appearance: "outline", placeholder: props.placeholder, maxLength: props.maxLength, textarea: { className: textFieldClasses.textarea, style: { paddingLeft: '4px', paddingRight: '4px' } }, resize: "none", value: props.message, onChange: onKeyChange, disabled: !props.enabled, style: {
                 height: (dyNeeded).toString() + 'px',
                 width: '100%',
                 paddingLeft: '4px',
                 paddingRight: '4px'
-            }, onKeyDown: (e) => onSend(e, props.message), autoFocus: true }),
+            }, onKeyDown: (e) => onSend(e, props.message) }),
         react_1.default.createElement("div", { className: columnClasses.root },
             react_1.default.createElement(react_components_1.Text, { className: textFieldClasses.centredHint }, MultilineEditUIStrings_1.EMultilineEditUIStrings.kMessageTextPrompt),
             react_1.default.createElement(react_components_1.Toolbar, { "aria-label": "Default" },
