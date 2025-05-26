@@ -36,7 +36,7 @@ exports.TheYardUIStrings = {
     kAppPageCaption: "Yard Talk",
     kAppPageStrapline: "Where sweat meets sass.",
     kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we’re testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
-    kLinks: "[]",
+    kLinks: "",
     kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
     kChatPlaceholder: "Let's talk about fitness...",
     kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."

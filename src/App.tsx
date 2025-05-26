@@ -333,7 +333,7 @@ export const App = (props: IAppProps) => {
       streamedResponse
    ) {
       streaming = (
-         <div className={columnElementClasses.root}>
+         <div className={columnElementClasses.root} data-testid="message-content">
             <ChatMessage 
                message={{
                   id: streamedResponseId,

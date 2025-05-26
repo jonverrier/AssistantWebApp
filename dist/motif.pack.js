@@ -23636,7 +23636,7 @@
         kAppPageCaption: "Yard Talk",
         kAppPageStrapline: "Where sweat meets sass.",
         kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we\u2019re testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
-        kLinks: "[]",
+        kLinks: "",
         kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
         kChatPlaceholder: "Let's talk about fitness...",
         kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
@@ -59941,7 +59941,7 @@ ${message.content}
           ));
         }
         if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          streaming = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(
+          streaming = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react31.default.createElement(
             ChatMessage,
             {
               message: {

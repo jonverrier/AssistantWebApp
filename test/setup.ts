@@ -8,6 +8,7 @@
 import { JSDOM } from 'jsdom';
 import sinon from 'sinon';
 import axios from 'axios';
+import { TextEncoder, TextDecoder } from 'util';
 
 const dom = new JSDOM('<!DOCTYPE html><html><body><div id="reactRoot"></div></body></html>', {
   url: 'http://localhost',
@@ -88,3 +89,11 @@ const axiosPostStub = sandbox.stub(axios, 'post');
 
 // Export these for use in tests
 export { sandbox, axiosPostStub };
+
+// Mock focus events
+class MockFocusEvent extends Event {
+   constructor(type: string, eventInitDict?: FocusEventInit) {
+      super(type, eventInitDict);
+   }
+}
+global.FocusEvent = MockFocusEvent as any;
