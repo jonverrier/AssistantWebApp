@@ -13,6 +13,7 @@ import { IChatMessage } from "prompt-repository";
  * A request for a new session, optionally populated with the existing session ID.
  */
 export interface ISessionRequest {
+   email?: string;
    sessionId?: string;
 }
 
@@ -21,6 +22,7 @@ export interface ISessionRequest {
  */
 export interface ISessionResponse {
    sessionId: string;
+   facilityIds: string[];
 }
 
 /**
@@ -28,8 +30,8 @@ export interface ISessionResponse {
  * Used to specify the desired personality type for chat interactions.
  */
 export enum EAssistantPersonality {
-   kMastersAdviser = 'MastersAdviser',
-   kGeneralAdvisor = 'GeneralAdvisor'
+   kTheYardAssistant = 'TheYardAssistant',
+   kDemoAssistant = 'DemoAssistant'
 }
 
 /**

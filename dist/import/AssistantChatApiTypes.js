@@ -13,8 +13,8 @@ exports.EScreeningClassification = exports.EAssistantPersonality = void 0;
  */
 var EAssistantPersonality;
 (function (EAssistantPersonality) {
-    EAssistantPersonality["kMastersAdviser"] = "MastersAdviser";
-    EAssistantPersonality["kGeneralAdvisor"] = "GeneralAdvisor";
+    EAssistantPersonality["kTheYardAssistant"] = "TheYardAssistant";
+    EAssistantPersonality["kDemoAssistant"] = "DemoAssistant";
 })(EAssistantPersonality || (exports.EAssistantPersonality = EAssistantPersonality = {}));
 /**
  * A response from the assistant chat API.

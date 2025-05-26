@@ -59842,7 +59842,7 @@ ${message.content}
             history: chatHistory,
             updateState: handleStateUpdate,
             sessionId: sessionUuid,
-            personality: "GeneralAdvisor" /* kGeneralAdvisor */,
+            personality: "TheYardAssistant" /* kTheYardAssistant */,
             onChunk: (chunk) => {
               if (chunk) {
                 completeResponse += chunk;
