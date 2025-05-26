@@ -207,7 +207,7 @@ export const App = (props: IAppProps) => {
          history: chatHistory,
          updateState: handleStateUpdate,
          sessionId: sessionUuid,
-         personality: EAssistantPersonality.kGeneralAdvisor,
+         personality: EAssistantPersonality.kTheYardAssistant,
          onChunk: (chunk: string) => {
             if (chunk) {
                completeResponse += chunk;

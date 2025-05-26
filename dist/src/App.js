@@ -203,7 +203,7 @@ const App = (props) => {
             history: chatHistory,
             updateState: handleStateUpdate,
             sessionId: sessionUuid,
-            personality: AssistantChatApiTypes_1.EAssistantPersonality.kGeneralAdvisor,
+            personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant,
             onChunk: (chunk) => {
                 if (chunk) {
                     completeResponse += chunk;
