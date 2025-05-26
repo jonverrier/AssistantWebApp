@@ -9,7 +9,7 @@
 /*! Copyright Jon Verrier, 2025 */
 
 // React
-import React, { ChangeEvent, useState, useLayoutEffect } from 'react';
+import React, { ChangeEvent, useState, useLayoutEffect, useEffect, useRef } from 'react';
 
 // Fluent
 import { InputOnChangeData, Textarea, Text, Toolbar, ToolbarButton } from '@fluentui/react-components';
@@ -156,7 +156,7 @@ export const MultilineEdit = (props: IMultilineEditProps) => {
    const columnClasses = standardCenteredRowElementStyles();
 
    const [width, setWidth] = useState(0);
-   const textAreaId = "textAreaId;"
+   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
    // extract the first number from the font string
    const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
@@ -165,16 +165,17 @@ export const MultilineEdit = (props: IMultilineEditProps) => {
    const kMessagePrompt2HBorder = fontSize * 2;       // How much to allow for left & right inset
    const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);       // How much to allow between lines      
 
-   // Dynamic function to capture the widthas we need if for calculations to reset hight as the content text grows
+   // Focus management
+   useEffect(() => {
+      if (props.enabled && textareaRef.current) {
+         textareaRef.current.focus();
+      }
+   }, [props.enabled, props.message]);
+
+   // Dynamic function to capture the width as we need it for calculations to reset height as the content text grows
    useLayoutEffect(() => {
-
-      const textArea = document.getElementById(
-         textAreaId
-      ) as HTMLTextAreaElement | null;
-
-      if (textArea) {
-         let dx = textArea.offsetWidth;
-
+      if (textareaRef.current) {
+         let dx = textareaRef.current.offsetWidth;
          if (width !== dx) {
             setWidth(dx);
          }
@@ -248,7 +249,7 @@ export const MultilineEdit = (props: IMultilineEditProps) => {
         {props.caption}
       </Text>
       <Textarea
-         id={textAreaId}
+         ref={textareaRef}
          appearance="outline"
          placeholder={props.placeholder}
          maxLength={props.maxLength}
@@ -264,7 +265,6 @@ export const MultilineEdit = (props: IMultilineEditProps) => {
             paddingRight: '4px'
          }}
          onKeyDown={(e) => onSend(e, props.message)}
-         autoFocus={true}
       />
       <div className={columnClasses.root}>
          <Text className={textFieldClasses.centredHint}>{EMultilineEditUIStrings.kMessageTextPrompt}</Text>
