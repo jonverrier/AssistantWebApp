@@ -288,7 +288,7 @@ const App = (props) => {
         state.getState() === UIStateMachine_1.EUIState.kChatting ||
         state.getState() === UIStateMachine_1.EUIState.kWaiting) &&
         streamedResponse) {
-        streaming = (react_1.default.createElement("div", { className: columnElementClasses.root },
+        streaming = (react_1.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" },
             react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
                     id: streamedResponseId,
                     className: prompt_repository_1.ChatMessageClassName,
