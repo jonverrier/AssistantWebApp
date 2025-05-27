@@ -7,12 +7,15 @@
  */
 import React from 'react';
 import { EAppMode } from './UIStrings';
+import { IStorage } from './LocalStorage';
 export interface IRoutedSiteProps {
     appMode: EAppMode;
+    storage: IStorage;
 }
 export declare const RoutedSite: (props: IRoutedSiteProps) => React.JSX.Element;
 export interface ISiteProps {
     appMode: EAppMode;
+    storage: IStorage;
 }
 export declare const Site: (props: ISiteProps) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=Site.d.ts.map

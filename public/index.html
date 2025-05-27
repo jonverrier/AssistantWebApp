@@ -21,14 +21,17 @@
    <meta name="author" content="Jon Verrier">
 
    <!-- Favicons -->
-   <link href="assets/img/motif-sun-bw.png" rel="icon">
-   <link href="assets/img/motif-sun-bw.png" rel="apple-touch-icon">
+   <link href="assets/img/network.png" rel="icon">
+   <link href="assets/img/network.png" rel="apple-touch-icon">
 
    <!-- Google site ownership -->
    <meta name="google-site-verification" content="Ojo5RuADfDirGbxYQbpLb-wFFKHzQKVRoxM19SY3VWo" />
 
    <!-- Google recaptcha -->
    <script src="https://www.google.com/recaptcha/api.js?render=6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3"></script>
+
+   <!-- Google Sign-In -->
+   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
    <!-- Google Fonts -->
    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Poppins:300,400,500,700"
@@ -49,6 +52,11 @@
 </head>
 
 <body style="height:100%;">
+
+   <!-- Google Login Client ID -->
+   <div id="g_id_onload" data-client_id="603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com"
+      data-context="use" data-callback="onGoogleLogin" data-nonce="" data-auto_select="true" data-itp_support="true">
+   </div>
 
    <div id="reactRoot" style="height:100%;"></div>
 

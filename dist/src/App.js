@@ -41,7 +41,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = exports.activeFieldId = void 0;
+exports.App = void 0;
 // React
 const react_1 = __importStar(require("react"));
 // Fluent
@@ -58,10 +58,11 @@ const UIStateMachine_1 = require("./UIStateMachine");
 const ChatCall_1 = require("./ChatCall");
 const OuterStyles_1 = require("./OuterStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
-const SessionCall_1 = require("./SessionCall");
 const ChatHistory_1 = require("./ChatHistory");
 const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const ArchiveCall_1 = require("./ArchiveCall");
+const uuid_1 = require("./uuid");
+const LocalStorage_1 = require("./LocalStorage");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const kChatHistoryPageSize = 50;
@@ -91,17 +92,6 @@ const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
         zIndex: 1
     }
 });
-// Loca version that works in browser
-//https://stackoverflow.com/questions/105034/how-do-i-create-a-guid-uuid
-function uuidv4() {
-    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16));
-}
-// This is used to identify the session in the case where we dont get a value 
-// back from the server which tells us our local cookie value
-const newSessionUuid = uuidv4();
-// This is used to identify the field into which the response is streamed.
-exports.activeFieldId = uuidv4();
-const local = window.location.hostname === 'localhost';
 const kMinArchivingDisplayMs = 2000;
 const App = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
@@ -112,49 +102,43 @@ const App = (props) => {
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
     const bottomRef = (0, react_1.useRef)(null);
+    const local = (0, LocalStorage_1.isAppInLocalhost)();
     const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
-    const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
     const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
     const archiveApiUrl = local ? 'http://localhost:7071/api/ArchiveMessages' : 'https://motifassistantapi.azurewebsites.net/api/ArchiveMessages';
     const summariseApiUrl = local ? 'http://localhost:7071/api/SummariseMessages' : 'https://motifassistantapi.azurewebsites.net/api/SummariseMessages';
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
     let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
-    let [sessionUuid, setSessionUuid] = (0, react_1.useState)(newSessionUuid);
     const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
     const [message, setMessage] = (0, react_1.useState)(undefined);
     const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
     const [streamedResponseId, setStreamedResponseId] = (0, react_1.useState)(undefined);
     const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
     (0, react_1.useEffect)(() => {
-        const getSession = async () => {
-            // Show loading state while fetching session and history
+        const loadChatHistory = async () => {
+            // Show loading state while fetching history
             state.transition(UIStateMachine_1.EApiEvent.kStartedLoading);
             setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-            const existingSession = await (0, SessionCall_1.getSessionUuid)(sessionApiUrl);
-            if (existingSession) {
-                setSessionUuid(existingSession);
-                // Fetch chat history when we get a session ID
-                try {
-                    await (0, ChatHistoryCall_1.processChatHistory)({
-                        messagesApiUrl,
-                        sessionId: existingSession,
-                        limit: kChatHistoryPageSize,
-                        onPage: (messages) => {
-                            setChatHistory(prev => [...prev, ...messages]);
-                        }
-                    });
-                    state.transition(UIStateMachine_1.EApiEvent.kFinishedLoading);
-                    setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-                }
-                catch (error) {
-                    state.transition(UIStateMachine_1.EApiEvent.kError);
-                    setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-                }
+            try {
+                await (0, ChatHistoryCall_1.processChatHistory)({
+                    messagesApiUrl,
+                    sessionId: props.sessionId,
+                    limit: kChatHistoryPageSize,
+                    onPage: (messages) => {
+                        setChatHistory(prev => [...prev, ...messages]);
+                    }
+                });
+                state.transition(UIStateMachine_1.EApiEvent.kFinishedLoading);
+                setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+            }
+            catch (error) {
+                state.transition(UIStateMachine_1.EApiEvent.kError);
+                setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
             }
         };
-        getSession();
-    }, []);
+        loadChatHistory();
+    }, [props.sessionId]);
     // Check for idle timeout
     (0, react_1.useEffect)(() => {
         const timer = setInterval(async () => {
@@ -168,7 +152,7 @@ const App = (props) => {
                         const newHistory = await (0, ArchiveCall_1.archive)({
                             archiveApiUrl: archiveApiUrl,
                             summarizeApiUrl: summariseApiUrl,
-                            sessionId: sessionUuid,
+                            sessionId: props.sessionId,
                             messages: chatHistory,
                             wordCount: kSummaryLength,
                             updateState: handleStateUpdate
@@ -181,7 +165,7 @@ const App = (props) => {
             }
         }, kIdleCheckIntervalMs);
         return () => clearInterval(timer);
-    }, [idleSince, chatHistory, sessionUuid, state]);
+    }, [idleSince, chatHistory, props.sessionId, state]);
     const handleStateUpdate = (event) => {
         state.transition(event);
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
@@ -193,7 +177,7 @@ const App = (props) => {
         setMessage(undefined); // Clear message once we go to get the response      
         // Reset streamed response
         setStreamedResponse("");
-        setStreamedResponseId(uuidv4);
+        setStreamedResponseId(uuid_1.uuidv4);
         // Keep track of the complete response
         let completeResponse = "";
         const result = await (0, ChatCall_1.processChat)({
@@ -202,7 +186,7 @@ const App = (props) => {
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
-            sessionId: sessionUuid,
+            sessionId: props.sessionId,
             personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant,
             onChunk: (chunk) => {
                 if (chunk) {
@@ -214,7 +198,7 @@ const App = (props) => {
                 // Add the assistant message to the chat history when complete
                 if (completeResponse) {
                     setChatHistory(prev => [...prev, {
-                            id: uuidv4(),
+                            id: (0, uuid_1.uuidv4)(),
                             className: prompt_repository_1.ChatMessageClassName,
                             role: prompt_repository_1.EChatRole.kAssistant,
                             content: completeResponse,
@@ -238,7 +222,7 @@ const App = (props) => {
         // Add the user message to the chat history
         setMessage(message_);
         setChatHistory(prev => [...prev, {
-                id: uuidv4(),
+                id: (0, uuid_1.uuidv4)(),
                 className: prompt_repository_1.ChatMessageClassName,
                 role: prompt_repository_1.EChatRole.kUser,
                 content: message_,
@@ -309,7 +293,7 @@ const App = (props) => {
             bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
         }
     }, [chatHistory]);
-    return (react_1.default.createElement("div", { className: pageOuterClasses.root },
+    return (react_1.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": props.sessionId },
         react_1.default.createElement("div", { className: innerColumnClasses.root },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
             react_1.default.createElement(react_components_1.Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline),

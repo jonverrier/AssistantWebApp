@@ -7,32 +7,7 @@
 
 import axios from 'axios';
 import { ISessionRequest, ISessionResponse } from '../import/AssistantChatApiTypes';
-
-const SESSION_STORAGE_KEY = 'motif_session_id';
-
-/**
- * Interface for storage operations.
- * Works in both environments - in Node.js it won't persist session ID locally
- */
-export interface IStorage {
-    get(key: string): string | undefined;
-    set(key: string, value: string): void;
-}
-
-// Default browser storage implementation
-const browserStorage: IStorage = {
-    get: (key: string): string | undefined => {
-        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            return localStorage.getItem(key) || undefined;
-        }
-        return undefined;
-    },
-    set: (key: string, value: string): void => {
-        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            localStorage.setItem(key, value);
-        }
-    }
-};
+import { IStorage, browserStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_KEY } from './LocalStorage';
 
 /**
  * Calls the cookie API to get a session UUID.
@@ -52,9 +27,11 @@ export async function getSessionUuid(
     try {
         // Check storage first
         const existingSessionId = storage.get(SESSION_STORAGE_KEY);
-        
+        const userName = storage.get(USER_NAME_STORAGE_KEY);
+
         // Prepare the request
         const request: ISessionRequest = {
+            email: userName,
             sessionId: existingSessionId || undefined
         };
 

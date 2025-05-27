@@ -8,11 +8,10 @@ import { expect } from "expect";
 import { render, screen, fireEvent, waitFor, cleanup, act } from "@testing-library/react";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import { processChat } from '../src/ChatCall';
 import sinon from 'sinon';
 
 import { App } from "../src/App";
-import { EAppMode, getUIStrings, IUIStrings } from "../src/UIStrings";
+import { EAppMode, getUIStrings } from "../src/UIStrings";
 import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 
 // Test user data
@@ -143,9 +142,10 @@ for (let appMode of appModes) {
       
       const kResponseTimeout = 20000; // 20 seconds total timeout
       const kResponseCheckInterval = 1000; // Check every second
-      const kTestTimeout = 25000; // Overall test timeout
 
-      it('should update chat history when chatting', async () => {
+      it('should update chat history when chatting', async function() {
+         this.timeout(25000); // Set test timeout to 25 seconds
+
          // Need to render with 'forceNode' so the Axios calls work in Mocha
          renderWithRouter(
             <App 
@@ -198,28 +198,14 @@ for (let appMode of appModes) {
 
          // Then wait for the assistant response
          await waitFor(
-            async () => {
-               // Look for both the user message and any response from the assistant
-               const userMessage = screen.getByText(testMessage);
-               expect(userMessage).toBeTruthy();
-               
-               // Wait for at least one message container that doesn't contain the user's message
-               const messageContainers = screen.getAllByTestId('message-content');
-               const assistantMessages = messageContainers.filter(container => 
-                  !container.textContent?.includes(testMessage)
-               );
-               
-               expect(assistantMessages.length).toBeGreaterThan(0);
+            () => {
+               expect(screen.getByText("Here's a test response")).toBeTruthy();
             },
             {
-               timeout: kResponseTimeout,
-               interval: kResponseCheckInterval,
-               onTimeout: (error) => {
-                  console.error('Timeout waiting for assistant response:', error);
-                  throw error;
-               }
+               timeout: kResponseTimeout / 2,
+               interval: kResponseCheckInterval
             }
          );
-      }).timeout(kTestTimeout);
+      });
    });
 }

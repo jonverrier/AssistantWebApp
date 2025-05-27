@@ -14,6 +14,5 @@ export interface IAppProps {
     userName: string;
     sessionId: string;
 }
-export declare const activeFieldId: string;
 export declare const App: (props: IAppProps) => React.JSX.Element;
 //# sourceMappingURL=App.d.ts.map

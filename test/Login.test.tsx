@@ -17,14 +17,17 @@ import { BrowserRouter } from 'react-router-dom';
 import * as SessionCall from '../src/SessionCall';
 import * as MultilineEditModule from '../src/MultilineEdit';
 import sinon from 'sinon';
+import { MockStorage } from './MockStorage';
 
 describe('Login Component', () => {
    // Store original MultilineEdit implementation
    const originalMultilineEdit = MultilineEditModule.MultilineEdit;
+   let mockStorage: MockStorage;
 
    beforeEach(() => {
       // Reset all mocks before each test
       sinon.restore();
+      mockStorage = new MockStorage();
 
       // Mock MultilineEdit component for Login tests
       const MockMultilineEdit = () => <div data-testid="mock-multiline-edit">Mocked MultilineEdit</div>;
@@ -40,13 +43,14 @@ describe('Login Component', () => {
          value: originalMultilineEdit,
          configurable: true 
       });
+      mockStorage.clear();
    });
 
    const renderLogin = () => {
       return render(
          <FluentProvider theme={teamsDarkTheme}>
             <BrowserRouter>
-               <Login appMode={EAppMode.kYardTalk} />
+               <Login appMode={EAppMode.kYardTalk} storage={mockStorage} />
             </BrowserRouter>
          </FluentProvider>
       );
@@ -63,15 +67,16 @@ describe('Login Component', () => {
       const mockSessionId = 'test-session-123';
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionUuid').resolves(mockSessionId);
 
+      // Set a user ID in storage to trigger session ID fetch
+      mockStorage.set('motif_user_id', 'test-user-123');
+
       renderLogin();
 
       // Wait for the session ID to be updated
       await waitFor(() => {
-         // Find the App component's root element
-         const appElement = screen.getByTestId('login-container').querySelector('[data-session-id]');
-         expect(appElement).toBeTruthy();
-         expect(appElement?.getAttribute('data-session-id')).toBe(mockSessionId);
-      });
+         const container = screen.getByTestId('login-container');
+         expect(container.getAttribute('data-session-id')).toBe(mockSessionId);
+      }, { timeout: 2000 });
 
       // Verify getSessionUuid was called
       expect(getSessionUuidStub.called).toBeTruthy();
@@ -81,16 +86,17 @@ describe('Login Component', () => {
       // Mock getSessionUuid to return null
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionUuid').resolves(undefined);
 
+      // Set a user ID in storage to trigger session ID fetch
+      mockStorage.set('motif_user_id', 'test-user-123');
+
       renderLogin();
 
-      // Wait for the component to render
+      // Wait for the session ID to be updated
       await waitFor(() => {
-         // Find the App component's root element
-         const appElement = screen.getByTestId('login-container').querySelector('[data-session-id]');
-         expect(appElement).toBeTruthy();
-         const sessionId = appElement?.getAttribute('data-session-id');
+         const container = screen.getByTestId('login-container');
+         const sessionId = container.getAttribute('data-session-id');
          expect(sessionId).toMatch(/^session-\d+$/);
-      });
+      }, { timeout: 2000 });
 
       // Verify getSessionUuid was called
       expect(getSessionUuidStub.called).toBeTruthy();

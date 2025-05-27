@@ -13,8 +13,10 @@ const react_1 = __importDefault(require("react"));
 const client_1 = require("react-dom/client");
 const UIStrings_1 = require("./UIStrings");
 const Site_1 = require("./Site");
+const LocalStorage_1 = require("./LocalStorage");
 // This allows code to be loaded in node.js for tests, even if we dont run actual React methods
 if (document !== undefined && document.getElementById !== undefined) {
     const root = (0, client_1.createRoot)(document.getElementById("reactRoot"));
-    root.render(react_1.default.createElement(Site_1.RoutedSite, { appMode: UIStrings_1.EAppMode.kYardTalk }));
+    const storage = LocalStorage_1.browserStorage;
+    root.render(react_1.default.createElement(Site_1.RoutedSite, { appMode: UIStrings_1.EAppMode.kYardTalk, storage: storage }));
 }

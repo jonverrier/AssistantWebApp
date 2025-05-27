@@ -32,14 +32,8 @@ import { Spacer, Footer } from './SiteUtilities';
 import { ChatHistory, ChatMessage } from './ChatHistory';
 import { processChatHistory } from './ChatHistoryCall';
 import { archive, shouldArchive } from './ArchiveCall';
-
-// Local version that works in browser
-// https://stackoverflow.com/questions/105034/how-do-i-create-a-guid-uuid
-function uuidv4() {
-  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
-    (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
-  );
-}
+import { uuidv4 } from './uuid';
+import { isAppInLocalhost } from './LocalStorage';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
@@ -80,8 +74,6 @@ export interface IAppProps {
    sessionId: string;
 }
 
-const local = window.location.hostname === 'localhost';
-
 const kMinArchivingDisplayMs = 2000;
 
 export const App = (props: IAppProps) => {
@@ -95,6 +87,8 @@ export const App = (props: IAppProps) => {
    const multilineEditContainerClasses = multilineEditContainerStyles();
    const bottomRef = useRef<HTMLDivElement>(null);
 
+   const local = isAppInLocalhost();
+   
    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
    const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';

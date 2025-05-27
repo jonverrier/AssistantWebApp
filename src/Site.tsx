@@ -17,9 +17,11 @@ import { EAppMode, getUIStrings } from './UIStrings';
 
 import { kTermsContent } from './TermsContent';
 import { kPrivacyContent } from './PrivacyContent';
+import { IStorage } from './LocalStorage';
 
 export interface IRoutedSiteProps {
    appMode: EAppMode;
+   storage: IStorage;
 }
 
 export const RoutedSite = (props: IRoutedSiteProps) => {
@@ -29,7 +31,7 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
             v7_startTransition: true,
             v7_relativeSplatPath: true
          }}>
-            <Site appMode={props.appMode} />
+            <Site appMode={props.appMode} storage={props.storage} />
          </BrowserRouter>
       </FluentProvider>
    );
@@ -37,23 +39,24 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
 
 export interface ISiteProps {
    appMode: EAppMode;
+   storage: IStorage;
 }
 
 export const Site = (props: ISiteProps) => {
    const uiStrings = getUIStrings(props.appMode);
-   
+
    const routes = useRoutes([
       {
          path: '/',
-         element: <Login appMode={props.appMode} />
+         element: <Login appMode={props.appMode} storage={props.storage} />
       },
       {
          path: '/index',
-         element: <Login appMode={props.appMode} />
+         element: <Login appMode={props.appMode} storage={props.storage} />
       },
       {
          path: '/index.html',
-         element: <Login appMode={props.appMode} />
+         element: <Login appMode={props.appMode} storage={props.storage} />
       },
       {
          path: '/privacy',
@@ -73,7 +76,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <Login appMode={props.appMode} />
+         element: <Login appMode={props.appMode} storage={props.storage} />
       }
    ]);
 

@@ -5,25 +5,22 @@
 
 import { expect } from 'expect';
 import { axiosPostStub } from './setup';
-import { getSessionUuid, IStorage } from '../src/SessionCall';
+import { getSessionUuid } from '../src/SessionCall';
+import { IStorage } from '../src/LocalStorage';
+import { MockStorage } from './MockStorage';
 
 describe('getSessionUuid', function() {
     let mockStorage: IStorage;
-    let storageValues: Map<string, string>;
 
     before(() => {
         // Setup mock storage
-        storageValues = new Map<string, string>();
-        mockStorage = {
-            get: (key: string) => storageValues.get(key) || undefined,
-            set: (key: string, value: string) => storageValues.set(key, value)
-        };
+        mockStorage = new MockStorage();
     });
 
     afterEach(() => {
         // Reset the stub's behavior between tests
         axiosPostStub.reset();
-        storageValues.clear();
+        (mockStorage as MockStorage).clear();
     });
 
     it('should get new session ID when no existing session', async () => {
@@ -48,13 +45,13 @@ describe('getSessionUuid', function() {
                 'Content-Type': 'application/json'
             }
         });
-        expect(storageValues.get('motif_session_id')).toBe(testUuid);
+        expect(mockStorage.get('motif_session_id')).toBe(testUuid);
     });
 
     it('should send existing session ID when available', async () => {
         const existingUuid = 'existing-uuid-123';
         const newUuid = 'new-uuid-456';
-        storageValues.set('motif_session_id', existingUuid);
+        mockStorage.set('motif_session_id', existingUuid);
         
         axiosPostStub.resolves({
             data: {
@@ -69,7 +66,7 @@ describe('getSessionUuid', function() {
         expect(axiosPostStub.firstCall.args[1]).toEqual({
             sessionId: existingUuid
         });
-        expect(storageValues.get('motif_session_id')).toBe(newUuid);
+        expect(mockStorage.get('motif_session_id')).toBe(newUuid);
     });
 
     it('should handle missing sessionId in response', async () => {
@@ -80,7 +77,7 @@ describe('getSessionUuid', function() {
         const result = await getSessionUuid('http://test-api/cookie', mockStorage);
         
         expect(result).toBeUndefined();
-        expect(storageValues.size).toBe(0);
+        expect((mockStorage as MockStorage).size).toBe(0);
     });
 
     it('should handle API error', async () => {
@@ -89,6 +86,6 @@ describe('getSessionUuid', function() {
         const result = await getSessionUuid('http://test-api/cookie', mockStorage);
         
         expect(result).toBeUndefined();
-        expect(storageValues.size).toBe(0);
+        expect((mockStorage as MockStorage).size).toBe(0);
     });
 }); 

@@ -1098,7 +1098,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState12(initialState) {
+          function useState13(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1106,11 +1106,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef17(initialValue) {
+          function useRef18(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect16(create, deps) {
+          function useEffect17(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1893,15 +1893,15 @@
           exports.useContext = useContext23;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect16;
+          exports.useEffect = useEffect17;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef17;
-          exports.useState = useState12;
+          exports.useRef = useRef18;
+          exports.useState = useState13;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -57503,53 +57503,6 @@ ${message.content}
     }
   });
 
-  // src/SessionCall.ts
-  async function getSessionUuid(cookieApiUrl, storage = browserStorage) {
-    try {
-      const existingSessionId = storage.get(SESSION_STORAGE_KEY);
-      const request = {
-        sessionId: existingSessionId || void 0
-      };
-      const response = await axios_default.post(cookieApiUrl, request, {
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        }
-      });
-      const sessionId = response?.data?.sessionId || void 0;
-      if (!sessionId) {
-        console.error("No sessionId in response");
-        return void 0;
-      }
-      storage.set(SESSION_STORAGE_KEY, sessionId);
-      return sessionId;
-    } catch (error) {
-      console.error("Error getting session UUID:", error);
-      return void 0;
-    }
-  }
-  var SESSION_STORAGE_KEY, browserStorage;
-  var init_SessionCall = __esm({
-    "src/SessionCall.ts"() {
-      "use strict";
-      init_axios2();
-      SESSION_STORAGE_KEY = "motif_session_id";
-      browserStorage = {
-        get: (key) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            return localStorage.getItem(key) || void 0;
-          }
-          return void 0;
-        },
-        set: (key, value) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            localStorage.setItem(key, value);
-          }
-        }
-      };
-    }
-  });
-
   // src/CopyableText.tsx
   var import_react29, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
   var init_CopyableText = __esm({
@@ -59690,14 +59643,51 @@ ${message.content}
     }
   });
 
-  // src/App.tsx
+  // src/uuid.ts
   function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(
       /[018]/g,
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, kMinArchivingDisplayMs, App;
+  var init_uuid = __esm({
+    "src/uuid.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/LocalStorage.ts
+  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, isAppInLocalhost, browserStorage;
+  var init_LocalStorage = __esm({
+    "src/LocalStorage.ts"() {
+      "use strict";
+      SESSION_STORAGE_KEY = "motif_session_id";
+      USER_ID_STORAGE_KEY = "motif_user_id";
+      USER_NAME_STORAGE_KEY = "motif_user_name";
+      isAppInLocalhost = () => {
+        if (typeof window !== "undefined") {
+          return window.location.hostname === "localhost";
+        }
+        return false;
+      };
+      browserStorage = {
+        get: (key) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            return localStorage.getItem(key) || void 0;
+          }
+          return void 0;
+        },
+        set: (key, value) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            localStorage.setItem(key, value);
+          }
+        }
+      };
+    }
+  });
+
+  // src/App.tsx
+  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
@@ -59713,10 +59703,11 @@ ${message.content}
       init_ChatCall();
       init_OuterStyles();
       init_SiteUtilities();
-      init_SessionCall();
       init_ChatHistory();
       init_ChatHistoryCall();
       init_ArchiveCall();
+      init_uuid();
+      init_LocalStorage();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
       kChatHistoryPageSize = 50;
@@ -59746,9 +59737,6 @@ ${message.content}
           zIndex: 1
         }
       });
-      newSessionUuid = uuidv4();
-      activeFieldId = uuidv4();
-      local = window.location.hostname === "localhost";
       kMinArchivingDisplayMs = 2e3;
       App = (props) => {
         const pageOuterClasses = pageOuterStyles();
@@ -59759,46 +59747,41 @@ ${message.content}
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
         const bottomRef = (0, import_react31.useRef)(null);
-        const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
-        const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
-        const sessionApiUrl = local ? "http://localhost:7071/api/Session" : "https://motifassistantapi.azurewebsites.net/api/Session";
-        const messagesApiUrl = local ? "http://localhost:7071/api/GetMessages" : "https://motifassistantapi.azurewebsites.net/api/GetMessages";
-        const archiveApiUrl = local ? "http://localhost:7071/api/ArchiveMessages" : "https://motifassistantapi.azurewebsites.net/api/ArchiveMessages";
-        const summariseApiUrl = local ? "http://localhost:7071/api/SummariseMessages" : "https://motifassistantapi.azurewebsites.net/api/SummariseMessages";
+        const local2 = isAppInLocalhost();
+        const screenUrl = local2 ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
+        const chatUrl = local2 ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
+        const messagesApiUrl = local2 ? "http://localhost:7071/api/GetMessages" : "https://motifassistantapi.azurewebsites.net/api/GetMessages";
+        const archiveApiUrl = local2 ? "http://localhost:7071/api/ArchiveMessages" : "https://motifassistantapi.azurewebsites.net/api/ArchiveMessages";
+        const summariseApiUrl = local2 ? "http://localhost:7071/api/SummariseMessages" : "https://motifassistantapi.azurewebsites.net/api/SummariseMessages";
         const uiStrings = getUIStrings(props.appMode);
         let [state, setState] = (0, import_react31.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
-        let [sessionUuid, setSessionUuid] = (0, import_react31.useState)(newSessionUuid);
         const [chatHistory, setChatHistory] = (0, import_react31.useState)([]);
         const [message, setMessage] = (0, import_react31.useState)(void 0);
         const [streamedResponse, setStreamedResponse] = (0, import_react31.useState)(void 0);
         const [streamedResponseId, setStreamedResponseId] = (0, import_react31.useState)(void 0);
         const [idleSince, setIdleSince] = (0, import_react31.useState)(/* @__PURE__ */ new Date());
         (0, import_react31.useEffect)(() => {
-          const getSession = async () => {
+          const loadChatHistory = async () => {
             state.transition("StartedLoading" /* kStartedLoading */);
             setState(new AssistantUIStateMachine(state.getState()));
-            const existingSession = await getSessionUuid(sessionApiUrl);
-            if (existingSession) {
-              setSessionUuid(existingSession);
-              try {
-                await processChatHistory({
-                  messagesApiUrl,
-                  sessionId: existingSession,
-                  limit: kChatHistoryPageSize,
-                  onPage: (messages) => {
-                    setChatHistory((prev2) => [...prev2, ...messages]);
-                  }
-                });
-                state.transition("FinishedLoading" /* kFinishedLoading */);
-                setState(new AssistantUIStateMachine(state.getState()));
-              } catch (error2) {
-                state.transition("Error" /* kError */);
-                setState(new AssistantUIStateMachine(state.getState()));
-              }
+            try {
+              await processChatHistory({
+                messagesApiUrl,
+                sessionId: props.sessionId,
+                limit: kChatHistoryPageSize,
+                onPage: (messages) => {
+                  setChatHistory((prev2) => [...prev2, ...messages]);
+                }
+              });
+              state.transition("FinishedLoading" /* kFinishedLoading */);
+              setState(new AssistantUIStateMachine(state.getState()));
+            } catch (error2) {
+              state.transition("Error" /* kError */);
+              setState(new AssistantUIStateMachine(state.getState()));
             }
           };
-          getSession();
-        }, []);
+          loadChatHistory();
+        }, [props.sessionId]);
         (0, import_react31.useEffect)(() => {
           const timer = setInterval(async () => {
             const idleTime = Date.now() - idleSince.getTime();
@@ -59810,7 +59793,7 @@ ${message.content}
                   const newHistory = await archive({
                     archiveApiUrl,
                     summarizeApiUrl: summariseApiUrl,
-                    sessionId: sessionUuid,
+                    sessionId: props.sessionId,
                     messages: chatHistory,
                     wordCount: kSummaryLength,
                     updateState: handleStateUpdate
@@ -59823,7 +59806,7 @@ ${message.content}
             }
           }, kIdleCheckIntervalMs);
           return () => clearInterval(timer);
-        }, [idleSince, chatHistory, sessionUuid, state]);
+        }, [idleSince, chatHistory, props.sessionId, state]);
         const handleStateUpdate = (event) => {
           state.transition(event);
           setState(new AssistantUIStateMachine(state.getState()));
@@ -59841,7 +59824,7 @@ ${message.content}
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
-            sessionId: sessionUuid,
+            sessionId: props.sessionId,
             personality: "TheYardAssistant" /* kTheYardAssistant */,
             onChunk: (chunk) => {
               if (chunk) {
@@ -59964,7 +59947,7 @@ ${message.content}
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         }, [chatHistory]);
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": props.sessionId }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
           return markdownLinks.split(",").map((link, index) => {
             const matches = link.match(/\[(.*?)\]\((.*?)\)/);
             if (matches) {
@@ -59978,25 +59961,198 @@ ${message.content}
     }
   });
 
+  // src/SessionCall.ts
+  async function getSessionUuid(cookieApiUrl, storage = browserStorage) {
+    try {
+      const existingSessionId = storage.get(SESSION_STORAGE_KEY);
+      const userName = storage.get(USER_NAME_STORAGE_KEY);
+      const request = {
+        email: userName,
+        sessionId: existingSessionId || void 0
+      };
+      const response = await axios_default.post(cookieApiUrl, request, {
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
+        }
+      });
+      const sessionId = response?.data?.sessionId || void 0;
+      if (!sessionId) {
+        console.error("No sessionId in response");
+        return void 0;
+      }
+      storage.set(SESSION_STORAGE_KEY, sessionId);
+      return sessionId;
+    } catch (error) {
+      console.error("Error getting session UUID:", error);
+      return void 0;
+    }
+  }
+  var init_SessionCall = __esm({
+    "src/SessionCall.ts"() {
+      "use strict";
+      init_axios2();
+      init_LocalStorage();
+    }
+  });
+
   // src/Login.tsx
-  var import_react32, Login;
+  var import_react32, local, sessionApiUrl, CLIENT_ID, Login, LoginView;
   var init_Login = __esm({
     "src/Login.tsx"() {
       "use strict";
       import_react32 = __toESM(require_react());
+      init_lib22();
       init_App();
-      Login = ({ appMode }) => {
-        const tempUserName = "Guest";
-        const tempSessionId = "temp-" + Date.now().toString();
-        return /* @__PURE__ */ import_react32.default.createElement(
-          App,
-          {
-            appMode,
-            forceNode: false,
-            userName: tempUserName,
-            sessionId: tempSessionId
+      init_SessionCall();
+      init_SiteUtilities();
+      init_OuterStyles();
+      init_CommonStyles();
+      init_UIStrings();
+      init_LocalStorage();
+      init_uuid();
+      local = window.location.hostname === "localhost";
+      sessionApiUrl = local ? "http://localhost:7071/api/Session" : "https://motifassistantapi.azurewebsites.net/api/Session";
+      CLIENT_ID = local ? "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com" : "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com";
+      Login = (props) => {
+        const [sessionId, setSessionId] = (0, import_react32.useState)(void 0);
+        const [userId, setUserId] = (0, import_react32.useState)(void 0);
+        const [userName, setUserName] = (0, import_react32.useState)(void 0);
+        const [isGoogleLogin, setIsGoogleLogin] = (0, import_react32.useState)(false);
+        const [isGoogleInitialized, setIsGoogleInitialized] = (0, import_react32.useState)(false);
+        const googleButtonRef = (0, import_react32.useRef)(null);
+        (0, import_react32.useEffect)(() => {
+          if (isAppInLocalhost()) {
+            const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
+            const storedUserName = props.storage.get(USER_NAME_STORAGE_KEY);
+            if (storedUserId && storedUserName) {
+              setUserId(storedUserId);
+              setUserName(storedUserName);
+              setIsGoogleLogin(false);
+              getSessionUuid(sessionApiUrl).then((newSession) => {
+                if (newSession) {
+                  setSessionId(newSession);
+                } else {
+                  setSessionId(uuidv4());
+                }
+              });
+            }
           }
+        }, [props.storage]);
+        const handleLogin = async (credential) => {
+          try {
+            const decodedToken = JSON.parse(atob(credential.split(".")[1]));
+            const newUserId = decodedToken.sub;
+            setUserId(newUserId);
+            setUserName(decodedToken.name || void 0);
+            setIsGoogleLogin(true);
+            props.storage.set(USER_ID_STORAGE_KEY, newUserId);
+            props.storage.set(USER_NAME_STORAGE_KEY, decodedToken.name || void 0);
+            const newSession = await getSessionUuid(sessionApiUrl);
+            if (newSession) {
+              setSessionId(newSession);
+            }
+          } catch (error) {
+            console.error("Error processing login:", error);
+            setUserId(void 0);
+            setUserName(void 0);
+            setSessionId(void 0);
+          }
+        };
+        (0, import_react32.useEffect)(() => {
+          const initializeGoogle = () => {
+            if (!window.google?.accounts?.id || !googleButtonRef.current || isGoogleInitialized) {
+              return;
+            }
+            try {
+              window.onGoogleLogin = async (response) => {
+                const credential = response?.credential;
+                if (credential) {
+                  await handleLogin(credential);
+                }
+              };
+              window.google.accounts.id.initialize({
+                client_id: CLIENT_ID,
+                callback: window.onGoogleLogin,
+                auto_select: true,
+                cancel_on_tap_outside: true,
+                use_fedcm_for_prompt: true
+                // Enable FedCM
+              });
+              window.google.accounts.id.renderButton(googleButtonRef.current, {
+                type: "standard",
+                size: "large",
+                theme: "outline",
+                text: "sign_in_with",
+                shape: "rectangular",
+                logo_alignment: "center",
+                width: 250
+              });
+              setIsGoogleInitialized(true);
+            } catch (error) {
+              console.error("Error initializing Google Sign-In:", error);
+            }
+          };
+          initializeGoogle();
+          return () => {
+            if (window.google?.accounts?.id) {
+              window.google.accounts.id.cancel();
+              if (userId && isGoogleLogin) {
+                window.google.accounts.id.revoke(userId, () => {
+                  console.log("User sign-in state revoked");
+                });
+              }
+            }
+          };
+        }, [isGoogleInitialized, userId, isGoogleLogin]);
+        (0, import_react32.useEffect)(() => {
+          const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
+          if (isGoogleInitialized && !userName && !storedUserId) {
+            const attemptAutoLogin = async () => {
+              try {
+                const moment = await window.google?.accounts?.id?.prompt();
+                if (moment?.isNotDisplayed()) {
+                  console.log("Auto-login prompt not displayed:", moment.getNotDisplayedReason());
+                } else if (moment?.isSkippedMoment()) {
+                  console.log("Auto-login skipped:", moment.getSkippedReason());
+                } else if (moment?.isDismissedMoment()) {
+                  console.log("Auto-login dismissed:", moment.getDismissedReason());
+                } else if (moment?.isDisplayMoment()) {
+                  console.log("Auto-login prompt displayed successfully");
+                }
+              } catch (error) {
+                console.error("Error during auto-login attempt:", error);
+              }
+            };
+            const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
+            return () => clearTimeout(promptTimeout);
+          }
+        }, [isGoogleInitialized, userName, props.storage]);
+        return /* @__PURE__ */ import_react32.default.createElement(
+          "div",
+          {
+            "data-testid": "login-container",
+            "data-session-id": sessionId,
+            className: "login-container"
+          },
+          !userName && /* @__PURE__ */ import_react32.default.createElement(LoginView, { appMode: props.appMode, googleButtonRef, storage: props.storage }),
+          userName && sessionId && /* @__PURE__ */ import_react32.default.createElement(
+            App,
+            {
+              appMode: props.appMode,
+              forceNode: false,
+              userName,
+              sessionId
+            }
+          )
         );
+      };
+      LoginView = (props) => {
+        const pageOuterClasses = pageOuterStyles();
+        const innerColumnClasses = innerColumnStyles();
+        const textClasses = standardTextStyles();
+        const uiStrings = getUIStrings(props.appMode);
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement("div", { ref: props.googleButtonRef, className: "google-login-button" }), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
       };
     }
   });
@@ -60215,22 +60371,22 @@ ${message.content}
         return /* @__PURE__ */ import_react34.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react34.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react34.default.createElement(Site, { appMode: props.appMode })));
+        } }, /* @__PURE__ */ import_react34.default.createElement(Site, { appMode: props.appMode, storage: props.storage })));
       };
       Site = (props) => {
         const uiStrings = getUIStrings(props.appMode);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
           },
           {
             path: "/privacy",
@@ -60250,7 +60406,7 @@ ${message.content}
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
           }
         ]);
         return routes;
@@ -60265,10 +60421,12 @@ ${message.content}
       var import_client = __toESM(require_client());
       init_UIStrings();
       init_Site();
+      init_LocalStorage();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
+        const storage = browserStorage;
         root.render(
-          /* @__PURE__ */ import_react35.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
+          /* @__PURE__ */ import_react35.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */, storage })
         );
       }
     }
