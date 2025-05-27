@@ -10,9 +10,9 @@
 
 import React from 'react';
 import { BrowserRouter, useRoutes } from "react-router-dom";
-import { App } from "./App";
+import { Login } from "./Login";
 import { PlainText } from './PlainText';
-import { FluentProvider , teamsDarkTheme } from '@fluentui/react-components';
+import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 import { EAppMode, getUIStrings } from './UIStrings';
 
 import { kTermsContent } from './TermsContent';
@@ -23,15 +23,14 @@ export interface IRoutedSiteProps {
 }
 
 export const RoutedSite = (props: IRoutedSiteProps) => {
-
    return (
       <FluentProvider theme={teamsDarkTheme}>
-            <BrowserRouter future={{
-               v7_startTransition: true,
-               v7_relativeSplatPath: true
-               }}>
-               <Site appMode={props.appMode} />
-            </BrowserRouter>
+         <BrowserRouter future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+         }}>
+            <Site appMode={props.appMode} />
+         </BrowserRouter>
       </FluentProvider>
    );
 }
@@ -41,21 +40,20 @@ export interface ISiteProps {
 }
 
 export const Site = (props: ISiteProps) => {
-   
    const uiStrings = getUIStrings(props.appMode);
    
    const routes = useRoutes([
       {
          path: '/',
-         element: <App appMode={props.appMode} forceNode={false} />
+         element: <Login appMode={props.appMode} />
       },
       {
          path: '/index',
-         element: <App appMode={props.appMode} forceNode={false} />
+         element: <Login appMode={props.appMode} />
       },
       {
          path: '/index.html',
-         element: <App appMode={props.appMode} forceNode={false} />
+         element: <Login appMode={props.appMode} />
       },
       {
          path: '/privacy',
@@ -75,7 +73,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <App appMode={props.appMode} forceNode={false} />
+         element: <Login appMode={props.appMode} />
       }
    ]);
 

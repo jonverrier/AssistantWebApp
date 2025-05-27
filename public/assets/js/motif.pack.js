@@ -2397,9 +2397,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React100 = require_react();
+          var React101 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React100.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React101.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React100.Children.forEach(props.children, function(child) {
+                  React101.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -30376,7 +30376,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React100 = require_react();
+          var React101 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30402,7 +30402,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React100.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React101.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -59978,12 +59978,35 @@ ${message.content}
     }
   });
 
+  // src/Login.tsx
+  var import_react32, Login;
+  var init_Login = __esm({
+    "src/Login.tsx"() {
+      "use strict";
+      import_react32 = __toESM(require_react());
+      init_App();
+      Login = ({ appMode }) => {
+        const tempUserName = "Guest";
+        const tempSessionId = "temp-" + Date.now().toString();
+        return /* @__PURE__ */ import_react32.default.createElement(
+          App,
+          {
+            appMode,
+            forceNode: false,
+            userName: tempUserName,
+            sessionId: tempSessionId
+          }
+        );
+      };
+    }
+  });
+
   // src/PlainText.tsx
-  var import_react32, PlainText;
+  var import_react33, PlainText;
   var init_PlainText = __esm({
     "src/PlainText.tsx"() {
       "use strict";
-      import_react32 = __toESM(require_react());
+      import_react33 = __toESM(require_react());
       init_OuterStyles();
       init_lib22();
       init_CommonStyles();
@@ -59992,18 +60015,18 @@ ${message.content}
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
+        return /* @__PURE__ */ import_react33.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
           if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
+            return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
           }
           if (line2.match(/https?:\/\/\S+/)) {
             const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react32.default.createElement(Link3, { key: i, href: part }, part) : part
+            return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react33.default.createElement(Link3, { key: i, href: part }, part) : part
             ));
           }
-          return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
-        }), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
+          return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
+        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Footer, null)));
       };
     }
   });
@@ -60176,58 +60199,58 @@ ${message.content}
   });
 
   // src/Site.tsx
-  var import_react33, RoutedSite, Site;
+  var import_react34, RoutedSite, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react33 = __toESM(require_react());
+      import_react34 = __toESM(require_react());
       init_dist2();
-      init_App();
+      init_Login();
       init_PlainText();
       init_lib22();
       init_UIStrings();
       init_TermsContent();
       init_PrivacyContent();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react33.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react33.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react34.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react34.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react33.default.createElement(Site, { appMode: props.appMode })));
+        } }, /* @__PURE__ */ import_react34.default.createElement(Site, { appMode: props.appMode })));
       };
       Site = (props) => {
         const uiStrings = getUIStrings(props.appMode);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode })
           }
         ]);
         return routes;
@@ -60238,14 +60261,14 @@ ${message.content}
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react34 = __toESM(require_react());
+      var import_react35 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_UIStrings();
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react34.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
+          /* @__PURE__ */ import_react35.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
         );
       }
     }

@@ -13,12 +13,21 @@ import sinon from 'sinon';
 
 import { App } from "../src/App";
 import { EAppMode, getUIStrings, IUIStrings } from "../src/UIStrings";
+import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
+
+// Test user data
+const TEST_USER = {
+   userName: 'TestUser',
+   sessionId: 'test-session-' + Date.now().toString()
+};
 
 // Helper function to render App component with Router context
 const renderWithRouter = (component: React.ReactNode) => {
    return render(
       <BrowserRouter>
-         {component}
+         <FluentProvider theme={teamsDarkTheme}>
+            {component}
+         </FluentProvider>
       </BrowserRouter>
    );
 };
@@ -54,7 +63,14 @@ for (let appMode of appModes) {
       });
 
       it('should render the main heading and description', async () => {
-         renderWithRouter(<App appMode={appMode} forceNode={true} />);
+         renderWithRouter(
+            <App 
+               appMode={appMode} 
+               forceNode={true} 
+               userName={TEST_USER.userName}
+               sessionId={TEST_USER.sessionId}
+            />
+         );
 
          // Check for main heading
          await waitFor(() => {
@@ -68,7 +84,14 @@ for (let appMode of appModes) {
       });
 
       it('should render the text input area', () => {
-         renderWithRouter(<App appMode={appMode} forceNode={true} />);
+         renderWithRouter(
+            <App 
+               appMode={appMode} 
+               forceNode={true} 
+               userName={TEST_USER.userName}
+               sessionId={TEST_USER.sessionId}
+            />
+         );
 
          // Check for the text input area
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder);
@@ -76,7 +99,14 @@ for (let appMode of appModes) {
       });
 
       it('should render external links', () => {
-         renderWithRouter(<App appMode={appMode} forceNode={true} />);
+         renderWithRouter(
+            <App 
+               appMode={appMode} 
+               forceNode={true} 
+               userName={TEST_USER.userName}
+               sessionId={TEST_USER.sessionId}
+            />
+         );
 
          const links = uiStrings.kLinks;
          
@@ -96,7 +126,14 @@ for (let appMode of appModes) {
       });
 
       it('should handle text input changes', () => {
-         renderWithRouter(<App appMode={appMode} forceNode={true} />);
+         renderWithRouter(
+            <App 
+               appMode={appMode} 
+               forceNode={true} 
+               userName={TEST_USER.userName}
+               sessionId={TEST_USER.sessionId}
+            />
+         );
 
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;
          fireEvent.change(textarea, { target: { value: 'Test requirement' } });
@@ -110,7 +147,14 @@ for (let appMode of appModes) {
 
       it('should update chat history when chatting', async () => {
          // Need to render with 'forceNode' so the Axios calls work in Mocha
-         renderWithRouter(<App appMode={appMode} forceNode={true} />);
+         renderWithRouter(
+            <App 
+               appMode={appMode} 
+               forceNode={true} 
+               userName={TEST_USER.userName}
+               sessionId={TEST_USER.sessionId}
+            />
+         );
 
          // Get the textarea through the MultilineEdit component
          const textarea = screen.getByPlaceholderText(uiStrings.kChatPlaceholder) as HTMLTextAreaElement;

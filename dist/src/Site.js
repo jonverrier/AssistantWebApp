@@ -14,7 +14,7 @@ exports.Site = exports.RoutedSite = void 0;
 // Copyright (c) Jon Verrier, 2025
 const react_1 = __importDefault(require("react"));
 const react_router_dom_1 = require("react-router-dom");
-const App_1 = require("./App");
+const Login_1 = require("./Login");
 const PlainText_1 = require("./PlainText");
 const react_components_1 = require("@fluentui/react-components");
 const UIStrings_1 = require("./UIStrings");
@@ -34,15 +34,15 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         },
         {
             path: '/index',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         },
         {
             path: '/index.html',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         },
         {
             path: '/privacy',
@@ -62,7 +62,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(App_1.App, { appMode: props.appMode, forceNode: false })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         }
     ]);
     return routes;

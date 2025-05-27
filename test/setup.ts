@@ -92,8 +92,44 @@ export { sandbox, axiosPostStub };
 
 // Mock focus events
 class MockFocusEvent extends Event {
+   private readonly _eventInitDict?: FocusEventInit;
+
    constructor(type: string, eventInitDict?: FocusEventInit) {
       super(type, eventInitDict);
+      this._eventInitDict = eventInitDict;
+      Object.setPrototypeOf(this, MockFocusEvent.prototype);
+   }
+
+   get target() {
+      return this._eventInitDict?.relatedTarget || null;
+   }
+
+   get relatedTarget() {
+      return null;
    }
 }
+
+// Add focus event mocks to global
 global.FocusEvent = MockFocusEvent as any;
+
+// Mock focus-related methods
+declare global {
+   interface Element {
+      focus(): void;
+      blur(): void;
+   }
+}
+
+Element.prototype.focus = function(this: Element) {
+   const focusEvent = new MockFocusEvent('focus', { bubbles: false, cancelable: false });
+   const focusInEvent = new MockFocusEvent('focusin', { bubbles: true, cancelable: false });
+   this.dispatchEvent(focusEvent);
+   this.dispatchEvent(focusInEvent);
+};
+
+Element.prototype.blur = function(this: Element) {
+   const blurEvent = new MockFocusEvent('blur', { bubbles: false, cancelable: false });
+   const focusOutEvent = new MockFocusEvent('focusout', { bubbles: true, cancelable: false });
+   this.dispatchEvent(blurEvent);
+   this.dispatchEvent(focusOutEvent);
+};

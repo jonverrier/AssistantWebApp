@@ -121,7 +121,7 @@ describe('processChat', function() {
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'What is the best way to improve my CrossFit performance?',
             history: [],
-            personality: EAssistantPersonality.kGeneralAdvisor,
+            personality: EAssistantPersonality.kTheYardAssistant,
             sessionId: sessionId,
             updateState: mockUpdateState,
             apiClient: mockApi,
@@ -141,7 +141,7 @@ describe('processChat', function() {
         expect(mockApi.post.firstCall.args[0]).toBe('http://screening-api-endpoint');
         
         const sentRequest = mockApi.post.firstCall.args[1] as IAssistantFullChatRequest;
-        expect(sentRequest.personality).toBe(EAssistantPersonality.kGeneralAdvisor);
+        expect(sentRequest.personality).toBe(EAssistantPersonality.kTheYardAssistant);
         expect(sentRequest.input).toBe('What is the best way to improve my CrossFit performance?');
         expect(sentRequest.sessionId).toBe(sessionId);
         
@@ -172,7 +172,7 @@ describe('processChat', function() {
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'What is the best way to improve my CrossFit performance?',
             history: [],
-            personality: EAssistantPersonality.kGeneralAdvisor,
+            personality: EAssistantPersonality.kTheYardAssistant,
             sessionId: sessionId,
             updateState: mockUpdateState,
             apiClient: mockApi,
@@ -207,7 +207,7 @@ describe('processChat', function() {
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'Tell me about cake recipes',
             history: [],
-            personality: EAssistantPersonality.kGeneralAdvisor,
+            personality: EAssistantPersonality.kTheYardAssistant,
             sessionId: sessionId,
             updateState: mockUpdateState,
             apiClient: mockApi,
