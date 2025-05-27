@@ -69,6 +69,7 @@ describe('Login Component', () => {
 
       // Set a user ID in storage to trigger session ID fetch
       mockStorage.set('motif_user_id', 'test-user-123');
+      mockStorage.set('motif_user_name', 'test-user-123');
 
       renderLogin();
 
@@ -88,6 +89,7 @@ describe('Login Component', () => {
 
       // Set a user ID in storage to trigger session ID fetch
       mockStorage.set('motif_user_id', 'test-user-123');
+      mockStorage.set('motif_user_name', 'test-user-123');
 
       renderLogin();
 
@@ -95,7 +97,8 @@ describe('Login Component', () => {
       await waitFor(() => {
          const container = screen.getByTestId('login-container');
          const sessionId = container.getAttribute('data-session-id');
-         expect(sessionId).toMatch(/^session-\d+$/);
+         // Check that the session ID is a valid UUID
+         expect(sessionId).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
       }, { timeout: 2000 });
 
       // Verify getSessionUuid was called
