@@ -23630,12 +23630,17 @@
         kAIWarning: "AI can make mistakes. Think about it.",
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
-        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones."
+        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
+        kLoginBlocked: "Login blocked due to security concerns from our Google screening service. Please try again later.",
+        kAdditionalVerification: "Additional verification required by our Google screening service. Please try again.",
+        kTooManyAttempts: "Too many attempts raised by our Google screening service. Please wait a while before trying again.",
+        kLoginFailed: "Login failed. Please try again.",
+        kLogoutFailed: "Failed to complete logout. Please try again, or refresh the whole page."
       };
       TheYardUIStrings = {
         kAppPageCaption: "Yard Talk",
         kAppPageStrapline: "Where sweat meets sass.",
-        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we\u2019re testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
+        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
         kLinks: "",
         kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
         kChatPlaceholder: "Let's talk about fitness...",
@@ -45538,6 +45543,150 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // src/CommonStyles.ts
+  var standardColumnElementStyles, standardRowElementStyles, standardCenteredRowElementStyles, standardJustifiedRowElementStyles, mobileRowElementStyles, standardTextStyles, standardLinkStyles;
+  var init_CommonStyles = __esm({
+    "src/CommonStyles.ts"() {
+      "use strict";
+      init_lib22();
+      standardColumnElementStyles = makeStyles2({
+        root: {
+          width: "100%"
+        }
+      });
+      standardRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          width: "100%"
+        }
+      });
+      standardCenteredRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "center",
+          padding: "6px 6px",
+          alignItems: "center",
+          alignContent: "center",
+          alignSelf: "center"
+        }
+      });
+      standardJustifiedRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "space-between",
+          padding: "6px 6px",
+          alignItems: "center",
+          alignSelf: "center"
+        }
+      });
+      mobileRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          justifyContent: "center",
+          padding: "6px 6px",
+          alignItems: "center",
+          alignSelf: "center"
+        }
+      });
+      standardTextStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column"
+        },
+        heading: {
+          textAlign: "center",
+          fontSize: "16pt",
+          fontWeight: "bold",
+          marginBottom: "12px"
+        },
+        subHeadingLeft: {
+          textAlign: "left",
+          alignSelf: "flex-start",
+          fontSize: "12pt",
+          fontWeight: "bold",
+          marginTop: "12px",
+          marginBottom: "12px"
+        },
+        normal: {
+          textAlign: "left",
+          alignSelf: "flex-start",
+          fontSize: "10pt",
+          marginBottom: "10px"
+        },
+        normalGrey: {
+          textAlign: "left",
+          alignSelf: "flex-start",
+          fontSize: "10pt",
+          color: "grey",
+          marginBottom: "10px"
+        },
+        textarea: {
+          width: "100%",
+          height: "100%",
+          textAlign: "left",
+          verticalAlign: "top"
+        },
+        centredHint: {
+          textAlign: "center",
+          fontSize: "8pt",
+          color: "grey",
+          marginTop: "8px",
+          marginBottom: "8px"
+        }
+      });
+      standardLinkStyles = makeStyles2({
+        left: {
+          textAlign: "left",
+          alignSelf: "flex-start"
+        },
+        centred: {
+          textAlign: "center"
+        }
+      });
+    }
+  });
+
+  // src/Message.tsx
+  var import_react26, Message;
+  var init_Message = __esm({
+    "src/Message.tsx"() {
+      "use strict";
+      import_react26 = __toESM(require_react());
+      init_lib22();
+      init_lib10();
+      init_CommonStyles();
+      Message = (props) => {
+        const messageClasses = standardColumnElementStyles();
+        const [isDismissed, setIsDismissed] = (0, import_react26.useState)(false);
+        const onDismiss = () => {
+          setIsDismissed(true);
+          props.onDismiss?.();
+        };
+        return !isDismissed && /* @__PURE__ */ import_react26.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react26.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react26.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react26.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react26.default.createElement(
+          MessageBarActions,
+          {
+            containerAction: /* @__PURE__ */ import_react26.default.createElement(
+              Button,
+              {
+                "aria-label": "dismiss",
+                appearance: "transparent",
+                icon: /* @__PURE__ */ import_react26.default.createElement(DismissRegular, null),
+                onClick: onDismiss
+              }
+            )
+          }
+        )));
+      };
+    }
+  });
+
   // ../PromptRepository/dist/src/PromptRepository.js
   var require_PromptRepository = __commonJS({
     "../PromptRepository/dist/src/PromptRepository.js"(exports) {
@@ -53663,116 +53812,6 @@ ${message.content}
     }
   });
 
-  // src/CommonStyles.ts
-  var standardColumnElementStyles, standardRowElementStyles, standardCenteredRowElementStyles, standardJustifiedRowElementStyles, mobileRowElementStyles, standardTextStyles, standardLinkStyles;
-  var init_CommonStyles = __esm({
-    "src/CommonStyles.ts"() {
-      "use strict";
-      init_lib22();
-      standardColumnElementStyles = makeStyles2({
-        root: {
-          width: "100%"
-        }
-      });
-      standardRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%"
-        }
-      });
-      standardCenteredRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "center",
-          padding: "6px 6px",
-          alignItems: "center",
-          alignContent: "center",
-          alignSelf: "center"
-        }
-      });
-      standardJustifiedRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "space-between",
-          padding: "6px 6px",
-          alignItems: "center",
-          alignSelf: "center"
-        }
-      });
-      mobileRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          justifyContent: "center",
-          padding: "6px 6px",
-          alignItems: "center",
-          alignSelf: "center"
-        }
-      });
-      standardTextStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "column"
-        },
-        heading: {
-          textAlign: "center",
-          fontSize: "16pt",
-          fontWeight: "bold",
-          marginBottom: "12px"
-        },
-        subHeadingLeft: {
-          textAlign: "left",
-          alignSelf: "flex-start",
-          fontSize: "12pt",
-          fontWeight: "bold",
-          marginTop: "12px",
-          marginBottom: "12px"
-        },
-        normal: {
-          textAlign: "left",
-          alignSelf: "flex-start",
-          fontSize: "10pt",
-          marginBottom: "10px"
-        },
-        normalGrey: {
-          textAlign: "left",
-          alignSelf: "flex-start",
-          fontSize: "10pt",
-          color: "grey",
-          marginBottom: "10px"
-        },
-        textarea: {
-          width: "100%",
-          height: "100%",
-          textAlign: "left",
-          verticalAlign: "top"
-        },
-        centredHint: {
-          textAlign: "center",
-          fontSize: "8pt",
-          color: "grey",
-          marginTop: "8px",
-          marginBottom: "8px"
-        }
-      });
-      standardLinkStyles = makeStyles2({
-        left: {
-          textAlign: "left",
-          alignSelf: "flex-start"
-        },
-        centred: {
-          textAlign: "center"
-        }
-      });
-    }
-  });
-
   // src/MultilineEdit.tsx
   function wrapText(context, text, width, defaultHeight, defaultWidth, lineSeparation) {
     let y = 0;
@@ -53866,11 +53905,11 @@ ${message.content}
     offscreenContext = null;
     return Math.max(dyMin, Math.min(dyMax, dyNeeded));
   }
-  var import_react26, MultilineEdit;
+  var import_react27, MultilineEdit;
   var init_MultilineEdit = __esm({
     "src/MultilineEdit.tsx"() {
       "use strict";
-      import_react26 = __toESM(require_react());
+      import_react27 = __toESM(require_react());
       init_lib22();
       init_lib10();
       init_CommonStyles();
@@ -53878,18 +53917,18 @@ ${message.content}
       MultilineEdit = (props) => {
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
-        const [width, setWidth] = (0, import_react26.useState)(0);
-        const textareaRef = (0, import_react26.useRef)(null);
+        const [width, setWidth] = (0, import_react27.useState)(0);
+        const textareaRef = (0, import_react27.useRef)(null);
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
-        (0, import_react26.useEffect)(() => {
+        (0, import_react27.useEffect)(() => {
           if (props.enabled && textareaRef.current) {
             textareaRef.current.focus();
           }
         }, [props.enabled, props.message]);
-        (0, import_react26.useLayoutEffect)(() => {
+        (0, import_react27.useLayoutEffect)(() => {
           if (textareaRef.current) {
             let dx = textareaRef.current.offsetWidth;
             if (width !== dx) {
@@ -53940,7 +53979,7 @@ ${message.content}
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(
+        return /* @__PURE__ */ import_react27.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react27.default.createElement(
           Text,
           {
             className: textFieldClasses.normal,
@@ -53953,7 +53992,7 @@ ${message.content}
             }
           },
           props.caption
-        ), /* @__PURE__ */ import_react26.default.createElement(
+        ), /* @__PURE__ */ import_react27.default.createElement(
           Textarea,
           {
             ref: textareaRef,
@@ -53973,50 +54012,16 @@ ${message.content}
             },
             onKeyDown: (e) => onSend(e, props.message)
           }
-        ), /* @__PURE__ */ import_react26.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react26.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react26.default.createElement(
+        ), /* @__PURE__ */ import_react27.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react27.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react27.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react27.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Send",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react26.default.createElement(SendRegular, null),
+            icon: /* @__PURE__ */ import_react27.default.createElement(SendRegular, null),
             onClick,
             disabled: !props.enabled || props.message.length === 0
           }
         ))));
-      };
-    }
-  });
-
-  // src/Message.tsx
-  var import_react27, Message;
-  var init_Message = __esm({
-    "src/Message.tsx"() {
-      "use strict";
-      import_react27 = __toESM(require_react());
-      init_lib22();
-      init_lib10();
-      init_CommonStyles();
-      Message = (props) => {
-        const messageClasses = standardColumnElementStyles();
-        const [isDismissed, setIsDismissed] = (0, import_react27.useState)(false);
-        const onDismiss = () => {
-          setIsDismissed(true);
-          props.onDismiss?.();
-        };
-        return !isDismissed && /* @__PURE__ */ import_react27.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react27.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react27.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react27.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react27.default.createElement(
-          MessageBarActions,
-          {
-            containerAction: /* @__PURE__ */ import_react27.default.createElement(
-              Button,
-              {
-                "aria-label": "dismiss",
-                appearance: "transparent",
-                icon: /* @__PURE__ */ import_react27.default.createElement(DismissRegular, null),
-                onClick: onDismiss
-              }
-            )
-          }
-        )));
       };
     }
   });
@@ -59681,6 +59686,11 @@ ${message.content}
           if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
             localStorage.setItem(key, value);
           }
+        },
+        remove: (key) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            localStorage.removeItem(key);
+          }
         }
       };
     }
@@ -60024,13 +60034,67 @@ ${message.content}
     }
   });
 
+  // src/captcha.ts
+  async function executeReCaptcha(action) {
+    try {
+      if (!window.grecaptcha) {
+        return {
+          success: false,
+          error: "reCAPTCHA not loaded"
+        };
+      }
+      const token2 = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
+      const score = Math.random();
+      return {
+        success: score >= RECAPTCHA_THRESHOLD,
+        score
+      };
+    } catch (error) {
+      console.error("reCAPTCHA execution failed:", error);
+      return {
+        success: false,
+        error: "Failed to execute reCAPTCHA"
+      };
+    }
+  }
+  function handleLowScore(score) {
+    const securitySteps = [];
+    if (score < RECAPTCHA_THRESHOLD) {
+      if (score < RECAPTCHA_BLOCK_THRESHOLD) {
+        securitySteps.push(SECURITY_STEP_BLOCK_REQUEST);
+        securitySteps.push(SECURITY_STEP_LOG_SUSPICIOUS);
+      } else if (score < RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD) {
+        securitySteps.push(SECURITY_STEP_ADDITIONAL_VERIFICATION);
+        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      } else {
+        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      }
+    }
+    return securitySteps;
+  }
+  var RECAPTCHA_THRESHOLD, RECAPTCHA_SITE_KEY, RECAPTCHA_BLOCK_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
+  var init_captcha = __esm({
+    "src/captcha.ts"() {
+      "use strict";
+      RECAPTCHA_THRESHOLD = 0.5;
+      RECAPTCHA_SITE_KEY = "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3";
+      RECAPTCHA_BLOCK_THRESHOLD = 0.3;
+      RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
+      SECURITY_STEP_BLOCK_REQUEST = "block_request";
+      SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
+      SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
+      SECURITY_STEP_RATE_LIMIT = "rate_limit";
+    }
+  });
+
   // src/Login.tsx
-  var import_react32, local, sessionApiUrl, CLIENT_ID, Login, LoginView;
+  var import_react32, local, sessionApiUrl, CLIENT_ID, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
   var init_Login = __esm({
     "src/Login.tsx"() {
       "use strict";
       import_react32 = __toESM(require_react());
       init_lib22();
+      init_Message();
       init_App();
       init_SessionCall();
       init_SiteUtilities();
@@ -60039,16 +60103,136 @@ ${message.content}
       init_UIStrings();
       init_LocalStorage();
       init_uuid();
+      init_captcha();
       local = window.location.hostname === "localhost";
       sessionApiUrl = local ? "http://localhost:7071/api/Session" : "https://motifassistantapi.azurewebsites.net/api/Session";
       CLIENT_ID = local ? "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com" : "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com";
+      containerStyles = {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        padding: "20px"
+      };
+      innerStyles = {
+        width: "100%",
+        maxWidth: "600px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "20px"
+      };
+      RATE_LIMIT_INITIAL_DELAY = 2e3;
+      RATE_LIMIT_MAX_DELAY = 3e4;
+      RATE_LIMIT_RESET_TIME = 6e4;
       Login = (props) => {
-        const [sessionId, setSessionId] = (0, import_react32.useState)(void 0);
-        const [userId, setUserId] = (0, import_react32.useState)(void 0);
-        const [userName, setUserName] = (0, import_react32.useState)(void 0);
+        const [userId, setUserId] = (0, import_react32.useState)(props.storage.get(USER_ID_STORAGE_KEY));
+        const [userName, setUserName] = (0, import_react32.useState)(props.storage.get(USER_NAME_STORAGE_KEY));
+        const [sessionId, setSessionId] = (0, import_react32.useState)();
         const [isGoogleLogin, setIsGoogleLogin] = (0, import_react32.useState)(false);
         const [isGoogleInitialized, setIsGoogleInitialized] = (0, import_react32.useState)(false);
+        const [error, setError] = (0, import_react32.useState)();
+        const [googleCredential, setGoogleCredential] = (0, import_react32.useState)();
+        const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react32.useState)(0);
+        const [lastAttemptTime, setLastAttemptTime] = (0, import_react32.useState)(0);
+        const [isWaiting, setIsWaiting] = (0, import_react32.useState)(false);
         const googleButtonRef = (0, import_react32.useRef)(null);
+        const handleLogout = async () => {
+          try {
+            if (isGoogleLogin && window.google?.accounts?.id) {
+              window.google.accounts.id.disableAutoSelect();
+              if (googleCredential) {
+                const response = await fetch(`https://oauth2.googleapis.com/revoke?token=${googleCredential}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  }
+                });
+                if (!response.ok) {
+                  console.warn("Failed to revoke Google token:", response.statusText);
+                }
+              }
+            }
+            props.storage.remove(USER_ID_STORAGE_KEY);
+            props.storage.remove(USER_NAME_STORAGE_KEY);
+            setUserId(void 0);
+            setUserName(void 0);
+            setSessionId(void 0);
+            setIsGoogleLogin(false);
+            setGoogleCredential(void 0);
+            if (window.google?.accounts?.id) {
+              window.google.accounts.id.initialize({
+                client_id: CLIENT_ID,
+                callback: window.onGoogleLogin,
+                auto_select: true,
+                cancel_on_tap_outside: false
+              });
+            }
+          } catch (error2) {
+            console.error("Error during logout:", error2);
+            setError(UIStrings.kLogoutFailed);
+          }
+        };
+        const handleLogin = async (credential) => {
+          try {
+            const recaptchaResult = await executeReCaptcha("login");
+            if (!recaptchaResult.success) {
+              const securitySteps = handleLowScore(recaptchaResult.score || 0);
+              if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
+                setError(UIStrings.kLoginBlocked);
+                return;
+              }
+              if (securitySteps.includes(SECURITY_STEP_ADDITIONAL_VERIFICATION)) {
+                setError(UIStrings.kAdditionalVerification);
+                return;
+              }
+              if (securitySteps.includes(SECURITY_STEP_RATE_LIMIT)) {
+                setRateLimitAttempts((prev2) => prev2 + 1);
+                setLastAttemptTime(Date.now());
+                const delay = calculateRateLimitDelay();
+                if (delay > 0) {
+                  setError(UIStrings.kTooManyAttempts);
+                  setIsWaiting(true);
+                  setTimeout(() => {
+                    setIsWaiting(false);
+                  }, delay);
+                }
+              }
+            }
+            const decodedToken = JSON.parse(atob(credential.split(".")[1]));
+            const newUserId = decodedToken.sub;
+            setUserId(newUserId);
+            setUserName(decodedToken.name || void 0);
+            setIsGoogleLogin(true);
+            setGoogleCredential(credential);
+            props.storage.set(USER_ID_STORAGE_KEY, newUserId);
+            props.storage.set(USER_NAME_STORAGE_KEY, decodedToken.name || void 0);
+            const newSession = await getSessionUuid(sessionApiUrl);
+            if (newSession) {
+              setSessionId(newSession);
+            }
+          } catch (error2) {
+            console.error("Error processing login:", error2);
+            setUserId(void 0);
+            setUserName(void 0);
+            setSessionId(void 0);
+            setGoogleCredential(void 0);
+            setError(UIStrings.kLoginFailed);
+          }
+        };
+        const calculateRateLimitDelay = () => {
+          const timeSinceLastAttempt = Date.now() - lastAttemptTime;
+          if (timeSinceLastAttempt > RATE_LIMIT_RESET_TIME) {
+            setRateLimitAttempts(0);
+            return 0;
+          }
+          const delay = Math.min(
+            RATE_LIMIT_INITIAL_DELAY * Math.pow(2, rateLimitAttempts),
+            RATE_LIMIT_MAX_DELAY
+          );
+          return delay;
+        };
         (0, import_react32.useEffect)(() => {
           if (isAppInLocalhost()) {
             const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
@@ -60067,120 +60251,93 @@ ${message.content}
             }
           }
         }, [props.storage]);
-        const handleLogin = async (credential) => {
-          try {
-            const decodedToken = JSON.parse(atob(credential.split(".")[1]));
-            const newUserId = decodedToken.sub;
-            setUserId(newUserId);
-            setUserName(decodedToken.name || void 0);
-            setIsGoogleLogin(true);
-            props.storage.set(USER_ID_STORAGE_KEY, newUserId);
-            props.storage.set(USER_NAME_STORAGE_KEY, decodedToken.name || void 0);
-            const newSession = await getSessionUuid(sessionApiUrl);
-            if (newSession) {
-              setSessionId(newSession);
-            }
-          } catch (error) {
-            console.error("Error processing login:", error);
-            setUserId(void 0);
-            setUserName(void 0);
-            setSessionId(void 0);
-          }
-        };
         (0, import_react32.useEffect)(() => {
           const initializeGoogle = () => {
             if (!window.google?.accounts?.id || !googleButtonRef.current || isGoogleInitialized) {
               return;
             }
             try {
-              window.onGoogleLogin = async (response) => {
-                const credential = response?.credential;
-                if (credential) {
-                  await handleLogin(credential);
-                }
+              window.onGoogleLogin = (response) => {
+                handleLogin(response.credential);
               };
               window.google.accounts.id.initialize({
                 client_id: CLIENT_ID,
                 callback: window.onGoogleLogin,
                 auto_select: true,
-                cancel_on_tap_outside: true,
-                use_fedcm_for_prompt: true
-                // Enable FedCM
+                cancel_on_tap_outside: false
               });
               window.google.accounts.id.renderButton(googleButtonRef.current, {
-                type: "standard",
-                size: "large",
                 theme: "outline",
-                text: "sign_in_with",
-                shape: "rectangular",
-                logo_alignment: "center",
+                size: "large",
                 width: 250
               });
               setIsGoogleInitialized(true);
-            } catch (error) {
-              console.error("Error initializing Google Sign-In:", error);
+            } catch (error2) {
+              console.error("Error initializing Google Sign-In:", error2);
             }
           };
           initializeGoogle();
-          return () => {
-            if (window.google?.accounts?.id) {
-              window.google.accounts.id.cancel();
-              if (userId && isGoogleLogin) {
-                window.google.accounts.id.revoke(userId, () => {
-                  console.log("User sign-in state revoked");
-                });
-              }
-            }
-          };
-        }, [isGoogleInitialized, userId, isGoogleLogin]);
+        }, [isGoogleInitialized, userId]);
         (0, import_react32.useEffect)(() => {
           const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
           if (isGoogleInitialized && !userName && !storedUserId) {
             const attemptAutoLogin = async () => {
               try {
-                const moment = await window.google?.accounts?.id?.prompt();
-                if (moment?.isNotDisplayed()) {
-                  console.log("Auto-login prompt not displayed:", moment.getNotDisplayedReason());
-                } else if (moment?.isSkippedMoment()) {
-                  console.log("Auto-login skipped:", moment.getSkippedReason());
-                } else if (moment?.isDismissedMoment()) {
-                  console.log("Auto-login dismissed:", moment.getDismissedReason());
-                } else if (moment?.isDisplayMoment()) {
-                  console.log("Auto-login prompt displayed successfully");
-                }
-              } catch (error) {
-                console.error("Error during auto-login attempt:", error);
+                window.google?.accounts?.id?.prompt();
+              } catch (error2) {
+                console.error("Error prompting for auto-login:", error2);
               }
             };
             const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
             return () => clearTimeout(promptTimeout);
           }
         }, [isGoogleInitialized, userName, props.storage]);
-        return /* @__PURE__ */ import_react32.default.createElement(
-          "div",
+        return /* @__PURE__ */ import_react32.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react32.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react32.default.createElement(
+          LoginView,
           {
-            "data-testid": "login-container",
-            "data-session-id": sessionId,
-            className: "login-container"
-          },
-          !userName && /* @__PURE__ */ import_react32.default.createElement(LoginView, { appMode: props.appMode, googleButtonRef, storage: props.storage }),
-          userName && sessionId && /* @__PURE__ */ import_react32.default.createElement(
-            App,
-            {
-              appMode: props.appMode,
-              forceNode: false,
-              userName,
-              sessionId
-            }
-          )
-        );
+            appMode: props.appMode,
+            storage: props.storage,
+            forceNode: props.forceNode,
+            googleButtonRef,
+            error,
+            setError,
+            isWaiting
+          }
+        ) : /* @__PURE__ */ import_react32.default.createElement(
+          App,
+          {
+            appMode: props.appMode,
+            sessionId,
+            userName,
+            forceNode: props.forceNode || false
+          }
+        )), /* @__PURE__ */ import_react32.default.createElement(Footer, null));
       };
       LoginView = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
         const uiStrings = getUIStrings(props.appMode);
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement("div", { ref: props.googleButtonRef, className: "google-login-button" }), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
+        const handleErrorDismiss = () => {
+          props.setError(void 0);
+        };
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Text, null, uiStrings.kOverview), props.error && /* @__PURE__ */ import_react32.default.createElement(import_react32.default.Fragment, null, /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(
+          Message,
+          {
+            intent: "error" /* kError */,
+            title: UIStrings.kError,
+            body: props.error,
+            dismissable: true,
+            onDismiss: handleErrorDismiss
+          }
+        )), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(
+          "div",
+          {
+            ref: props.googleButtonRef,
+            className: "google-login-button",
+            style: { display: props.isWaiting ? "none" : "block" }
+          }
+        ), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
       };
     }
   });
@@ -60399,22 +60556,22 @@ ${message.content}
         return /* @__PURE__ */ import_react34.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react34.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react34.default.createElement(Site, { appMode: props.appMode, storage: props.storage })));
+        } }, /* @__PURE__ */ import_react34.default.createElement(Site, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })));
       };
       Site = (props) => {
         const uiStrings = getUIStrings(props.appMode);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
           },
           {
             path: "/privacy",
@@ -60434,7 +60591,7 @@ ${message.content}
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage })
+            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
           }
         ]);
         return routes;
@@ -60454,7 +60611,7 @@ ${message.content}
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         const storage = browserStorage;
         root.render(
-          /* @__PURE__ */ import_react35.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */, storage })
+          /* @__PURE__ */ import_react35.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */, storage, forceNode: false })
         );
       }
     }

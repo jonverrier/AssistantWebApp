@@ -26,7 +26,7 @@ const RoutedSite = (props) => {
                 v7_startTransition: true,
                 v7_relativeSplatPath: true
             } },
-            react_1.default.createElement(exports.Site, { appMode: props.appMode, storage: props.storage }))));
+            react_1.default.createElement(exports.Site, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode }))));
 };
 exports.RoutedSite = RoutedSite;
 const Site = (props) => {
@@ -34,15 +34,15 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
         },
         {
             path: '/index',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
         },
         {
             path: '/index.html',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
         },
         {
             path: '/privacy',
@@ -62,7 +62,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
         }
     ]);
     return routes;

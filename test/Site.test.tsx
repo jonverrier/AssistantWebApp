@@ -31,7 +31,7 @@ for (let appMode of appModes) {
 
       it('renders without crashing', () => {
          const { container } = render(
-            <RoutedSite appMode={appMode} storage={mockStorage} />
+            <RoutedSite appMode={appMode} storage={mockStorage} forceNode={true} />
          );
          expect(container).toBeTruthy();
       });
@@ -54,7 +54,7 @@ for (let appMode of appModes) {
       it('renders App component for root path', () => {
          render(
             <MemoryRouter initialEntries={['/']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -66,7 +66,7 @@ for (let appMode of appModes) {
       it('renders App component for /index path', () => {
          render(
             <MemoryRouter initialEntries={['/index']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -77,7 +77,7 @@ for (let appMode of appModes) {
       it('renders App component for /index.html path', () => {
          render(
             <MemoryRouter initialEntries={['/index.html']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -88,7 +88,7 @@ for (let appMode of appModes) {
       it('renders PlainText component for /privacy path', () => {
          render(
             <MemoryRouter initialEntries={['/privacy']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -99,7 +99,7 @@ for (let appMode of appModes) {
       it('renders PlainText component for /privacy.html path', () => {
          render(
             <MemoryRouter initialEntries={['/privacy.html']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -110,7 +110,7 @@ for (let appMode of appModes) {
       it('renders PlainText component for /terms path', () => {
          render(
             <MemoryRouter initialEntries={['/terms']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -121,7 +121,7 @@ for (let appMode of appModes) {
       it('renders PlainText component for /terms.html path', () => {
          render(
             <MemoryRouter initialEntries={['/terms.html']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
          
@@ -132,7 +132,7 @@ for (let appMode of appModes) {
       it('handles unknown routes gracefully', () => {
          render(
             <MemoryRouter initialEntries={['/unknown']}>
-               <Site appMode={appMode} storage={mockStorage} />
+               <Site appMode={appMode} storage={mockStorage} forceNode={true} />
             </MemoryRouter>
          );
 

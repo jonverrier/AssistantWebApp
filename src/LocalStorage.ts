@@ -28,6 +28,7 @@ export const isAppInLocalhost = (): boolean => {
 export interface IStorage {
     get(key: string): string | undefined;
     set(key: string, value: string): void;
+    remove(key: string): void;
 }
 
 // Default browser storage implementation
@@ -41,6 +42,11 @@ export const browserStorage: IStorage = {
     set: (key: string, value: string): void => {
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
             localStorage.setItem(key, value);
+        }
+    },
+    remove: (key: string): void => {
+        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
+            localStorage.removeItem(key);
         }
     }
 }; 

@@ -18,5 +18,5 @@ const LocalStorage_1 = require("./LocalStorage");
 if (document !== undefined && document.getElementById !== undefined) {
     const root = (0, client_1.createRoot)(document.getElementById("reactRoot"));
     const storage = LocalStorage_1.browserStorage;
-    root.render(react_1.default.createElement(Site_1.RoutedSite, { appMode: UIStrings_1.EAppMode.kYardTalk, storage: storage }));
+    root.render(react_1.default.createElement(Site_1.RoutedSite, { appMode: UIStrings_1.EAppMode.kYardTalk, storage: storage, forceNode: false }));
 }

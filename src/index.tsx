@@ -19,6 +19,6 @@ if (document !== undefined && document.getElementById !== undefined) {
    const storage: IStorage = browserStorage;
 
    root.render(
-      <RoutedSite appMode={EAppMode.kYardTalk} storage={storage} />
+      <RoutedSite appMode={EAppMode.kYardTalk} storage={storage} forceNode={false} />
    ); 
 }

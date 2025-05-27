@@ -8,6 +8,17 @@
 
 export { EMultilineEditUIStrings } from './MultilineEditUIStrings';
 
+/**
+ * Replaces a parameter placeholder in a string with a value.
+ * @param template The string template containing {x} placeholders where x is a number
+ * @param parameter The value to replace the placeholder with
+ * @param index The index of the parameter to replace (defaults to 0)
+ * @returns The string with the placeholder replaced
+ */
+export function replaceStringParameter(template: string, parameter: string | number, index: number = 0): string {
+    return template.replace(`{${index}}`, parameter.toString());
+}
+
 // Type for the current linter mode
 export enum EAppMode {
    kYardTalk = "yardtalk"
@@ -29,6 +40,11 @@ export interface ICommonUIStrings {
    kArchivingPleaseWait: string;
    kArchivingDescription: string;
    kProcessingPleaseWait: string;
+   kLoginBlocked: string;
+   kAdditionalVerification: string;
+   kTooManyAttempts: string;
+   kLoginFailed: string;
+   kLogoutFailed: string;
 }
 
 // Strings that vary between different white labelled implementations
@@ -60,13 +76,18 @@ export const CommonUIStrings: ICommonUIStrings = {
    kAIWarning: "AI can make mistakes. Think about it.",
    kProcessingPleaseWait: "Please wait a few seconds...",
    kArchivingPleaseWait: "Please wait a few seconds...",
-   kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones."
+   kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
+   kLoginBlocked: "Login blocked due to security concerns from our Google screening service. Please try again later.",
+   kAdditionalVerification: "Additional verification required by our Google screening service. Please try again.",
+   kTooManyAttempts: "Too many attempts raised by our Google screening service. Please wait a while before trying again.",
+   kLoginFailed: "Login failed. Please try again.",
+   kLogoutFailed: "Failed to complete logout. Please try again, or refresh the whole page."
 }
 
 export const TheYardUIStrings: IBrandUIStrings = {
    kAppPageCaption: "Yard Talk",
    kAppPageStrapline: "Where sweat meets sass.",
-   kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we’re testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
+   kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
    kLinks: "",
    kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
    kChatPlaceholder: "Let's talk about fitness...",

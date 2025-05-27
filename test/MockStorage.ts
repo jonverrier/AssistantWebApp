@@ -38,6 +38,14 @@ export class MockStorage implements IStorage {
     }
 
     /**
+     * Remove a value from storage
+     * @param key The key to remove
+     */
+    remove(key: string): void {
+        this.storage.delete(key);
+    }
+    
+    /**
      * Clear all stored values
      */
     clear(): void {

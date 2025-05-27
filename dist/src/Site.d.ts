@@ -11,11 +11,13 @@ import { IStorage } from './LocalStorage';
 export interface IRoutedSiteProps {
     appMode: EAppMode;
     storage: IStorage;
+    forceNode: boolean;
 }
 export declare const RoutedSite: (props: IRoutedSiteProps) => React.JSX.Element;
 export interface ISiteProps {
     appMode: EAppMode;
     storage: IStorage;
+    forceNode: boolean;
 }
 export declare const Site: (props: ISiteProps) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=Site.d.ts.map

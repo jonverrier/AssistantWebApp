@@ -22,6 +22,7 @@ import { IStorage } from './LocalStorage';
 export interface IRoutedSiteProps {
    appMode: EAppMode;
    storage: IStorage;
+   forceNode: boolean;
 }
 
 export const RoutedSite = (props: IRoutedSiteProps) => {
@@ -31,7 +32,7 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
             v7_startTransition: true,
             v7_relativeSplatPath: true
          }}>
-            <Site appMode={props.appMode} storage={props.storage} />
+            <Site appMode={props.appMode} storage={props.storage} forceNode={props.forceNode} />
          </BrowserRouter>
       </FluentProvider>
    );
@@ -40,6 +41,7 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
 export interface ISiteProps {
    appMode: EAppMode;
    storage: IStorage;
+   forceNode: boolean;
 }
 
 export const Site = (props: ISiteProps) => {
@@ -48,15 +50,15 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Login appMode={props.appMode} storage={props.storage} />
+         element: <Login appMode={props.appMode} storage={props.storage} forceNode={props.forceNode} />
       },
       {
          path: '/index',
-         element: <Login appMode={props.appMode} storage={props.storage} />
+         element: <Login appMode={props.appMode} storage={props.storage} forceNode={props.forceNode} />
       },
       {
          path: '/index.html',
-         element: <Login appMode={props.appMode} storage={props.storage} />
+         element: <Login appMode={props.appMode} storage={props.storage} forceNode={props.forceNode} />
       },
       {
          path: '/privacy',
@@ -76,7 +78,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <Login appMode={props.appMode} storage={props.storage} />
+         element: <Login appMode={props.appMode} storage={props.storage} forceNode={props.forceNode} />
       }
    ]);
 

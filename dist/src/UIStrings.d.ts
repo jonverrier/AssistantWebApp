@@ -6,6 +6,14 @@
  */
 /*! Copyright Jon Verrier 2025 */
 export { EMultilineEditUIStrings } from './MultilineEditUIStrings';
+/**
+ * Replaces a parameter placeholder in a string with a value.
+ * @param template The string template containing {x} placeholders where x is a number
+ * @param parameter The value to replace the placeholder with
+ * @param index The index of the parameter to replace (defaults to 0)
+ * @returns The string with the placeholder replaced
+ */
+export declare function replaceStringParameter(template: string, parameter: string | number, index?: number): string;
 export declare enum EAppMode {
     kYardTalk = "yardtalk"
 }
@@ -24,6 +32,11 @@ export interface ICommonUIStrings {
     kArchivingPleaseWait: string;
     kArchivingDescription: string;
     kProcessingPleaseWait: string;
+    kLoginBlocked: string;
+    kAdditionalVerification: string;
+    kTooManyAttempts: string;
+    kLoginFailed: string;
+    kLogoutFailed: string;
 }
 export interface IBrandUIStrings {
     kAppPageCaption: string;
