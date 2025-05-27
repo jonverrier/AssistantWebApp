@@ -59687,7 +59687,7 @@ ${message.content}
   });
 
   // src/App.tsx
-  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, App;
+  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
@@ -59738,7 +59738,19 @@ ${message.content}
         }
       });
       kMinArchivingDisplayMs = 2e3;
-      App = (props) => {
+      AppView = ({
+        uiStrings,
+        state,
+        chatHistory,
+        streamedResponse,
+        streamedResponseId,
+        message,
+        onSend,
+        onChange,
+        onDismiss,
+        sessionId
+      }) => {
+        const bottomRef = (0, import_react31.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const columnElementClasses = standardColumnElementStyles();
@@ -59746,7 +59758,93 @@ ${message.content}
         const linkClasses = standardLinkStyles();
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
-        const bottomRef = (0, import_react31.useRef)(null);
+        (0, import_react31.useEffect)(() => {
+          if (streamedResponse) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, [streamedResponse]);
+        (0, import_react31.useEffect)(() => {
+          if (chatHistory.length > 0) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, [chatHistory]);
+        let blank = /* @__PURE__ */ import_react31.default.createElement("div", null);
+        let offTopic = blank;
+        let error = blank;
+        let archiving = blank;
+        let streaming = blank;
+        if (state.getState() === "OffTopic" /* kOffTopic */) {
+          offTopic = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
+            Message,
+            {
+              intent: "warning" /* kWarning */,
+              title: uiStrings.kWarning,
+              body: uiStrings.kLooksOffTopic,
+              dismissable: true,
+              onDismiss
+            }
+          ));
+        }
+        if (state.getState() === "Error" /* kError */) {
+          error = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
+            Message,
+            {
+              intent: "error" /* kError */,
+              title: uiStrings.kError,
+              body: uiStrings.kServerErrorDescription,
+              dismissable: true,
+              onDismiss
+            }
+          ));
+        }
+        if (state.getState() === "Archiving" /* kArchiving */) {
+          archiving = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
+            Message,
+            {
+              intent: "info" /* kInfo */,
+              title: uiStrings.kArchivingPleaseWait,
+              body: uiStrings.kArchivingDescription,
+              dismissable: false
+            }
+          ));
+        }
+        if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
+          streaming = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react31.default.createElement(
+            ChatMessage,
+            {
+              message: {
+                id: streamedResponseId,
+                className: import_prompt_repository4.ChatMessageClassName,
+                role: import_prompt_repository4.EChatRole.kAssistant,
+                content: streamedResponse,
+                timestamp: /* @__PURE__ */ new Date()
+              }
+            }
+          ));
+        }
+        const multilineEditProps = {
+          caption: uiStrings.kChatPreamble,
+          placeholder: uiStrings.kChatPlaceholder,
+          maxLength: kRequirementMaxLength,
+          message: message || "",
+          enabled: state.getState() === "Waiting" /* kWaiting */,
+          fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
+          defaultHeightLines: 10,
+          onSend,
+          onChange
+        };
+        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+          return markdownLinks.split(",").map((link, index) => {
+            const matches = link.match(/\[(.*?)\]\((.*?)\)/);
+            if (matches) {
+              const [_, text, url] = matches;
+              return /* @__PURE__ */ import_react31.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+            }
+            return null;
+          });
+        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+      };
+      App = (props) => {
         const local2 = isAppInLocalhost();
         const screenUrl = local2 ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
         const chatUrl = local2 ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
@@ -59775,7 +59873,7 @@ ${message.content}
               });
               state.transition("FinishedLoading" /* kFinishedLoading */);
               setState(new AssistantUIStateMachine(state.getState()));
-            } catch (error2) {
+            } catch (error) {
               state.transition("Error" /* kError */);
               setState(new AssistantUIStateMachine(state.getState()));
             }
@@ -59872,91 +59970,21 @@ ${message.content}
           state.transition("Reset" /* kReset */);
           setState(new AssistantUIStateMachine(state.getState()));
         };
-        const multilineEditProps = {
-          caption: uiStrings.kChatPreamble,
-          placeholder: uiStrings.kChatPlaceholder,
-          maxLength: kRequirementMaxLength,
-          message: message || "",
-          enabled: state.getState() === "Waiting" /* kWaiting */,
-          fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
-          defaultHeightLines: 10,
-          onSend,
-          onChange
-        };
-        let blank = /* @__PURE__ */ import_react31.default.createElement("div", null);
-        let offTopic = blank;
-        let error = blank;
-        let archiving = blank;
-        let streaming = blank;
-        if (state.getState() === "OffTopic" /* kOffTopic */) {
-          offTopic = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
-            Message,
-            {
-              intent: "warning" /* kWarning */,
-              title: uiStrings.kWarning,
-              body: uiStrings.kLooksOffTopic,
-              dismissable: true,
-              onDismiss
-            }
-          ));
-        }
-        if (state.getState() === "Error" /* kError */) {
-          error = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
-            Message,
-            {
-              intent: "error" /* kError */,
-              title: uiStrings.kError,
-              body: uiStrings.kServerErrorDescription,
-              dismissable: true,
-              onDismiss
-            }
-          ));
-        }
-        if (state.getState() === "Archiving" /* kArchiving */) {
-          archiving = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
-            Message,
-            {
-              intent: "info" /* kInfo */,
-              title: uiStrings.kArchivingPleaseWait,
-              body: uiStrings.kArchivingDescription,
-              dismissable: false
-            }
-          ));
-        }
-        if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          streaming = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react31.default.createElement(
-            ChatMessage,
-            {
-              message: {
-                id: streamedResponseId,
-                className: import_prompt_repository4.ChatMessageClassName,
-                role: import_prompt_repository4.EChatRole.kAssistant,
-                content: streamedResponse,
-                timestamp: /* @__PURE__ */ new Date()
-              }
-            }
-          ));
-        }
-        (0, import_react31.useEffect)(() => {
-          if (streamedResponse) {
-            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+        return /* @__PURE__ */ import_react31.default.createElement(
+          AppView,
+          {
+            uiStrings,
+            state,
+            chatHistory,
+            streamedResponse,
+            streamedResponseId,
+            message: message || "",
+            onSend,
+            onChange,
+            onDismiss,
+            sessionId: props.sessionId
           }
-        }, [streamedResponse]);
-        (0, import_react31.useEffect)(() => {
-          if (chatHistory.length > 0) {
-            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-          }
-        }, [chatHistory]);
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": props.sessionId }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
-          return markdownLinks.split(",").map((link, index) => {
-            const matches = link.match(/\[(.*?)\]\((.*?)\)/);
-            if (matches) {
-              const [_, text, url] = matches;
-              return /* @__PURE__ */ import_react31.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
-            }
-            return null;
-          });
-        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+        );
       };
     }
   });

@@ -214,7 +214,9 @@ export const Login = (props: ILoginProps) => {
    );
 }; 
 
+// Login view component
 export const LoginView = (props: ILoginUiProps) => {
+   
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
    const textClasses = standardTextStyles();

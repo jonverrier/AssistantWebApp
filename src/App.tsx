@@ -76,17 +76,206 @@ export interface IAppProps {
 
 const kMinArchivingDisplayMs = 2000;
 
-export const App = (props: IAppProps) => {
-   
+// App view component props
+interface IAppViewProps {
+   uiStrings: any;
+   state: AssistantUIStateMachine;
+   chatHistory: IChatMessage[];
+   streamedResponse?: string;
+   streamedResponseId?: string;
+   message: string;
+   onSend: (message: string) => void;
+   onChange: (message: string) => void;
+   onDismiss: () => void;
+   sessionId: string;
+}
+
+// App view component
+// This component is responsible for rendering the main UI of the application.
+// It includes the chat history, message input, and other UI elements.
+const AppView: React.FC<IAppViewProps> = ({
+   uiStrings,
+   state,
+   chatHistory,
+   streamedResponse,
+   streamedResponseId,
+   message,
+   onSend,
+   onChange,
+   onDismiss,
+   sessionId
+}) => {
+
+   const bottomRef = useRef<HTMLDivElement>(null);
    const pageOuterClasses = pageOuterStyles();
-   const innerColumnClasses = innerColumnStyles ();
+   const innerColumnClasses = innerColumnStyles();
    const columnElementClasses = standardColumnElementStyles();
    const textClasses = standardTextStyles();   
    const linkClasses = standardLinkStyles();
    const scrollableContentClasses = scrollableContentStyles();
    const multilineEditContainerClasses = multilineEditContainerStyles();
-   const bottomRef = useRef<HTMLDivElement>(null);
 
+   // Scroll to the bottom of the chat history when a response is received
+   useEffect(() => {
+      if (streamedResponse) {
+         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+   }, [streamedResponse]);
+
+   // Scroll to the bottom when new chat history pages are loaded
+   useEffect(() => {
+      if (chatHistory.length > 0) {
+         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+      }
+   }, [chatHistory]);
+
+   let blank = <div></div>;
+   let offTopic = blank;
+   let error = blank;
+   let archiving = blank;
+   let streaming = blank;
+   
+   if (state.getState() === EUIState.kOffTopic) {
+      offTopic = (
+         <div className={columnElementClasses.root}>
+            &nbsp;&nbsp;&nbsp;                  
+            <Message 
+               intent={MessageIntent.kWarning}
+               title={uiStrings.kWarning}
+               body={uiStrings.kLooksOffTopic}
+               dismissable={true}
+               onDismiss={onDismiss}
+            />
+         </div>
+      );
+   }  
+
+   if (state.getState() === EUIState.kError) {
+      error = (
+         <div className={columnElementClasses.root}>
+            &nbsp;&nbsp;&nbsp;                  
+            <Message
+               intent={MessageIntent.kError}
+               title={uiStrings.kError}
+               body={uiStrings.kServerErrorDescription}
+               dismissable={true}
+               onDismiss={onDismiss}
+            />
+         </div>
+      );
+   }
+   
+   if (state.getState() === EUIState.kArchiving) {
+      archiving = (
+         <div className={columnElementClasses.root}>
+            &nbsp;&nbsp;&nbsp;                  
+            <Message
+               intent={MessageIntent.kInfo}
+               title={uiStrings.kArchivingPleaseWait}
+               body={uiStrings.kArchivingDescription}
+               dismissable={false}
+            />
+         </div>
+      );
+   }   
+
+   if (
+      (state.getState() === EUIState.kScreening ||
+         state.getState() === EUIState.kChatting ||
+         state.getState() === EUIState.kWaiting) &&
+      streamedResponse
+   ) {
+      streaming = (
+         <div className={columnElementClasses.root} data-testid="message-content">
+            <ChatMessage 
+               message={{
+                  id: streamedResponseId,
+                  className: ChatMessageClassName,
+                  role: EChatRole.kAssistant,
+                  content: streamedResponse,
+                  timestamp: new Date()
+               }}
+            />
+         </div>
+      );
+   }
+
+   const multilineEditProps: IMultilineEditProps = {
+      caption: uiStrings.kChatPreamble,
+      placeholder: uiStrings.kChatPlaceholder,
+      maxLength: kRequirementMaxLength,
+      message: message || "",
+      enabled: state.getState() === EUIState.kWaiting,
+      fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
+      defaultHeightLines: 10,
+      onSend,
+      onChange,
+   };
+
+   return (
+      <div className={pageOuterClasses.root} data-session-id={sessionId}>
+         <div className={innerColumnClasses.root}>
+            <Text className={textClasses.heading}>{uiStrings.kAppPageCaption}</Text>
+            <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
+            <Spacer />
+            <Text>{uiStrings.kOverview}</Text>
+            <Spacer />
+            {[uiStrings.kLinks].map(markdownLinks => {
+               return markdownLinks.split(',').map((link: string, index: number) => {
+                  // Extract URL and text from markdown format [text](url)
+                  const matches = link.match(/\[(.*?)\]\((.*?)\)/);
+                  if (matches) {
+                     const [_, text, url] = matches;
+                     return (
+                        <FluentLink key={index} href={url} className={linkClasses.left} target="_blank">{text}</FluentLink>
+                     );
+                  }
+                  return null;
+               });
+            })}
+            <Spacer />
+            <div className={scrollableContentClasses.root}>
+               <div style={{ flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+                  {chatHistory.length > 0 && (
+                     <div className={columnElementClasses.root}>
+                        <ChatHistory messages={chatHistory} />
+                     </div>
+                  )}
+                  {((state.getState() === EUIState.kScreening || 
+                     state.getState() === EUIState.kChatting || 
+                     state.getState() === EUIState.kLoading) && 
+                    !streamedResponse) && (
+                     <div className={columnElementClasses.root}>
+                        <Spacer />
+                        <Spinner label={uiStrings.kProcessingPleaseWait} />
+                     </div>
+                  )}
+                  <div className={columnElementClasses.root}>
+                     {streaming}
+                  </div>
+                  {offTopic}
+                  {error}
+                  {archiving}                  
+                  <div ref={bottomRef} />
+               </div>
+               
+               <div className={multilineEditContainerClasses.root}>
+                  <MultilineEdit {...multilineEditProps} />
+               </div>
+            </div>
+            <Spacer />
+            <Footer />
+         </div>
+      </div>
+   );
+};
+
+// App component
+// This component is responsible for managing the state of the application.
+// It includes the managing the chat history, message input, streamed response from the server, 
+// and other data elements.
+export const App = (props: IAppProps) => {
+   
    const local = isAppInLocalhost();
    
    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
@@ -243,159 +432,19 @@ export const App = (props: IAppProps) => {
       setState(new AssistantUIStateMachine(state.getState()));      
    };
 
-   const multilineEditProps: IMultilineEditProps = {
-      caption: uiStrings.kChatPreamble,
-      placeholder: uiStrings.kChatPlaceholder,
-      maxLength: kRequirementMaxLength,
-      message: message || "",
-      enabled: state.getState() === EUIState.kWaiting,
-      fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
-      defaultHeightLines: 10,
-      onSend: onSend,
-      onChange: onChange,
-   };
-      
-
-   let blank = <div></div>;
-   let offTopic = blank;
-   let error = blank;
-   let archiving = blank;
-   let streaming = blank;
-   
-   if (state.getState() === EUIState.kOffTopic) {
-      offTopic = (
-         <div className={columnElementClasses.root}>
-            &nbsp;&nbsp;&nbsp;                  
-            <Message 
-               intent={MessageIntent.kWarning}
-               title={uiStrings.kWarning}
-               body={uiStrings.kLooksOffTopic}
-               dismissable={true}
-               onDismiss={onDismiss}
-            />
-         </div>
-      );
-   }  
-
-   if (state.getState() === EUIState.kError) {
-      error = (
-         <div className={columnElementClasses.root}>
-            &nbsp;&nbsp;&nbsp;                  
-            <Message
-               intent={MessageIntent.kError}
-               title={uiStrings.kError}
-               body={uiStrings.kServerErrorDescription}
-               dismissable={true}
-               onDismiss={onDismiss}
-            />
-         </div>
-      );
-   }
-   
-   if (state.getState() === EUIState.kArchiving) {
-      archiving = (
-         <div className={columnElementClasses.root}>
-            &nbsp;&nbsp;&nbsp;                  
-            <Message
-               intent={MessageIntent.kInfo}
-               title={uiStrings.kArchivingPleaseWait}
-               body={uiStrings.kArchivingDescription}
-               dismissable={false}
-            />
-         </div>
-      );
-   }   
-
-   if (
-      (state.getState() === EUIState.kScreening ||
-         state.getState() === EUIState.kChatting ||
-         state.getState() === EUIState.kWaiting) &&
-      streamedResponse
-   ) {
-      streaming = (
-         <div className={columnElementClasses.root} data-testid="message-content">
-            <ChatMessage 
-               message={{
-                  id: streamedResponseId,
-                  className: ChatMessageClassName,
-                  role: EChatRole.kAssistant,
-                  content: streamedResponse,
-                  timestamp: new Date()
-               }}
-            />
-         </div>
-      );
-   }
-
-   // Scroll to the bottom of the chat history when a response is received
-   useEffect(() => {
-      if (streamedResponse) {
-         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }
-   }, [streamedResponse]);
-
-   // Scroll to the bottom when new chat history pages are loaded
-   useEffect(() => {
-      if (chatHistory.length > 0) {
-         bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-      }
-   }, [chatHistory]);
-
    return (
-      <div className={pageOuterClasses.root} data-session-id={props.sessionId}>
-         <div className={innerColumnClasses.root}>
-            <Text className={textClasses.heading}>{uiStrings.kAppPageCaption}</Text>
-            <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
-            <Spacer />
-            <Text>{uiStrings.kOverview}</Text>
-            <Spacer />
-            {[uiStrings.kLinks].map(markdownLinks => {
-               return markdownLinks.split(',').map((link, index) => {
-                  // Extract URL and text from markdown format [text](url)
-                  const matches = link.match(/\[(.*?)\]\((.*?)\)/);
-                  if (matches) {
-                     const [_, text, url] = matches;
-                     return (
-                        <FluentLink key={index} href={url} className={linkClasses.left} target="_blank">{text}</FluentLink>
-                     );
-                  }
-                  return null;
-               });
-            })}
-            <Spacer />
-            <div className={scrollableContentClasses.root}>
-               <div style={{ flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
-                  {chatHistory.length > 0 && (
-                     <div className={columnElementClasses.root}>
-                        <ChatHistory messages={chatHistory} />
-                     </div>
-                  )}
-                  {((state.getState() === EUIState.kScreening || 
-                     state.getState() === EUIState.kChatting || 
-                     state.getState() === EUIState.kLoading) && 
-                    !streamedResponse) && (
-                     <div className={columnElementClasses.root}>
-                        <Spacer />
-                        <Spinner label={uiStrings.kProcessingPleaseWait} />
-                     </div>
-                  )}
-                  <div className={columnElementClasses.root}>
-                     {streaming}
-                  </div>
-                  {offTopic}
-                  {error}
-                  {archiving}                  
-                  <div ref={bottomRef} />
-               </div>
-               
-               <div className={multilineEditContainerClasses.root}>
-                  <MultilineEdit {...multilineEditProps} />
-               </div>
-            </div>
-            <Spacer />
-            <Footer />
-         </div>
-      </div>
+      <AppView
+         uiStrings={uiStrings}
+         state={state}
+         chatHistory={chatHistory}
+         streamedResponse={streamedResponse}
+         streamedResponseId={streamedResponseId}
+         message={message || ""}
+         onSend={onSend}
+         onChange={onChange}
+         onDismiss={onDismiss}
+         sessionId={props.sessionId}
+      />
    );
 }
 

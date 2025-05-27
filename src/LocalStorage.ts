@@ -22,7 +22,8 @@ export const isAppInLocalhost = (): boolean => {
 
 /**
  * Interface for storage operations.
- * Works in both environments - in Node.js it won't persist session ID locally
+ * Allows operation in Node.js for testing. 
+ * In Node.js it won't persist data, so we use a MockStorage implementation for testing
  */
 export interface IStorage {
     get(key: string): string | undefined;

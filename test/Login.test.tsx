@@ -2,7 +2,7 @@
  * Login.test.tsx
  * 
  * Test suite for the Login component.
- * Currently testing the placeholder implementation before Google login integration.
+ * Currently testing the Google login integration, dont yet retrieve a list of facilities.
  */
 
 // Copyright (c) Jon Verrier, 2025

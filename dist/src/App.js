@@ -93,7 +93,11 @@ const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
     }
 });
 const kMinArchivingDisplayMs = 2000;
-const App = (props) => {
+// App view component
+// This component is responsible for rendering the main UI of the application.
+// It includes the chat history, message input, and other UI elements.
+const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResponseId, message, onSend, onChange, onDismiss, sessionId }) => {
+    const bottomRef = (0, react_1.useRef)(null);
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
     const columnElementClasses = (0, CommonStyles_1.standardColumnElementStyles)();
@@ -101,7 +105,106 @@ const App = (props) => {
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
-    const bottomRef = (0, react_1.useRef)(null);
+    // Scroll to the bottom of the chat history when a response is received
+    (0, react_1.useEffect)(() => {
+        if (streamedResponse) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [streamedResponse]);
+    // Scroll to the bottom when new chat history pages are loaded
+    (0, react_1.useEffect)(() => {
+        if (chatHistory.length > 0) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chatHistory]);
+    let blank = react_1.default.createElement("div", null);
+    let offTopic = blank;
+    let error = blank;
+    let archiving = blank;
+    let streaming = blank;
+    if (state.getState() === UIStateMachine_1.EUIState.kOffTopic) {
+        offTopic = (react_1.default.createElement("div", { className: columnElementClasses.root },
+            "\u00A0\u00A0\u00A0",
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kWarning, title: uiStrings.kWarning, body: uiStrings.kLooksOffTopic, dismissable: true, onDismiss: onDismiss })));
+    }
+    if (state.getState() === UIStateMachine_1.EUIState.kError) {
+        error = (react_1.default.createElement("div", { className: columnElementClasses.root },
+            "\u00A0\u00A0\u00A0",
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kError, title: uiStrings.kError, body: uiStrings.kServerErrorDescription, dismissable: true, onDismiss: onDismiss })));
+    }
+    if (state.getState() === UIStateMachine_1.EUIState.kArchiving) {
+        archiving = (react_1.default.createElement("div", { className: columnElementClasses.root },
+            "\u00A0\u00A0\u00A0",
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kArchivingPleaseWait, body: uiStrings.kArchivingDescription, dismissable: false })));
+    }
+    if ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
+        state.getState() === UIStateMachine_1.EUIState.kChatting ||
+        state.getState() === UIStateMachine_1.EUIState.kWaiting) &&
+        streamedResponse) {
+        streaming = (react_1.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" },
+            react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
+                    id: streamedResponseId,
+                    className: prompt_repository_1.ChatMessageClassName,
+                    role: prompt_repository_1.EChatRole.kAssistant,
+                    content: streamedResponse,
+                    timestamp: new Date()
+                } })));
+    }
+    const multilineEditProps = {
+        caption: uiStrings.kChatPreamble,
+        placeholder: uiStrings.kChatPlaceholder,
+        maxLength: kRequirementMaxLength,
+        message: message || "",
+        enabled: state.getState() === UIStateMachine_1.EUIState.kWaiting,
+        fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
+        defaultHeightLines: 10,
+        onSend,
+        onChange,
+    };
+    return (react_1.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId },
+        react_1.default.createElement("div", { className: innerColumnClasses.root },
+            react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
+            react_1.default.createElement(react_components_1.Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline),
+            react_1.default.createElement(SiteUtilities_1.Spacer, null),
+            react_1.default.createElement(react_components_1.Text, null, uiStrings.kOverview),
+            react_1.default.createElement(SiteUtilities_1.Spacer, null),
+            [uiStrings.kLinks].map(markdownLinks => {
+                return markdownLinks.split(',').map((link, index) => {
+                    // Extract URL and text from markdown format [text](url)
+                    const matches = link.match(/\[(.*?)\]\((.*?)\)/);
+                    if (matches) {
+                        const [_, text, url] = matches;
+                        return (react_1.default.createElement(react_components_1.Link, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text));
+                    }
+                    return null;
+                });
+            }),
+            react_1.default.createElement(SiteUtilities_1.Spacer, null),
+            react_1.default.createElement("div", { className: scrollableContentClasses.root },
+                react_1.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' } },
+                    chatHistory.length > 0 && (react_1.default.createElement("div", { className: columnElementClasses.root },
+                        react_1.default.createElement(ChatHistory_1.ChatHistory, { messages: chatHistory }))),
+                    ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
+                        state.getState() === UIStateMachine_1.EUIState.kChatting ||
+                        state.getState() === UIStateMachine_1.EUIState.kLoading) &&
+                        !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
+                        react_1.default.createElement(SiteUtilities_1.Spacer, null),
+                        react_1.default.createElement(react_components_1.Spinner, { label: uiStrings.kProcessingPleaseWait }))),
+                    react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
+                    offTopic,
+                    error,
+                    archiving,
+                    react_1.default.createElement("div", { ref: bottomRef })),
+                react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
+                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
+            react_1.default.createElement(SiteUtilities_1.Spacer, null),
+            react_1.default.createElement(SiteUtilities_1.Footer, null))));
+};
+// App component
+// This component is responsible for managing the state of the application.
+// It includes the managing the chat history, message input, streamed response from the server, 
+// and other data elements.
+const App = (props) => {
     const local = (0, LocalStorage_1.isAppInLocalhost)();
     const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
     const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
@@ -237,99 +340,6 @@ const App = (props) => {
         state.transition(UIStateMachine_1.EApiEvent.kReset);
         setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
     };
-    const multilineEditProps = {
-        caption: uiStrings.kChatPreamble,
-        placeholder: uiStrings.kChatPlaceholder,
-        maxLength: kRequirementMaxLength,
-        message: message || "",
-        enabled: state.getState() === UIStateMachine_1.EUIState.kWaiting,
-        fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
-        defaultHeightLines: 10,
-        onSend: onSend,
-        onChange: onChange,
-    };
-    let blank = react_1.default.createElement("div", null);
-    let offTopic = blank;
-    let error = blank;
-    let archiving = blank;
-    let streaming = blank;
-    if (state.getState() === UIStateMachine_1.EUIState.kOffTopic) {
-        offTopic = (react_1.default.createElement("div", { className: columnElementClasses.root },
-            "\u00A0\u00A0\u00A0",
-            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kWarning, title: uiStrings.kWarning, body: uiStrings.kLooksOffTopic, dismissable: true, onDismiss: onDismiss })));
-    }
-    if (state.getState() === UIStateMachine_1.EUIState.kError) {
-        error = (react_1.default.createElement("div", { className: columnElementClasses.root },
-            "\u00A0\u00A0\u00A0",
-            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kError, title: uiStrings.kError, body: uiStrings.kServerErrorDescription, dismissable: true, onDismiss: onDismiss })));
-    }
-    if (state.getState() === UIStateMachine_1.EUIState.kArchiving) {
-        archiving = (react_1.default.createElement("div", { className: columnElementClasses.root },
-            "\u00A0\u00A0\u00A0",
-            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kArchivingPleaseWait, body: uiStrings.kArchivingDescription, dismissable: false })));
-    }
-    if ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
-        state.getState() === UIStateMachine_1.EUIState.kChatting ||
-        state.getState() === UIStateMachine_1.EUIState.kWaiting) &&
-        streamedResponse) {
-        streaming = (react_1.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" },
-            react_1.default.createElement(ChatHistory_1.ChatMessage, { message: {
-                    id: streamedResponseId,
-                    className: prompt_repository_1.ChatMessageClassName,
-                    role: prompt_repository_1.EChatRole.kAssistant,
-                    content: streamedResponse,
-                    timestamp: new Date()
-                } })));
-    }
-    // Scroll to the bottom of the chat history when a response is received
-    (0, react_1.useEffect)(() => {
-        if (streamedResponse) {
-            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [streamedResponse]);
-    // Scroll to the bottom when new chat history pages are loaded
-    (0, react_1.useEffect)(() => {
-        if (chatHistory.length > 0) {
-            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [chatHistory]);
-    return (react_1.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": props.sessionId },
-        react_1.default.createElement("div", { className: innerColumnClasses.root },
-            react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
-            react_1.default.createElement(react_components_1.Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            react_1.default.createElement(react_components_1.Text, null, uiStrings.kOverview),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            [uiStrings.kLinks].map(markdownLinks => {
-                return markdownLinks.split(',').map((link, index) => {
-                    // Extract URL and text from markdown format [text](url)
-                    const matches = link.match(/\[(.*?)\]\((.*?)\)/);
-                    if (matches) {
-                        const [_, text, url] = matches;
-                        return (react_1.default.createElement(react_components_1.Link, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text));
-                    }
-                    return null;
-                });
-            }),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            react_1.default.createElement("div", { className: scrollableContentClasses.root },
-                react_1.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: 'auto', display: 'flex', flexDirection: 'column' } },
-                    chatHistory.length > 0 && (react_1.default.createElement("div", { className: columnElementClasses.root },
-                        react_1.default.createElement(ChatHistory_1.ChatHistory, { messages: chatHistory }))),
-                    ((state.getState() === UIStateMachine_1.EUIState.kScreening ||
-                        state.getState() === UIStateMachine_1.EUIState.kChatting ||
-                        state.getState() === UIStateMachine_1.EUIState.kLoading) &&
-                        !streamedResponse) && (react_1.default.createElement("div", { className: columnElementClasses.root },
-                        react_1.default.createElement(SiteUtilities_1.Spacer, null),
-                        react_1.default.createElement(react_components_1.Spinner, { label: uiStrings.kProcessingPleaseWait }))),
-                    react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
-                    offTopic,
-                    error,
-                    archiving,
-                    react_1.default.createElement("div", { ref: bottomRef })),
-                react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
-                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            react_1.default.createElement(SiteUtilities_1.Footer, null))));
+    return (react_1.default.createElement(AppView, { uiStrings: uiStrings, state: state, chatHistory: chatHistory, streamedResponse: streamedResponse, streamedResponseId: streamedResponseId, message: message || "", onSend: onSend, onChange: onChange, onDismiss: onDismiss, sessionId: props.sessionId }));
 };
 exports.App = App;
