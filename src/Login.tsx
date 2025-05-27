@@ -85,6 +85,11 @@ interface ILoginUiProps extends ILoginProps {
 // This component is responsible for handling the login process, 
 // including reCAPTCHA verification, rate limiting, and Google Sign-In.
 export const Login = (props: ILoginProps) => {
+
+   const local = isAppInLocalhost();
+   
+   const captchaUrl = local ? 'http://localhost:7071/api/Captcha' : 'https://motifassistantapi.azurewebsites.net/api/Captcha';
+      
    const [userId, setUserId] = useState<string | undefined>(props.storage.get(USER_ID_STORAGE_KEY));
    const [userName, setUserName] = useState<string | undefined>(props.storage.get(USER_NAME_STORAGE_KEY));
    const [sessionId, setSessionId] = useState<string | undefined>();
@@ -152,7 +157,7 @@ export const Login = (props: ILoginProps) => {
    const handleLogin = async (credential: string) => {
       try {
          // First verify with reCAPTCHA
-         const recaptchaResult = await executeReCaptcha('login');
+         const recaptchaResult = await executeReCaptcha(captchaUrl, 'login');
          
          if (!recaptchaResult.success) {
             // Handle low score

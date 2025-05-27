@@ -120,6 +120,9 @@ class AssistantUIStateMachine {
                 else if (event === EApiEvent.kError) {
                     this.state = EUIState.kError;
                 }
+                else if (event === EApiEvent.kReset) {
+                    this.state = EUIState.kWaiting;
+                }
                 else {
                     throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
                 }

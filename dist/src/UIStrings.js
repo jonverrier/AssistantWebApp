@@ -42,11 +42,11 @@ exports.CommonUIStrings = {
     kProcessingPleaseWait: "Please wait a few seconds...",
     kArchivingPleaseWait: "Please wait a few seconds...",
     kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
-    kLoginBlocked: "Login blocked due to security concerns from our Google screening service. Please try again later.",
-    kAdditionalVerification: "Additional verification required by our Google screening service. Please try again.",
-    kTooManyAttempts: "Too many attempts raised by our Google screening service. Please wait a while before trying again.",
-    kLoginFailed: "Login failed. Please try again.",
-    kLogoutFailed: "Failed to complete logout. Please try again, or refresh the whole page."
+    kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
+    kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
+    kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
+    kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
+    kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
 };
 exports.TheYardUIStrings = {
     kAppPageCaption: "Yard Talk",

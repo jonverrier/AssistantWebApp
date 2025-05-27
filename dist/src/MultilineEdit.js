@@ -144,7 +144,13 @@ const MultilineEdit = (props) => {
     // Focus management
     (0, react_1.useEffect)(() => {
         if (props.enabled && textareaRef.current) {
-            textareaRef.current.focus();
+            try {
+                textareaRef.current.focus();
+            }
+            catch (e) {
+                // Ignore focus errors in test environment
+                console.warn('Focus error in test environment:', e);
+            }
         }
     }, [props.enabled, props.message]);
     // Dynamic function to capture the width as we need it for calculations to reset height as the content text grows

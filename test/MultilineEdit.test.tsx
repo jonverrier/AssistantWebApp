@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import expect from 'expect';
 import { MultilineEdit } from '../src/MultilineEdit';
 import { EMultilineEditUIStrings } from '../src/MultilineEditUIStrings';
@@ -25,6 +26,35 @@ describe('MultilineEdit Component', () => {
     defaultHeightLines: 1
   };
 
+  beforeEach(() => {
+    // Save original clipboard
+    const originalClipboard = Object.getOwnPropertyDescriptor(window, 'clipboard');
+    
+    // Delete existing clipboard property if it exists
+    if (originalClipboard) {
+      delete (window as any).clipboard;
+    }
+
+    // Create a mock clipboard
+    Object.defineProperty(window, 'clipboard', {
+      value: {
+        writeText: () => Promise.resolve(),
+        readText: () => Promise.resolve(''),
+      },
+      writable: true,
+      configurable: true
+    });
+
+    return () => {
+      // Restore original clipboard if it existed
+      if (originalClipboard) {
+        Object.defineProperty(window, 'clipboard', originalClipboard);
+      } else {
+        delete (window as any).clipboard;
+      }
+    };
+  });
+
   it('renders with correct caption and placeholder', () => {
     render(<MultilineEdit {...defaultProps} />);
     
@@ -32,7 +62,7 @@ describe('MultilineEdit Component', () => {
     expect(screen.getByPlaceholderText('Enter text here')).toBeTruthy();
   });
 
-  it('calls onChange when text is entered', () => {
+  it('calls onChange when text is entered', async () => {
     let changedText = '';
     const onChange = (text: string) => {
       changedText = text;
@@ -46,7 +76,7 @@ describe('MultilineEdit Component', () => {
     expect(changedText).toBe('New text');
   });
 
-  it('calls onSend when Ctrl+Enter is pressed', () => {
+  it('calls onSend when Ctrl+Enter is pressed', async () => {
     let sentText = '';
     const onSend = (text: string) => {
       sentText = text;
@@ -55,12 +85,17 @@ describe('MultilineEdit Component', () => {
     render(<MultilineEdit {...defaultProps} message="Test message" onSend={onSend} />);
     
     const textarea = screen.getByPlaceholderText('Enter text here');
-    fireEvent.keyDown(textarea, { key: 'Enter', ctrlKey: true });
+    fireEvent.keyDown(textarea, { 
+      key: 'Enter',
+      code: 'Enter',
+      ctrlKey: true,
+      bubbles: true 
+    });
     
     expect(sentText).toBe('Test message');
   });
 
-  it('clears text when Escape is pressed', () => {
+  it('clears text when Escape is pressed', async () => {
     let clearedText = '';
     const onChange = (text: string) => {
       clearedText = text;
@@ -69,12 +104,16 @@ describe('MultilineEdit Component', () => {
     render(<MultilineEdit {...defaultProps} message="Test message" onChange={onChange} />);
     
     const textarea = screen.getByPlaceholderText('Enter text here');
-    fireEvent.keyDown(textarea, { key: 'Escape' });
+    fireEvent.keyDown(textarea, { 
+      key: 'Escape',
+      code: 'Escape',
+      bubbles: true 
+    });
     
     expect(clearedText).toBe('');
   });
 
-  it('respects maxLength property', () => {
+  it('respects maxLength property', async () => {
     let changedText = '';
     const onChange = (text: string) => {
       changedText = text;
@@ -85,8 +124,6 @@ describe('MultilineEdit Component', () => {
     const textarea = screen.getByPlaceholderText('Enter text here') as HTMLTextAreaElement;
     fireEvent.change(textarea, { target: { value: '12345678910' } });
     
-    // The component passes the full text to onChange, and the textarea's maxLength
-    // attribute handles the visual limitation
     expect(changedText).toBe('12345');
     expect(textarea.maxLength).toBe(5);
   });
@@ -103,25 +140,19 @@ describe('MultilineEdit Component', () => {
     const textarea = screen.getByPlaceholderText('Enter text here');
     const style = window.getComputedStyle(textarea);
     
-    // The height should be greater than the default single-line height
     expect(parseInt(style.height)).toBeGreaterThan(20);
   });
 
   it('respects enabled property', () => {
-    // First render with enabled=false
     const { unmount } = render(<MultilineEdit {...defaultProps} enabled={false} />);
     
-    // Get the textarea and check it's disabled
     const disabledTextarea = screen.getByPlaceholderText('Enter text here') as HTMLTextAreaElement;
     expect(disabledTextarea.disabled).toBe(true);
     
-    // Unmount the first render
     unmount();
     
-    // Then render with enabled=true
     render(<MultilineEdit {...defaultProps} enabled={true} />);
     
-    // Get the new textarea and check it's not disabled
     const enabledTextarea = screen.getByPlaceholderText('Enter text here') as HTMLTextAreaElement;
     expect(enabledTextarea.disabled).toBe(false);
   });

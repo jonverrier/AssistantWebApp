@@ -10,6 +10,23 @@ import { IChatMessage } from "prompt-repository";
 // Copyright (c) 2025 Jon Verrier
 
 /**
+ * A request to the assistant captcha API.
+ */
+export interface IAssistantCaptchaRequest {
+   token: string;
+   action: string;
+}
+
+/**
+ * A response from the assistant captcha API.
+ */
+export interface IAssistantCaptchaResponse {
+   isValid: boolean;
+   passedThreshold: boolean;
+   score: number;
+}
+
+/**
  * A request for a new session, optionally populated with the existing session ID.
  */
 export interface ISessionRequest {

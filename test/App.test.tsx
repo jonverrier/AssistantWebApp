@@ -20,6 +20,9 @@ const TEST_USER = {
    sessionId: 'test-session-' + Date.now().toString()
 };
 
+// Mock the focus behavior for tests
+const mockFocus = () => {};
+
 // Helper function to render App component with Router context
 const renderWithRouter = (component: React.ReactNode) => {
    return render(
@@ -40,9 +43,20 @@ for (let appMode of appModes) {
 
       beforeEach(() => {
          // Mock scrollIntoView since it's not implemented in JSDOM
-         Element.prototype.scrollIntoView = function() {};
+         if (window.Element) {
+            window.Element.prototype.scrollIntoView = function() {};
+         }
+
+         // Save original focus
+         const originalFocus = window.HTMLElement.prototype.focus;
          
-         // Mock processChat using Sinon instead of Jest
+         // Replace focus with mock
+         Object.defineProperty(window.HTMLElement.prototype, 'focus', {
+            value: mockFocus,
+            writable: true
+         });
+
+         // Mock processChat using Sinon
          const chatModule = require('../src/ChatCall');
          sandbox.stub(chatModule, 'processChat').callsFake(function(this: any, params: any) {
             setTimeout(() => {
@@ -51,14 +65,25 @@ for (let appMode of appModes) {
             }, 100);
             return Promise.resolve("Here's a test response");
          });
+
+         return () => {
+            // Restore original focus
+            Object.defineProperty(window.HTMLElement.prototype, 'focus', {
+               value: originalFocus,
+               writable: true
+            });
+         };
       });
 
       afterEach(() => {
          cleanup();
-         // Clean up the mocks
          sandbox.restore();
-         // @ts-ignore - TypeScript doesn't know we added this property
-         delete Element.prototype.scrollIntoView;
+         
+         // Clean up scrollIntoView
+         if (window.Element) {
+            // @ts-ignore
+            delete window.Element.prototype.scrollIntoView;
+         }
       });
 
       it('should render the main heading and description', async () => {

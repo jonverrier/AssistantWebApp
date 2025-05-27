@@ -7,10 +7,12 @@
 
 // Copyright (c) Jon Verrier, 2025
 
+import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { IAssistantCaptchaRequest, IAssistantCaptchaResponse } from '../import/AssistantChatApiTypes';
+
 export const RECAPTCHA_THRESHOLD = 0.5; // Scores below this are considered suspicious
 export const RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
 export const RECAPTCHA_BLOCK_THRESHOLD = 0.3;
-
 
 const RECAPTCHA_SITE_KEY = '6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3';
 
@@ -28,10 +30,11 @@ export interface IReCaptchaExecuteResult {
 
 /**
  * Executes reCAPTCHA verification for a specific action
+ * @param captchaUrl The URL of the API to validate the reCAPTCHA token
  * @param action The action name to verify (e.g., 'login', 'submit')
  * @returns Promise resolving to the verification result
  */
-export async function executeReCaptcha(action: string): Promise<IReCaptchaExecuteResult> {
+export async function executeReCaptcha(captchaUrl: string, action: string, apiClient?: ApiClient): Promise<IReCaptchaExecuteResult> {
     try {
         if (!window.grecaptcha) {
             return {
@@ -40,17 +43,27 @@ export async function executeReCaptcha(action: string): Promise<IReCaptchaExecut
             };
         }
 
+        if (!apiClient) {
+            apiClient = createRetryableAxiosClient();
+        }
+
         const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
-        
-        // Here you would typically send this token to your backend for verification
-        // For now, we're using the mock score from the client side
-        // In production, NEVER trust the client-side score
-        const score = Math.random(); // Mock score - replace with actual backend verification
+
+        const request: IAssistantCaptchaRequest = {
+            token,
+            action
+        };
+
+        const response = await apiClient.post<IAssistantCaptchaResponse>(
+            captchaUrl,
+            request
+        );
 
         return {
-            success: score >= RECAPTCHA_THRESHOLD,
-            score
+            success: response.data.isValid,
+            score: response.data.score
         };
+        
     } catch (error) {
         console.error('reCAPTCHA execution failed:', error);
         return {

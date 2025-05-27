@@ -23631,11 +23631,11 @@
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
         kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
-        kLoginBlocked: "Login blocked due to security concerns from our Google screening service. Please try again later.",
-        kAdditionalVerification: "Additional verification required by our Google screening service. Please try again.",
-        kTooManyAttempts: "Too many attempts raised by our Google screening service. Please wait a while before trying again.",
-        kLoginFailed: "Login failed. Please try again.",
-        kLogoutFailed: "Failed to complete logout. Please try again, or refresh the whole page."
+        kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
+        kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
+        kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
+        kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
+        kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
       };
       TheYardUIStrings = {
         kAppPageCaption: "Yard Talk",
@@ -53925,7 +53925,11 @@ ${message.content}
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
         (0, import_react27.useEffect)(() => {
           if (props.enabled && textareaRef.current) {
-            textareaRef.current.focus();
+            try {
+              textareaRef.current.focus();
+            } catch (e) {
+              console.warn("Focus error in test environment:", e);
+            }
           }
         }, [props.enabled, props.message]);
         (0, import_react27.useLayoutEffect)(() => {
@@ -54103,6 +54107,8 @@ ${message.content}
                 this.state = "Waiting" /* kWaiting */;
               } else if (event === "Error" /* kError */) {
                 this.state = "Error" /* kError */;
+              } else if (event === "Reset" /* kReset */) {
+                this.state = "Waiting" /* kWaiting */;
               } else {
                 throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
               }
@@ -60035,7 +60041,7 @@ ${message.content}
   });
 
   // src/captcha.ts
-  async function executeReCaptcha(action) {
+  async function executeReCaptcha(captchaUrl, action, apiClient) {
     try {
       if (!window.grecaptcha) {
         return {
@@ -60043,11 +60049,21 @@ ${message.content}
           error: "reCAPTCHA not loaded"
         };
       }
+      if (!apiClient) {
+        apiClient = createRetryableAxiosClient();
+      }
       const token2 = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
-      const score = Math.random();
+      const request = {
+        token: token2,
+        action
+      };
+      const response = await apiClient.post(
+        captchaUrl,
+        request
+      );
       return {
-        success: score >= RECAPTCHA_THRESHOLD,
-        score
+        success: response.data.isValid,
+        score: response.data.score
       };
     } catch (error) {
       console.error("reCAPTCHA execution failed:", error);
@@ -60072,14 +60088,15 @@ ${message.content}
     }
     return securitySteps;
   }
-  var RECAPTCHA_THRESHOLD, RECAPTCHA_SITE_KEY, RECAPTCHA_BLOCK_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
+  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, RECAPTCHA_SITE_KEY, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
   var init_captcha = __esm({
     "src/captcha.ts"() {
       "use strict";
+      init_ChatCallUtils();
       RECAPTCHA_THRESHOLD = 0.5;
-      RECAPTCHA_SITE_KEY = "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3";
-      RECAPTCHA_BLOCK_THRESHOLD = 0.3;
       RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
+      RECAPTCHA_BLOCK_THRESHOLD = 0.3;
+      RECAPTCHA_SITE_KEY = "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3";
       SECURITY_STEP_BLOCK_REQUEST = "block_request";
       SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
       SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
@@ -60127,6 +60144,8 @@ ${message.content}
       RATE_LIMIT_MAX_DELAY = 3e4;
       RATE_LIMIT_RESET_TIME = 6e4;
       Login = (props) => {
+        const local2 = isAppInLocalhost();
+        const captchaUrl = local2 ? "http://localhost:7071/api/Captcha" : "https://motifassistantapi.azurewebsites.net/api/Captcha";
         const [userId, setUserId] = (0, import_react32.useState)(props.storage.get(USER_ID_STORAGE_KEY));
         const [userName, setUserName] = (0, import_react32.useState)(props.storage.get(USER_NAME_STORAGE_KEY));
         const [sessionId, setSessionId] = (0, import_react32.useState)();
@@ -60176,7 +60195,7 @@ ${message.content}
         };
         const handleLogin = async (credential) => {
           try {
-            const recaptchaResult = await executeReCaptcha("login");
+            const recaptchaResult = await executeReCaptcha(captchaUrl, "login");
             if (!recaptchaResult.success) {
               const securitySteps = handleLowScore(recaptchaResult.score || 0);
               if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
@@ -60191,13 +60210,11 @@ ${message.content}
                 setRateLimitAttempts((prev2) => prev2 + 1);
                 setLastAttemptTime(Date.now());
                 const delay = calculateRateLimitDelay();
-                if (delay > 0) {
-                  setError(UIStrings.kTooManyAttempts);
-                  setIsWaiting(true);
-                  setTimeout(() => {
-                    setIsWaiting(false);
-                  }, delay);
-                }
+                setError(UIStrings.kTooManyAttempts);
+                setIsWaiting(true);
+                setTimeout(() => {
+                  setIsWaiting(false);
+                }, delay);
               }
             }
             const decodedToken = JSON.parse(atob(credential.split(".")[1]));
