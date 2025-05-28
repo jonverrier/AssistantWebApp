@@ -33,7 +33,7 @@
             "--require",
             "ts-node/register",
             "${workspaceFolder}/test/setup.ts",
-            "${workspaceFolder}/test/ArchiveCall.test.ts"
+            "${workspaceFolder}/test/Login.test.tsx"
          ],
          "console": "integratedTerminal",
          "internalConsoleOptions": "neverOpen"

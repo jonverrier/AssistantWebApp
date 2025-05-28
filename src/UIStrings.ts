@@ -61,7 +61,6 @@ export interface IBrandUIStrings {
 // Combined interface that includes both common and requirement-specific strings
 export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 
-
 export const CommonUIStrings: ICommonUIStrings = {
    kWarning: "Warning:",
    kInfo: "Information:",
@@ -93,8 +92,6 @@ export const TheYardUIStrings: IBrandUIStrings = {
    kChatPlaceholder: "Let's talk about fitness...",
    kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
 }
-
-
 
 // Default UI strings that combine common and brand strings
 export const UIStrings: IUIStrings = {

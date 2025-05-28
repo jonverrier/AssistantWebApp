@@ -23,6 +23,9 @@ const TEST_USER = {
 // Mock the focus behavior for tests
 const mockFocus = () => {};
 
+// Stub for onLogout
+const stubOnLogout = async () => {};
+
 // Helper function to render App component with Router context
 const renderWithRouter = (component: React.ReactNode) => {
    return render(
@@ -90,9 +93,9 @@ for (let appMode of appModes) {
          renderWithRouter(
             <App 
                appMode={appMode} 
-               forceNode={true} 
                userName={TEST_USER.userName}
                sessionId={TEST_USER.sessionId}
+               onLogout={stubOnLogout}
             />
          );
 
@@ -111,9 +114,9 @@ for (let appMode of appModes) {
          renderWithRouter(
             <App 
                appMode={appMode} 
-               forceNode={true} 
                userName={TEST_USER.userName}
                sessionId={TEST_USER.sessionId}
+               onLogout={stubOnLogout}
             />
          );
 
@@ -126,9 +129,9 @@ for (let appMode of appModes) {
          renderWithRouter(
             <App 
                appMode={appMode} 
-               forceNode={true} 
                userName={TEST_USER.userName}
                sessionId={TEST_USER.sessionId}
+               onLogout={stubOnLogout}
             />
          );
 
@@ -153,9 +156,9 @@ for (let appMode of appModes) {
          renderWithRouter(
             <App 
                appMode={appMode} 
-               forceNode={true} 
                userName={TEST_USER.userName}
                sessionId={TEST_USER.sessionId}
+               onLogout={stubOnLogout}
             />
          );
 
@@ -171,13 +174,12 @@ for (let appMode of appModes) {
       it('should update chat history when chatting', async function() {
          this.timeout(25000); // Set test timeout to 25 seconds
 
-         // Need to render with 'forceNode' so the Axios calls work in Mocha
          renderWithRouter(
             <App 
                appMode={appMode} 
-               forceNode={true} 
                userName={TEST_USER.userName}
                sessionId={TEST_USER.sessionId}
+               onLogout={stubOnLogout}
             />
          );
 

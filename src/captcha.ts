@@ -9,12 +9,12 @@
 
 import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
 import { IAssistantCaptchaRequest, IAssistantCaptchaResponse } from '../import/AssistantChatApiTypes';
+import { isAppInLocalhost } from './LocalStorage';
+import { getConfigStrings } from './ConfigStrings';
 
 export const RECAPTCHA_THRESHOLD = 0.5; // Scores below this are considered suspicious
 export const RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
 export const RECAPTCHA_BLOCK_THRESHOLD = 0.3;
-
-const RECAPTCHA_SITE_KEY = '6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3';
 
 // Security step constants
 export const SECURITY_STEP_BLOCK_REQUEST = 'block_request';
@@ -35,42 +35,50 @@ export interface IReCaptchaExecuteResult {
  * @returns Promise resolving to the verification result
  */
 export async function executeReCaptcha(captchaUrl: string, action: string, apiClient?: ApiClient): Promise<IReCaptchaExecuteResult> {
-    try {
-        if (!window.grecaptcha) {
-            return {
-                success: false,
-                error: 'reCAPTCHA not loaded'
-            };
-        }
+   try {
+      if (isAppInLocalhost()) {
+         return {
+            success: true,
+            score: 1.0
+         };
+      }
 
-        if (!apiClient) {
-            apiClient = createRetryableAxiosClient();
-        }
-
-        const token = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
-
-        const request: IAssistantCaptchaRequest = {
-            token,
-            action
-        };
-
-        const response = await apiClient.post<IAssistantCaptchaResponse>(
-            captchaUrl,
-            request
-        );
-
-        return {
-            success: response.data.isValid,
-            score: response.data.score
-        };
-        
-    } catch (error) {
-        console.error('reCAPTCHA execution failed:', error);
-        return {
+      if (!window.grecaptcha) {
+         return {
             success: false,
-            error: 'Failed to execute reCAPTCHA'
-        };
-    }
+            error: 'reCAPTCHA not loaded'
+         };
+      }
+
+      if (!apiClient) {
+         apiClient = createRetryableAxiosClient();
+      }
+
+      const config = getConfigStrings();
+      const token = await window.grecaptcha.execute(config.reCaptchaSiteKey, { action });
+
+      const request: IAssistantCaptchaRequest = {
+         token,
+         action
+      };
+
+      const response = await apiClient.post<IAssistantCaptchaResponse>(
+         captchaUrl,
+         request
+      );
+
+      return {
+         success: response.data.isValid,
+         score: response.data.score
+      };
+
+   } catch (error) {
+      console.error('reCAPTCHA execution failed:', error);
+      return {
+         success: false,
+         error: 'Failed to execute reCAPTCHA'
+      };
+   }
 }
 
 /**
@@ -79,29 +87,29 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
  * @returns Additional security steps to take
  */
 export function handleLowScore(score: number): string[] {
-    const securitySteps: string[] = [];
+   const securitySteps: string[] = [];
 
-    if (score < RECAPTCHA_THRESHOLD) {
-        // Add security measures based on score ranges
-        if (score < RECAPTCHA_BLOCK_THRESHOLD) {
-            securitySteps.push(SECURITY_STEP_BLOCK_REQUEST);
-            securitySteps.push(SECURITY_STEP_LOG_SUSPICIOUS);
-        } else if (score < RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD) {
-            securitySteps.push(SECURITY_STEP_ADDITIONAL_VERIFICATION);
-            securitySteps.push(SECURITY_STEP_RATE_LIMIT);
-        } else {
-            securitySteps.push(SECURITY_STEP_RATE_LIMIT);
-        }
-    }
+   if (score < RECAPTCHA_THRESHOLD) {
+      // Add security measures based on score ranges
+      if (score < RECAPTCHA_BLOCK_THRESHOLD) {
+         securitySteps.push(SECURITY_STEP_BLOCK_REQUEST);
+         securitySteps.push(SECURITY_STEP_LOG_SUSPICIOUS);
+      } else if (score < RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD) {
+         securitySteps.push(SECURITY_STEP_ADDITIONAL_VERIFICATION);
+         securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      } else {
+         securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      }
+   }
 
-    return securitySteps;
+   return securitySteps;
 }
 
 // Add type definition for window.grecaptcha
 declare global {
-    interface Window {
-        grecaptcha: {
-            execute: (siteKey: string, options: { action: string }) => Promise<string>;
-        };
-    }
+   interface Window {
+      grecaptcha: {
+         execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      };
+   }
 } 

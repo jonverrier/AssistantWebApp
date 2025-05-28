@@ -20,6 +20,8 @@ import * as CaptchaModule from '../src/captcha';
 import sinon from 'sinon';
 import { MockStorage } from './MockStorage';
 import { UIStrings } from '../src/UIStrings';
+import { RECAPTCHA_THRESHOLD } from '../src/captcha';
+import { UserProvider } from '../src/UserContext';
 
 describe('Login Component', () => {
    // Store original implementations
@@ -58,16 +60,72 @@ describe('Login Component', () => {
          configurable: true
       });
       mockStorage.clear();
+      // Clean up window properties
+      delete (window as any).onGoogleLogin;
+      delete (window as any).google;
    });
 
-   const renderLogin = () => {
-      return render(
+   // Helper function for security-related tests
+   const testSecurityScenario = async (score: number, expectedMessage: string, timeout: number = 5000) => {
+      // Mock reCAPTCHA with the specified score
+      const mockExecuteReCaptcha = sinon.stub().resolves({ 
+         success: score >= RECAPTCHA_THRESHOLD,
+         score 
+      });
+      Object.defineProperty(CaptchaModule, 'executeReCaptcha', {
+         value: mockExecuteReCaptcha,
+         configurable: true
+      });
+
+      // Create a mock JWT token that will decode to our test user
+      const mockDecodedToken = {
+         sub: 'test-user-456',
+         name: 'Test User'
+      };
+      const mockJwt = `header.${btoa(JSON.stringify(mockDecodedToken))}.signature`;
+      
+      // Set up window.onGoogleLogin before rendering
+      (window as any).onGoogleLogin = undefined;
+
+      // Render login which will set up Google Sign-In
+      renderLogin();
+
+      // Wait for window.onGoogleLogin to be set up
+      await waitFor(() => {
+         return typeof window.onGoogleLogin === 'function';
+      });
+
+      // Simulate Google Sign-In callback
+      (window.onGoogleLogin as (response: { credential: string }) => void)({ credential: mockJwt });
+
+      // Verify that the expected message appears
+      await waitFor(() => {
+         const errorMessage = screen.getByText(expectedMessage);
+         expect(errorMessage).toBeTruthy();
+      }, { 
+         timeout,
+         interval: 100
+      });
+
+      // Verify reCAPTCHA was called
+      expect(mockExecuteReCaptcha.called).toBeTruthy();
+   };
+
+   // Wrapper component for testing
+   const LoginWrapper = () => {
+      return (
          <FluentProvider theme={teamsDarkTheme}>
-            <BrowserRouter>
-               <Login appMode={EAppMode.kYardTalk} storage={mockStorage} forceNode={true} />
-            </BrowserRouter>
+            <UserProvider storage={mockStorage}>
+               <BrowserRouter>
+                  <Login appMode={EAppMode.kYardTalk} />
+               </BrowserRouter>
+            </UserProvider>
          </FluentProvider>
       );
+   };
+
+   const renderLogin = () => {
+      return render(<LoginWrapper />);
    };
 
    it('should render without crashing', () => {
@@ -82,11 +140,22 @@ describe('Login Component', () => {
       const mockSessionId = 'test-session-123';
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionUuid').resolves(mockSessionId);
 
-      // Set a user ID in storage to trigger session ID fetch
-      mockStorage.set('motif_user_id', 'test-user-123');
-      mockStorage.set('motif_user_name', 'test-user-123');
+      // Create a mock JWT token that will decode to our test user
+      const mockDecodedToken = {
+         sub: 'test-user-123',
+         name: 'Test User'
+      };
+      const mockJwt = `header.${btoa(JSON.stringify(mockDecodedToken))}.signature`;
 
       renderLogin();
+
+      // Wait for window.onGoogleLogin to be set up
+      await waitFor(() => {
+         return typeof window.onGoogleLogin === 'function';
+      });
+
+      // Simulate Google Sign-In callback
+      (window.onGoogleLogin as (response: { credential: string }) => void)({ credential: mockJwt });
 
       // Wait for the session ID to be updated
       await waitFor(() => {
@@ -103,11 +172,22 @@ describe('Login Component', () => {
       // Mock getSessionUuid to return null
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionUuid').resolves(undefined);
 
-      // Set a user ID in storage to trigger session ID fetch
-      mockStorage.set('motif_user_id', 'test-user-123');
-      mockStorage.set('motif_user_name', 'test-user-123');
+      // Create a mock JWT token that will decode to our test user
+      const mockDecodedToken = {
+         sub: 'test-user-123',
+         name: 'Test User'
+      };
+      const mockJwt = `header.${btoa(JSON.stringify(mockDecodedToken))}.signature`;
 
       renderLogin();
+
+      // Wait for window.onGoogleLogin to be set up
+      await waitFor(() => {
+         return typeof window.onGoogleLogin === 'function';
+      });
+
+      // Simulate Google Sign-In callback
+      (window.onGoogleLogin as (response: { credential: string }) => void)({ credential: mockJwt });
 
       // Wait for the session ID to be updated
       await waitFor(() => {
@@ -124,95 +204,73 @@ describe('Login Component', () => {
       expect(getSessionUuidStub.called).toBeTruthy();
    });
 
-   // Helper function for security-related tests
-   const testSecurityScenario = async (score: number, expectedMessage: string, timeout: number = 5000) => {
-      // Override the default mock with the specified score
-      const mockExecuteReCaptcha = sinon.stub().resolves({ success: false, score });
+   it('should handle low captcha scores appropriately', async function() {
+      this.timeout(10000); // Set higher Mocha timeout
+      await testSecurityScenario(0.2, UIStrings.kLoginBlocked, 5000);
+   });
+
+   it('should require additional verification for moderate-low captcha scores', async function() {
+      this.timeout(10000);
+      await testSecurityScenario(0.35, UIStrings.kAdditionalVerification, 5000);
+   });
+
+   it('should apply rate limiting for moderate captcha scores', async function() {
+      this.timeout(10000);
+      await testSecurityScenario(0.45, UIStrings.kTooManyAttempts, 5000);
+   });
+
+   it('should allow login with high captcha scores', async function() {
+      this.timeout(10000);
+      
+      // Mock getSessionUuid to return a session ID
+      const mockSessionId = 'test-session-456';
+      sinon.stub(SessionCall, 'getSessionUuid').resolves(mockSessionId);
+
+      // Mock reCAPTCHA with a high score
+      const mockExecuteReCaptcha = sinon.stub().resolves({ 
+         success: true, 
+         score: 0.9 
+      });
       Object.defineProperty(CaptchaModule, 'executeReCaptcha', {
          value: mockExecuteReCaptcha,
          configurable: true
       });
 
-      // Mock Google response
-      const mockCredential = 'mock.jwt.token';
-      const mockDecodedToken = {
-         sub: 'test-user-456',
-         name: 'Test User'
-      };
-      global.atob = () => JSON.stringify(mockDecodedToken);
-
-      // Set up window.google
-      global.window.google = {
-         accounts: {
-            id: {
-               initialize: sinon.stub(),
-               renderButton: sinon.stub()
-            }
-         }
-      };
-
-      renderLogin();
-
-      // Simulate Google login callback
-      await window.onGoogleLogin({ credential: mockCredential });
-
-      // Verify that the expected message appears
-      await waitFor(() => {
-         const errorMessage = screen.getByText(expectedMessage);
-         expect(errorMessage).toBeTruthy();
-      }, { 
-         timeout,
-         interval: 100
-      });
-   };
-
-   it('should handle low captcha scores appropriately', async () => {
-      await testSecurityScenario(0.2, UIStrings.kLoginBlocked);
-   });
-
-   it('should require additional verification for moderate-low captcha scores', async () => {
-      await testSecurityScenario(0.35, UIStrings.kAdditionalVerification);
-   }).timeout(6000);   
-
-   it('should apply rate limiting for moderate captcha scores', async () => {
-      await testSecurityScenario(0.45, UIStrings.kTooManyAttempts, 5000);
-   }).timeout(6000);
-
-   it('should allow login with high captcha scores', async () => {
-      // Mock getSessionUuid to return a session ID
-      const mockSessionId = 'test-session-456';
-      sinon.stub(SessionCall, 'getSessionUuid').resolves(mockSessionId);
-
-      // Mock Google response
-      const mockCredential = 'mock.jwt.token';
+      // Create a mock JWT token that will decode to our test user
       const mockDecodedToken = {
          sub: 'test-user-101',
          name: 'Test User'
       };
-      global.atob = () => JSON.stringify(mockDecodedToken);
+      const mockJwt = `header.${btoa(JSON.stringify(mockDecodedToken))}.signature`;
+      
+      // Set up window.onGoogleLogin before rendering
+      (window as any).onGoogleLogin = undefined;
 
-      // Set up window.google
-      global.window.google = {
-         accounts: {
-            id: {
-               initialize: sinon.stub(),
-               renderButton: sinon.stub()
-            }
-         }
-      };
-
+      // Render login which will set up Google Sign-In
       renderLogin();
 
-      // Simulate Google login callback
-      await window.onGoogleLogin({ credential: mockCredential });
+      // Wait for window.onGoogleLogin to be set up
+      await waitFor(() => {
+         return typeof window.onGoogleLogin === 'function';
+      });
+
+      // Simulate Google Sign-In callback
+      (window.onGoogleLogin as (response: { credential: string }) => void)({ credential: mockJwt });
 
       // Verify successful login
       await waitFor(() => {
-         expect(mockStorage.get('motif_user_id')).toBe('test-user-101');
-         expect(mockStorage.get('motif_user_name')).toBe('Test User');
          const container = screen.getByTestId('login-container');
          expect(container.getAttribute('data-session-id')).toBe(mockSessionId);
+         
+         // The App component should be rendered now
+         expect(screen.queryByTestId('login-view')).toBeNull();
+      }, {
+         timeout: 5000,
+         interval: 100
       });
+
+      // Verify reCAPTCHA was called
+      expect(mockExecuteReCaptcha.called).toBeTruthy();
    });
    
 }); 

@@ -6,43 +6,93 @@
  * Defines the main site structure using React Router and Fluent UI's theme provider.
  * Handles routing between the main application view and static content pages.
  */
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    var desc = Object.getOwnPropertyDescriptor(m, k);
+    if (!desc || ("get" in desc ? !m.__esModule : desc.writable || desc.configurable)) {
+      desc = { enumerable: true, get: function() { return m[k]; } };
+    }
+    Object.defineProperty(o, k2, desc);
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || (function () {
+    var ownKeys = function(o) {
+        ownKeys = Object.getOwnPropertyNames || function (o) {
+            var ar = [];
+            for (var k in o) if (Object.prototype.hasOwnProperty.call(o, k)) ar[ar.length] = k;
+            return ar;
+        };
+        return ownKeys(o);
+    };
+    return function (mod) {
+        if (mod && mod.__esModule) return mod;
+        var result = {};
+        if (mod != null) for (var k = ownKeys(mod), i = 0; i < k.length; i++) if (k[i] !== "default") __createBinding(result, mod, k[i]);
+        __setModuleDefault(result, mod);
+        return result;
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Site = exports.RoutedSite = void 0;
 // Copyright (c) Jon Verrier, 2025
-const react_1 = __importDefault(require("react"));
+const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const Login_1 = require("./Login");
 const PlainText_1 = require("./PlainText");
 const react_components_1 = require("@fluentui/react-components");
 const UIStrings_1 = require("./UIStrings");
+const UserContext_1 = require("./UserContext");
+const LocalStorage_1 = require("./LocalStorage");
 const TermsContent_1 = require("./TermsContent");
 const PrivacyContent_1 = require("./PrivacyContent");
+// Routed site component
 const RoutedSite = (props) => {
     return (react_1.default.createElement(react_components_1.FluentProvider, { theme: react_components_1.teamsDarkTheme },
-        react_1.default.createElement(react_router_dom_1.BrowserRouter, { future: {
-                v7_startTransition: true,
-                v7_relativeSplatPath: true
-            } },
-            react_1.default.createElement(exports.Site, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode }))));
+        react_1.default.createElement(UserContext_1.UserProvider, { storage: LocalStorage_1.browserSessionStorage },
+            react_1.default.createElement(react_router_dom_1.BrowserRouter, { future: {
+                    v7_startTransition: true,
+                    v7_relativeSplatPath: true
+                } },
+                react_1.default.createElement(exports.Site, { appMode: props.appMode })))));
 };
 exports.RoutedSite = RoutedSite;
+// Site component
 const Site = (props) => {
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
+    // Initialize Google Sign-In
+    (0, react_1.useEffect)(() => {
+        // Load Google Sign-In script
+        const script = document.createElement('script');
+        script.src = 'https://accounts.google.com/gsi/client';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+        return () => {
+            const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+            if (scriptElement && scriptElement.parentNode) {
+                scriptElement.parentNode.removeChild(scriptElement);
+            }
+        };
+    }, []);
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         },
         {
             path: '/index',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         },
         {
             path: '/index.html',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         },
         {
             path: '/privacy',
@@ -62,7 +112,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
         }
     ]);
     return routes;

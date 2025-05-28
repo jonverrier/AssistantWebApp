@@ -7,7 +7,7 @@
 
 import axios from 'axios';
 import { ISessionRequest, ISessionResponse } from '../import/AssistantChatApiTypes';
-import { IStorage, browserStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_KEY } from './LocalStorage';
+import { IStorage, browserLocalStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_KEY } from './LocalStorage';
 
 /**
  * Calls the cookie API to get a session UUID.
@@ -22,7 +22,7 @@ import { IStorage, browserStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_KEY } 
  */
 export async function getSessionUuid(
     cookieApiUrl: string, 
-    storage: IStorage = browserStorage
+    storage: IStorage = browserLocalStorage
 ): Promise<string | undefined> {
     try {
         // Check storage first

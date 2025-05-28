@@ -10,7 +10,7 @@
         "install-local": "ncp ../Assistant/export/AssistantChatApiTypes.ts import/AssistantChatApiTypes.ts",
         "clean": "tsc --build --clean",
         "test": "mocha --debug-brk --exit --require ts-node/register --require test/setup.ts test/*.test.ts test/*.test.tsx",
-        "test-mini": "mocha --debug-brk --exit --require ts-node/register test/setup.ts test/App.test.tsx test/MultilineEdit.test.tsx",
+        "test-mini": "mocha --debug-brk --exit --require ts-node/register test/setup.ts test/Site.test.tsx test/Login.test.tsx test/App.test.tsx test/MultilineEdit.test.tsx",
         "cover": "tsc && nyc mocha --exit --require ts-node/register test/*test.ts"
     },
     "engines": {

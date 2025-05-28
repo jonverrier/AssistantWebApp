@@ -131,8 +131,7 @@ describe('processChat', function() {
             },
             onComplete: () => {
                 // Do nothing
-            },
-            forceNode: false
+            }
         });
 
         // Wait for all chunks to be processed
@@ -181,8 +180,7 @@ describe('processChat', function() {
             },
             onComplete: () => {
                 // Do nothing
-            },
-            forceNode: false
+            }
         });
 
         expect(result).toBeUndefined();
@@ -216,8 +214,7 @@ describe('processChat', function() {
             },
             onComplete: () => {
                 // Do nothing
-            },
-            forceNode: false
+            }
         });
 
         expect(mockApi.post.firstCall.args[0]).toBe('http://screening-api-endpoint');

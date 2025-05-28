@@ -20,6 +20,7 @@ import { IAssistantFullChatRequest,
    EScreeningClassification } from '../import/AssistantChatApiTypes';
 import { EApiEvent } from './UIStateMachine';
 import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { isAppInBrowser } from './LocalStorage';
 
 
 // Add new interface for streaming response
@@ -46,8 +47,7 @@ interface ProcessChat {
     updateState: (event: EApiEvent) => void;
     onChunk: (chunk: string) => void;
     onComplete: () => void;
-    apiClient?: ApiClient;    
-    forceNode?: boolean;    
+    apiClient?: ApiClient;        
 }
 
 /**
@@ -71,8 +71,7 @@ export async function processChat({
     apiClient,
     benefitOfDoubt,
     onChunk,
-    onComplete,
-    forceNode
+    onComplete
 }: ProcessChat): Promise<string | undefined> {
 
    if (!apiClient) {
@@ -129,7 +128,7 @@ export async function processChat({
                         maxRedirects: 5,
                     };
 
-                    if (forceNode) {
+                    if (!isAppInBrowser()) {
                         // Node.js environment: use response streaming
                         config.responseType = 'stream';
                         const response = await apiClient.post<Stream>(chatApiUrl, chatRequest, config) as StreamResponse;

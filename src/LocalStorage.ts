@@ -14,10 +14,18 @@ export const USER_NAME_STORAGE_KEY = 'motif_user_name';
  * @returns boolean indicating if the app is running on localhost
  */
 export const isAppInLocalhost = (): boolean => {
-    if (typeof window !== 'undefined') {
-        return window.location.hostname === 'localhost';
-    }
-    return false;
+   if (typeof window !== 'undefined') {
+       return window.location.hostname === 'localhost';
+   }
+   return false;
+};
+
+/**
+ * Check if code is running in a browser context
+ * @returns boolean indicating if we're in a browser environment
+ */
+export const isAppInBrowser = (): boolean => {
+    return typeof window !== 'undefined' && typeof window.document !== 'undefined';
 };
 
 /**
@@ -31,8 +39,8 @@ export interface IStorage {
     remove(key: string): void;
 }
 
-// Default browser storage implementation
-export const browserStorage: IStorage = {
+// Default browser local storage implementation
+export const browserLocalStorage: IStorage = {
     get: (key: string): string | undefined => {
         if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
             return localStorage.getItem(key) || undefined;
@@ -50,3 +58,25 @@ export const browserStorage: IStorage = {
         }
     }
 }; 
+
+// Browser session storage implementation
+// Data persists for the page session (until browser/tab is closed)
+export const browserSessionStorage: IStorage = {
+    get: (key: string): string | undefined => {
+        if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+            return sessionStorage.getItem(key) || undefined;
+        }
+        return undefined;
+    },
+    set: (key: string, value: string): void => {
+        if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+            sessionStorage.setItem(key, value);
+        }
+    },
+    remove: (key: string): void => {
+        if (typeof window !== 'undefined' && typeof sessionStorage !== 'undefined') {
+            sessionStorage.removeItem(key);
+        }
+    }
+};
+

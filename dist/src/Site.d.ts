@@ -7,17 +7,38 @@
  */
 import React from 'react';
 import { EAppMode } from './UIStrings';
-import { IStorage } from './LocalStorage';
+interface GoogleAccountsId {
+    initialize: (config: {
+        client_id: string;
+        callback: (response: any) => void;
+        auto_select: boolean;
+        cancel_on_tap_outside: boolean;
+    }) => void;
+    renderButton: (element: HTMLElement, config: {
+        theme: string;
+        size: string;
+        width: number;
+    }) => void;
+    prompt: () => void;
+    disableAutoSelect: () => void;
+}
+interface GoogleAccounts {
+    id: GoogleAccountsId;
+}
+interface GoogleType {
+    accounts: GoogleAccounts;
+}
+export {};
+declare global {
+    var onGoogleLogin: undefined | ((response: any) => void);
+    var google: undefined | GoogleType;
+}
 export interface IRoutedSiteProps {
     appMode: EAppMode;
-    storage: IStorage;
-    forceNode: boolean;
 }
 export declare const RoutedSite: (props: IRoutedSiteProps) => React.JSX.Element;
 export interface ISiteProps {
     appMode: EAppMode;
-    storage: IStorage;
-    forceNode: boolean;
 }
 export declare const Site: (props: ISiteProps) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=Site.d.ts.map

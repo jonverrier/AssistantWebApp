@@ -62,7 +62,7 @@ const ChatHistory_1 = require("./ChatHistory");
 const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const ArchiveCall_1 = require("./ArchiveCall");
 const uuid_1 = require("./uuid");
-const LocalStorage_1 = require("./LocalStorage");
+const ConfigStrings_1 = require("./ConfigStrings");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const kChatHistoryPageSize = 50;
@@ -97,6 +97,7 @@ const kMinArchivingDisplayMs = 2000;
 // This component is responsible for rendering the main UI of the application.
 // It includes the chat history, message input, and other UI elements.
 const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResponseId, message, onSend, onChange, onDismiss, sessionId }) => {
+    const config = (0, ConfigStrings_1.getConfigStrings)();
     const bottomRef = (0, react_1.useRef)(null);
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
@@ -205,12 +206,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
 // It includes the managing the chat history, message input, streamed response from the server, 
 // and other data elements.
 const App = (props) => {
-    const local = (0, LocalStorage_1.isAppInLocalhost)();
-    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
-    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
-    const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
-    const archiveApiUrl = local ? 'http://localhost:7071/api/ArchiveMessages' : 'https://motifassistantapi.azurewebsites.net/api/ArchiveMessages';
-    const summariseApiUrl = local ? 'http://localhost:7071/api/SummariseMessages' : 'https://motifassistantapi.azurewebsites.net/api/SummariseMessages';
+    const config = (0, ConfigStrings_1.getConfigStrings)();
     const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
     let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
     const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
@@ -225,7 +221,7 @@ const App = (props) => {
             setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
             try {
                 await (0, ChatHistoryCall_1.processChatHistory)({
-                    messagesApiUrl,
+                    messagesApiUrl: config.messagesApiUrl,
                     sessionId: props.sessionId,
                     limit: kChatHistoryPageSize,
                     onPage: (messages) => {
@@ -253,8 +249,8 @@ const App = (props) => {
                     // Add minimum duration for archiving state
                     setTimeout(async () => {
                         const newHistory = await (0, ArchiveCall_1.archive)({
-                            archiveApiUrl: archiveApiUrl,
-                            summarizeApiUrl: summariseApiUrl,
+                            archiveApiUrl: config.archiveApiUrl,
+                            summarizeApiUrl: config.summariseApiUrl,
                             sessionId: props.sessionId,
                             messages: chatHistory,
                             wordCount: kSummaryLength,
@@ -284,8 +280,8 @@ const App = (props) => {
         // Keep track of the complete response
         let completeResponse = "";
         const result = await (0, ChatCall_1.processChat)({
-            screeningApiUrl: screenUrl,
-            chatApiUrl: chatUrl,
+            screeningApiUrl: config.screenUrl,
+            chatApiUrl: config.chatUrl,
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
@@ -310,8 +306,7 @@ const App = (props) => {
                     setStreamedResponse(undefined);
                     setStreamedResponseId(undefined);
                 }
-            },
-            forceNode: props.forceNode
+            }
         });
     }
     ;

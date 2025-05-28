@@ -10,15 +10,12 @@ import { createRoot } from "react-dom/client";
 
 import { EAppMode } from './UIStrings';
 import { RoutedSite } from './Site';
-import { IStorage, browserStorage } from './LocalStorage';
 
 // This allows code to be loaded in node.js for tests, even if we dont run actual React methods
 if (document !== undefined && document.getElementById !== undefined) {
    const root = createRoot(document.getElementById("reactRoot") as HTMLElement);
 
-   const storage: IStorage = browserStorage;
-
    root.render(
-      <RoutedSite appMode={EAppMode.kYardTalk} storage={storage} forceNode={false} />
+      <RoutedSite appMode={EAppMode.kYardTalk} />
    ); 
 }

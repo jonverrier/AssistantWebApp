@@ -798,7 +798,7 @@
             }
             return children;
           }
-          function createContext25(defaultValue) {
+          function createContext26(defaultValue) {
             var context = {
               $$typeof: REACT_CONTEXT_TYPE,
               // As a workaround to support multiple concurrent renderers, we categorize
@@ -1084,7 +1084,7 @@
             }
             return dispatcher;
           }
-          function useContext23(Context) {
+          function useContext24(Context) {
             var dispatcher = resolveDispatcher();
             {
               if (Context._context !== void 0) {
@@ -1098,7 +1098,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState13(initialState) {
+          function useState14(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1110,7 +1110,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect17(create, deps) {
+          function useEffect19(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1879,7 +1879,7 @@
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.act = act;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext25;
+          exports.createContext = createContext26;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef3;
@@ -1890,10 +1890,10 @@
           exports.startTransition = startTransition;
           exports.unstable_act = act;
           exports.useCallback = useCallback8;
-          exports.useContext = useContext23;
+          exports.useContext = useContext24;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect17;
+          exports.useEffect = useEffect19;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
@@ -1901,7 +1901,7 @@
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
           exports.useRef = useRef18;
-          exports.useState = useState13;
+          exports.useState = useState14;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2397,9 +2397,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React101 = require_react();
+          var React102 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React101.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React102.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React101.Children.forEach(props.children, function(child) {
+                  React102.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -30381,7 +30381,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React101 = require_react();
+          var React102 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30407,7 +30407,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React101.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React102.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -57253,6 +57253,62 @@ ${message.content}
     }
   });
 
+  // src/LocalStorage.ts
+  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, isAppInLocalhost, isAppInBrowser, browserLocalStorage, browserSessionStorage;
+  var init_LocalStorage = __esm({
+    "src/LocalStorage.ts"() {
+      "use strict";
+      SESSION_STORAGE_KEY = "motif_session_id";
+      USER_ID_STORAGE_KEY = "motif_user_id";
+      USER_NAME_STORAGE_KEY = "motif_user_name";
+      isAppInLocalhost = () => {
+        if (typeof window !== "undefined") {
+          return window.location.hostname === "localhost";
+        }
+        return false;
+      };
+      isAppInBrowser = () => {
+        return typeof window !== "undefined" && typeof window.document !== "undefined";
+      };
+      browserLocalStorage = {
+        get: (key) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            return localStorage.getItem(key) || void 0;
+          }
+          return void 0;
+        },
+        set: (key, value) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            localStorage.setItem(key, value);
+          }
+        },
+        remove: (key) => {
+          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
+            localStorage.removeItem(key);
+          }
+        }
+      };
+      browserSessionStorage = {
+        get: (key) => {
+          if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+            return sessionStorage.getItem(key) || void 0;
+          }
+          return void 0;
+        },
+        set: (key, value) => {
+          if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+            sessionStorage.setItem(key, value);
+          }
+        },
+        remove: (key) => {
+          if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+            sessionStorage.removeItem(key);
+          }
+        }
+      };
+    }
+  });
+
   // src/ChatCall.ts
   async function processChat({
     screeningApiUrl,
@@ -57265,8 +57321,7 @@ ${message.content}
     apiClient,
     benefitOfDoubt,
     onChunk,
-    onComplete,
-    forceNode
+    onComplete
   }) {
     if (!apiClient) {
       apiClient = createRetryableAxiosClient();
@@ -57310,7 +57365,7 @@ ${message.content}
               decompress: true,
               maxRedirects: 5
             };
-            if (forceNode) {
+            if (!isAppInBrowser()) {
               config.responseType = "stream";
               const response = await apiClient.post(chatApiUrl, chatRequest, config);
               const stream = response.data;
@@ -57405,6 +57460,7 @@ ${message.content}
       init_AssistantChatApiTypes();
       init_UIStateMachine();
       init_ChatCallUtils();
+      init_LocalStorage();
     }
   });
 
@@ -57453,6 +57509,119 @@ ${message.content}
     }
   });
 
+  // src/ConfigStrings.ts
+  function getConfigStrings() {
+    return {
+      ...CommonConfigStrings,
+      ...isAppInLocalhost() ? LocalEnvironmentStrings : RemoteEnvironmentStrings
+    };
+  }
+  var CommonConfigStrings, LocalEnvironmentStrings, RemoteEnvironmentStrings;
+  var init_ConfigStrings = __esm({
+    "src/ConfigStrings.ts"() {
+      "use strict";
+      init_LocalStorage();
+      CommonConfigStrings = {
+        googleCaptchaClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
+        loginAction: "login",
+        termsAction: "terms",
+        privacyAction: "privacy",
+        homeAction: "home",
+        reCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3"
+      };
+      LocalEnvironmentStrings = {
+        screenUrl: "http://localhost:7071/api/ScreenInput",
+        chatUrl: "http://localhost:7071/api/StreamChat",
+        messagesApiUrl: "http://localhost:7071/api/GetMessages",
+        archiveApiUrl: "http://localhost:7071/api/ArchiveMessages",
+        summariseApiUrl: "http://localhost:7071/api/SummariseMessages",
+        captchaApiUrl: "http://localhost:7071/api/Captcha",
+        sessionApiUrl: "http://localhost:7071/api/Session"
+      };
+      RemoteEnvironmentStrings = {
+        screenUrl: "https://motifassistantapi.azurewebsites.net/api/ScreenInput",
+        chatUrl: "https://motifassistantapi.azurewebsites.net/api/StreamChat",
+        messagesApiUrl: "https://motifassistantapi.azurewebsites.net/api/GetMessages",
+        archiveApiUrl: "https://motifassistantapi.azurewebsites.net/api/ArchiveMessages",
+        summariseApiUrl: "https://motifassistantapi.azurewebsites.net/api/SummariseMessages",
+        captchaApiUrl: "https://motifassistantapi.azurewebsites.net/api/Captcha",
+        sessionApiUrl: "https://motifassistantapi.azurewebsites.net/api/Session"
+      };
+    }
+  });
+
+  // src/captcha.ts
+  async function executeReCaptcha(captchaUrl, action, apiClient) {
+    try {
+      if (isAppInLocalhost()) {
+        return {
+          success: true,
+          score: 1
+        };
+      }
+      if (!window.grecaptcha) {
+        return {
+          success: false,
+          error: "reCAPTCHA not loaded"
+        };
+      }
+      if (!apiClient) {
+        apiClient = createRetryableAxiosClient();
+      }
+      const config = getConfigStrings();
+      const token2 = await window.grecaptcha.execute(config.reCaptchaSiteKey, { action });
+      const request = {
+        token: token2,
+        action
+      };
+      const response = await apiClient.post(
+        captchaUrl,
+        request
+      );
+      return {
+        success: response.data.isValid,
+        score: response.data.score
+      };
+    } catch (error) {
+      console.error("reCAPTCHA execution failed:", error);
+      return {
+        success: false,
+        error: "Failed to execute reCAPTCHA"
+      };
+    }
+  }
+  function handleLowScore(score) {
+    const securitySteps = [];
+    if (score < RECAPTCHA_THRESHOLD) {
+      if (score < RECAPTCHA_BLOCK_THRESHOLD) {
+        securitySteps.push(SECURITY_STEP_BLOCK_REQUEST);
+        securitySteps.push(SECURITY_STEP_LOG_SUSPICIOUS);
+      } else if (score < RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD) {
+        securitySteps.push(SECURITY_STEP_ADDITIONAL_VERIFICATION);
+        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      } else {
+        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      }
+    }
+    return securitySteps;
+  }
+  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
+  var init_captcha = __esm({
+    "src/captcha.ts"() {
+      "use strict";
+      init_ChatCallUtils();
+      init_LocalStorage();
+      init_ConfigStrings();
+      RECAPTCHA_THRESHOLD = 0.5;
+      RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
+      RECAPTCHA_BLOCK_THRESHOLD = 0.3;
+      SECURITY_STEP_BLOCK_REQUEST = "block_request";
+      SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
+      SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
+      SECURITY_STEP_RATE_LIMIT = "rate_limit";
+    }
+  });
+
   // src/SiteUtilities.tsx
   var import_react28, MOBILE_BREAKPOINT, useFooterStyles, Spacer, Footer;
   var init_SiteUtilities = __esm({
@@ -57463,6 +57632,8 @@ ${message.content}
       init_CommonStyles();
       init_UIStrings();
       init_lib22();
+      init_captcha();
+      init_ConfigStrings();
       MOBILE_BREAKPOINT = 512;
       useFooterStyles = makeStyles2({
         footerContainer: {
@@ -57498,6 +57669,11 @@ ${message.content}
         const linkClasses = standardLinkStyles();
         const styles = useFooterStyles();
         const footerRef = (0, import_react28.useRef)(null);
+        const config = getConfigStrings();
+        const handleLinkClick = async (action, path) => {
+          const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
+          window.location.href = path;
+        };
         (0, import_react28.useEffect)(() => {
           const updateFooterHeight = () => {
             if (footerRef.current) {
@@ -57509,7 +57685,31 @@ ${message.content}
           window.addEventListener("resize", updateFooterHeight);
           return () => window.removeEventListener("resize", updateFooterHeight);
         }, []);
-        return /* @__PURE__ */ import_react28.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
+        return /* @__PURE__ */ import_react28.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(
+          Link,
+          {
+            to: "/index",
+            className: linkClasses.centred,
+            onClick: () => handleLinkClick(config.homeAction, "/index")
+          },
+          uiStrings.kHome
+        ), /* @__PURE__ */ import_react28.default.createElement(
+          Link,
+          {
+            to: "/privacy",
+            className: linkClasses.centred,
+            onClick: () => handleLinkClick(config.privacyAction, "/privacy")
+          },
+          uiStrings.kPrivacy
+        ), /* @__PURE__ */ import_react28.default.createElement(
+          Link,
+          {
+            to: "/terms",
+            className: linkClasses.centred,
+            onClick: () => handleLinkClick(config.termsAction, "/terms")
+          },
+          uiStrings.kTerms
+        )));
       };
     }
   });
@@ -59667,41 +59867,6 @@ ${message.content}
     }
   });
 
-  // src/LocalStorage.ts
-  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, isAppInLocalhost, browserStorage;
-  var init_LocalStorage = __esm({
-    "src/LocalStorage.ts"() {
-      "use strict";
-      SESSION_STORAGE_KEY = "motif_session_id";
-      USER_ID_STORAGE_KEY = "motif_user_id";
-      USER_NAME_STORAGE_KEY = "motif_user_name";
-      isAppInLocalhost = () => {
-        if (typeof window !== "undefined") {
-          return window.location.hostname === "localhost";
-        }
-        return false;
-      };
-      browserStorage = {
-        get: (key) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            return localStorage.getItem(key) || void 0;
-          }
-          return void 0;
-        },
-        set: (key, value) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            localStorage.setItem(key, value);
-          }
-        },
-        remove: (key) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            localStorage.removeItem(key);
-          }
-        }
-      };
-    }
-  });
-
   // src/App.tsx
   var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
   var init_App = __esm({
@@ -59723,7 +59888,7 @@ ${message.content}
       init_ChatHistoryCall();
       init_ArchiveCall();
       init_uuid();
-      init_LocalStorage();
+      init_ConfigStrings();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
       kChatHistoryPageSize = 50;
@@ -59766,6 +59931,7 @@ ${message.content}
         onDismiss,
         sessionId
       }) => {
+        const config = getConfigStrings();
         const bottomRef = (0, import_react31.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
@@ -59861,12 +60027,7 @@ ${message.content}
         }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
       };
       App = (props) => {
-        const local2 = isAppInLocalhost();
-        const screenUrl = local2 ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
-        const chatUrl = local2 ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
-        const messagesApiUrl = local2 ? "http://localhost:7071/api/GetMessages" : "https://motifassistantapi.azurewebsites.net/api/GetMessages";
-        const archiveApiUrl = local2 ? "http://localhost:7071/api/ArchiveMessages" : "https://motifassistantapi.azurewebsites.net/api/ArchiveMessages";
-        const summariseApiUrl = local2 ? "http://localhost:7071/api/SummariseMessages" : "https://motifassistantapi.azurewebsites.net/api/SummariseMessages";
+        const config = getConfigStrings();
         const uiStrings = getUIStrings(props.appMode);
         let [state, setState] = (0, import_react31.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
         const [chatHistory, setChatHistory] = (0, import_react31.useState)([]);
@@ -59880,7 +60041,7 @@ ${message.content}
             setState(new AssistantUIStateMachine(state.getState()));
             try {
               await processChatHistory({
-                messagesApiUrl,
+                messagesApiUrl: config.messagesApiUrl,
                 sessionId: props.sessionId,
                 limit: kChatHistoryPageSize,
                 onPage: (messages) => {
@@ -59905,8 +60066,8 @@ ${message.content}
                 setState(new AssistantUIStateMachine("Archiving" /* kArchiving */));
                 setTimeout(async () => {
                   const newHistory = await archive({
-                    archiveApiUrl,
-                    summarizeApiUrl: summariseApiUrl,
+                    archiveApiUrl: config.archiveApiUrl,
+                    summarizeApiUrl: config.summariseApiUrl,
                     sessionId: props.sessionId,
                     messages: chatHistory,
                     wordCount: kSummaryLength,
@@ -59933,8 +60094,8 @@ ${message.content}
           setStreamedResponseId(uuidv4);
           let completeResponse = "";
           const result = await processChat({
-            screeningApiUrl: screenUrl,
-            chatApiUrl: chatUrl,
+            screeningApiUrl: config.screenUrl,
+            chatApiUrl: config.chatUrl,
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
@@ -59958,8 +60119,7 @@ ${message.content}
                 setStreamedResponse(void 0);
                 setStreamedResponseId(void 0);
               }
-            },
-            forceNode: props.forceNode
+            }
           });
         }
         ;
@@ -60006,7 +60166,7 @@ ${message.content}
   });
 
   // src/SessionCall.ts
-  async function getSessionUuid(cookieApiUrl, storage = browserStorage) {
+  async function getSessionUuid(cookieApiUrl, storage = browserLocalStorage) {
     try {
       const existingSessionId = storage.get(SESSION_STORAGE_KEY);
       const userName = storage.get(USER_NAME_STORAGE_KEY);
@@ -60040,76 +60200,88 @@ ${message.content}
     }
   });
 
-  // src/captcha.ts
-  async function executeReCaptcha(captchaUrl, action, apiClient) {
-    try {
-      if (!window.grecaptcha) {
-        return {
-          success: false,
-          error: "reCAPTCHA not loaded"
-        };
-      }
-      if (!apiClient) {
-        apiClient = createRetryableAxiosClient();
-      }
-      const token2 = await window.grecaptcha.execute(RECAPTCHA_SITE_KEY, { action });
-      const request = {
-        token: token2,
-        action
-      };
-      const response = await apiClient.post(
-        captchaUrl,
-        request
-      );
-      return {
-        success: response.data.isValid,
-        score: response.data.score
-      };
-    } catch (error) {
-      console.error("reCAPTCHA execution failed:", error);
-      return {
-        success: false,
-        error: "Failed to execute reCAPTCHA"
-      };
-    }
-  }
-  function handleLowScore(score) {
-    const securitySteps = [];
-    if (score < RECAPTCHA_THRESHOLD) {
-      if (score < RECAPTCHA_BLOCK_THRESHOLD) {
-        securitySteps.push(SECURITY_STEP_BLOCK_REQUEST);
-        securitySteps.push(SECURITY_STEP_LOG_SUSPICIOUS);
-      } else if (score < RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD) {
-        securitySteps.push(SECURITY_STEP_ADDITIONAL_VERIFICATION);
-        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+  // src/UserContext.tsx
+  function UserProvider({ children, storage }) {
+    const [userId, setUserId] = (0, import_react32.useState)(() => {
+      return storage.get(USER_ID_STORAGE_KEY) || void 0;
+    });
+    const [userName, setUserName] = (0, import_react32.useState)(() => {
+      return storage.get(USER_NAME_STORAGE_KEY) || void 0;
+    });
+    const [sessionId, setSessionId] = (0, import_react32.useState)(() => {
+      return storage.get(SESSION_STORAGE_KEY) || void 0;
+    });
+    (0, import_react32.useEffect)(() => {
+      if (userId) {
+        storage.set(USER_ID_STORAGE_KEY, userId);
       } else {
-        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+        storage.remove(USER_ID_STORAGE_KEY);
       }
-    }
-    return securitySteps;
+    }, [userId, storage]);
+    (0, import_react32.useEffect)(() => {
+      if (userName) {
+        storage.set(USER_NAME_STORAGE_KEY, userName);
+      } else {
+        storage.remove(USER_NAME_STORAGE_KEY);
+      }
+    }, [userName, storage]);
+    (0, import_react32.useEffect)(() => {
+      if (sessionId) {
+        storage.set(SESSION_STORAGE_KEY, sessionId);
+      } else {
+        storage.remove(SESSION_STORAGE_KEY);
+      }
+    }, [sessionId, storage]);
+    const handleLogin = (newUserId, newUserName, newSessionId) => {
+      setUserId(newUserId);
+      setUserName(newUserName);
+      setSessionId(newSessionId);
+    };
+    const handleLogout = () => {
+      setUserId(void 0);
+      setUserName(void 0);
+      setSessionId(void 0);
+      storage.remove(USER_ID_STORAGE_KEY);
+      storage.remove(USER_NAME_STORAGE_KEY);
+      storage.remove(SESSION_STORAGE_KEY);
+    };
+    return /* @__PURE__ */ import_react32.default.createElement(
+      UserContext.Provider,
+      {
+        value: {
+          userId,
+          userName,
+          sessionId,
+          onLogin: handleLogin,
+          onLogout: handleLogout
+        }
+      },
+      children
+    );
   }
-  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, RECAPTCHA_SITE_KEY, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
-  var init_captcha = __esm({
-    "src/captcha.ts"() {
+  function useUser() {
+    const context = (0, import_react32.useContext)(UserContext);
+    if (context === void 0) {
+      throw new Error("useUser must be used within a UserProvider");
+    }
+    return context;
+  }
+  var import_react32, UserContext;
+  var init_UserContext = __esm({
+    "src/UserContext.tsx"() {
       "use strict";
-      init_ChatCallUtils();
-      RECAPTCHA_THRESHOLD = 0.5;
-      RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
-      RECAPTCHA_BLOCK_THRESHOLD = 0.3;
-      RECAPTCHA_SITE_KEY = "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3";
-      SECURITY_STEP_BLOCK_REQUEST = "block_request";
-      SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
-      SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
-      SECURITY_STEP_RATE_LIMIT = "rate_limit";
+      import_react32 = __toESM(require_react());
+      init_LocalStorage();
+      UserContext = (0, import_react32.createContext)(void 0);
     }
   });
 
   // src/Login.tsx
-  var import_react32, local, sessionApiUrl, CLIENT_ID, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
+  var import_react33, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
   var init_Login = __esm({
     "src/Login.tsx"() {
       "use strict";
-      import_react32 = __toESM(require_react());
+      import_react33 = __toESM(require_react());
       init_lib22();
       init_Message();
       init_App();
@@ -60118,12 +60290,11 @@ ${message.content}
       init_OuterStyles();
       init_CommonStyles();
       init_UIStrings();
-      init_LocalStorage();
       init_uuid();
       init_captcha();
-      local = window.location.hostname === "localhost";
-      sessionApiUrl = local ? "http://localhost:7071/api/Session" : "https://motifassistantapi.azurewebsites.net/api/Session";
-      CLIENT_ID = local ? "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com" : "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com";
+      init_ConfigStrings();
+      init_LocalStorage();
+      init_UserContext();
       containerStyles = {
         display: "flex",
         flexDirection: "column",
@@ -60144,22 +60315,17 @@ ${message.content}
       RATE_LIMIT_MAX_DELAY = 3e4;
       RATE_LIMIT_RESET_TIME = 6e4;
       Login = (props) => {
-        const local2 = isAppInLocalhost();
-        const captchaUrl = local2 ? "http://localhost:7071/api/Captcha" : "https://motifassistantapi.azurewebsites.net/api/Captcha";
-        const [userId, setUserId] = (0, import_react32.useState)(props.storage.get(USER_ID_STORAGE_KEY));
-        const [userName, setUserName] = (0, import_react32.useState)(props.storage.get(USER_NAME_STORAGE_KEY));
-        const [sessionId, setSessionId] = (0, import_react32.useState)();
-        const [isGoogleLogin, setIsGoogleLogin] = (0, import_react32.useState)(false);
-        const [isGoogleInitialized, setIsGoogleInitialized] = (0, import_react32.useState)(false);
-        const [error, setError] = (0, import_react32.useState)();
-        const [googleCredential, setGoogleCredential] = (0, import_react32.useState)();
-        const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react32.useState)(0);
-        const [lastAttemptTime, setLastAttemptTime] = (0, import_react32.useState)(0);
-        const [isWaiting, setIsWaiting] = (0, import_react32.useState)(false);
-        const googleButtonRef = (0, import_react32.useRef)(null);
+        const config = getConfigStrings();
+        const { userId, userName, sessionId, onLogin, onLogout } = useUser();
+        const [error, setError] = (0, import_react33.useState)();
+        const [googleCredential, setGoogleCredential] = (0, import_react33.useState)();
+        const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react33.useState)(0);
+        const [lastAttemptTime, setLastAttemptTime] = (0, import_react33.useState)(0);
+        const [isWaiting, setIsWaiting] = (0, import_react33.useState)(false);
+        const googleButtonRef = (0, import_react33.useRef)(null);
         const handleLogout = async () => {
           try {
-            if (isGoogleLogin && window.google?.accounts?.id) {
+            if (window.google?.accounts?.id) {
               window.google.accounts.id.disableAutoSelect();
               if (googleCredential) {
                 const response = await fetch(`https://oauth2.googleapis.com/revoke?token=${googleCredential}`, {
@@ -60173,16 +60339,11 @@ ${message.content}
                 }
               }
             }
-            props.storage.remove(USER_ID_STORAGE_KEY);
-            props.storage.remove(USER_NAME_STORAGE_KEY);
-            setUserId(void 0);
-            setUserName(void 0);
-            setSessionId(void 0);
-            setIsGoogleLogin(false);
             setGoogleCredential(void 0);
-            if (window.google?.accounts?.id) {
+            onLogout();
+            if (window.google?.accounts?.id && window.onGoogleLogin) {
               window.google.accounts.id.initialize({
-                client_id: CLIENT_ID,
+                client_id: config.googleCaptchaClientId,
                 callback: window.onGoogleLogin,
                 auto_select: true,
                 cancel_on_tap_outside: false
@@ -60195,7 +60356,7 @@ ${message.content}
         };
         const handleLogin = async (credential) => {
           try {
-            const recaptchaResult = await executeReCaptcha(captchaUrl, "login");
+            const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
             if (!recaptchaResult.success) {
               const securitySteps = handleLowScore(recaptchaResult.score || 0);
               if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
@@ -60215,25 +60376,26 @@ ${message.content}
                 setTimeout(() => {
                   setIsWaiting(false);
                 }, delay);
+                return;
               }
             }
             const decodedToken = JSON.parse(atob(credential.split(".")[1]));
             const newUserId = decodedToken.sub;
-            setUserId(newUserId);
-            setUserName(decodedToken.name || void 0);
-            setIsGoogleLogin(true);
-            setGoogleCredential(credential);
-            props.storage.set(USER_ID_STORAGE_KEY, newUserId);
-            props.storage.set(USER_NAME_STORAGE_KEY, decodedToken.name || void 0);
-            const newSession = await getSessionUuid(sessionApiUrl);
-            if (newSession) {
-              setSessionId(newSession);
+            const newUserName = decodedToken.name || void 0;
+            let newSessionId;
+            try {
+              newSessionId = await getSessionUuid(config.sessionApiUrl);
+            } catch (error2) {
+              console.error("Error getting session ID:", error2);
             }
+            if (!newSessionId) {
+              newSessionId = uuidv4();
+              console.warn("Using temporary session ID");
+            }
+            setGoogleCredential(credential);
+            onLogin(newUserId, newUserName, newSessionId);
           } catch (error2) {
             console.error("Error processing login:", error2);
-            setUserId(void 0);
-            setUserName(void 0);
-            setSessionId(void 0);
             setGoogleCredential(void 0);
             setError(UIStrings.kLoginFailed);
           }
@@ -60250,85 +60412,62 @@ ${message.content}
           );
           return delay;
         };
-        (0, import_react32.useEffect)(() => {
-          if (isAppInLocalhost()) {
-            const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
-            const storedUserName = props.storage.get(USER_NAME_STORAGE_KEY);
-            if (storedUserId && storedUserName) {
-              setUserId(storedUserId);
-              setUserName(storedUserName);
-              setIsGoogleLogin(false);
-              getSessionUuid(sessionApiUrl).then((newSession) => {
-                if (newSession) {
-                  setSessionId(newSession);
-                } else {
-                  setSessionId(uuidv4());
-                }
-              });
-            }
-          }
-        }, [props.storage]);
-        (0, import_react32.useEffect)(() => {
-          const initializeGoogle = () => {
-            if (!window.google?.accounts?.id || !googleButtonRef.current || isGoogleInitialized) {
-              return;
-            }
-            try {
-              window.onGoogleLogin = (response) => {
-                handleLogin(response.credential);
-              };
-              window.google.accounts.id.initialize({
-                client_id: CLIENT_ID,
-                callback: window.onGoogleLogin,
-                auto_select: true,
-                cancel_on_tap_outside: false
-              });
-              window.google.accounts.id.renderButton(googleButtonRef.current, {
-                theme: "outline",
-                size: "large",
-                width: 250
-              });
-              setIsGoogleInitialized(true);
-            } catch (error2) {
-              console.error("Error initializing Google Sign-In:", error2);
+        (0, import_react33.useEffect)(() => {
+          window.onGoogleLogin = (response) => {
+            if (response.credential) {
+              handleLogin(response.credential);
             }
           };
-          initializeGoogle();
-        }, [isGoogleInitialized, userId]);
-        (0, import_react32.useEffect)(() => {
-          const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
-          if (isGoogleInitialized && !userName && !storedUserId) {
-            const attemptAutoLogin = async () => {
-              try {
-                window.google?.accounts?.id?.prompt();
-              } catch (error2) {
-                console.error("Error prompting for auto-login:", error2);
-              }
-            };
-            const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
-            return () => clearTimeout(promptTimeout);
+          const googleApi = window.google?.accounts?.id;
+          if (googleApi) {
+            googleApi.initialize({
+              client_id: config.googleCaptchaClientId,
+              callback: window.onGoogleLogin,
+              auto_select: true,
+              cancel_on_tap_outside: false
+            });
+            if (!userName && !userId && !sessionId && !isAppInLocalhost()) {
+              const attemptAutoLogin = async () => {
+                try {
+                  googleApi.prompt();
+                } catch (error2) {
+                  console.error("Error prompting for auto-login:", error2);
+                }
+              };
+              const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
+              return () => clearTimeout(promptTimeout);
+            }
           }
-        }, [isGoogleInitialized, userName, props.storage]);
-        return /* @__PURE__ */ import_react32.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react32.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react32.default.createElement(
+        }, [userName, userId, sessionId, config.googleCaptchaClientId]);
+        (0, import_react33.useEffect)(() => {
+          if (googleButtonRef.current && window.google?.accounts?.id) {
+            window.google.accounts.id.renderButton(googleButtonRef.current, {
+              theme: "outline",
+              size: "large",
+              width: 250
+            });
+          }
+        }, [googleButtonRef.current]);
+        return /* @__PURE__ */ import_react33.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react33.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react33.default.createElement(
           LoginView,
           {
             appMode: props.appMode,
-            storage: props.storage,
-            forceNode: props.forceNode,
+            userName,
+            sessionId,
             googleButtonRef,
             error,
             setError,
             isWaiting
           }
-        ) : /* @__PURE__ */ import_react32.default.createElement(
+        ) : /* @__PURE__ */ import_react33.default.createElement(
           App,
           {
             appMode: props.appMode,
             sessionId,
             userName,
-            forceNode: props.forceNode || false
+            onLogout: handleLogout
           }
-        )), /* @__PURE__ */ import_react32.default.createElement(Footer, null));
+        )), /* @__PURE__ */ import_react33.default.createElement(Footer, null));
       };
       LoginView = (props) => {
         const pageOuterClasses = pageOuterStyles();
@@ -60338,7 +60477,7 @@ ${message.content}
         const handleErrorDismiss = () => {
           props.setError(void 0);
         };
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Text, null, uiStrings.kOverview), props.error && /* @__PURE__ */ import_react32.default.createElement(import_react32.default.Fragment, null, /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(
+        return /* @__PURE__ */ import_react33.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react33.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Text, null, uiStrings.kOverview), props.error && /* @__PURE__ */ import_react33.default.createElement(import_react33.default.Fragment, null, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(
           Message,
           {
             intent: "error" /* kError */,
@@ -60347,24 +60486,24 @@ ${message.content}
             dismissable: true,
             onDismiss: handleErrorDismiss
           }
-        )), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(
+        )), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(
           "div",
           {
             ref: props.googleButtonRef,
             className: "google-login-button",
             style: { display: props.isWaiting ? "none" : "block" }
           }
-        ), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react33.default.createElement(Footer, null)));
       };
     }
   });
 
   // src/PlainText.tsx
-  var import_react33, PlainText;
+  var import_react34, PlainText;
   var init_PlainText = __esm({
     "src/PlainText.tsx"() {
       "use strict";
-      import_react33 = __toESM(require_react());
+      import_react34 = __toESM(require_react());
       init_OuterStyles();
       init_lib22();
       init_CommonStyles();
@@ -60373,18 +60512,18 @@ ${message.content}
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react33.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
+        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
           if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
+            return /* @__PURE__ */ import_react34.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
           }
           if (line2.match(/https?:\/\/\S+/)) {
             const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react33.default.createElement(Link3, { key: i, href: part }, part) : part
+            return /* @__PURE__ */ import_react34.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react34.default.createElement(Link3, { key: i, href: part }, part) : part
             ));
           }
-          return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
-        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Footer, null)));
+          return /* @__PURE__ */ import_react34.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
+        }), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Footer, null)));
       };
     }
   });
@@ -60557,58 +60696,73 @@ ${message.content}
   });
 
   // src/Site.tsx
-  var import_react34, RoutedSite, Site;
+  var import_react35, RoutedSite, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react34 = __toESM(require_react());
+      import_react35 = __toESM(require_react());
       init_dist2();
       init_Login();
       init_PlainText();
       init_lib22();
       init_UIStrings();
+      init_UserContext();
+      init_LocalStorage();
       init_TermsContent();
       init_PrivacyContent();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react34.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react34.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react35.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react35.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react35.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react34.default.createElement(Site, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })));
+        } }, /* @__PURE__ */ import_react35.default.createElement(Site, { appMode: props.appMode }))));
       };
       Site = (props) => {
         const uiStrings = getUIStrings(props.appMode);
+        (0, import_react35.useEffect)(() => {
+          const script = document.createElement("script");
+          script.src = "https://accounts.google.com/gsi/client";
+          script.async = true;
+          script.defer = true;
+          document.head.appendChild(script);
+          return () => {
+            const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+            if (scriptElement && scriptElement.parentNode) {
+              scriptElement.parentNode.removeChild(scriptElement);
+            }
+          };
+        }, []);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: /* @__PURE__ */ import_react35.default.createElement(Login, { appMode: props.appMode })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: /* @__PURE__ */ import_react35.default.createElement(Login, { appMode: props.appMode })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: /* @__PURE__ */ import_react35.default.createElement(Login, { appMode: props.appMode })
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react35.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react35.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react35.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react34.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react35.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react34.default.createElement(Login, { appMode: props.appMode, storage: props.storage, forceNode: props.forceNode })
+            element: /* @__PURE__ */ import_react35.default.createElement(Login, { appMode: props.appMode })
           }
         ]);
         return routes;
@@ -60619,16 +60773,14 @@ ${message.content}
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react35 = __toESM(require_react());
+      var import_react36 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_UIStrings();
       init_Site();
-      init_LocalStorage();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
-        const storage = browserStorage;
         root.render(
-          /* @__PURE__ */ import_react35.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */, storage, forceNode: false })
+          /* @__PURE__ */ import_react36.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
         );
       }
     }

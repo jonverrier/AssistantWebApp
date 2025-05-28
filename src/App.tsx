@@ -33,7 +33,7 @@ import { ChatHistory, ChatMessage } from './ChatHistory';
 import { processChatHistory } from './ChatHistoryCall';
 import { archive, shouldArchive } from './ArchiveCall';
 import { uuidv4 } from './uuid';
-import { isAppInLocalhost } from './LocalStorage';
+import { getConfigStrings } from './ConfigStrings';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
@@ -67,11 +67,12 @@ const multilineEditContainerStyles = makeStyles({
    }
 });
 
+// App component props
 export interface IAppProps {
    appMode: EAppMode;
-   forceNode: boolean;
-   userName: string;
    sessionId: string;
+   userName: string;
+   onLogout: () => Promise<void>;
 }
 
 const kMinArchivingDisplayMs = 2000;
@@ -105,7 +106,7 @@ const AppView: React.FC<IAppViewProps> = ({
    onDismiss,
    sessionId
 }) => {
-
+   const config = getConfigStrings();
    const bottomRef = useRef<HTMLDivElement>(null);
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
@@ -275,17 +276,9 @@ const AppView: React.FC<IAppViewProps> = ({
 // It includes the managing the chat history, message input, streamed response from the server, 
 // and other data elements.
 export const App = (props: IAppProps) => {
-   
-   const local = isAppInLocalhost();
-   
-   const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
-   const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
-   const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
-   const archiveApiUrl = local ? 'http://localhost:7071/api/ArchiveMessages' : 'https://motifassistantapi.azurewebsites.net/api/ArchiveMessages';
-   const summariseApiUrl = local ? 'http://localhost:7071/api/SummariseMessages' : 'https://motifassistantapi.azurewebsites.net/api/SummariseMessages';
-
+   const config = getConfigStrings();
    const uiStrings = getUIStrings(props.appMode);
-
+   
    let [state, setState] = useState<AssistantUIStateMachine>(new AssistantUIStateMachine(EUIState.kWaiting));
    
    const [chatHistory, setChatHistory] = useState<IChatMessage[]>([]);
@@ -302,7 +295,7 @@ export const App = (props: IAppProps) => {
 
          try {
             await processChatHistory({
-               messagesApiUrl,
+               messagesApiUrl: config.messagesApiUrl,
                sessionId: props.sessionId,
                limit: kChatHistoryPageSize,
                onPage: (messages) => {
@@ -332,8 +325,8 @@ export const App = (props: IAppProps) => {
                // Add minimum duration for archiving state
                setTimeout(async () => {
                   const newHistory = await archive({
-                     archiveApiUrl : archiveApiUrl,
-                     summarizeApiUrl : summariseApiUrl,
+                     archiveApiUrl: config.archiveApiUrl,
+                     summarizeApiUrl: config.summariseApiUrl,
                      sessionId: props.sessionId,
                      messages: chatHistory,
                      wordCount: kSummaryLength,
@@ -370,8 +363,8 @@ export const App = (props: IAppProps) => {
       let completeResponse = "";
 
       const result = await processChat({
-         screeningApiUrl: screenUrl,
-         chatApiUrl: chatUrl,
+         screeningApiUrl: config.screenUrl,
+         chatApiUrl: config.chatUrl,
          input: localMessage,
          history: chatHistory,
          updateState: handleStateUpdate,
@@ -397,8 +390,7 @@ export const App = (props: IAppProps) => {
                setStreamedResponseId(undefined);
 
             }
-         },
-         forceNode: props.forceNode
+         }
       });
    };
    

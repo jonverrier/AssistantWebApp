@@ -45,6 +45,8 @@ const react_router_dom_1 = require("react-router-dom");
 const CommonStyles_1 = require("./CommonStyles");
 const UIStrings_1 = require("./UIStrings");
 const react_components_1 = require("@fluentui/react-components");
+const captcha_1 = require("./captcha");
+const ConfigStrings_1 = require("./ConfigStrings");
 const MOBILE_BREAKPOINT = 512;
 const useFooterStyles = (0, react_components_1.makeStyles)({
     footerContainer: {
@@ -81,6 +83,13 @@ const Footer = (props) => {
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const styles = useFooterStyles();
     const footerRef = (0, react_1.useRef)(null);
+    const config = (0, ConfigStrings_1.getConfigStrings)();
+    const handleLinkClick = async (action, path) => {
+        // Call reCAPTCHA before navigation
+        // We throw away the result - we are recording actions as per the Google guidance     
+        const captchaResult = await (0, captcha_1.executeReCaptcha)(config.captchaApiUrl, action);
+        window.location.href = path;
+    };
     (0, react_1.useEffect)(() => {
         const updateFooterHeight = () => {
             if (footerRef.current) {
@@ -94,8 +103,8 @@ const Footer = (props) => {
     }, []);
     return (react_1.default.createElement("div", { ref: footerRef, className: styles.footerContainer },
         react_1.default.createElement("div", { className: styles.footerContent },
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms))));
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/index", className: linkClasses.centred, onClick: () => handleLinkClick(config.homeAction, '/index') }, uiStrings.kHome),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: () => handleLinkClick(config.privacyAction, '/privacy') }, uiStrings.kPrivacy),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: () => handleLinkClick(config.termsAction, '/terms') }, uiStrings.kTerms))));
 };
 exports.Footer = Footer;

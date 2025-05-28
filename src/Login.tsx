@@ -18,8 +18,7 @@ import { getSessionUuid } from './SessionCall';
 import { Footer, Spacer } from './SiteUtilities';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { standardTextStyles } from './CommonStyles';
-import { getUIStrings, UIStrings, replaceStringParameter } from './UIStrings';
-import { isAppInLocalhost, IStorage, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY } from './LocalStorage';
+import { getUIStrings, UIStrings } from './UIStrings';
 import { uuidv4 } from './uuid';
 import { executeReCaptcha, handleLowScore, 
    SECURITY_STEP_BLOCK_REQUEST,
@@ -27,21 +26,37 @@ import { executeReCaptcha, handleLowScore,
    SECURITY_STEP_ADDITIONAL_VERIFICATION,
    SECURITY_STEP_RATE_LIMIT
 } from './captcha';
+import { getConfigStrings } from './ConfigStrings';
+import { isAppInLocalhost } from './LocalStorage';
+import { useUser } from './UserContext';
 
+// Extend Window interface
+export {};
 declare global {
-   interface Window {
-      onGoogleLogin: (response: any) => void;
-      google?: any;
-   }
+   var onGoogleLogin: undefined | ((response: any) => void);
+   var google: undefined | {
+      accounts: {
+         id: {
+            initialize: (config: {
+               client_id: string;
+               callback: (response: any) => void;
+               auto_select: boolean;
+               cancel_on_tap_outside: boolean;
+            }) => void;
+            renderButton: (
+               element: HTMLElement,
+               config: {
+                  theme: string;
+                  size: string;
+                  width: number;
+               }
+            ) => void;
+            prompt: () => void;
+            disableAutoSelect: () => void;
+         };
+      };
+   };
 }
-
-const local = window.location.hostname === 'localhost';
-const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
-
-// Use different client IDs for local development and production
-const CLIENT_ID = local 
-   ? '603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com'  // Development
-   : '603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com'; // Production
 
 const containerStyles: React.CSSProperties = {
    display: 'flex',
@@ -69,12 +84,13 @@ const RATE_LIMIT_RESET_TIME = 60000; // 1 minute
 // Login component props
 export interface ILoginProps {
    appMode: EAppMode;
-   storage: IStorage;
-   forceNode?: boolean;
 }
 
 // Login view component props
-interface ILoginUiProps extends ILoginProps {
+interface ILoginUiProps  {
+   appMode: EAppMode;   
+   userName: string | undefined;
+   sessionId: string | undefined;   
    googleButtonRef: React.RefObject<HTMLDivElement>;
    error?: string;
    setError: (error: string | undefined) => void;
@@ -85,16 +101,9 @@ interface ILoginUiProps extends ILoginProps {
 // This component is responsible for handling the login process, 
 // including reCAPTCHA verification, rate limiting, and Google Sign-In.
 export const Login = (props: ILoginProps) => {
-
-   const local = isAppInLocalhost();
-   
-   const captchaUrl = local ? 'http://localhost:7071/api/Captcha' : 'https://motifassistantapi.azurewebsites.net/api/Captcha';
+   const config = getConfigStrings();
+   const { userId, userName, sessionId, onLogin, onLogout } = useUser();
       
-   const [userId, setUserId] = useState<string | undefined>(props.storage.get(USER_ID_STORAGE_KEY));
-   const [userName, setUserName] = useState<string | undefined>(props.storage.get(USER_NAME_STORAGE_KEY));
-   const [sessionId, setSessionId] = useState<string | undefined>();
-   const [isGoogleLogin, setIsGoogleLogin] = useState<boolean>(false);
-   const [isGoogleInitialized, setIsGoogleInitialized] = useState<boolean>(false);
    const [error, setError] = useState<string | undefined>();
    const [googleCredential, setGoogleCredential] = useState<string | undefined>();
    
@@ -108,7 +117,7 @@ export const Login = (props: ILoginProps) => {
    // Handle logout and revoke access
    const handleLogout = async () => {
       try {
-         if (isGoogleLogin && window.google?.accounts?.id) {
+         if (window.google?.accounts?.id) {
             // Revoke Google access
             window.google.accounts.id.disableAutoSelect();
             
@@ -127,21 +136,14 @@ export const Login = (props: ILoginProps) => {
             }
          }
 
-         // Clear local storage
-         props.storage.remove(USER_ID_STORAGE_KEY);
-         props.storage.remove(USER_NAME_STORAGE_KEY);
-
          // Reset state
-         setUserId(undefined);
-         setUserName(undefined);
-         setSessionId(undefined);
-         setIsGoogleLogin(false);
          setGoogleCredential(undefined);
+         onLogout();
 
-         // Re-initialize Google Sign-In if needed
-         if (window.google?.accounts?.id) {
+         // Re-initialize Google Sign-In
+         if (window.google?.accounts?.id && window.onGoogleLogin) {
             window.google.accounts.id.initialize({
-               client_id: CLIENT_ID,
+               client_id: config.googleCaptchaClientId,
                callback: window.onGoogleLogin,
                auto_select: true,
                cancel_on_tap_outside: false
@@ -157,7 +159,7 @@ export const Login = (props: ILoginProps) => {
    const handleLogin = async (credential: string) => {
       try {
          // First verify with reCAPTCHA
-         const recaptchaResult = await executeReCaptcha(captchaUrl, 'login');
+         const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
          
          if (!recaptchaResult.success) {
             // Handle low score
@@ -184,30 +186,34 @@ export const Login = (props: ILoginProps) => {
                setTimeout(() => {
                   setIsWaiting(false);
                }, delay);            
+               return;
             }
          }
 
          const decodedToken = JSON.parse(atob(credential.split('.')[1]));
          const newUserId = decodedToken.sub;
-         setUserId(newUserId);
-         setUserName(decodedToken.name || undefined);
-         setIsGoogleLogin(true);
-         setGoogleCredential(credential);
+         const newUserName = decodedToken.name || undefined;
 
-         // Store the user ID and name
-         props.storage.set(USER_ID_STORAGE_KEY, newUserId);
-         props.storage.set(USER_NAME_STORAGE_KEY, decodedToken.name || undefined);
-
-         // Get session ID after successful login
-         const newSession = await getSessionUuid(sessionApiUrl);
-         if (newSession) {
-            setSessionId(newSession);
+         // Get session ID before updating state
+         let newSessionId: string | undefined;
+         try {
+            newSessionId = await getSessionUuid(config.sessionApiUrl);
+         } catch (error) {
+            console.error('Error getting session ID:', error);
          }
+
+         // If no session ID returned, create a temporary one
+         if (!newSessionId) {
+            newSessionId = uuidv4();
+            console.warn('Using temporary session ID');
+         }
+
+         // Update state only after we have all the necessary data
+         setGoogleCredential(credential);
+         onLogin(newUserId, newUserName, newSessionId);
+
       } catch (error) {
          console.error('Error processing login:', error);
-         setUserId(undefined);
-         setUserName(undefined);
-         setSessionId(undefined);
          setGoogleCredential(undefined);
          setError(UIStrings.kLoginFailed);
       }
@@ -232,82 +238,54 @@ export const Login = (props: ILoginProps) => {
       return delay;
    };
 
-   // If we are running locally, check for existing user ID in storage on mount
+   // Handle login 
    useEffect(() => {
-      if (isAppInLocalhost()) {
-         const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
-         const storedUserName = props.storage.get(USER_NAME_STORAGE_KEY);
-
-         if (storedUserId && storedUserName) {
-            setUserId(storedUserId);
-            setUserName(storedUserName);
-            setIsGoogleLogin(false);
-            // Get session ID for stored user
-            getSessionUuid(sessionApiUrl).then(newSession => {
-               if (newSession) {
-                  setSessionId(newSession);
-               } else {
-                  // If no session ID returned, create a temporary one
-                  setSessionId(uuidv4());
-               }
-            });
-         }
-      }
-   }, [props.storage]);
-
-   // Initialize Google Sign-In
-   useEffect(() => {
-      const initializeGoogle = () => {
-         if (!window.google?.accounts?.id || !googleButtonRef.current || isGoogleInitialized) {
-            return;
-         }
-
-         try {
-            window.onGoogleLogin = (response: any) => {
-               handleLogin(response.credential);
-            };
-
-            window.google.accounts.id.initialize({
-               client_id: CLIENT_ID,
-               callback: window.onGoogleLogin,
-               auto_select: true,
-               cancel_on_tap_outside: false
-            });
-
-            window.google.accounts.id.renderButton(googleButtonRef.current, {
-               theme: 'outline',
-               size: 'large',
-               width: 250
-            });
-
-            setIsGoogleInitialized(true);
-         } catch (error) {
-            console.error('Error initializing Google Sign-In:', error);
+      // Set up Google Sign-In callback regardless of whether the API is loaded
+      // This ensures tests can access the callback even before the API loads
+      window.onGoogleLogin = (response: any) => {
+         if (response.credential) {
+            handleLogin(response.credential);
          }
       };
-
-      initializeGoogle();
-   }, [isGoogleInitialized, userId]);
-
-   // Handle auto-login prompt
-   useEffect(() => {
-      const storedUserId = props.storage.get(USER_ID_STORAGE_KEY);
       
-      // Only attempt auto-login if there's no stored user and no current user
-      if (isGoogleInitialized && !userName && !storedUserId) {
-         const attemptAutoLogin = async () => {
-            try {
-               window.google?.accounts?.id?.prompt();
-            } catch (error) {
-               console.error('Error prompting for auto-login:', error);
-            }
-         };
+      const googleApi = window.google?.accounts?.id;
+      if (googleApi) {
+         // Initialize Google Sign-In if API is available
+         googleApi.initialize({
+            client_id: config.googleCaptchaClientId,
+            callback: window.onGoogleLogin,
+            auto_select: true,
+            cancel_on_tap_outside: false
+         });
 
-         // Add a small delay before prompting
-         const promptTimeout = setTimeout(attemptAutoLogin, 1000);
-         return () => clearTimeout(promptTimeout);
+         // Only attempt auto-login if we dont yet have a userName, userId or sessionId
+         // and we are not running locally
+         if (!userName && !userId && !sessionId && !isAppInLocalhost()) {
+            const attemptAutoLogin = async () => {
+               try {
+                  googleApi.prompt();
+               } catch (error) {
+                  console.error('Error prompting for auto-login:', error);
+               }
+            };
+
+            // Add a small delay before prompting
+            const promptTimeout = setTimeout(attemptAutoLogin, 1000);
+            return () => clearTimeout(promptTimeout);
+         }
       }
-   }, [isGoogleInitialized, userName, props.storage]);
+   }, [userName, userId, sessionId, config.googleCaptchaClientId]);
+
+   // Render Google Sign-In button
+   useEffect(() => {
+      if (googleButtonRef.current && window.google?.accounts?.id) {
+         window.google.accounts.id.renderButton(googleButtonRef.current, {
+            theme: 'outline',
+            size: 'large',
+            width: 250
+         });
+      }
+   }, [googleButtonRef.current]);
 
    return (
       <div style={containerStyles} data-testid="login-container" data-session-id={sessionId}>
@@ -315,8 +293,8 @@ export const Login = (props: ILoginProps) => {
             {!userName || !sessionId ? (
                <LoginView 
                   appMode={props.appMode}
-                  storage={props.storage}
-                  forceNode={props.forceNode}
+                  userName={userName}
+                  sessionId={sessionId}
                   googleButtonRef={googleButtonRef}
                   error={error}
                   setError={setError}
@@ -327,7 +305,7 @@ export const Login = (props: ILoginProps) => {
                   appMode={props.appMode}
                   sessionId={sessionId}
                   userName={userName}
-                  forceNode={props.forceNode || false}
+                  onLogout={handleLogout}
                />
             )}
          </div>
@@ -340,7 +318,7 @@ export const Login = (props: ILoginProps) => {
 // This component is responsible for rendering the login view of the application.
 // It includes the login form, error message, and Google login button.
 export const LoginView = (props: ILoginUiProps) => {
-   
+
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
    const textClasses = standardTextStyles();
