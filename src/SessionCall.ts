@@ -12,31 +12,28 @@ import { IStorage, browserLocalStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_K
 /**
  * Calls the cookie API to get a session UUID.
  * 
- * This function first checks storage for an existing session ID.
- * If found, it sends that to the server. If not, it requests a new session.
- * The server's response is stored and returned.
+ * This function sends the provided email and sessionId to the server.
+ * The server's response is returned.
  * 
- * @param cookieApiUrl - The URL of the cookie API
- * @param storage - Storage implementation to use (defaults to browser storage)
+ * @param sessionApiUrl - The URL of the cookie API
+ * @param email - The user's email address
+ * @param sessionId - Optional existing session ID
  * @returns The session UUID if successful, undefined if there's an error
  */
 export async function getSessionUuid(
-    cookieApiUrl: string, 
-    storage: IStorage = browserLocalStorage
+    sessionApiUrl: string,
+    email?: string,
+    sessionId?: string
 ): Promise<string | undefined> {
     try {
-        // Check storage first
-        const existingSessionId = storage.get(SESSION_STORAGE_KEY);
-        const userName = storage.get(USER_NAME_STORAGE_KEY);
-
         // Prepare the request
         const request: ISessionRequest = {
-            email: userName,
-            sessionId: existingSessionId || undefined
+            email,
+            sessionId
         };
 
         // Make the API call
-        const response = await axios.post<ISessionResponse>(cookieApiUrl, request, {
+        const response = await axios.post<ISessionResponse>(sessionApiUrl, request, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -44,17 +41,14 @@ export async function getSessionUuid(
         });
 
         // Get the session ID from the response
-        const sessionId = response?.data?.sessionId || undefined;
+        const newSessionId = response?.data?.sessionId || undefined;
         
-        if (!sessionId) {
+        if (!newSessionId) {
             console.error('No sessionId in response');
             return undefined;
         }
-
-        // Store the session ID
-        storage.set(SESSION_STORAGE_KEY, sessionId);
         
-        return sessionId;
+        return newSessionId;
 
     } catch (error) {
         console.error('Error getting session UUID:', error);

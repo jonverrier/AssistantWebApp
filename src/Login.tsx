@@ -102,7 +102,8 @@ interface ILoginUiProps  {
 // including reCAPTCHA verification, rate limiting, and Google Sign-In.
 export const Login = (props: ILoginProps) => {
    const config = getConfigStrings();
-   const { userId, userName, sessionId, onLogin, onLogout } = useUser();
+   const user = useUser();
+   const { userId, userName, sessionId, onLogin, onLogout } = user;
       
    const [error, setError] = useState<string | undefined>();
    const [googleCredential, setGoogleCredential] = useState<string | undefined>();
@@ -193,11 +194,12 @@ export const Login = (props: ILoginProps) => {
          const decodedToken = JSON.parse(atob(credential.split('.')[1]));
          const newUserId = decodedToken.sub;
          const newUserName = decodedToken.name || undefined;
+         const userEmail = decodedToken.email || undefined;
 
          // Get session ID before updating state
          let newSessionId: string | undefined;
          try {
-            newSessionId = await getSessionUuid(config.sessionApiUrl);
+            newSessionId = await getSessionUuid(config.sessionApiUrl, userEmail);
          } catch (error) {
             console.error('Error getting session ID:', error);
          }
@@ -208,13 +210,13 @@ export const Login = (props: ILoginProps) => {
             console.warn('Using temporary session ID');
          }
 
-         // Update state only after we have all the necessary data
-         setGoogleCredential(credential);
-         onLogin(newUserId, newUserName, newSessionId);
+         // Update user context
+         if (user) {
+            user.onLogin(newUserId, newUserName || '', newSessionId);
+         }
 
       } catch (error) {
-         console.error('Error processing login:', error);
-         setGoogleCredential(undefined);
+         console.error('Error during login:', error);
          setError(UIStrings.kLoginFailed);
       }
    };

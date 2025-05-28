@@ -6,24 +6,14 @@
 import { expect } from 'expect';
 import { axiosPostStub } from './setup';
 import { getSessionUuid } from '../src/SessionCall';
-import { IStorage } from '../src/LocalStorage';
-import { MockStorage } from './MockStorage';
 
 describe('getSessionUuid', function() {
-    let mockStorage: IStorage;
-
-    before(() => {
-        // Setup mock storage
-        mockStorage = new MockStorage();
-    });
-
     afterEach(() => {
         // Reset the stub's behavior between tests
         axiosPostStub.reset();
-        (mockStorage as MockStorage).clear();
     });
 
-    it('should get new session ID when no existing session', async () => {
+    it('should get new session ID when no email or session ID provided', async () => {
         const testUuid = '123e4567-e89b-12d3-a456-426614174000';
         axiosPostStub.resolves({
             data: {
@@ -31,12 +21,13 @@ describe('getSessionUuid', function() {
             }
         });
 
-        const result = await getSessionUuid('http://test-api/cookie', mockStorage);
+        const result = await getSessionUuid('http://test-api/session');
         
         expect(result).toBe(testUuid);
         expect(axiosPostStub.calledOnce).toBe(true);
-        expect(axiosPostStub.firstCall.args[0]).toBe('http://test-api/cookie');
+        expect(axiosPostStub.firstCall.args[0]).toBe('http://test-api/session');
         expect(axiosPostStub.firstCall.args[1]).toEqual({
+            email: undefined,
             sessionId: undefined
         });
         expect(axiosPostStub.firstCall.args[2]).toEqual({
@@ -45,28 +36,55 @@ describe('getSessionUuid', function() {
                 'Content-Type': 'application/json'
             }
         });
-        expect(mockStorage.get('motif_session_id')).toBe(testUuid);
     });
 
-    it('should send existing session ID when available', async () => {
+    it('should echo back the provided session ID', async () => {
         const existingUuid = 'existing-uuid-123';
-        const newUuid = 'new-uuid-456';
-        mockStorage.set('motif_session_id', existingUuid);
+        const testEmail = 'test@example.com';
         
         axiosPostStub.resolves({
             data: {
-                sessionId: newUuid
+                sessionId: existingUuid
             }
         });
 
-        const result = await getSessionUuid('http://test-api/cookie', mockStorage);
+        const result = await getSessionUuid('http://test-api/session', testEmail, existingUuid);
         
-        expect(result).toBe(newUuid);
+        expect(result).toBe(existingUuid);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
+            email: testEmail,
             sessionId: existingUuid
         });
-        expect(mockStorage.get('motif_session_id')).toBe(newUuid);
+    });
+
+    it('should generate consistent session ID based on email when no session ID provided', async () => {
+        const testEmail = 'test@example.com';
+        const emailBasedUuid = '456e7890-e12d-12d3-a456-789012345678'; // Example consistent UUID based on email
+        
+        axiosPostStub.resolves({
+            data: {
+                sessionId: emailBasedUuid
+            }
+        });
+
+        // First call
+        const result1 = await getSessionUuid('http://test-api/session', testEmail);
+        expect(result1).toBe(emailBasedUuid);
+        
+        // Second call should return same UUID
+        const result2 = await getSessionUuid('http://test-api/session', testEmail);
+        expect(result2).toBe(emailBasedUuid);
+        
+        expect(axiosPostStub.calledTwice).toBe(true);
+        expect(axiosPostStub.firstCall.args[1]).toEqual({
+            email: testEmail,
+            sessionId: undefined
+        });
+        expect(axiosPostStub.secondCall.args[1]).toEqual({
+            email: testEmail,
+            sessionId: undefined
+        });
     });
 
     it('should handle missing sessionId in response', async () => {
@@ -74,18 +92,16 @@ describe('getSessionUuid', function() {
             data: {}
         });
 
-        const result = await getSessionUuid('http://test-api/cookie', mockStorage);
+        const result = await getSessionUuid('http://test-api/session');
         
         expect(result).toBeUndefined();
-        expect((mockStorage as MockStorage).size).toBe(0);
     });
 
     it('should handle API error', async () => {
         axiosPostStub.rejects(new Error('Network error'));
 
-        const result = await getSessionUuid('http://test-api/cookie', mockStorage);
+        const result = await getSessionUuid('http://test-api/session');
         
         expect(result).toBeUndefined();
-        expect((mockStorage as MockStorage).size).toBe(0);
     });
 }); 

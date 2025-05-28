@@ -57254,7 +57254,7 @@ ${message.content}
   });
 
   // src/LocalStorage.ts
-  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, isAppInLocalhost, isAppInBrowser, browserLocalStorage, browserSessionStorage;
+  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
   var init_LocalStorage = __esm({
     "src/LocalStorage.ts"() {
       "use strict";
@@ -57269,24 +57269,6 @@ ${message.content}
       };
       isAppInBrowser = () => {
         return typeof window !== "undefined" && typeof window.document !== "undefined";
-      };
-      browserLocalStorage = {
-        get: (key) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            return localStorage.getItem(key) || void 0;
-          }
-          return void 0;
-        },
-        set: (key, value) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            localStorage.setItem(key, value);
-          }
-        },
-        remove: (key) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            localStorage.removeItem(key);
-          }
-        }
       };
       browserSessionStorage = {
         get: (key) => {
@@ -60166,27 +60148,24 @@ ${message.content}
   });
 
   // src/SessionCall.ts
-  async function getSessionUuid(cookieApiUrl, storage = browserLocalStorage) {
+  async function getSessionUuid(sessionApiUrl, email, sessionId) {
     try {
-      const existingSessionId = storage.get(SESSION_STORAGE_KEY);
-      const userName = storage.get(USER_NAME_STORAGE_KEY);
       const request = {
-        email: userName,
-        sessionId: existingSessionId || void 0
+        email,
+        sessionId
       };
-      const response = await axios_default.post(cookieApiUrl, request, {
+      const response = await axios_default.post(sessionApiUrl, request, {
         headers: {
           "Accept": "application/json",
           "Content-Type": "application/json"
         }
       });
-      const sessionId = response?.data?.sessionId || void 0;
-      if (!sessionId) {
+      const newSessionId = response?.data?.sessionId || void 0;
+      if (!newSessionId) {
         console.error("No sessionId in response");
         return void 0;
       }
-      storage.set(SESSION_STORAGE_KEY, sessionId);
-      return sessionId;
+      return newSessionId;
     } catch (error) {
       console.error("Error getting session UUID:", error);
       return void 0;
@@ -60196,7 +60175,6 @@ ${message.content}
     "src/SessionCall.ts"() {
       "use strict";
       init_axios2();
-      init_LocalStorage();
     }
   });
 
@@ -60316,7 +60294,8 @@ ${message.content}
       RATE_LIMIT_RESET_TIME = 6e4;
       Login = (props) => {
         const config = getConfigStrings();
-        const { userId, userName, sessionId, onLogin, onLogout } = useUser();
+        const user = useUser();
+        const { userId, userName, sessionId, onLogin, onLogout } = user;
         const [error, setError] = (0, import_react33.useState)();
         const [googleCredential, setGoogleCredential] = (0, import_react33.useState)();
         const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react33.useState)(0);
@@ -60382,9 +60361,10 @@ ${message.content}
             const decodedToken = JSON.parse(atob(credential.split(".")[1]));
             const newUserId = decodedToken.sub;
             const newUserName = decodedToken.name || void 0;
+            const userEmail = decodedToken.email || void 0;
             let newSessionId;
             try {
-              newSessionId = await getSessionUuid(config.sessionApiUrl);
+              newSessionId = await getSessionUuid(config.sessionApiUrl, userEmail);
             } catch (error2) {
               console.error("Error getting session ID:", error2);
             }
@@ -60392,11 +60372,11 @@ ${message.content}
               newSessionId = uuidv4();
               console.warn("Using temporary session ID");
             }
-            setGoogleCredential(credential);
-            onLogin(newUserId, newUserName, newSessionId);
+            if (user) {
+              user.onLogin(newUserId, newUserName || "", newSessionId);
+            }
           } catch (error2) {
-            console.error("Error processing login:", error2);
-            setGoogleCredential(void 0);
+            console.error("Error during login:", error2);
             setError(UIStrings.kLoginFailed);
           }
         };
