@@ -5,9 +5,10 @@
 
 import { expect } from 'expect';
 import { axiosPostStub } from './setup';
-import { getSessionUuid } from '../src/SessionCall';
+import { getSessionData } from '../src/SessionCall';
+import { EUserRole } from '../import/AssistantChatApiTypes';
 
-describe('getSessionUuid', function() {
+describe('getSessionData', function() {
     afterEach(() => {
         // Reset the stub's behavior between tests
         axiosPostStub.reset();
@@ -17,18 +18,19 @@ describe('getSessionUuid', function() {
         const testUuid = '123e4567-e89b-12d3-a456-426614174000';
         axiosPostStub.resolves({
             data: {
-                sessionId: testUuid
+                sessionId: testUuid,
+                role: EUserRole.kOnboarding
             }
         });
 
-        const result = await getSessionUuid('http://test-api/session');
+        const result = await getSessionData('http://test-api/session', 'test@example.com');
         
-        expect(result).toBe(testUuid);
+        expect(result?.sessionId).toBe(testUuid);
+        expect(result?.role).toBe(EUserRole.kOnboarding);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[0]).toBe('http://test-api/session');
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            email: undefined,
-            sessionId: undefined
+            email: 'test@example.com'
         });
         expect(axiosPostStub.firstCall.args[2]).toEqual({
             headers: {
@@ -44,17 +46,18 @@ describe('getSessionUuid', function() {
         
         axiosPostStub.resolves({
             data: {
-                sessionId: existingUuid
+                sessionId: existingUuid,
+                role: EUserRole.kMember
             }
         });
 
-        const result = await getSessionUuid('http://test-api/session', testEmail, existingUuid);
+        const result = await getSessionData('http://test-api/session', testEmail);
         
-        expect(result).toBe(existingUuid);
+        expect(result?.sessionId).toBe(existingUuid);
+        expect(result?.role).toBe(EUserRole.kMember);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            email: testEmail,
-            sessionId: existingUuid
+            email: testEmail
         });
     });
 
@@ -64,26 +67,27 @@ describe('getSessionUuid', function() {
         
         axiosPostStub.resolves({
             data: {
-                sessionId: emailBasedUuid
+                sessionId: emailBasedUuid,
+                role: EUserRole.kOnboarding
             }
         });
 
         // First call
-        const result1 = await getSessionUuid('http://test-api/session', testEmail);
-        expect(result1).toBe(emailBasedUuid);
+        const result1 = await getSessionData('http://test-api/session', testEmail);
+        expect(result1?.sessionId).toBe(emailBasedUuid);
+        expect(result1?.role).toBe(EUserRole.kOnboarding);
         
         // Second call should return same UUID
-        const result2 = await getSessionUuid('http://test-api/session', testEmail);
-        expect(result2).toBe(emailBasedUuid);
+        const result2 = await getSessionData('http://test-api/session', testEmail);
+        expect(result2?.sessionId).toBe(emailBasedUuid);
+        expect(result2?.role).toBe(EUserRole.kOnboarding);
         
         expect(axiosPostStub.calledTwice).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            email: testEmail,
-            sessionId: undefined
+            email: testEmail
         });
         expect(axiosPostStub.secondCall.args[1]).toEqual({
-            email: testEmail,
-            sessionId: undefined
+            email: testEmail
         });
     });
 
@@ -92,7 +96,7 @@ describe('getSessionUuid', function() {
             data: {}
         });
 
-        const result = await getSessionUuid('http://test-api/session');
+        const result = await getSessionData('http://test-api/session', 'test@example.com');
         
         expect(result).toBeUndefined();
     });
@@ -100,7 +104,7 @@ describe('getSessionUuid', function() {
     it('should handle API error', async () => {
         axiosPostStub.rejects(new Error('Network error'));
 
-        const result = await getSessionUuid('http://test-api/session');
+        const result = await getSessionData('http://test-api/session', 'test@example.com');
         
         expect(result).toBeUndefined();
     });

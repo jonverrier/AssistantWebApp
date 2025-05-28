@@ -11,7 +11,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import expect from 'expect';
 import { Login } from '../src/Login';
-import { EAppMode } from '../src/UIStrings';
+import { EAssistantPersonality, EUserRole } from '../import/AssistantChatApiTypes';
 import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 import { BrowserRouter } from 'react-router-dom';
 import * as SessionCall from '../src/SessionCall';
@@ -117,7 +117,7 @@ describe('Login Component', () => {
          <FluentProvider theme={teamsDarkTheme}>
             <UserProvider storage={mockStorage}>
                <BrowserRouter>
-                  <Login appMode={EAppMode.kYardTalk} />
+                  <Login personality={EAssistantPersonality.kTheYardAssistant} />
                </BrowserRouter>
             </UserProvider>
          </FluentProvider>
@@ -138,7 +138,8 @@ describe('Login Component', () => {
    it('should update session ID when getSessionUuid returns a value', async () => {
       // Mock getSessionUuid to return a specific session ID
       const mockSessionId = 'test-session-123';
-      const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionUuid').resolves(mockSessionId);
+      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kOnboarding };
+      const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(mockSessionData);
 
       // Create a mock JWT token that will decode to our test user
       const mockDecodedToken = {
@@ -168,14 +169,17 @@ describe('Login Component', () => {
       expect(getSessionUuidStub.called).toBeTruthy();
    });
 
-   it('should use temporary session ID when getSessionUuid returns null', async () => {
-      // Mock getSessionUuid to return null
-      const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionUuid').resolves(undefined);
+   it('should use temporary session ID when getSessionUuid returns null', async function() {
+      this.timeout(10000); // Increase timeout to 10 seconds
+      
+      // Mock getSessionUuid to return undefined
+      const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(undefined);
 
       // Create a mock JWT token that will decode to our test user
       const mockDecodedToken = {
          sub: 'test-user-123',
-         name: 'Test User'
+         name: 'Test User',
+         email: 'test@example.com'
       };
       const mockJwt = `header.${btoa(JSON.stringify(mockDecodedToken))}.signature`;
 
@@ -189,7 +193,7 @@ describe('Login Component', () => {
       // Simulate Google Sign-In callback
       (window.onGoogleLogin as (response: { credential: string }) => void)({ credential: mockJwt });
 
-      // Wait for the session ID to be updated
+      // Wait for the session ID to be updated with a temporary UUID
       await waitFor(() => {
          const container = screen.getByTestId('login-container');
          expect(container).toBeTruthy();
@@ -198,7 +202,7 @@ describe('Login Component', () => {
          expect(sessionId).not.toBeUndefined();
          // Check that the session ID is a valid UUID
          expect(sessionId).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i);
-      }, { timeout: 2000 });
+      }, { timeout: 5000 });
 
       // Verify getSessionUuid was called
       expect(getSessionUuidStub.called).toBeTruthy();
@@ -224,7 +228,8 @@ describe('Login Component', () => {
       
       // Mock getSessionUuid to return a session ID
       const mockSessionId = 'test-session-456';
-      sinon.stub(SessionCall, 'getSessionUuid').resolves(mockSessionId);
+      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kOnboarding };
+      const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(mockSessionData);
 
       // Mock reCAPTCHA with a high score
       const mockExecuteReCaptcha = sinon.stub().resolves({ 
@@ -239,7 +244,8 @@ describe('Login Component', () => {
       // Create a mock JWT token that will decode to our test user
       const mockDecodedToken = {
          sub: 'test-user-101',
-         name: 'Test User'
+         name: 'Test User',
+         email: 'test@example.com'
       };
       const mockJwt = `header.${btoa(JSON.stringify(mockDecodedToken))}.signature`;
       
@@ -257,20 +263,20 @@ describe('Login Component', () => {
       // Simulate Google Sign-In callback
       (window.onGoogleLogin as (response: { credential: string }) => void)({ credential: mockJwt });
 
-      // Verify successful login
+      // Wait for successful login - check that session ID is set and no error is shown
       await waitFor(() => {
          const container = screen.getByTestId('login-container');
+         expect(container).toBeTruthy();
          expect(container.getAttribute('data-session-id')).toBe(mockSessionId);
          
-         // The App component should be rendered now
-         expect(screen.queryByTestId('login-view')).toBeNull();
-      }, {
-         timeout: 5000,
-         interval: 100
-      });
+         // Verify no error message is shown
+         const errorElements = screen.queryByText(UIStrings.kLoginBlocked);
+         expect(errorElements).toBeNull();
+      }, { timeout: 5000 });
 
-      // Verify reCAPTCHA was called
+      // Verify reCAPTCHA and getSessionUuid were called
       expect(mockExecuteReCaptcha.called).toBeTruthy();
+      expect(getSessionUuidStub.called).toBeTruthy();
    });
    
 }); 

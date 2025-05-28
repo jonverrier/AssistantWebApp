@@ -5,9 +5,11 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
-export const SESSION_STORAGE_KEY = 'motif_session_id';
-export const USER_ID_STORAGE_KEY = 'motif_user_id';
-export const USER_NAME_STORAGE_KEY = 'motif_user_name';
+export const SESSION_STORAGE_KEY = 'strong_session_id';
+export const USER_ID_STORAGE_KEY = 'strong_user_id';
+export const USER_NAME_STORAGE_KEY = 'strong_user_name';
+export const USER_FACILITY_KEY = 'strong_user_facility';
+export const USER_ROLE_KEY = 'strong_user_role';
 
 /**
  * Check if the application is running on localhost

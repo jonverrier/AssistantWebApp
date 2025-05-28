@@ -8,10 +8,12 @@
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { standardLinkStyles, standardTextStyles } from './CommonStyles';
-import { EAppMode, getUIStrings } from './UIStrings';
+import { getUIStrings } from './UIStrings';
 import { makeStyles, shorthands, Text, Image } from '@fluentui/react-components';
 import { executeReCaptcha } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
+import { useUser } from './UserContext';
 
 const MOBILE_BREAKPOINT = 512;
 
@@ -83,7 +85,9 @@ export interface IFooterProps {
 }
 
 export const Footer = (props: IFooterProps) => {
-   const uiStrings = getUIStrings(EAppMode.kYardTalk);   
+   const user = useUser();
+   const personality = user?.personality ?? EAssistantPersonality.kDemoAssistant;
+   const uiStrings = getUIStrings(personality);   
    const linkClasses = standardLinkStyles();
    const styles = useFooterStyles();
    const footerRef = useRef<HTMLDivElement>(null);

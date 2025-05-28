@@ -1,11 +1,19 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, SESSION_STORAGE_KEY, IStorage } from './LocalStorage';
+import { USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, SESSION_STORAGE_KEY, USER_FACILITY_KEY, USER_ROLE_KEY, IStorage } from './LocalStorage';
+import { EUserRole, EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 interface UserContextType {
    userId: string | undefined;
    userName: string | undefined;
    sessionId: string | undefined;
-   onLogin: (userId: string, userName: string, sessionId: string) => void;
+   facilityPersonality: string | undefined;
+   userRole: EUserRole | undefined;
+   personality: EAssistantPersonality | undefined;
+   onLogin: (userFacility: EAssistantPersonality, 
+      userId: string, 
+      userName: string, 
+      sessionId: string, 
+      userRole: EUserRole) => void;
    onLogout: () => void;
 }
 
@@ -26,6 +34,16 @@ export function UserProvider({ children, storage }: UserProviderProps) {
    const [sessionId, setSessionId] = useState<string | undefined>(() => {
       return storage.get(SESSION_STORAGE_KEY) || undefined;
    });
+   const [facilityPersonality, setFacilityPersonality] = useState<string | undefined>(() => {
+      return storage.get(USER_FACILITY_KEY) || undefined;
+   });
+   const [userRole, setUserRole] = useState<EUserRole | undefined>(() => {
+      const storedRole = storage.get(USER_ROLE_KEY);
+      return storedRole ? storedRole as EUserRole : undefined;
+   });
+   const [personality, setPersonality] = useState<EAssistantPersonality | undefined>(
+      EAssistantPersonality.kDemoAssistant
+   );
 
    // Persist state changes to storage
    useEffect(() => {
@@ -52,19 +70,46 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       }
    }, [sessionId, storage]);
 
-   const handleLogin = (newUserId: string, newUserName: string, newSessionId: string) => {
-      setUserId(newUserId);
-      setUserName(newUserName);
-      setSessionId(newSessionId);
+   useEffect(() => {
+      if (facilityPersonality) {
+         storage.set(USER_FACILITY_KEY, facilityPersonality);
+      } else {
+         storage.remove(USER_FACILITY_KEY);
+      }
+   }, [facilityPersonality, storage]);
+
+   useEffect(() => {
+      if (userRole) {
+         storage.set(USER_ROLE_KEY, userRole);
+      } else {
+         storage.remove(USER_ROLE_KEY);
+      }
+   }, [userRole, storage]);
+
+   const handleLogin = (facilityPersonality: EAssistantPersonality, 
+      userId: string, 
+      userName: string, 
+      sessionId: string, 
+      userRole: EUserRole) => {
+      setUserId(userId);
+      setUserName(userName);
+      setSessionId(sessionId);
+      setFacilityPersonality(facilityPersonality);
+      setUserRole(userRole);
    };
 
    const handleLogout = () => {
       setUserId(undefined);
       setUserName(undefined);
       setSessionId(undefined);
+      setFacilityPersonality(undefined);
+      setUserRole(undefined);
+      setPersonality(undefined);
       storage.remove(USER_ID_STORAGE_KEY);
       storage.remove(USER_NAME_STORAGE_KEY);
       storage.remove(SESSION_STORAGE_KEY);
+      storage.remove(USER_FACILITY_KEY);
+      storage.remove(USER_ROLE_KEY);
    };
 
    return (
@@ -73,6 +118,9 @@ export function UserProvider({ children, storage }: UserProviderProps) {
             userId,
             userName,
             sessionId,
+            facilityPersonality: facilityPersonality,
+            userRole,
+            personality,
             onLogin: handleLogin,
             onLogout: handleLogout
          }}

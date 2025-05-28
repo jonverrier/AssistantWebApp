@@ -7,9 +7,11 @@
  */
 /*! Copyright Jon Verrier 2025 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UIStrings = exports.TheYardUIStrings = exports.CommonUIStrings = exports.EAppMode = exports.EMultilineEditUIStrings = void 0;
+exports.UIStrings = exports.TheYardUIStrings = exports.CommonUIStrings = exports.EMultilineEditUIStrings = void 0;
 exports.replaceStringParameter = replaceStringParameter;
+exports.getCommonUIStrings = getCommonUIStrings;
 exports.getUIStrings = getUIStrings;
+const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 var MultilineEditUIStrings_1 = require("./MultilineEditUIStrings");
 Object.defineProperty(exports, "EMultilineEditUIStrings", { enumerable: true, get: function () { return MultilineEditUIStrings_1.EMultilineEditUIStrings; } });
 /**
@@ -22,11 +24,6 @@ Object.defineProperty(exports, "EMultilineEditUIStrings", { enumerable: true, ge
 function replaceStringParameter(template, parameter, index = 0) {
     return template.replace(`{${index}}`, parameter.toString());
 }
-// Type for the current linter mode
-var EAppMode;
-(function (EAppMode) {
-    EAppMode["kYardTalk"] = "yardtalk";
-})(EAppMode || (exports.EAppMode = EAppMode = {}));
 exports.CommonUIStrings = {
     kWarning: "Warning:",
     kInfo: "Information:",
@@ -62,10 +59,16 @@ exports.UIStrings = {
     ...exports.CommonUIStrings,
     ...exports.TheYardUIStrings
 };
-// Function to get the appropriate UI strings based on the current mode
+// Function to get common UI strings 
+function getCommonUIStrings() {
+    return exports.CommonUIStrings;
+}
+// Function to get all UI strings based on the current mode
 function getUIStrings(mode) {
     switch (mode) {
-        case EAppMode.kYardTalk:
+        case AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant:
+            return exports.UIStrings;
+        case AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant:
             return exports.UIStrings;
         default:
             return exports.UIStrings;

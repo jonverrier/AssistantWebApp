@@ -1098,7 +1098,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState14(initialState) {
+          function useState15(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1901,7 +1901,7 @@
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
           exports.useRef = useRef18;
-          exports.useState = useState14;
+          exports.useState = useState15;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -23595,64 +23595,6 @@
     }
   });
 
-  // src/MultilineEditUIStrings.ts
-  var init_MultilineEditUIStrings = __esm({
-    "src/MultilineEditUIStrings.ts"() {
-      "use strict";
-    }
-  });
-
-  // src/UIStrings.ts
-  function getUIStrings(mode) {
-    switch (mode) {
-      case "yardtalk" /* kYardTalk */:
-        return UIStrings;
-      default:
-        return UIStrings;
-    }
-  }
-  var CommonUIStrings, TheYardUIStrings, UIStrings;
-  var init_UIStrings = __esm({
-    "src/UIStrings.ts"() {
-      "use strict";
-      init_MultilineEditUIStrings();
-      CommonUIStrings = {
-        kWarning: "Warning:",
-        kInfo: "Information:",
-        kError: "Error:",
-        kSuccess: "Success:",
-        kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
-        kHome: "Home",
-        kPrivacyTitle: "Privacy Policy",
-        kTermsTitle: "Terms of Service",
-        kPrivacy: "Privacy",
-        kTerms: "Terms",
-        kAIWarning: "AI can make mistakes. Think about it.",
-        kProcessingPleaseWait: "Please wait a few seconds...",
-        kArchivingPleaseWait: "Please wait a few seconds...",
-        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
-        kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
-        kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
-        kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
-        kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
-        kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
-      };
-      TheYardUIStrings = {
-        kAppPageCaption: "Yard Talk",
-        kAppPageStrapline: "Where sweat meets sass.",
-        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
-        kLinks: "",
-        kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
-        kChatPlaceholder: "Let's talk about fitness...",
-        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
-      };
-      UIStrings = {
-        ...CommonUIStrings,
-        ...TheYardUIStrings
-      };
-    }
-  });
-
   // node_modules/@remix-run/router/dist/router.js
   function _extends() {
     _extends = Object.assign ? Object.assign.bind() : function(target) {
@@ -24233,7 +24175,7 @@
   function isRouteErrorResponse(error) {
     return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
   }
-  var Action, PopStateEventType, ResultType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, joinPaths, normalizePathname, normalizeSearch, normalizeHash, validMutationMethodsArr, validMutationMethods, validRequestMethodsArr, validRequestMethods, UNSAFE_DEFERRED_SYMBOL;
+  var Action, PopStateEventType, ResultType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, joinPaths, normalizePathname, normalizeSearch, normalizeHash, redirect, validMutationMethodsArr, validMutationMethods, validRequestMethodsArr, validRequestMethods, UNSAFE_DEFERRED_SYMBOL;
   var init_router = __esm({
     "node_modules/@remix-run/router/dist/router.js"() {
       (function(Action2) {
@@ -24259,6 +24201,24 @@
       normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
       normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
       normalizeHash = (hash2) => !hash2 || hash2 === "#" ? "" : hash2.startsWith("#") ? hash2 : "#" + hash2;
+      redirect = function redirect2(url, init) {
+        if (init === void 0) {
+          init = 302;
+        }
+        let responseInit = init;
+        if (typeof responseInit === "number") {
+          responseInit = {
+            status: responseInit
+          };
+        } else if (typeof responseInit.status === "undefined") {
+          responseInit.status = 302;
+        }
+        let headers = new Headers(responseInit.headers);
+        headers.set("Location", url);
+        return new Response(null, _extends({}, responseInit, {
+          headers
+        }));
+      };
       validMutationMethodsArr = ["post", "put", "patch", "delete"];
       validMutationMethods = new Set(validMutationMethodsArr);
       validRequestMethodsArr = ["get", ...validMutationMethodsArr];
@@ -25577,6 +25537,13 @@
       getUniqueFetcherId = () => "__" + String(++fetcherId) + "__";
       SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
       savedScrollPositions = {};
+    }
+  });
+
+  // import/AssistantChatApiTypes.ts
+  var init_AssistantChatApiTypes = __esm({
+    "import/AssistantChatApiTypes.ts"() {
+      "use strict";
     }
   });
 
@@ -45872,6 +45839,70 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // src/MultilineEditUIStrings.ts
+  var init_MultilineEditUIStrings = __esm({
+    "src/MultilineEditUIStrings.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/UIStrings.ts
+  function getCommonUIStrings() {
+    return CommonUIStrings;
+  }
+  function getUIStrings(mode) {
+    switch (mode) {
+      case "TheYardAssistant" /* kTheYardAssistant */:
+        return UIStrings;
+      case "DemoAssistant" /* kDemoAssistant */:
+        return UIStrings;
+      default:
+        return UIStrings;
+    }
+  }
+  var CommonUIStrings, TheYardUIStrings, UIStrings;
+  var init_UIStrings = __esm({
+    "src/UIStrings.ts"() {
+      "use strict";
+      init_AssistantChatApiTypes();
+      init_MultilineEditUIStrings();
+      CommonUIStrings = {
+        kWarning: "Warning:",
+        kInfo: "Information:",
+        kError: "Error:",
+        kSuccess: "Success:",
+        kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
+        kHome: "Home",
+        kPrivacyTitle: "Privacy Policy",
+        kTermsTitle: "Terms of Service",
+        kPrivacy: "Privacy",
+        kTerms: "Terms",
+        kAIWarning: "AI can make mistakes. Think about it.",
+        kProcessingPleaseWait: "Please wait a few seconds...",
+        kArchivingPleaseWait: "Please wait a few seconds...",
+        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
+        kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
+        kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
+        kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
+        kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
+        kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
+      };
+      TheYardUIStrings = {
+        kAppPageCaption: "Yard Talk",
+        kAppPageStrapline: "Where sweat meets sass.",
+        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
+        kLinks: "",
+        kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
+        kChatPlaceholder: "Let's talk about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+      };
+      UIStrings = {
+        ...CommonUIStrings,
+        ...TheYardUIStrings
+      };
+    }
+  });
+
   // node_modules/axios/lib/helpers/bind.js
   function bind(fn, thisArg) {
     return function wrap() {
@@ -49002,13 +49033,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/LocalStorage.ts
-  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
+  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, USER_FACILITY_KEY, USER_ROLE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
   var init_LocalStorage = __esm({
     "src/LocalStorage.ts"() {
       "use strict";
-      SESSION_STORAGE_KEY = "motif_session_id";
-      USER_ID_STORAGE_KEY = "motif_user_id";
-      USER_NAME_STORAGE_KEY = "motif_user_name";
+      SESSION_STORAGE_KEY = "strong_session_id";
+      USER_ID_STORAGE_KEY = "strong_user_id";
+      USER_NAME_STORAGE_KEY = "strong_user_name";
+      USER_FACILITY_KEY = "strong_user_facility";
+      USER_ROLE_KEY = "strong_user_role";
       isAppInLocalhost = () => {
         if (typeof window !== "undefined") {
           return window.location.hostname === "localhost";
@@ -49152,18 +49185,131 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // src/UserContext.tsx
+  function UserProvider({ children, storage }) {
+    const [userId, setUserId] = (0, import_react28.useState)(() => {
+      return storage.get(USER_ID_STORAGE_KEY) || void 0;
+    });
+    const [userName, setUserName] = (0, import_react28.useState)(() => {
+      return storage.get(USER_NAME_STORAGE_KEY) || void 0;
+    });
+    const [sessionId, setSessionId] = (0, import_react28.useState)(() => {
+      return storage.get(SESSION_STORAGE_KEY) || void 0;
+    });
+    const [facilityPersonality, setFacilityPersonality] = (0, import_react28.useState)(() => {
+      return storage.get(USER_FACILITY_KEY) || void 0;
+    });
+    const [userRole, setUserRole] = (0, import_react28.useState)(() => {
+      const storedRole = storage.get(USER_ROLE_KEY);
+      return storedRole ? storedRole : void 0;
+    });
+    const [personality, setPersonality] = (0, import_react28.useState)(
+      "DemoAssistant" /* kDemoAssistant */
+    );
+    (0, import_react28.useEffect)(() => {
+      if (userId) {
+        storage.set(USER_ID_STORAGE_KEY, userId);
+      } else {
+        storage.remove(USER_ID_STORAGE_KEY);
+      }
+    }, [userId, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (userName) {
+        storage.set(USER_NAME_STORAGE_KEY, userName);
+      } else {
+        storage.remove(USER_NAME_STORAGE_KEY);
+      }
+    }, [userName, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (sessionId) {
+        storage.set(SESSION_STORAGE_KEY, sessionId);
+      } else {
+        storage.remove(SESSION_STORAGE_KEY);
+      }
+    }, [sessionId, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (facilityPersonality) {
+        storage.set(USER_FACILITY_KEY, facilityPersonality);
+      } else {
+        storage.remove(USER_FACILITY_KEY);
+      }
+    }, [facilityPersonality, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (userRole) {
+        storage.set(USER_ROLE_KEY, userRole);
+      } else {
+        storage.remove(USER_ROLE_KEY);
+      }
+    }, [userRole, storage]);
+    const handleLogin = (facilityPersonality2, userId2, userName2, sessionId2, userRole2) => {
+      setUserId(userId2);
+      setUserName(userName2);
+      setSessionId(sessionId2);
+      setFacilityPersonality(facilityPersonality2);
+      setUserRole(userRole2);
+    };
+    const handleLogout = () => {
+      setUserId(void 0);
+      setUserName(void 0);
+      setSessionId(void 0);
+      setFacilityPersonality(void 0);
+      setUserRole(void 0);
+      setPersonality(void 0);
+      storage.remove(USER_ID_STORAGE_KEY);
+      storage.remove(USER_NAME_STORAGE_KEY);
+      storage.remove(SESSION_STORAGE_KEY);
+      storage.remove(USER_FACILITY_KEY);
+      storage.remove(USER_ROLE_KEY);
+    };
+    return /* @__PURE__ */ import_react28.default.createElement(
+      UserContext.Provider,
+      {
+        value: {
+          userId,
+          userName,
+          sessionId,
+          facilityPersonality,
+          userRole,
+          personality,
+          onLogin: handleLogin,
+          onLogout: handleLogout
+        }
+      },
+      children
+    );
+  }
+  function useUser() {
+    const context = (0, import_react28.useContext)(UserContext);
+    if (context === void 0) {
+      throw new Error("useUser must be used within a UserProvider");
+    }
+    return context;
+  }
+  var import_react28, UserContext;
+  var init_UserContext = __esm({
+    "src/UserContext.tsx"() {
+      "use strict";
+      import_react28 = __toESM(require_react());
+      init_LocalStorage();
+      init_AssistantChatApiTypes();
+      UserContext = (0, import_react28.createContext)(void 0);
+    }
+  });
+
   // src/SiteUtilities.tsx
-  var import_react28, MOBILE_BREAKPOINT, useFooterStyles, Header, Spacer, Footer;
+  var import_react29, MOBILE_BREAKPOINT, useFooterStyles, Header, Spacer, Footer;
   var init_SiteUtilities = __esm({
     "src/SiteUtilities.tsx"() {
       "use strict";
-      import_react28 = __toESM(require_react());
+      import_react29 = __toESM(require_react());
       init_dist2();
       init_CommonStyles();
       init_UIStrings();
       init_lib23();
       init_captcha();
       init_ConfigStrings();
+      init_AssistantChatApiTypes();
+      init_UserContext();
       MOBILE_BREAKPOINT = 512;
       useFooterStyles = makeStyles2({
         footerContainer: {
@@ -49194,7 +49340,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       Header = ({ title }) => {
         const textClasses = standardTextStyles();
         const lifterIcon = "assets/img/lifter-w.png";
-        return /* @__PURE__ */ import_react28.default.createElement("div", { style: { position: "relative", width: "100%", textAlign: "center" } }, /* @__PURE__ */ import_react28.default.createElement(
+        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { position: "relative", width: "100%", textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(
           Image,
           {
             src: lifterIcon,
@@ -49209,23 +49355,25 @@ You can check this by searching up for matching entries in a lockfile produced b
               transform: "translateY(-50%)"
             }
           }
-        ), /* @__PURE__ */ import_react28.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.heading }, title)));
+        ), /* @__PURE__ */ import_react29.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, title)));
       };
       Spacer = (props) => {
-        return /* @__PURE__ */ import_react28.default.createElement("div", { style: { height: "20px" } });
+        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: "20px" } });
       };
       Footer = (props) => {
-        const uiStrings = getUIStrings("yardtalk" /* kYardTalk */);
+        const user = useUser();
+        const personality = user?.personality ?? "DemoAssistant" /* kDemoAssistant */;
+        const uiStrings = getUIStrings(personality);
         const linkClasses = standardLinkStyles();
         const styles = useFooterStyles();
-        const footerRef = (0, import_react28.useRef)(null);
+        const footerRef = (0, import_react29.useRef)(null);
         const config = getConfigStrings();
         const textClasses = standardTextStyles();
         const handleLinkClick = async (action, path) => {
           const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
           window.location.href = path;
         };
-        (0, import_react28.useEffect)(() => {
+        (0, import_react29.useEffect)(() => {
           const updateFooterHeight = () => {
             if (footerRef.current) {
               const height = footerRef.current.offsetHeight;
@@ -49236,7 +49384,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           window.addEventListener("resize", updateFooterHeight);
           return () => window.removeEventListener("resize", updateFooterHeight);
         }, []);
-        return /* @__PURE__ */ import_react28.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(
+        return /* @__PURE__ */ import_react29.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react29.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
             to: "/index",
@@ -49244,7 +49392,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             onClick: () => handleLinkClick(config.homeAction, "/index")
           },
           uiStrings.kHome
-        ), /* @__PURE__ */ import_react28.default.createElement(
+        ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
             to: "/privacy",
@@ -49252,7 +49400,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             onClick: () => handleLinkClick(config.privacyAction, "/privacy")
           },
           uiStrings.kPrivacy
-        ), /* @__PURE__ */ import_react28.default.createElement(
+        ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
             to: "/terms",
@@ -49260,7 +49408,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             onClick: () => handleLinkClick(config.termsAction, "/terms")
           },
           uiStrings.kTerms
-        )), /* @__PURE__ */ import_react28.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
+        )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
       };
     }
   });
@@ -57383,13 +57531,6 @@ ${message.content}
     }
   });
 
-  // import/AssistantChatApiTypes.ts
-  var init_AssistantChatApiTypes = __esm({
-    "import/AssistantChatApiTypes.ts"() {
-      "use strict";
-    }
-  });
-
   // src/MultilineEdit.tsx
   function wrapText(context, text, width, defaultHeight, defaultWidth, lineSeparation) {
     let y = 0;
@@ -57483,11 +57624,11 @@ ${message.content}
     offscreenContext = null;
     return Math.max(dyMin, Math.min(dyMax, dyNeeded));
   }
-  var import_react29, MultilineEdit;
+  var import_react30, MultilineEdit;
   var init_MultilineEdit = __esm({
     "src/MultilineEdit.tsx"() {
       "use strict";
-      import_react29 = __toESM(require_react());
+      import_react30 = __toESM(require_react());
       init_lib23();
       init_lib10();
       init_CommonStyles();
@@ -57495,13 +57636,13 @@ ${message.content}
       MultilineEdit = (props) => {
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
-        const [width, setWidth] = (0, import_react29.useState)(0);
-        const textareaRef = (0, import_react29.useRef)(null);
+        const [width, setWidth] = (0, import_react30.useState)(0);
+        const textareaRef = (0, import_react30.useRef)(null);
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
-        (0, import_react29.useEffect)(() => {
+        (0, import_react30.useEffect)(() => {
           if (props.enabled && textareaRef.current) {
             try {
               textareaRef.current.focus();
@@ -57510,7 +57651,7 @@ ${message.content}
             }
           }
         }, [props.enabled, props.message]);
-        (0, import_react29.useLayoutEffect)(() => {
+        (0, import_react30.useLayoutEffect)(() => {
           if (textareaRef.current) {
             let dx = textareaRef.current.offsetWidth;
             if (width !== dx) {
@@ -57561,7 +57702,7 @@ ${message.content}
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react29.default.createElement(
+        return /* @__PURE__ */ import_react30.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react30.default.createElement(
           Text,
           {
             className: textFieldClasses.normal,
@@ -57574,7 +57715,7 @@ ${message.content}
             }
           },
           props.caption
-        ), /* @__PURE__ */ import_react29.default.createElement(
+        ), /* @__PURE__ */ import_react30.default.createElement(
           Textarea,
           {
             ref: textareaRef,
@@ -57594,12 +57735,12 @@ ${message.content}
             },
             onKeyDown: (e) => onSend(e, props.message)
           }
-        ), /* @__PURE__ */ import_react29.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react29.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react29.default.createElement(
+        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react30.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react30.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react30.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Send",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react29.default.createElement(SendRegular, null),
+            icon: /* @__PURE__ */ import_react30.default.createElement(SendRegular, null),
             onClick,
             disabled: !props.enabled || props.message.length === 0
           }
@@ -57903,11 +58044,11 @@ ${message.content}
   });
 
   // src/CopyableText.tsx
-  var import_react30, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
+  var import_react31, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
   var init_CopyableText = __esm({
     "src/CopyableText.tsx"() {
       "use strict";
-      import_react30 = __toESM(require_react());
+      import_react31 = __toESM(require_react());
       init_lib23();
       init_lib10();
       init_CommonStyles();
@@ -57945,28 +58086,28 @@ ${message.content}
           }).catch((err) => {
           });
         };
-        return /* @__PURE__ */ import_react30.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react30.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react30.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react30.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react30.default.createElement(
+        return /* @__PURE__ */ import_react31.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react31.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react31.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Copy",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react30.default.createElement(CopyRegular, null),
+            icon: /* @__PURE__ */ import_react31.default.createElement(CopyRegular, null),
             onClick: copyToClipboard
           }
         ))), props.text.split("\n").map((line2, index) => {
           const myId = props.id + "-" + index;
-          return /* @__PURE__ */ import_react30.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
-        })) : /* @__PURE__ */ import_react30.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
+          return /* @__PURE__ */ import_react31.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
+        })) : /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
       };
     }
   });
 
   // src/ChatHistory.tsx
-  var import_react31, import_prompt_repository2, useStyles11, ChatMessage, ChatHistory;
+  var import_react32, import_prompt_repository2, useStyles11, ChatMessage, ChatHistory;
   var init_ChatHistory = __esm({
     "src/ChatHistory.tsx"() {
       "use strict";
-      import_react31 = __toESM(require_react());
+      import_react32 = __toESM(require_react());
       init_lib23();
       init_lib10();
       import_prompt_repository2 = __toESM(require_entry());
@@ -58008,14 +58149,14 @@ ${message.content}
       });
       ChatMessage = ({ message }) => {
         const styles = useStyles11();
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react31.default.createElement(
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react32.default.createElement(
           Avatar,
           {
             className: styles.avatar,
-            icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react31.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react31.default.createElement(BotRegular, null),
+            icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react32.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react32.default.createElement(BotRegular, null),
             color: message.role === import_prompt_repository2.EChatRole.kUser ? "brand" : "neutral"
           }
-        ), /* @__PURE__ */ import_react31.default.createElement(
+        ), /* @__PURE__ */ import_react32.default.createElement(
           "div",
           {
             className: mergeClasses(
@@ -58024,7 +58165,7 @@ ${message.content}
             ),
             "data-testid": "message-content"
           },
-          /* @__PURE__ */ import_react31.default.createElement(
+          /* @__PURE__ */ import_react32.default.createElement(
             CopyableText,
             {
               text: message.content,
@@ -58032,12 +58173,12 @@ ${message.content}
               id: `message-${new Date(message.timestamp).getTime()}`
             }
           ),
-          /* @__PURE__ */ import_react31.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
+          /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
         ));
       };
       ChatHistory = ({ messages }) => {
         const styles = useStyles11();
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react31.default.createElement(ChatMessage, { key: index, message })));
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react32.default.createElement(ChatMessage, { key: index, message })));
       };
     }
   });
@@ -60056,11 +60197,11 @@ ${message.content}
   });
 
   // src/App.tsx
-  var import_react32, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
+  var import_react33, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
-      import_react32 = __toESM(require_react());
+      import_react33 = __toESM(require_react());
       init_lib23();
       import_prompt_repository4 = __toESM(require_entry());
       init_AssistantChatApiTypes();
@@ -60120,7 +60261,7 @@ ${message.content}
         sessionId
       }) => {
         const config = getConfigStrings();
-        const bottomRef = (0, import_react32.useRef)(null);
+        const bottomRef = (0, import_react33.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const columnElementClasses = standardColumnElementStyles();
@@ -60129,23 +60270,23 @@ ${message.content}
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
         const lifterIcon = "assets/img/lifter-w.png";
-        (0, import_react32.useEffect)(() => {
+        (0, import_react33.useEffect)(() => {
           if (streamedResponse) {
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         }, [streamedResponse]);
-        (0, import_react32.useEffect)(() => {
+        (0, import_react33.useEffect)(() => {
           if (chatHistory.length > 0) {
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         }, [chatHistory]);
-        let blank = /* @__PURE__ */ import_react32.default.createElement("div", null);
+        let blank = /* @__PURE__ */ import_react33.default.createElement("div", null);
         let offTopic = blank;
         let error = blank;
         let archiving = blank;
         let streaming = blank;
         if (state.getState() === "OffTopic" /* kOffTopic */) {
-          offTopic = /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react32.default.createElement(
+          offTopic = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
             Message,
             {
               intent: "warning" /* kWarning */,
@@ -60157,7 +60298,7 @@ ${message.content}
           ));
         }
         if (state.getState() === "Error" /* kError */) {
-          error = /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react32.default.createElement(
+          error = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
             Message,
             {
               intent: "error" /* kError */,
@@ -60169,7 +60310,7 @@ ${message.content}
           ));
         }
         if (state.getState() === "Archiving" /* kArchiving */) {
-          archiving = /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react32.default.createElement(
+          archiving = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
             Message,
             {
               intent: "info" /* kInfo */,
@@ -60180,7 +60321,7 @@ ${message.content}
           ));
         }
         if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          streaming = /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react32.default.createElement(
+          streaming = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react33.default.createElement(
             ChatMessage,
             {
               message: {
@@ -60204,27 +60345,27 @@ ${message.content}
           onSend,
           onChange
         };
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+        return /* @__PURE__ */ import_react33.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId }, /* @__PURE__ */ import_react33.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
           return markdownLinks.split(",").map((link, index) => {
             const matches = link.match(/\[(.*?)\]\((.*?)\)/);
             if (matches) {
               const [_, text, url] = matches;
-              return /* @__PURE__ */ import_react32.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+              return /* @__PURE__ */ import_react33.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react32.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react32.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react32.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react32.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react32.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react32.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Footer, null)));
       };
       App = (props) => {
         const config = getConfigStrings();
-        const uiStrings = getUIStrings(props.appMode);
-        let [state, setState] = (0, import_react32.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
-        const [chatHistory, setChatHistory] = (0, import_react32.useState)([]);
-        const [message, setMessage] = (0, import_react32.useState)(void 0);
-        const [streamedResponse, setStreamedResponse] = (0, import_react32.useState)(void 0);
-        const [streamedResponseId, setStreamedResponseId] = (0, import_react32.useState)(void 0);
-        const [idleSince, setIdleSince] = (0, import_react32.useState)(/* @__PURE__ */ new Date());
-        (0, import_react32.useEffect)(() => {
+        const uiStrings = getUIStrings(props.personality);
+        let [state, setState] = (0, import_react33.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+        const [chatHistory, setChatHistory] = (0, import_react33.useState)([]);
+        const [message, setMessage] = (0, import_react33.useState)(void 0);
+        const [streamedResponse, setStreamedResponse] = (0, import_react33.useState)(void 0);
+        const [streamedResponseId, setStreamedResponseId] = (0, import_react33.useState)(void 0);
+        const [idleSince, setIdleSince] = (0, import_react33.useState)(/* @__PURE__ */ new Date());
+        (0, import_react33.useEffect)(() => {
           const loadChatHistory = async () => {
             state.transition("StartedLoading" /* kStartedLoading */);
             setState(new AssistantUIStateMachine(state.getState()));
@@ -60246,7 +60387,7 @@ ${message.content}
           };
           loadChatHistory();
         }, [props.sessionId]);
-        (0, import_react32.useEffect)(() => {
+        (0, import_react33.useEffect)(() => {
           const timer = setInterval(async () => {
             const idleTime = Date.now() - idleSince.getTime();
             if (idleTime >= kIdleTimeoutMs && state.getState() === "Waiting" /* kWaiting */) {
@@ -60335,7 +60476,7 @@ ${message.content}
           state.transition("Reset" /* kReset */);
           setState(new AssistantUIStateMachine(state.getState()));
         };
-        return /* @__PURE__ */ import_react32.default.createElement(
+        return /* @__PURE__ */ import_react33.default.createElement(
           AppView,
           {
             uiStrings,
@@ -60355,11 +60496,10 @@ ${message.content}
   });
 
   // src/SessionCall.ts
-  async function getSessionUuid(sessionApiUrl, email, sessionId) {
+  async function getSessionData(sessionApiUrl, email) {
     try {
       const request = {
-        email,
-        sessionId
+        email
       };
       const response = await axios_default.post(sessionApiUrl, request, {
         headers: {
@@ -60368,11 +60508,12 @@ ${message.content}
         }
       });
       const newSessionId = response?.data?.sessionId || void 0;
+      const userRole = response?.data?.role || "onboarding" /* kOnboarding */;
       if (!newSessionId) {
         console.error("No sessionId in response");
         return void 0;
       }
-      return newSessionId;
+      return { sessionId: newSessionId, role: userRole };
     } catch (error) {
       console.error("Error getting session UUID:", error);
       return void 0;
@@ -60382,82 +60523,7 @@ ${message.content}
     "src/SessionCall.ts"() {
       "use strict";
       init_axios2();
-    }
-  });
-
-  // src/UserContext.tsx
-  function UserProvider({ children, storage }) {
-    const [userId, setUserId] = (0, import_react33.useState)(() => {
-      return storage.get(USER_ID_STORAGE_KEY) || void 0;
-    });
-    const [userName, setUserName] = (0, import_react33.useState)(() => {
-      return storage.get(USER_NAME_STORAGE_KEY) || void 0;
-    });
-    const [sessionId, setSessionId] = (0, import_react33.useState)(() => {
-      return storage.get(SESSION_STORAGE_KEY) || void 0;
-    });
-    (0, import_react33.useEffect)(() => {
-      if (userId) {
-        storage.set(USER_ID_STORAGE_KEY, userId);
-      } else {
-        storage.remove(USER_ID_STORAGE_KEY);
-      }
-    }, [userId, storage]);
-    (0, import_react33.useEffect)(() => {
-      if (userName) {
-        storage.set(USER_NAME_STORAGE_KEY, userName);
-      } else {
-        storage.remove(USER_NAME_STORAGE_KEY);
-      }
-    }, [userName, storage]);
-    (0, import_react33.useEffect)(() => {
-      if (sessionId) {
-        storage.set(SESSION_STORAGE_KEY, sessionId);
-      } else {
-        storage.remove(SESSION_STORAGE_KEY);
-      }
-    }, [sessionId, storage]);
-    const handleLogin = (newUserId, newUserName, newSessionId) => {
-      setUserId(newUserId);
-      setUserName(newUserName);
-      setSessionId(newSessionId);
-    };
-    const handleLogout = () => {
-      setUserId(void 0);
-      setUserName(void 0);
-      setSessionId(void 0);
-      storage.remove(USER_ID_STORAGE_KEY);
-      storage.remove(USER_NAME_STORAGE_KEY);
-      storage.remove(SESSION_STORAGE_KEY);
-    };
-    return /* @__PURE__ */ import_react33.default.createElement(
-      UserContext.Provider,
-      {
-        value: {
-          userId,
-          userName,
-          sessionId,
-          onLogin: handleLogin,
-          onLogout: handleLogout
-        }
-      },
-      children
-    );
-  }
-  function useUser() {
-    const context = (0, import_react33.useContext)(UserContext);
-    if (context === void 0) {
-      throw new Error("useUser must be used within a UserProvider");
-    }
-    return context;
-  }
-  var import_react33, UserContext;
-  var init_UserContext = __esm({
-    "src/UserContext.tsx"() {
-      "use strict";
-      import_react33 = __toESM(require_react());
-      init_LocalStorage();
-      UserContext = (0, import_react33.createContext)(void 0);
+      init_AssistantChatApiTypes();
     }
   });
 
@@ -60467,6 +60533,7 @@ ${message.content}
     "src/Login.tsx"() {
       "use strict";
       import_react34 = __toESM(require_react());
+      init_AssistantChatApiTypes();
       init_lib23();
       init_Message();
       init_SiteUtilities();
@@ -60567,21 +60634,28 @@ ${message.content}
               }
             }
             const decodedToken = JSON.parse(atob(credential.split(".")[1]));
-            const newUserId = decodedToken.sub;
-            const newUserName = decodedToken.name || void 0;
+            const userId2 = decodedToken.sub;
+            const userName2 = decodedToken.name || void 0;
             const userEmail = decodedToken.email || void 0;
+            const newUserFacility = "";
             let newSessionId;
             try {
-              newSessionId = await getSessionUuid(config.sessionApiUrl, userEmail);
+              newSessionId = await getSessionData(config.sessionApiUrl, userEmail);
             } catch (error2) {
               console.error("Error getting session ID:", error2);
             }
             if (!newSessionId) {
-              newSessionId = uuidv4();
+              newSessionId = { sessionId: uuidv4(), role: "onboarding" /* kOnboarding */ };
               console.warn("Using temporary session ID");
             }
             if (user) {
-              user.onLogin(newUserId, newUserName || "", newSessionId);
+              user.onLogin(
+                props.personality,
+                userId2,
+                userEmail || "",
+                newSessionId.sessionId,
+                newSessionId.role
+              );
             }
           } catch (error2) {
             console.error("Error during login:", error2);
@@ -60639,7 +60713,7 @@ ${message.content}
         return /* @__PURE__ */ import_react34.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react34.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react34.default.createElement(
           LoginView,
           {
-            appMode: props.appMode,
+            personality: props.personality,
             userName,
             sessionId,
             googleButtonRef,
@@ -60650,7 +60724,7 @@ ${message.content}
         ) : /* @__PURE__ */ import_react34.default.createElement(
           App,
           {
-            appMode: props.appMode,
+            personality: props.personality,
             sessionId,
             userName,
             onLogout: handleLogout
@@ -60661,7 +60735,7 @@ ${message.content}
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
-        const uiStrings = getUIStrings(props.appMode);
+        const uiStrings = getUIStrings(props.personality);
         const lifterIcon = "assets/img/lifter-w.png";
         const handleErrorDismiss = () => {
           props.setError(void 0);
@@ -60899,14 +60973,16 @@ ${message.content}
       init_LocalStorage();
       init_TermsContent();
       init_PrivacyContent();
+      init_AssistantChatApiTypes();
       RoutedSite = (props) => {
         return /* @__PURE__ */ import_react36.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react36.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react36.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react36.default.createElement(Site, { appMode: props.appMode }))));
+        } }, /* @__PURE__ */ import_react36.default.createElement(Site, null))));
       };
       Site = (props) => {
-        const uiStrings = getUIStrings(props.appMode);
+        const [personality, setPersonality] = (0, import_react36.useState)(void 0);
+        const uiStrings = getCommonUIStrings();
         (0, import_react36.useEffect)(() => {
           const script = document.createElement("script");
           script.src = "https://accounts.google.com/gsi/client";
@@ -60923,15 +60999,31 @@ ${message.content}
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
+          },
+          {
+            path: "/theyard",
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "TheYardAssistant" /* kTheYardAssistant */ }),
+            loader: () => {
+              setPersonality("TheYardAssistant" /* kTheYardAssistant */);
+              return redirect("/index");
+            }
+          },
+          {
+            path: "/theyard.html",
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "TheYardAssistant" /* kTheYardAssistant */ }),
+            loader: () => {
+              setPersonality("TheYardAssistant" /* kTheYardAssistant */);
+              return redirect("/index");
+            }
           },
           {
             path: "/privacy",
@@ -60951,7 +61043,7 @@ ${message.content}
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { appMode: props.appMode })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
           }
         ]);
         return routes;
@@ -60964,12 +61056,11 @@ ${message.content}
     "src/index.tsx"() {
       var import_react37 = __toESM(require_react());
       var import_client = __toESM(require_client());
-      init_UIStrings();
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react37.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
+          /* @__PURE__ */ import_react37.default.createElement(RoutedSite, null)
         );
       }
     }

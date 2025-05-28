@@ -6,6 +6,8 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
+
 export { EMultilineEditUIStrings } from './MultilineEditUIStrings';
 
 /**
@@ -17,11 +19,6 @@ export { EMultilineEditUIStrings } from './MultilineEditUIStrings';
  */
 export function replaceStringParameter(template: string, parameter: string | number, index: number = 0): string {
     return template.replace(`{${index}}`, parameter.toString());
-}
-
-// Type for the current linter mode
-export enum EAppMode {
-   kYardTalk = "yardtalk"
 }
 
 // Common strings used across all linters
@@ -99,10 +96,17 @@ export const UIStrings: IUIStrings = {
    ...TheYardUIStrings
 }
 
-// Function to get the appropriate UI strings based on the current mode
-export function getUIStrings(mode: EAppMode): IUIStrings {
+// Function to get common UI strings 
+export function getCommonUIStrings(): ICommonUIStrings {
+   return CommonUIStrings;
+}
+
+// Function to get all UI strings based on the current mode
+export function getUIStrings(mode: EAssistantPersonality): IUIStrings {
    switch (mode) {
-      case EAppMode.kYardTalk:
+      case EAssistantPersonality.kTheYardAssistant:
+         return UIStrings;
+      case EAssistantPersonality.kDemoAssistant:
          return UIStrings;
       default:
          return UIStrings;

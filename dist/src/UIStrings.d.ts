@@ -5,6 +5,7 @@
  * for easy localization and maintenance.
  */
 /*! Copyright Jon Verrier 2025 */
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 export { EMultilineEditUIStrings } from './MultilineEditUIStrings';
 /**
  * Replaces a parameter placeholder in a string with a value.
@@ -14,9 +15,6 @@ export { EMultilineEditUIStrings } from './MultilineEditUIStrings';
  * @returns The string with the placeholder replaced
  */
 export declare function replaceStringParameter(template: string, parameter: string | number, index?: number): string;
-export declare enum EAppMode {
-    kYardTalk = "yardtalk"
-}
 export interface ICommonUIStrings {
     kWarning: string;
     kInfo: string;
@@ -51,5 +49,6 @@ export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 export declare const CommonUIStrings: ICommonUIStrings;
 export declare const TheYardUIStrings: IBrandUIStrings;
 export declare const UIStrings: IUIStrings;
-export declare function getUIStrings(mode: EAppMode): IUIStrings;
+export declare function getCommonUIStrings(): ICommonUIStrings;
+export declare function getUIStrings(mode: EAssistantPersonality): IUIStrings;
 //# sourceMappingURL=UIStrings.d.ts.map

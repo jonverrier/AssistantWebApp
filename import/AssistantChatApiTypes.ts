@@ -4,10 +4,29 @@
  * Type definitions and interfaces for the assistant chat API.
  * Includes types for chat requests.
  */
+// Copyright (c) 2025 Jon Verrier
+
 
 import { IChatMessage } from "prompt-repository";
 
-// Copyright (c) 2025 Jon Verrier
+/**
+ * An enumeration of possible assistant personalities.
+ * Used to specify the desired personality type for chat interactions.
+ */
+export enum EAssistantPersonality {
+   kTheYardAssistant = 'TheYardAssistant',
+   kDemoAssistant = 'DemoAssistant'
+}
+
+/**
+ * An enumeration of possible user roles.
+ * Used to specify the role of the user within a facility
+ */
+export enum EUserRole {
+   kOnboarding = 'onboarding',
+   kMember = 'member',
+   kAdmin = 'admin'
+}
 
 /**
  * A request to the assistant captcha API.
@@ -39,16 +58,7 @@ export interface ISessionRequest {
  */
 export interface ISessionResponse {
    sessionId: string;
-   facilityIds: string[];
-}
-
-/**
- * An enumeration of possible assistant personalities.
- * Used to specify the desired personality type for chat interactions.
- */
-export enum EAssistantPersonality {
-   kTheYardAssistant = 'TheYardAssistant',
-   kDemoAssistant = 'DemoAssistant'
+   role: EUserRole;
 }
 
 /**

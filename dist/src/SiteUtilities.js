@@ -47,6 +47,8 @@ const UIStrings_1 = require("./UIStrings");
 const react_components_1 = require("@fluentui/react-components");
 const captcha_1 = require("./captcha");
 const ConfigStrings_1 = require("./ConfigStrings");
+const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
+const UserContext_1 = require("./UserContext");
 const MOBILE_BREAKPOINT = 512;
 const useFooterStyles = (0, react_components_1.makeStyles)({
     footerContainer: {
@@ -96,7 +98,9 @@ const Spacer = (props) => {
 };
 exports.Spacer = Spacer;
 const Footer = (props) => {
-    const uiStrings = (0, UIStrings_1.getUIStrings)(UIStrings_1.EAppMode.kYardTalk);
+    const user = (0, UserContext_1.useUser)();
+    const personality = user?.personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant;
+    const uiStrings = (0, UIStrings_1.getUIStrings)(personality);
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const styles = useFooterStyles();
     const footerRef = (0, react_1.useRef)(null);

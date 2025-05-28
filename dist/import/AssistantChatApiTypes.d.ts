@@ -6,6 +6,23 @@
  */
 import { IChatMessage } from "prompt-repository";
 /**
+ * An enumeration of possible assistant personalities.
+ * Used to specify the desired personality type for chat interactions.
+ */
+export declare enum EAssistantPersonality {
+    kTheYardAssistant = "TheYardAssistant",
+    kDemoAssistant = "DemoAssistant"
+}
+/**
+ * An enumeration of possible user roles.
+ * Used to specify the role of the user within a facility
+ */
+export declare enum EUserRole {
+    kOnboarding = "onboarding",
+    kMember = "member",
+    kAdmin = "admin"
+}
+/**
  * A request to the assistant captcha API.
  */
 export interface IAssistantCaptchaRequest {
@@ -32,15 +49,7 @@ export interface ISessionRequest {
  */
 export interface ISessionResponse {
     sessionId: string;
-    facilityIds: string[];
-}
-/**
- * An enumeration of possible assistant personalities.
- * Used to specify the desired personality type for chat interactions.
- */
-export declare enum EAssistantPersonality {
-    kTheYardAssistant = "TheYardAssistant",
-    kDemoAssistant = "DemoAssistant"
+    role: EUserRole;
 }
 /**
  * A request to the assistant chat API.

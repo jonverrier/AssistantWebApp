@@ -8,20 +8,18 @@
 
 // Copyright (c) Jon Verrier, 2025
 
-import React, { useEffect } from 'react';
-import { BrowserRouter, useRoutes } from "react-router-dom";
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter, useRoutes, redirect } from "react-router-dom";
 import { Login } from "./Login";
 import { PlainText } from './PlainText';
 import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
-import { EAppMode, getUIStrings } from './UIStrings';
-import { getConfigStrings } from './ConfigStrings';
-import { isAppInLocalhost } from './LocalStorage';
-import { UserProvider, useUser } from './UserContext';
+import { getCommonUIStrings } from './UIStrings';
+import { UserProvider } from './UserContext';
 import { browserSessionStorage } from './LocalStorage';
 
 import { kTermsContent } from './TermsContent';
 import { kPrivacyContent } from './PrivacyContent';
-import { IStorage } from './LocalStorage';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 // Type definitions for Google Sign-In
 interface GoogleAccountsId {
@@ -60,7 +58,6 @@ declare global {
 
 // Routed site component props
 export interface IRoutedSiteProps {
-   appMode: EAppMode;
 }
 
 // Routed site component
@@ -72,7 +69,7 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
                v7_startTransition: true,
                v7_relativeSplatPath: true
             }}>
-               <Site appMode={props.appMode} />
+               <Site />
             </BrowserRouter>
          </UserProvider>
       </FluentProvider>
@@ -81,12 +78,13 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
 
 // Site component props
 export interface ISiteProps {
-   appMode: EAppMode;
 }
 
 // Site component
 export const Site = (props: ISiteProps) => {
-   const uiStrings = getUIStrings(props.appMode);
+
+   const [personality, setPersonality] = useState<EAssistantPersonality | undefined>(undefined);
+   const uiStrings = getCommonUIStrings();
 
    // Initialize Google Sign-In
    useEffect(() => {
@@ -108,15 +106,31 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Login appMode={props.appMode} />
+         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
       },
       {
          path: '/index',
-         element: <Login appMode={props.appMode} />
+         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
       },
       {
          path: '/index.html',
-         element: <Login appMode={props.appMode} />
+         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
+      },
+      {
+         path: '/theyard',
+         element: <Login personality={EAssistantPersonality.kTheYardAssistant} />,
+         loader: () => {
+            setPersonality(EAssistantPersonality.kTheYardAssistant);
+            return redirect('/index');
+         }
+      },
+      {
+         path: '/theyard.html',
+         element: <Login personality={EAssistantPersonality.kTheYardAssistant} />,
+         loader: () => {
+            setPersonality(EAssistantPersonality.kTheYardAssistant);
+            return redirect('/index');
+         }
       },
       {
          path: '/privacy',
@@ -136,7 +150,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <Login appMode={props.appMode} />
+         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
       }
    ]);
 

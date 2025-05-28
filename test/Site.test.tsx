@@ -12,152 +12,148 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { RoutedSite, Site } from '../src/Site';
 import { expect } from 'expect';
-import { EAppMode, getUIStrings } from '../src/UIStrings';
+import { getUIStrings } from '../src/UIStrings';
 import { MockStorage } from './MockStorage';
 import { UserProvider } from '../src/UserContext';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
-let appModes = [EAppMode.kYardTalk];
+describe(`RoutedSite Component`, () => {
+   let mockStorage: MockStorage;
 
-for (let appMode of appModes) {
-   describe(`RoutedSite Component for ${appMode}`, () => {
-      let mockStorage: MockStorage;
-
-      beforeEach(() => {
-         mockStorage = new MockStorage();
-      });
-
-      afterEach(() => {
-         mockStorage.clear();
-      });
-
-      it('renders without crashing', () => {
-         const { container } = render(
-            <UserProvider storage={mockStorage}>
-               <RoutedSite appMode={appMode} />
-            </UserProvider>
-         );
-         expect(container).toBeTruthy();
-      });
+   beforeEach(() => {
+      mockStorage = new MockStorage();
    });
-}
 
-for (let appMode of appModes) {
-   describe(`Site Component for ${appMode}`, () => {
-      const uiStrings = getUIStrings(appMode);
-      let mockStorage: MockStorage;
-
-      beforeEach(() => {
-         mockStorage = new MockStorage();
-      });
-
-      afterEach(() => {
-         mockStorage.clear();
-      });
-      
-      it('renders App component for root path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         // Since App is rendered, we should see its content
-         const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-         expect(privacyTitle).toBeTruthy();
-      });
-
-      it('renders App component for /index path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/index']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-         expect(privacyTitle).toBeTruthy();
-      });
-
-      it('renders App component for /index.html path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/index.html']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-         expect(privacyTitle).toBeTruthy();
-      });
-
-      it('renders PlainText component for /privacy path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/privacy']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
-         expect(privacyTitle).toBeTruthy();
-      });
-
-      it('renders PlainText component for /privacy.html path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/privacy.html']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
-         expect(privacyTitle).toBeTruthy();
-      });
-
-      it('renders PlainText component for /terms path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/terms']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         const termsTitle = screen.getByText(uiStrings.kTermsTitle);
-         expect(termsTitle).toBeTruthy();
-      });
-
-      it('renders PlainText component for /terms.html path', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/terms.html']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-         
-         const termsTitle = screen.getByText(uiStrings.kTermsTitle);
-         expect(termsTitle).toBeTruthy();
-      });
-
-      it('handles unknown routes gracefully', () => {
-         render(
-            <UserProvider storage={mockStorage}>
-               <MemoryRouter initialEntries={['/unknown']}>
-                  <Site appMode={appMode} />
-               </MemoryRouter>
-            </UserProvider>
-         );
-
-         // Should default to App component for unknown routes
-         const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-         expect(privacyTitle).toBeTruthy();
-      });
+   afterEach(() => {
+      mockStorage.clear();
    });
-}
+
+   it('renders without crashing', () => {
+      const { container } = render(
+         <UserProvider storage={mockStorage}>
+            <RoutedSite />
+         </UserProvider>
+      );
+      expect(container).toBeTruthy();
+   });
+});
+
+
+describe(`Site Component`, () => {
+   const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
+   let mockStorage: MockStorage;
+
+   beforeEach(() => {
+      mockStorage = new MockStorage();
+   });
+
+   afterEach(() => {
+      mockStorage.clear();
+   });
+
+   it('renders App component for root path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      // Since App is rendered, we should see its content
+      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders App component for /index path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/index']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders App component for /index.html path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/index.html']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /privacy path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/privacy']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /privacy.html path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/privacy.html']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /terms path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/terms']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const termsTitle = screen.getByText(uiStrings.kTermsTitle);
+      expect(termsTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /terms.html path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/terms.html']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const termsTitle = screen.getByText(uiStrings.kTermsTitle);
+      expect(termsTitle).toBeTruthy();
+   });
+
+   it('handles unknown routes gracefully', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/unknown']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      // Should default to App component for unknown routes
+      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
+      expect(privacyTitle).toBeTruthy();
+   });
+});

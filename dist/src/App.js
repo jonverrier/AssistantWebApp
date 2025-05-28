@@ -208,7 +208,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
 // and other data elements.
 const App = (props) => {
     const config = (0, ConfigStrings_1.getConfigStrings)();
-    const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
+    const uiStrings = (0, UIStrings_1.getUIStrings)(props.personality);
     let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
     const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
     const [message, setMessage] = (0, react_1.useState)(undefined);

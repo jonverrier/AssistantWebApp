@@ -9,13 +9,13 @@
 // Copyright (c) Jon Verrier, 2025
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Text, Image } from '@fluentui/react-components';
+import { EAssistantPersonality, ISessionResponse, EUserRole } from '../import/AssistantChatApiTypes';
+
+import { Text } from '@fluentui/react-components';
 import { Message, MessageIntent } from './Message';
 import { Header } from './SiteUtilities';
-
 import { App } from './App';
-import { EAppMode } from './UIStrings';
-import { getSessionUuid } from './SessionCall';
+import { getSessionData } from './SessionCall';
 import { Footer, Spacer } from './SiteUtilities';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { standardTextStyles } from './CommonStyles';
@@ -30,6 +30,7 @@ import { executeReCaptcha, handleLowScore,
 import { getConfigStrings } from './ConfigStrings';
 import { isAppInLocalhost } from './LocalStorage';
 import { useUser } from './UserContext';
+
 
 // Extend Window interface
 export {};
@@ -84,12 +85,12 @@ const RATE_LIMIT_RESET_TIME = 60000; // 1 minute
 
 // Login component props
 export interface ILoginProps {
-   appMode: EAppMode;
+   personality: EAssistantPersonality;
 }
 
 // Login view component props
 interface ILoginUiProps  {
-   appMode: EAppMode;   
+   personality: EAssistantPersonality;   
    userName: string | undefined;
    sessionId: string | undefined;   
    googleButtonRef: React.RefObject<HTMLDivElement>;
@@ -193,27 +194,34 @@ export const Login = (props: ILoginProps) => {
          }
 
          const decodedToken = JSON.parse(atob(credential.split('.')[1]));
-         const newUserId = decodedToken.sub;
-         const newUserName = decodedToken.name || undefined;
+         const userId = decodedToken.sub;
+         const userName = decodedToken.name || undefined;
          const userEmail = decodedToken.email || undefined;
+         const newUserFacility = '';  // Default empty facility for now
 
          // Get session ID before updating state
-         let newSessionId: string | undefined;
+         let newSessionId: ISessionResponse | undefined;
          try {
-            newSessionId = await getSessionUuid(config.sessionApiUrl, userEmail);
+            newSessionId = await getSessionData(config.sessionApiUrl, userEmail);
          } catch (error) {
             console.error('Error getting session ID:', error);
          }
 
          // If no session ID returned, create a temporary one
          if (!newSessionId) {
-            newSessionId = uuidv4();
+            newSessionId = { sessionId: uuidv4(), role: EUserRole.kOnboarding };
             console.warn('Using temporary session ID');
          }
 
          // Update user context
          if (user) {
-            user.onLogin(newUserId, newUserName || '', newSessionId);
+            user.onLogin(
+               props.personality,
+               userId, 
+               userEmail || '', 
+               newSessionId.sessionId,                
+               newSessionId.role               
+            );
          }
 
       } catch (error) {
@@ -295,7 +303,7 @@ export const Login = (props: ILoginProps) => {
          <div style={innerStyles}>
             {!userName || !sessionId ? (
                <LoginView 
-                  appMode={props.appMode}
+                  personality={props.personality}
                   userName={userName}
                   sessionId={sessionId}
                   googleButtonRef={googleButtonRef}
@@ -305,7 +313,7 @@ export const Login = (props: ILoginProps) => {
                />
             ) : (
                <App
-                  appMode={props.appMode}
+                  personality={props.personality}
                   sessionId={sessionId}
                   userName={userName}
                   onLogout={handleLogout}
@@ -321,10 +329,11 @@ export const Login = (props: ILoginProps) => {
 // This component is responsible for rendering the login view of the application.
 // It includes the login form, error message, and Google login button.
 export const LoginView = (props: ILoginUiProps) => {
+
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
    const textClasses = standardTextStyles();
-   const uiStrings = getUIStrings(props.appMode);
+   const uiStrings = getUIStrings(props.personality);
    const lifterIcon = 'assets/img/lifter-w.png';
 
    const handleErrorDismiss = () => {

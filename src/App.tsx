@@ -22,7 +22,7 @@ import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 // local packages
 import { IMultilineEditProps, MultilineEdit } from './MultilineEdit';
-import { EAppMode, getUIStrings } from './UIStrings';
+import { getUIStrings } from './UIStrings';
 import { standardTextStyles, standardLinkStyles, standardColumnElementStyles} from './CommonStyles';
 import { Message, MessageIntent } from './Message';
 import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
@@ -69,7 +69,7 @@ const multilineEditContainerStyles = makeStyles({
 
 // App component props
 export interface IAppProps {
-   appMode: EAppMode;
+   personality: EAssistantPersonality;
    sessionId: string;
    userName: string;
    onLogout: () => Promise<void>;
@@ -279,7 +279,7 @@ const AppView: React.FC<IAppViewProps> = ({
 // and other data elements.
 export const App = (props: IAppProps) => {
    const config = getConfigStrings();
-   const uiStrings = getUIStrings(props.appMode);
+   const uiStrings = getUIStrings(props.personality);
    
    let [state, setState] = useState<AssistantUIStateMachine>(new AssistantUIStateMachine(EUIState.kWaiting));
    

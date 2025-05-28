@@ -109,7 +109,7 @@ export const standardTextStyles = makeStyles({
       textAlign: 'center',
       fontSize: '8pt',
       color: 'grey',
-      marginTop: '12px'
+      marginTop: '12px'     
    }
 });
 

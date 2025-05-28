@@ -6,7 +6,6 @@
  * Handles routing between the main application view and static content pages.
  */
 import React from 'react';
-import { EAppMode } from './UIStrings';
 interface GoogleAccountsId {
     initialize: (config: {
         client_id: string;
@@ -34,11 +33,9 @@ declare global {
     var google: undefined | GoogleType;
 }
 export interface IRoutedSiteProps {
-    appMode: EAppMode;
 }
 export declare const RoutedSite: (props: IRoutedSiteProps) => React.JSX.Element;
 export interface ISiteProps {
-    appMode: EAppMode;
 }
 export declare const Site: (props: ISiteProps) => React.ReactElement<any, string | React.JSXElementConstructor<any>> | null;
 //# sourceMappingURL=Site.d.ts.map

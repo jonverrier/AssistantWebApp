@@ -7,9 +7,9 @@
  */
 /*! Copyright Jon Verrier 2025 */
 import React from 'react';
-import { EAppMode } from './UIStrings';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 export interface IAppProps {
-    appMode: EAppMode;
+    personality: EAssistantPersonality;
     sessionId: string;
     userName: string;
     onLogout: () => Promise<void>;

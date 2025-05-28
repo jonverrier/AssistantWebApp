@@ -6,8 +6,7 @@
 /*! Copyright Jon Verrier 2025 */
 
 import axios from 'axios';
-import { ISessionRequest, ISessionResponse } from '../import/AssistantChatApiTypes';
-import { IStorage, browserLocalStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_KEY } from './LocalStorage';
+import { ISessionRequest, ISessionResponse, EUserRole } from '../import/AssistantChatApiTypes';
 
 /**
  * Calls the cookie API to get a session UUID.
@@ -17,19 +16,16 @@ import { IStorage, browserLocalStorage, SESSION_STORAGE_KEY, USER_NAME_STORAGE_K
  * 
  * @param sessionApiUrl - The URL of the cookie API
  * @param email - The user's email address
- * @param sessionId - Optional existing session ID
  * @returns The session UUID if successful, undefined if there's an error
  */
-export async function getSessionUuid(
+export async function getSessionData(
     sessionApiUrl: string,
-    email?: string,
-    sessionId?: string
-): Promise<string | undefined> {
+    email: string,
+): Promise<ISessionResponse | undefined> {
     try {
         // Prepare the request
         const request: ISessionRequest = {
-            email,
-            sessionId
+            email
         };
 
         // Make the API call
@@ -40,15 +36,16 @@ export async function getSessionUuid(
             }
         });
 
-        // Get the session ID from the response
+        // Get the session ID and user rolefrom the response
         const newSessionId = response?.data?.sessionId || undefined;
+        const userRole = response?.data?.role || EUserRole.kOnboarding;
         
         if (!newSessionId) {
             console.error('No sessionId in response');
             return undefined;
         }
         
-        return newSessionId;
+        return { sessionId: newSessionId, role: userRole };
 
     } catch (error) {
         console.error('Error getting session UUID:', error);

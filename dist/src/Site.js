@@ -52,6 +52,7 @@ const UserContext_1 = require("./UserContext");
 const LocalStorage_1 = require("./LocalStorage");
 const TermsContent_1 = require("./TermsContent");
 const PrivacyContent_1 = require("./PrivacyContent");
+const AssistantChatApiTypes_1 = require("import/AssistantChatApiTypes");
 // Routed site component
 const RoutedSite = (props) => {
     return (react_1.default.createElement(react_components_1.FluentProvider, { theme: react_components_1.teamsDarkTheme },
@@ -60,12 +61,13 @@ const RoutedSite = (props) => {
                     v7_startTransition: true,
                     v7_relativeSplatPath: true
                 } },
-                react_1.default.createElement(exports.Site, { appMode: props.appMode })))));
+                react_1.default.createElement(exports.Site, null)))));
 };
 exports.RoutedSite = RoutedSite;
 // Site component
 const Site = (props) => {
-    const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
+    const [personality, setPersonality] = (0, react_1.useState)(undefined);
+    const uiStrings = (0, UIStrings_1.getCommonUIStrings)();
     // Initialize Google Sign-In
     (0, react_1.useEffect)(() => {
         // Load Google Sign-In script
@@ -84,15 +86,31 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
         },
         {
             path: '/index',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
         },
         {
             path: '/index.html',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
+        },
+        {
+            path: '/theyard',
+            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant }),
+            loader: () => {
+                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant);
+                return (0, react_router_dom_1.redirect)('/index');
+            }
+        },
+        {
+            path: '/theyard.html',
+            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant }),
+            loader: () => {
+                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant);
+                return (0, react_router_dom_1.redirect)('/index');
+            }
         },
         {
             path: '/privacy',
@@ -112,7 +130,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(Login_1.Login, { appMode: props.appMode })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
         }
     ]);
     return routes;
