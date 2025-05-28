@@ -106,6 +106,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
+    const lifterIcon = 'assets/img/lifter-w.png';
     // Scroll to the bottom of the chat history when a response is received
     (0, react_1.useEffect)(() => {
         if (streamedResponse) {
@@ -164,7 +165,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
     };
     return (react_1.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId },
         react_1.default.createElement("div", { className: innerColumnClasses.root },
-            react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
+            react_1.default.createElement(SiteUtilities_1.Header, { title: uiStrings.kAppPageCaption }),
             react_1.default.createElement(react_components_1.Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement(react_components_1.Text, null, uiStrings.kOverview),

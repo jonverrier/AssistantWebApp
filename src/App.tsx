@@ -13,7 +13,7 @@ import React, { useState, useEffect, useRef } from 'react';
 // Fluent
 import {
    Text,
-   Link as FluentLink, Spinner, makeStyles 
+   Link as FluentLink, Spinner, makeStyles, Image 
 } from '@fluentui/react-components';
 
 // external packages
@@ -28,7 +28,7 @@ import { Message, MessageIntent } from './Message';
 import { AssistantUIStateMachine, EUIState, EApiEvent } from './UIStateMachine';
 import { processChat } from './ChatCall';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
-import { Spacer, Footer } from './SiteUtilities';
+import { Spacer, Footer, Header } from './SiteUtilities';
 import { ChatHistory, ChatMessage } from './ChatHistory';
 import { processChatHistory } from './ChatHistoryCall';
 import { archive, shouldArchive } from './ArchiveCall';
@@ -115,6 +115,8 @@ const AppView: React.FC<IAppViewProps> = ({
    const linkClasses = standardLinkStyles();
    const scrollableContentClasses = scrollableContentStyles();
    const multilineEditContainerClasses = multilineEditContainerStyles();
+
+   const lifterIcon = 'assets/img/lifter-w.png';
 
    // Scroll to the bottom of the chat history when a response is received
    useEffect(() => {
@@ -216,7 +218,7 @@ const AppView: React.FC<IAppViewProps> = ({
    return (
       <div className={pageOuterClasses.root} data-session-id={sessionId}>
          <div className={innerColumnClasses.root}>
-            <Text className={textClasses.heading}>{uiStrings.kAppPageCaption}</Text>
+            <Header title={uiStrings.kAppPageCaption} />
             <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
             <Spacer />
             <Text>{uiStrings.kOverview}</Text>

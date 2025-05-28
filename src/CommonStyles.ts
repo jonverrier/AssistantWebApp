@@ -104,6 +104,12 @@ export const standardTextStyles = makeStyles({
       color: 'grey',
       marginTop: '8px',
       marginBottom: '8px'
+   },
+   footer: {
+      textAlign: 'center',
+      fontSize: '8pt',
+      color: 'grey',
+      marginTop: '12px'
    }
 });
 

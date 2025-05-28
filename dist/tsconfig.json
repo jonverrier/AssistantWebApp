@@ -18,7 +18,9 @@
         "resolveJsonModule": true,
         "jsx": "react",
         "baseUrl": ".",
-        "paths": {},
+        "paths": {
+            "*": ["*", "src/types/*"]
+        },
         "skipLibCheck": true
     },
     "references": [],
@@ -26,7 +28,8 @@
         "**/*.json",
         "src/**/*.ts",
         "src/**/*.tsx",
-        "import/**/*.ts"
+        "import/**/*.ts",
+        "src/types/*.d.ts"
     ],
     "exclude": [
         "node_modules",

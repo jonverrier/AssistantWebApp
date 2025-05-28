@@ -99,6 +99,12 @@ exports.standardTextStyles = (0, react_components_1.makeStyles)({
         color: 'grey',
         marginTop: '8px',
         marginBottom: '8px'
+    },
+    footer: {
+        textAlign: 'center',
+        fontSize: '8pt',
+        color: 'grey',
+        marginTop: '12px'
     }
 });
 exports.standardLinkStyles = (0, react_components_1.makeStyles)({

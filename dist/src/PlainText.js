@@ -18,6 +18,8 @@ const OuterStyles_1 = require("./OuterStyles");
 const react_components_1 = require("@fluentui/react-components");
 const CommonStyles_1 = require("./CommonStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
+// The image should be placed in public/assets/img/lifter.png
+const lifterIcon = 'assets/img/lifter-w.png';
 const PlainText = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
@@ -27,7 +29,7 @@ const PlainText = (props) => {
     // If the line starts with a URL, we treat it as a link.
     return (react_1.default.createElement("div", { className: pageOuterClasses.root },
         react_1.default.createElement("div", { className: innerColumnClasses.root },
-            react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, props.title),
+            react_1.default.createElement(SiteUtilities_1.Header, { title: props.title }),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             props.content.split('\n').map((line, index) => {
                 if (/^\d+\.\s/.test(line)) {

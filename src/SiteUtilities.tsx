@@ -7,9 +7,9 @@
 
 import React, { useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { standardLinkStyles } from './CommonStyles';
+import { standardLinkStyles, standardTextStyles } from './CommonStyles';
 import { EAppMode, getUIStrings } from './UIStrings';
-import { makeStyles, shorthands } from '@fluentui/react-components';
+import { makeStyles, shorthands, Text, Image } from '@fluentui/react-components';
 import { executeReCaptcha } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
 
@@ -42,11 +42,41 @@ const useFooterStyles = makeStyles({
   },
 });
 
+export interface IHeaderProps {
+   title: string;
+}
+
+export const Header: React.FC<IHeaderProps> = ({ title }) => {
+   const textClasses = standardTextStyles();
+   const lifterIcon = 'assets/img/lifter-w.png';
+
+   return (
+      <div style={{ position: 'relative', width: '100%', textAlign: 'center' }}>
+         <Image 
+            src={lifterIcon} 
+            alt="Menu Icon"
+            style={{ 
+               width: '32px', 
+               height: '32px',
+               cursor: 'pointer',
+               position: 'absolute',
+               left: 0,
+               top: '50%',
+               transform: 'translateY(-50%)'
+            }} 
+         />
+         <div style={{ display: 'inline-block' }}>
+            <Text className={textClasses.heading}>{title}</Text>
+         </div>
+      </div>
+   );
+};
+
 export interface ISpacerProps {
 }
 
 export const Spacer = (props: ISpacerProps) => {
-   return (<div>&nbsp;&nbsp;&nbsp;</div>);
+   return (<div style={{ height: '20px' }} />);
 }
 
 export interface IFooterProps {
@@ -58,6 +88,7 @@ export const Footer = (props: IFooterProps) => {
    const styles = useFooterStyles();
    const footerRef = useRef<HTMLDivElement>(null);
    const config = getConfigStrings();
+   const textClasses = standardTextStyles();
    
    const handleLinkClick = async (action: string, path: string) => {
       // Call reCAPTCHA before navigation
@@ -100,6 +131,7 @@ export const Footer = (props: IFooterProps) => {
                onClick={() => handleLinkClick(config.termsAction, '/terms')}
             >{uiStrings.kTerms}</Link>
          </div>
+         <Text className={textClasses.footer}>&copy; 2025 Jon Verrier</Text>
       </div>
    );
 }

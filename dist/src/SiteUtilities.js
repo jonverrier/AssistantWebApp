@@ -39,7 +39,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Footer = exports.Spacer = void 0;
+exports.Footer = exports.Spacer = exports.Header = void 0;
 const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const CommonStyles_1 = require("./CommonStyles");
@@ -74,8 +74,25 @@ const useFooterStyles = (0, react_components_1.makeStyles)({
         },
     },
 });
+const Header = ({ title }) => {
+    const textClasses = (0, CommonStyles_1.standardTextStyles)();
+    const lifterIcon = 'assets/img/lifter-w.png';
+    return (react_1.default.createElement("div", { style: { position: 'relative', width: '100%', textAlign: 'center' } },
+        react_1.default.createElement(react_components_1.Image, { src: lifterIcon, alt: "Menu Icon", style: {
+                width: '32px',
+                height: '32px',
+                cursor: 'pointer',
+                position: 'absolute',
+                left: 0,
+                top: '50%',
+                transform: 'translateY(-50%)'
+            } }),
+        react_1.default.createElement("div", { style: { display: 'inline-block' } },
+            react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, title))));
+};
+exports.Header = Header;
 const Spacer = (props) => {
-    return (react_1.default.createElement("div", null, "\u00A0\u00A0\u00A0"));
+    return (react_1.default.createElement("div", { style: { height: '20px' } }));
 };
 exports.Spacer = Spacer;
 const Footer = (props) => {
@@ -84,6 +101,7 @@ const Footer = (props) => {
     const styles = useFooterStyles();
     const footerRef = (0, react_1.useRef)(null);
     const config = (0, ConfigStrings_1.getConfigStrings)();
+    const textClasses = (0, CommonStyles_1.standardTextStyles)();
     const handleLinkClick = async (action, path) => {
         // Call reCAPTCHA before navigation
         // We throw away the result - we are recording actions as per the Google guidance     
@@ -105,6 +123,7 @@ const Footer = (props) => {
         react_1.default.createElement("div", { className: styles.footerContent },
             react_1.default.createElement(react_router_dom_1.Link, { to: "/index", className: linkClasses.centred, onClick: () => handleLinkClick(config.homeAction, '/index') }, uiStrings.kHome),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: () => handleLinkClick(config.privacyAction, '/privacy') }, uiStrings.kPrivacy),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: () => handleLinkClick(config.termsAction, '/terms') }, uiStrings.kTerms))));
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: () => handleLinkClick(config.termsAction, '/terms') }, uiStrings.kTerms)),
+        react_1.default.createElement(react_components_1.Text, { className: textClasses.footer }, "\u00A9 2025 Jon Verrier")));
 };
 exports.Footer = Footer;

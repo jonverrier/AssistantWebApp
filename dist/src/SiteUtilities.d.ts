@@ -5,6 +5,10 @@
  */
 /*! Copyright Jon Verrier 2025 */
 import React from 'react';
+export interface IHeaderProps {
+    title: string;
+}
+export declare const Header: React.FC<IHeaderProps>;
 export interface ISpacerProps {
 }
 export declare const Spacer: (props: ISpacerProps) => React.JSX.Element;

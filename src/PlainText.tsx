@@ -12,9 +12,12 @@
 
 import React from 'react';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
-import { Text,  Link as FluentLink } from '@fluentui/react-components';
+import { Text, Link as FluentLink, Image } from '@fluentui/react-components';
 import { standardTextStyles, standardLinkStyles } from './CommonStyles';
-import { Spacer, Footer } from './SiteUtilities';
+import { Spacer, Footer, Header } from './SiteUtilities';
+
+// The image should be placed in public/assets/img/lifter.png
+const lifterIcon = 'assets/img/lifter-w.png';
 
 export interface IPlainTextProps {
    title: string;
@@ -32,7 +35,7 @@ export const PlainText = (props: IPlainTextProps) => {
    return (
       <div className={pageOuterClasses.root}>
          <div className={innerColumnClasses.root}>
-            <Text className={textClasses.heading}>{props.title}</Text>
+            <Header title={props.title} />
             <Spacer />            
             {props.content.split('\n').map((line, index) => {
                if (/^\d+\.\s/.test(line)) {

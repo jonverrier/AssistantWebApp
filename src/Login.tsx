@@ -9,8 +9,9 @@
 // Copyright (c) Jon Verrier, 2025
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Text } from '@fluentui/react-components';
+import { Text, Image } from '@fluentui/react-components';
 import { Message, MessageIntent } from './Message';
+import { Header } from './SiteUtilities';
 
 import { App } from './App';
 import { EAppMode } from './UIStrings';
@@ -320,11 +321,11 @@ export const Login = (props: ILoginProps) => {
 // This component is responsible for rendering the login view of the application.
 // It includes the login form, error message, and Google login button.
 export const LoginView = (props: ILoginUiProps) => {
-
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
    const textClasses = standardTextStyles();
    const uiStrings = getUIStrings(props.appMode);
+   const lifterIcon = 'assets/img/lifter-w.png';
 
    const handleErrorDismiss = () => {
       props.setError(undefined);
@@ -333,7 +334,7 @@ export const LoginView = (props: ILoginUiProps) => {
    return (
       <div className={pageOuterClasses.root} data-testid="login-view">
          <div className={innerColumnClasses.root}>
-            <Text className={textClasses.heading}>{uiStrings.kAppPageCaption}</Text>
+            <Header title={uiStrings.kAppPageCaption} />
             <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
             <Spacer />
             <Text>{uiStrings.kOverview}</Text>
