@@ -49260,7 +49260,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             onClick: () => handleLinkClick(config.termsAction, "/terms")
           },
           uiStrings.kTerms
-        )), /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Jon Verrier"));
+        )), /* @__PURE__ */ import_react28.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react28.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
       };
     }
   });

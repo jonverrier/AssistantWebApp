@@ -131,7 +131,9 @@ export const Footer = (props: IFooterProps) => {
                onClick={() => handleLinkClick(config.termsAction, '/terms')}
             >{uiStrings.kTerms}</Link>
          </div>
-         <Text className={textClasses.footer}>&copy; 2025 Jon Verrier</Text>
+         <div style={{ textAlign: 'center' }}>
+            <Text className={textClasses.footer}>&copy; 2025 Strong AI Technologies Ltd</Text>
+         </div>
       </div>
    );
 }
