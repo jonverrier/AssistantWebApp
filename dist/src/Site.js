@@ -52,6 +52,7 @@ const UserContext_1 = require("./UserContext");
 const LocalStorage_1 = require("./LocalStorage");
 const TermsContent_1 = require("./TermsContent");
 const PrivacyContent_1 = require("./PrivacyContent");
+const AboutContent_1 = require("./AboutContent");
 const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 // Routed site component
 const RoutedSite = (props) => {
@@ -113,6 +114,22 @@ const Site = (props) => {
             }
         },
         {
+            path: '/demo',
+            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant }),
+            loader: () => {
+                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant);
+                return (0, react_router_dom_1.redirect)('/index');
+            }
+        },
+        {
+            path: '/demo.html',
+            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant }),
+            loader: () => {
+                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant);
+                return (0, react_router_dom_1.redirect)('/index');
+            }
+        },
+        {
             path: '/privacy',
             element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kPrivacyTitle, content: PrivacyContent_1.kPrivacyContent })
         },
@@ -127,6 +144,14 @@ const Site = (props) => {
         {
             path: '/terms.html',
             element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kTermsTitle, content: TermsContent_1.kTermsContent })
+        },
+        {
+            path: '/about',
+            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent })
+        },
+        {
+            path: '/about.html',
+            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent })
         },
         {
             path: '*',

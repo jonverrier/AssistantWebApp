@@ -1,5 +1,5 @@
 export const kTermsContent = 
-`We help businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+`Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
@@ -74,4 +74,6 @@ export const kTermsContent =
 15. Ownership
 15.1	The Services are protected by copyright, trade secret and other intellectual or industrial property laws. We own the title, copyright, and other worldwide Intellectual Property Rights for the Services. This Agreement does not grant you any rights to our trademarks or service marks.
 15.1	You may choose to, or we may invite you to submit comments or ideas about the Services, including without limitation about how to improve the Services or our products (“Ideas”). By submitting any Idea, you agree that your disclosure is gratuitous, unsolicited and without restriction and will not place the us under any fiduciary or other obligation, and that we are free to use the Idea without any additional compensation to you, and/or to disclose the Idea on a non-confidential basis or otherwise to anyone. You further acknowledge that, by acceptance of your submission, we do not waive any rights to use similar or related ideas previously known to us or obtained from sources other than you.
+
+Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
 `;

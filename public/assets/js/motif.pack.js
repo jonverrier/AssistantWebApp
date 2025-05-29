@@ -45853,14 +45853,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   function getUIStrings(mode) {
     switch (mode) {
       case "TheYardAssistant" /* kTheYardAssistant */:
-        return UIStrings;
+        return TheYardUIString;
       case "DemoAssistant" /* kDemoAssistant */:
-        return UIStrings;
+        return DemoUIString;
       default:
-        return UIStrings;
+        return TheYardUIString;
     }
   }
-  var CommonUIStrings, TheYardUIStrings, UIStrings;
+  var CommonUIStrings, TheYardBrandStrings, DemoBrandStrings, TheYardUIString, DemoUIString;
   var init_UIStrings = __esm({
     "src/UIStrings.ts"() {
       "use strict";
@@ -45875,8 +45875,10 @@ You can check this by searching up for matching entries in a lockfile produced b
         kHome: "Home",
         kPrivacyTitle: "Privacy Policy",
         kTermsTitle: "Terms of Service",
+        kAboutTitle: "About Strong AI Technologies",
         kPrivacy: "Privacy",
         kTerms: "Terms",
+        kAbout: "About",
         kAIWarning: "AI can make mistakes. Think about it.",
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
@@ -45887,7 +45889,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
         kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
       };
-      TheYardUIStrings = {
+      TheYardBrandStrings = {
         kAppPageCaption: "Yard Talk",
         kAppPageStrapline: "Where sweat meets sass.",
         kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
@@ -45896,9 +45898,22 @@ You can check this by searching up for matching entries in a lockfile produced b
         kChatPlaceholder: "Let's talk about fitness...",
         kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
       };
-      UIStrings = {
+      DemoBrandStrings = {
+        kAppPageCaption: "Strong AI Demo",
+        kAppPageStrapline: "Strong and Intelligent.",
+        kOverview: "Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike.",
+        kLinks: "",
+        kChatPreamble: "Chat to the Strong AI by typing your question in the box below. Don't share private information.",
+        kChatPlaceholder: "Let's talk about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+      };
+      TheYardUIString = {
         ...CommonUIStrings,
-        ...TheYardUIStrings
+        ...TheYardBrandStrings
+      };
+      DemoUIString = {
+        ...CommonUIStrings,
+        ...DemoBrandStrings
       };
     }
   });
@@ -49090,6 +49105,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         termsAction: "terms",
         privacyAction: "privacy",
         homeAction: "home",
+        aboutAction: "about",
         reCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3"
       };
       LocalEnvironmentStrings = {
@@ -49408,6 +49424,14 @@ You can check this by searching up for matching entries in a lockfile produced b
             onClick: () => handleLinkClick(config.termsAction, "/terms")
           },
           uiStrings.kTerms
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/about",
+            className: linkClasses.centred,
+            onClick: () => handleLinkClick(config.aboutAction, "/about")
+          },
+          uiStrings.kAbout
         )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
       };
     }
@@ -57236,6 +57260,27 @@ ${str(snapshot)}`);
       Object.defineProperty(exports, "__esModule", { value: true });
       exports.OpenAIModelChatDriver = void 0;
       var entry_1 = require_entry();
+      var MAX_RETRIES = 5;
+      var INITIAL_RETRY_DELAY = 1e3;
+      async function exponentialBackoff(retryCount) {
+        const delay = INITIAL_RETRY_DELAY * Math.pow(2, retryCount);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+      async function retryWithExponentialBackoff(operation, maxRetries = MAX_RETRIES) {
+        let retryCount = 0;
+        while (true) {
+          try {
+            return await operation();
+          } catch (error) {
+            if (error?.status === 429 && retryCount < maxRetries) {
+              await exponentialBackoff(retryCount);
+              retryCount++;
+              continue;
+            }
+            throw error;
+          }
+        }
+      }
       var OpenAIModelChatDriver = class {
         modelType;
         openai;
@@ -57255,7 +57300,7 @@ ${str(snapshot)}`);
           ];
           try {
             const config = this.createCompletionConfig(systemPrompt, messages);
-            const response = await this.openai.responses.create(config);
+            const response = await retryWithExponentialBackoff(() => this.openai.responses.create(config));
             if (!response.output_text) {
               throw new Error("No response content received from OpenAI");
             }
@@ -57280,7 +57325,7 @@ ${str(snapshot)}`);
           ];
           const config = this.createCompletionConfig(systemPrompt, messages);
           config.stream = true;
-          let streamPromise = this.openai.responses.create(config);
+          let streamPromise = retryWithExponentialBackoff(() => this.openai.responses.create(config));
           let streamIterator = null;
           return {
             async next() {
@@ -57339,7 +57384,7 @@ ${str(snapshot)}`);
           ];
           const config = this.createCompletionConfig(systemPrompt, messages);
           config.text = { format: { type: "json_schema", strict: true, name: "constrainedOutput", schema: jsonSchema } };
-          const response = await this.openai.responses.parse(config);
+          const response = await retryWithExponentialBackoff(() => this.openai.responses.parse(config));
           return response.output_parsed ?? defaultValue;
         }
       };
@@ -60649,6 +60694,7 @@ ${message.content}
       RATE_LIMIT_RESET_TIME = 6e4;
       Login = (props) => {
         const config = getConfigStrings();
+        const uiStrings = getUIStrings(props.personality);
         const user = useUser();
         const { userId, userName, sessionId, onLogin, onLogout } = user;
         const [error, setError] = (0, import_react34.useState)();
@@ -60685,7 +60731,7 @@ ${message.content}
             }
           } catch (error2) {
             console.error("Error during logout:", error2);
-            setError(UIStrings.kLogoutFailed);
+            setError(uiStrings.kLogoutFailed);
           }
         };
         const handleLogin = async (credential) => {
@@ -60694,18 +60740,18 @@ ${message.content}
             if (!recaptchaResult.success) {
               const securitySteps = handleLowScore(recaptchaResult.score || 0);
               if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
-                setError(UIStrings.kLoginBlocked);
+                setError(uiStrings.kLoginBlocked);
                 return;
               }
               if (securitySteps.includes(SECURITY_STEP_ADDITIONAL_VERIFICATION)) {
-                setError(UIStrings.kAdditionalVerification);
+                setError(uiStrings.kAdditionalVerification);
                 return;
               }
               if (securitySteps.includes(SECURITY_STEP_RATE_LIMIT)) {
                 setRateLimitAttempts((prev2) => prev2 + 1);
                 setLastAttemptTime(Date.now());
                 const delay = calculateRateLimitDelay();
-                setError(UIStrings.kTooManyAttempts);
+                setError(uiStrings.kTooManyAttempts);
                 setIsWaiting(true);
                 setTimeout(() => {
                   setIsWaiting(false);
@@ -60739,7 +60785,7 @@ ${message.content}
             }
           } catch (error2) {
             console.error("Error during login:", error2);
-            setError(UIStrings.kLoginFailed);
+            setError(uiStrings.kLoginFailed);
           }
         };
         const calculateRateLimitDelay = () => {
@@ -60824,7 +60870,7 @@ ${message.content}
           Message,
           {
             intent: "error" /* kError */,
-            title: UIStrings.kError,
+            title: uiStrings.kError,
             body: props.error,
             dismissable: true,
             onDismiss: handleErrorDismiss
@@ -60876,7 +60922,7 @@ ${message.content}
   var init_TermsContent = __esm({
     "src/TermsContent.ts"() {
       "use strict";
-      kTermsContent = `We help businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+      kTermsContent = `Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
@@ -60951,6 +60997,8 @@ ${message.content}
 15. Ownership
 15.1	The Services are protected by copyright, trade secret and other intellectual or industrial property laws. We own the title, copyright, and other worldwide Intellectual Property Rights for the Services. This Agreement does not grant you any rights to our trademarks or service marks.
 15.1	You may choose to, or we may invite you to submit comments or ideas about the Services, including without limitation about how to improve the Services or our products (\u201CIdeas\u201D). By submitting any Idea, you agree that your disclosure is gratuitous, unsolicited and without restriction and will not place the us under any fiduciary or other obligation, and that we are free to use the Idea without any additional compensation to you, and/or to disclose the Idea on a non-confidential basis or otherwise to anyone. You further acknowledge that, by acceptance of your submission, we do not waive any rights to use similar or related ideas previously known to us or obtained from sources other than you.
+
+Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
 `;
     }
   });
@@ -60961,7 +61009,7 @@ ${message.content}
     "src/PrivacyContent.ts"() {
       "use strict";
       kPrivacyContent = `1. Introduction
-1.1	We help businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
@@ -61038,6 +61086,20 @@ ${message.content}
     }
   });
 
+  // src/AboutContent.ts
+  var kAboutContent;
+  var init_AboutContent = __esm({
+    "src/AboutContent.ts"() {
+      "use strict";
+      kAboutContent = `Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike. 
+Our friendly, smart automation handles 'outside the gym' interactions \u2014 answering FAQs, helping new members understand functional fitness, helping more experienced members with nutrition, accessory exercise advice, or adaptations for their personal circumstances \u2014 so your team can focus on coaching and building community. 
+Our AI does not seek to replace your coaches, our AI acts as an additional assistant, helping cover questions your coaches may lack the time to cover, or allowing members to ask them in a more private environment. 
+Overall, this means more engaged members making more progress towards their goals. 
+Be one of the first gyms in London with its own AI assistant.
+`;
+    }
+  });
+
   // src/Site.tsx
   var import_react36, RoutedSite, Site;
   var init_Site = __esm({
@@ -61053,6 +61115,7 @@ ${message.content}
       init_LocalStorage();
       init_TermsContent();
       init_PrivacyContent();
+      init_AboutContent();
       init_AssistantChatApiTypes();
       RoutedSite = (props) => {
         return /* @__PURE__ */ import_react36.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react36.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react36.default.createElement(BrowserRouter, { future: {
@@ -61106,6 +61169,22 @@ ${message.content}
             }
           },
           {
+            path: "/demo",
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "DemoAssistant" /* kDemoAssistant */ }),
+            loader: () => {
+              setPersonality("DemoAssistant" /* kDemoAssistant */);
+              return redirect("/index");
+            }
+          },
+          {
+            path: "/demo.html",
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "DemoAssistant" /* kDemoAssistant */ }),
+            loader: () => {
+              setPersonality("DemoAssistant" /* kDemoAssistant */);
+              return redirect("/index");
+            }
+          },
+          {
             path: "/privacy",
             element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
@@ -61120,6 +61199,14 @@ ${message.content}
           {
             path: "/terms.html",
             element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+          },
+          {
+            path: "/about",
+            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kAboutTitle, content: kAboutContent })
+          },
+          {
+            path: "/about.html",
+            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kAboutTitle, content: kAboutContent })
           },
           {
             path: "*",

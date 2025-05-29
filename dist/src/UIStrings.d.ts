@@ -24,8 +24,10 @@ export interface ICommonUIStrings {
     kHome: string;
     kPrivacyTitle: string;
     kTermsTitle: string;
+    kAboutTitle: string;
     kPrivacy: string;
     kTerms: string;
+    kAbout: string;
     kAIWarning: string;
     kArchivingPleaseWait: string;
     kArchivingDescription: string;
@@ -47,8 +49,8 @@ export interface IBrandUIStrings {
 }
 export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 export declare const CommonUIStrings: ICommonUIStrings;
-export declare const TheYardUIStrings: IBrandUIStrings;
-export declare const UIStrings: IUIStrings;
+export declare const TheYardBrandStrings: IBrandUIStrings;
+export declare const DemoBrandStrings: IBrandUIStrings;
 export declare function getCommonUIStrings(): ICommonUIStrings;
 export declare function getUIStrings(mode: EAssistantPersonality): IUIStrings;
 //# sourceMappingURL=UIStrings.d.ts.map

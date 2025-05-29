@@ -7,7 +7,7 @@
  */
 /*! Copyright Jon Verrier 2025 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UIStrings = exports.TheYardUIStrings = exports.CommonUIStrings = exports.EMultilineEditUIStrings = void 0;
+exports.DemoBrandStrings = exports.TheYardBrandStrings = exports.CommonUIStrings = exports.EMultilineEditUIStrings = void 0;
 exports.replaceStringParameter = replaceStringParameter;
 exports.getCommonUIStrings = getCommonUIStrings;
 exports.getUIStrings = getUIStrings;
@@ -33,8 +33,10 @@ exports.CommonUIStrings = {
     kHome: "Home",
     kPrivacyTitle: "Privacy Policy",
     kTermsTitle: "Terms of Service",
+    kAboutTitle: "About Strong AI Technologies",
     kPrivacy: "Privacy",
     kTerms: "Terms",
+    kAbout: "About",
     kAIWarning: "AI can make mistakes. Think about it.",
     kProcessingPleaseWait: "Please wait a few seconds...",
     kArchivingPleaseWait: "Please wait a few seconds...",
@@ -45,7 +47,7 @@ exports.CommonUIStrings = {
     kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
     kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
 };
-exports.TheYardUIStrings = {
+exports.TheYardBrandStrings = {
     kAppPageCaption: "Yard Talk",
     kAppPageStrapline: "Where sweat meets sass.",
     kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
@@ -54,10 +56,23 @@ exports.TheYardUIStrings = {
     kChatPlaceholder: "Let's talk about fitness...",
     kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
 };
-// Default UI strings that combine common and brand strings
-exports.UIStrings = {
+exports.DemoBrandStrings = {
+    kAppPageCaption: "Strong AI Demo",
+    kAppPageStrapline: "Strong and Intelligent.",
+    kOverview: "Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike.",
+    kLinks: "",
+    kChatPreamble: "Chat to the Strong AI by typing your question in the box below. Don't share private information.",
+    kChatPlaceholder: "Let's talk about fitness...",
+    kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+};
+// UI strings that combine common and brand strings
+const TheYardUIString = {
     ...exports.CommonUIStrings,
-    ...exports.TheYardUIStrings
+    ...exports.TheYardBrandStrings
+};
+const DemoUIString = {
+    ...exports.CommonUIStrings,
+    ...exports.DemoBrandStrings
 };
 // Function to get common UI strings 
 function getCommonUIStrings() {
@@ -67,10 +82,10 @@ function getCommonUIStrings() {
 function getUIStrings(mode) {
     switch (mode) {
         case AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant:
-            return exports.UIStrings;
+            return TheYardUIString;
         case AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant:
-            return exports.UIStrings;
+            return DemoUIString;
         default:
-            return exports.UIStrings;
+            return TheYardUIString;
     }
 }

@@ -127,7 +127,8 @@ const Footer = (props) => {
         react_1.default.createElement("div", { className: styles.footerContent },
             react_1.default.createElement(react_router_dom_1.Link, { to: "/index", className: linkClasses.centred, onClick: () => handleLinkClick(config.homeAction, '/index') }, uiStrings.kHome),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: () => handleLinkClick(config.privacyAction, '/privacy') }, uiStrings.kPrivacy),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: () => handleLinkClick(config.termsAction, '/terms') }, uiStrings.kTerms)),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: () => handleLinkClick(config.termsAction, '/terms') }, uiStrings.kTerms),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/about", className: linkClasses.centred, onClick: () => handleLinkClick(config.aboutAction, '/about') }, uiStrings.kAbout)),
         react_1.default.createElement("div", { style: { textAlign: 'center' } },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.footer }, "\u00A9 2025 Strong AI Technologies Ltd"))));
 };

@@ -19,7 +19,7 @@ import { getSessionData } from './SessionCall';
 import { Footer, Spacer } from './SiteUtilities';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { standardTextStyles } from './CommonStyles';
-import { getUIStrings, UIStrings } from './UIStrings';
+import { getUIStrings } from './UIStrings';
 import { uuidv4 } from './uuid';
 import { executeReCaptcha, handleLowScore, 
    SECURITY_STEP_BLOCK_REQUEST,
@@ -104,6 +104,8 @@ interface ILoginUiProps  {
 // including reCAPTCHA verification, rate limiting, and Google Sign-In.
 export const Login = (props: ILoginProps) => {
    const config = getConfigStrings();
+   const uiStrings = getUIStrings(props.personality);
+
    const user = useUser();
    const { userId, userName, sessionId, onLogin, onLogout } = user;
       
@@ -154,7 +156,7 @@ export const Login = (props: ILoginProps) => {
          }
       } catch (error) {
          console.error('Error during logout:', error);
-         setError(UIStrings.kLogoutFailed);
+         setError(uiStrings.kLogoutFailed);
       }
    };
 
@@ -169,12 +171,12 @@ export const Login = (props: ILoginProps) => {
             const securitySteps = handleLowScore(recaptchaResult.score || 0);
             
             if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
-               setError(UIStrings.kLoginBlocked);
+               setError(uiStrings.kLoginBlocked);
                return;
             }
             
             if (securitySteps.includes(SECURITY_STEP_ADDITIONAL_VERIFICATION)) {
-               setError(UIStrings.kAdditionalVerification);
+               setError(uiStrings.kAdditionalVerification);
                return;
             }
             
@@ -184,7 +186,7 @@ export const Login = (props: ILoginProps) => {
                setLastAttemptTime(Date.now());
                
                const delay = calculateRateLimitDelay();
-               setError(UIStrings.kTooManyAttempts);
+               setError(uiStrings.kTooManyAttempts);
                setIsWaiting(true);
                setTimeout(() => {
                   setIsWaiting(false);
@@ -226,7 +228,7 @@ export const Login = (props: ILoginProps) => {
 
       } catch (error) {
          console.error('Error during login:', error);
-         setError(UIStrings.kLoginFailed);
+         setError(uiStrings.kLoginFailed);
       }
    };
 
@@ -352,7 +354,7 @@ export const LoginView = (props: ILoginUiProps) => {
                   <Spacer />
                   <Message
                      intent={MessageIntent.kError}
-                     title={UIStrings.kError}
+                     title={uiStrings.kError}
                      body={props.error}
                      dismissable={true}
                      onDismiss={handleErrorDismiss}

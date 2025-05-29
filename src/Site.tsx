@@ -19,6 +19,7 @@ import { browserSessionStorage } from './LocalStorage';
 
 import { kTermsContent } from './TermsContent';
 import { kPrivacyContent } from './PrivacyContent';
+import { kAboutContent } from './AboutContent';
 import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 // Type definitions for Google Sign-In
@@ -133,6 +134,22 @@ export const Site = (props: ISiteProps) => {
          }
       },
       {
+         path: '/demo',
+         element: <Login personality={EAssistantPersonality.kDemoAssistant} />,
+         loader: () => {
+            setPersonality(EAssistantPersonality.kDemoAssistant);
+            return redirect('/index');
+         }
+      },
+      {
+         path: '/demo.html',
+         element: <Login personality={EAssistantPersonality.kDemoAssistant} />,
+         loader: () => {
+            setPersonality(EAssistantPersonality.kDemoAssistant);
+            return redirect('/index');
+         }
+      },      
+      {
          path: '/privacy',
          element: <PlainText title={uiStrings.kPrivacyTitle} content={kPrivacyContent} />
       },
@@ -147,6 +164,14 @@ export const Site = (props: ISiteProps) => {
       {
          path: '/terms.html',
          element: <PlainText title={uiStrings.kTermsTitle} content={kTermsContent} />
+      },
+      {
+         path: '/about',
+         element: <PlainText title={uiStrings.kAboutTitle} content={kAboutContent} />
+      },
+      {
+         path: '/about.html',
+         element: <PlainText title={uiStrings.kAboutTitle} content={kAboutContent} />
       },
       {
          path: '*',

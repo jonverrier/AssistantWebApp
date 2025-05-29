@@ -134,6 +134,11 @@ export const Footer = (props: IFooterProps) => {
                className={linkClasses.centred}
                onClick={() => handleLinkClick(config.termsAction, '/terms')}
             >{uiStrings.kTerms}</Link>
+            <Link 
+               to="/about" 
+               className={linkClasses.centred}
+               onClick={() => handleLinkClick(config.aboutAction, '/about')}
+            >{uiStrings.kAbout}</Link>
          </div>
          <div style={{ textAlign: 'center' }}>
             <Text className={textClasses.footer}>&copy; 2025 Strong AI Technologies Ltd</Text>

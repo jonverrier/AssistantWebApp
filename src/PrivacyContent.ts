@@ -1,7 +1,7 @@
 
 export const kPrivacyContent = 
 `1. Introduction
-1.1	We help businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
@@ -81,4 +81,6 @@ export const kPrivacyContent2  =
 13.1	This website is owned and operated by Verrier Technology Services Ltd.
 13.2	We are registered in England and Wales under registration number NNNNNNNN, and our registered office is at AAAAAAAAA.
 13.4	You can contact us by email, using the email address published on our website.
+
+Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
 `;

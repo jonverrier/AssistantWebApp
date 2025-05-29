@@ -31,8 +31,10 @@ export interface ICommonUIStrings {
    kHome: string;
    kPrivacyTitle: string;
    kTermsTitle: string;
+   kAboutTitle: string;
    kPrivacy: string;
    kTerms: string;
+   kAbout: string;
    kAIWarning: string;
    kArchivingPleaseWait: string;
    kArchivingDescription: string;
@@ -67,8 +69,10 @@ export const CommonUIStrings: ICommonUIStrings = {
    kHome: "Home",
    kPrivacyTitle: "Privacy Policy",
    kTermsTitle: "Terms of Service",
+   kAboutTitle: "About Strong AI Technologies",
    kPrivacy: "Privacy",
    kTerms: "Terms",
+   kAbout: "About",
    kAIWarning: "AI can make mistakes. Think about it.",
    kProcessingPleaseWait: "Please wait a few seconds...",
    kArchivingPleaseWait: "Please wait a few seconds...",
@@ -80,7 +84,7 @@ export const CommonUIStrings: ICommonUIStrings = {
    kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
 }
 
-export const TheYardUIStrings: IBrandUIStrings = {
+export const TheYardBrandStrings: IBrandUIStrings = {
    kAppPageCaption: "Yard Talk",
    kAppPageStrapline: "Where sweat meets sass.",
    kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
@@ -90,10 +94,25 @@ export const TheYardUIStrings: IBrandUIStrings = {
    kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
 }
 
-// Default UI strings that combine common and brand strings
-export const UIStrings: IUIStrings = {
+export const DemoBrandStrings: IBrandUIStrings = {
+   kAppPageCaption: "Strong AI Demo",
+   kAppPageStrapline: "Strong and Intelligent.",
+   kOverview: "Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike.",
+   kLinks: "",
+   kChatPreamble: "Chat to the Strong AI by typing your question in the box below. Don't share private information.",
+   kChatPlaceholder: "Let's talk about fitness...",
+   kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+}
+
+// UI strings that combine common and brand strings
+const TheYardUIString: IUIStrings = {
    ...CommonUIStrings,
-   ...TheYardUIStrings
+   ...TheYardBrandStrings
+}
+
+const DemoUIString: IUIStrings = {
+   ...CommonUIStrings,
+   ...DemoBrandStrings
 }
 
 // Function to get common UI strings 
@@ -105,11 +124,11 @@ export function getCommonUIStrings(): ICommonUIStrings {
 export function getUIStrings(mode: EAssistantPersonality): IUIStrings {
    switch (mode) {
       case EAssistantPersonality.kTheYardAssistant:
-         return UIStrings;
+         return TheYardUIString;
       case EAssistantPersonality.kDemoAssistant:
-         return UIStrings;
+         return DemoUIString;
       default:
-         return UIStrings;
+         return TheYardUIString;
    }
 }
 

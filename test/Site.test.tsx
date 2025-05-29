@@ -143,6 +143,19 @@ describe(`Site Component`, () => {
       expect(termsTitle).toBeTruthy();
    });
 
+   it('renders PlainText component for /about path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/about']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const aboutTitle = screen.getByText(uiStrings.kAboutTitle);
+      expect(aboutTitle).toBeTruthy();
+   });
+
    it('handles unknown routes gracefully', () => {
       render(
          <UserProvider storage={mockStorage}>
