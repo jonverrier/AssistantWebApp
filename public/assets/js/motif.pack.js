@@ -57233,160 +57233,229 @@ ${str(snapshot)}`);
   var require_Chat = __commonJS({
     "../PromptRepository/dist/src/Chat.js"(exports) {
       "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.OpenAIModelChatDriver = void 0;
+      var entry_1 = require_entry();
+      var OpenAIModelChatDriver = class {
+        modelType;
+        openai;
+        constructor(modelType) {
+          this.modelType = modelType;
+        }
+        async getModelResponse(systemPrompt, userPrompt, messageHistory) {
+          const messages = [
+            ...messageHistory || [],
+            {
+              role: entry_1.EChatRole.kUser,
+              content: userPrompt,
+              timestamp: /* @__PURE__ */ new Date(),
+              id: `user-${Date.now()}`,
+              className: "user-message"
+            }
+          ];
+          try {
+            const config = this.createCompletionConfig(systemPrompt, messages);
+            const response = await this.openai.responses.create(config);
+            if (!response.output_text) {
+              throw new Error("No response content received from OpenAI");
+            }
+            return response.output_text;
+          } catch (error) {
+            if (error instanceof Error) {
+              throw new Error(`OpenAI API error: ${error.message}`);
+            }
+            throw new Error("Unknown error occurred while calling OpenAI API");
+          }
+        }
+        getStreamedModelResponse(systemPrompt, userPrompt, messageHistory) {
+          const messages = [
+            ...messageHistory || [],
+            {
+              role: entry_1.EChatRole.kUser,
+              content: userPrompt,
+              timestamp: /* @__PURE__ */ new Date(),
+              id: `user-${Date.now()}`,
+              className: "user-message"
+            }
+          ];
+          const config = this.createCompletionConfig(systemPrompt, messages);
+          config.stream = true;
+          let streamPromise = this.openai.responses.create(config);
+          let streamIterator = null;
+          return {
+            async next() {
+              try {
+                if (!streamIterator) {
+                  const stream = await streamPromise;
+                  if (Symbol.asyncIterator in stream) {
+                    streamIterator = stream[Symbol.asyncIterator]();
+                  } else {
+                    throw new Error("Stream does not support async iteration");
+                  }
+                }
+                if (streamIterator) {
+                  let looking = true;
+                  while (looking) {
+                    const chunk = await streamIterator.next();
+                    if (chunk.done) {
+                      streamIterator = null;
+                      return { value: "", done: true };
+                    }
+                    if ("delta" in chunk.value && typeof chunk.value.delta === "string") {
+                      looking = false;
+                      return { value: chunk.value.delta, done: false };
+                    }
+                  }
+                }
+                return { value: "", done: true };
+              } catch (error) {
+                streamIterator = null;
+                if (error instanceof Error) {
+                  throw new Error(`Stream error: ${error.message}`);
+                }
+                throw error;
+              }
+            },
+            return() {
+              streamIterator = null;
+              return Promise.resolve({ value: "", done: true });
+            },
+            throw(error) {
+              streamIterator = null;
+              return Promise.reject(error);
+            }
+          };
+        }
+        async getConstrainedModelResponse(systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory) {
+          const messages = [
+            ...messageHistory || [],
+            {
+              role: entry_1.EChatRole.kUser,
+              content: userPrompt,
+              timestamp: /* @__PURE__ */ new Date(),
+              id: `user-${Date.now()}`,
+              className: "user-message"
+            }
+          ];
+          const config = this.createCompletionConfig(systemPrompt, messages);
+          config.text = { format: { type: "json_schema", strict: true, name: "constrainedOutput", schema: jsonSchema } };
+          const response = await this.openai.responses.parse(config);
+          return response.output_parsed ?? defaultValue;
+        }
+      };
+      exports.OpenAIModelChatDriver = OpenAIModelChatDriver;
+    }
+  });
+
+  // ../PromptRepository/dist/src/Chat.OpenAI.js
+  var require_Chat_OpenAI = __commonJS({
+    "../PromptRepository/dist/src/Chat.OpenAI.js"(exports) {
+      "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.ChatDriverFactory = void 0;
+      exports.OpenAIChatDriver = void 0;
       var openai_1 = __importDefault(require_openai());
       var entry_1 = require_entry();
       var entry_2 = require_entry();
+      var Chat_1 = require_Chat();
+      var OpenAIChatDriver = class extends Chat_1.OpenAIModelChatDriver {
+        model;
+        constructor(modelType) {
+          super(modelType);
+          this.model = modelType === entry_2.EModel.kLarge ? "gpt-4.1" : "gpt-4.1-mini";
+          if (!process.env.OPENAI_API_KEY) {
+            throw new Error("OPENAI_API_KEY environment variable is not set");
+          }
+          this.openai = new openai_1.default({
+            apiKey: process.env.OPENAI_API_KEY
+          });
+        }
+        createCompletionConfig(systemPrompt, messages) {
+          const formattedMessages = messages.map((msg) => ({
+            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
+            content: msg.content
+          }));
+          return {
+            model: this.model,
+            input: formattedMessages,
+            ...systemPrompt && { instructions: systemPrompt },
+            temperature: 0.25
+          };
+        }
+      };
+      exports.OpenAIChatDriver = OpenAIChatDriver;
+    }
+  });
+
+  // ../PromptRepository/dist/src/Chat.AzureOpenAI.js
+  var require_Chat_AzureOpenAI = __commonJS({
+    "../PromptRepository/dist/src/Chat.AzureOpenAI.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.AzureOpenAIChatDriver = void 0;
+      var openai_1 = require_openai();
+      var entry_1 = require_entry();
+      var entry_2 = require_entry();
+      var Chat_1 = require_Chat();
+      var AZURE_DEPLOYMENTS = {
+        LARGE: "Studio41Large",
+        MINI: "Studio41Small"
+      };
+      var AzureOpenAIChatDriver = class extends Chat_1.OpenAIModelChatDriver {
+        deployment;
+        constructor(modelType) {
+          super(modelType);
+          this.deployment = modelType === entry_2.EModel.kLarge ? AZURE_DEPLOYMENTS.LARGE : AZURE_DEPLOYMENTS.MINI;
+          if (!process.env.AZURE_OPENAI_API_KEY) {
+            throw new Error("AZURE_OPENAI_API_KEY environment variable is not set");
+          }
+          if (!process.env.AZURE_OPENAI_ENDPOINT) {
+            throw new Error("AZURE_OPENAI_ENDPOINT environment variable is not set");
+          }
+          this.openai = new openai_1.AzureOpenAI({
+            apiKey: process.env.AZURE_OPENAI_API_KEY,
+            endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+            deployment: this.deployment,
+            apiVersion: "2025-03-01-preview"
+          });
+        }
+        createCompletionConfig(systemPrompt, messages) {
+          const formattedMessages = messages.map((msg) => ({
+            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
+            content: msg.content
+          }));
+          return {
+            model: this.deployment,
+            input: formattedMessages,
+            ...systemPrompt && { instructions: systemPrompt },
+            temperature: 0.25
+          };
+        }
+      };
+      exports.AzureOpenAIChatDriver = AzureOpenAIChatDriver;
+    }
+  });
+
+  // ../PromptRepository/dist/src/ChatFactory.js
+  var require_ChatFactory = __commonJS({
+    "../PromptRepository/dist/src/ChatFactory.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.ChatDriverFactory = void 0;
+      var entry_1 = require_entry();
+      var Chat_OpenAI_1 = require_Chat_OpenAI();
+      var Chat_AzureOpenAI_1 = require_Chat_AzureOpenAI();
       var ChatDriverFactory = class {
         create(model, provider) {
-          return new OpenAIChatDriver(model);
+          if (provider === entry_1.EModelProvider.kAzureOpenAI) {
+            return new Chat_AzureOpenAI_1.AzureOpenAIChatDriver(model);
+          }
+          return new Chat_OpenAI_1.OpenAIChatDriver(model);
         }
       };
       exports.ChatDriverFactory = ChatDriverFactory;
-      var OpenAIChatDriver = class {
-        model = "gpt-4o";
-        constructor(model) {
-          if (model === entry_2.EModel.kLarge) {
-            this.model = "gpt-4.1";
-          } else if (model === entry_2.EModel.kMini) {
-            this.model = "gpt-4.1-mini";
-          }
-        }
-        getModelResponse(systemPrompt, userPrompt, messageHistory) {
-          return getModelResponse(this.model, systemPrompt, userPrompt, messageHistory);
-        }
-        getStreamedModelResponse(systemPrompt, userPrompt, messageHistory) {
-          return getStreamedModelResponse(this.model, systemPrompt, userPrompt, messageHistory);
-        }
-        getConstrainedModelResponse(systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory) {
-          return getConstrainedModelResponse(this.model, systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory);
-        }
-      };
-      async function getModelResponse(model, systemPrompt, userPrompt, messageHistory) {
-        if (!process.env.OPENAI_API_KEY) {
-          throw new Error("OPENAI_API_KEY environment variable is not set");
-        }
-        const openai = new openai_1.default({
-          apiKey: process.env.OPENAI_API_KEY
-        });
-        const messages = [
-          ...messageHistory || [],
-          {
-            role: entry_1.EChatRole.kUser,
-            content: userPrompt,
-            timestamp: /* @__PURE__ */ new Date()
-          }
-        ];
-        try {
-          const response = await openai.responses.create({
-            ...systemPrompt && { "instructions": systemPrompt },
-            "input": messages.map((msg) => ({
-              role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
-              content: msg.content
-            })),
-            "model": model,
-            "temperature": 0.25
-          });
-          if (!response.output_text) {
-            throw new Error("No response content received from OpenAI");
-          }
-          return response.output_text;
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(`OpenAI API error: ${error.message}`);
-          }
-          throw new Error("Unknown error occurred while calling OpenAI API");
-        }
-      }
-      function getStreamedModelResponse(model, systemPrompt, userPrompt, messageHistory) {
-        const openai = new openai_1.default({
-          apiKey: process.env.OPENAI_API_KEY
-        });
-        const messages = [
-          ...messageHistory || [],
-          {
-            role: entry_1.EChatRole.kUser,
-            content: userPrompt,
-            timestamp: /* @__PURE__ */ new Date()
-          }
-        ];
-        let streamPromise = openai.responses.create({
-          ...systemPrompt && { "instructions": systemPrompt },
-          "input": messages.map((msg) => ({
-            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
-            content: msg.content
-          })),
-          "model": model,
-          "temperature": 0.25,
-          "stream": true
-        });
-        let streamIterator = null;
-        return {
-          async next() {
-            try {
-              if (!streamIterator) {
-                const stream = await streamPromise;
-                streamIterator = stream[Symbol.asyncIterator]();
-              }
-              let looking = true;
-              while (looking) {
-                const chunk = await streamIterator.next();
-                if (chunk.done) {
-                  streamIterator = null;
-                  return { value: "", done: true };
-                }
-                if ("delta" in chunk.value && typeof chunk.value.delta === "string") {
-                  looking = false;
-                  return { value: chunk.value.delta, done: false };
-                }
-              }
-              return { value: "", done: true };
-            } catch (error) {
-              streamIterator = null;
-              if (error instanceof Error) {
-                throw new Error(`Stream error: ${error.message}`);
-              }
-              throw error;
-            }
-          },
-          return() {
-            streamIterator = null;
-            return Promise.resolve({ value: "", done: true });
-          },
-          throw(error) {
-            streamIterator = null;
-            return Promise.reject(error);
-          }
-        };
-      }
-      async function getConstrainedModelResponse(model, systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory) {
-        const openai = new openai_1.default({
-          apiKey: process.env.OPENAI_API_KEY
-        });
-        const messages = [
-          ...messageHistory || [],
-          {
-            role: entry_1.EChatRole.kUser,
-            content: userPrompt,
-            timestamp: /* @__PURE__ */ new Date()
-          }
-        ];
-        const response = await openai.responses.parse({
-          ...systemPrompt && { "instructions": systemPrompt },
-          "input": messages.map((msg) => ({
-            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
-            content: msg.content
-          })),
-          "model": model,
-          "temperature": 0.25,
-          "text": { "format": { type: "json_schema", "strict": true, "name": "constrainedOutput", "schema": jsonSchema } }
-        });
-        return response.output_parsed ?? defaultValue;
-      }
     }
   });
 
@@ -57483,9 +57552,9 @@ ${message.content}
       Object.defineProperty(exports, "PromptInMemoryRepository", { enumerable: true, get: function() {
         return PromptRepository_1.PromptInMemoryRepository;
       } });
-      var Chat_1 = require_Chat();
+      var ChatFactory_1 = require_ChatFactory();
       Object.defineProperty(exports, "ChatDriverFactory", { enumerable: true, get: function() {
-        return Chat_1.ChatDriverFactory;
+        return ChatFactory_1.ChatDriverFactory;
       } });
       var Asserts_1 = require_Asserts();
       Object.defineProperty(exports, "throwIfUndefined", { enumerable: true, get: function() {
@@ -57518,10 +57587,11 @@ ${message.content}
         EModel2["kLarge"] = "kLarge";
         EModel2["kMini"] = "kMini";
       })(EModel || (exports.EModel = EModel = {}));
-      var EModelProvider;
-      (function(EModelProvider2) {
-        EModelProvider2["kOpenAI"] = "kOpenAI";
-      })(EModelProvider || (exports.EModelProvider = EModelProvider = {}));
+      var EModelProvider2;
+      (function(EModelProvider3) {
+        EModelProvider3["kOpenAI"] = "kOpenAI";
+        EModelProvider3["kAzureOpenAI"] = "kAzureOpenAI";
+      })(EModelProvider2 || (exports.EModelProvider = EModelProvider2 = {}));
       var EChatRole5;
       (function(EChatRole6) {
         EChatRole6["kUser"] = "user";
@@ -60123,6 +60193,7 @@ ${message.content}
     const olderMessages = messages.slice(0, midPointIndex);
     try {
       const summarizeRequest = {
+        modelProvider: import_prompt_repository3.EModelProvider.kAzureOpenAI,
         sessionId,
         messages: olderMessages,
         // Summarize the older messages instead of recent ones

@@ -4,26 +4,40 @@ import { expect } from 'expect';
 import { render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Footer, Spacer } from '../src/SiteUtilities';
-import { EAppMode, getUIStrings } from '../src/UIStrings';
+import { getUIStrings } from '../src/UIStrings';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
+import { UserProvider } from '../src/UserContext';
+import { MockStorage } from './MockStorage';
 
 describe('SiteUtilities', () => {
     describe('Spacer', () => {
-        it('should render a div with non-breaking spaces', () => {
+        it('should render a div with 20px height', () => {
             const { container } = render(<Spacer />);
             const spacer = container.firstChild as HTMLElement;
             expect(spacer.tagName).toBe('DIV');
-            expect(spacer.innerHTML).toBe('&nbsp;&nbsp;&nbsp;');
+            expect(spacer.style.height).toBe('20px');
         });
     });
 
     describe('Footer', () => {
-        const uiStrings = getUIStrings(EAppMode.kYardTalk);
+        const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
+        let mockStorage: MockStorage;
+
+        beforeEach(() => {
+            mockStorage = new MockStorage();
+        });
+
+        afterEach(() => {
+            mockStorage.clear();
+        });
 
         const renderFooter = () => {
             return render(
-                <BrowserRouter>
-                    <Footer />
-                </BrowserRouter>
+                <UserProvider storage={mockStorage}>
+                    <BrowserRouter>
+                        <Footer />
+                    </BrowserRouter>
+                </UserProvider>
             );
         };
 

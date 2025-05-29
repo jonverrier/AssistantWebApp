@@ -4,7 +4,7 @@
  * Type definitions and interfaces for the assistant chat API.
  * Includes types for chat requests.
  */
-import { IChatMessage } from "prompt-repository";
+import { IChatMessage, EModelProvider } from "prompt-repository";
 /**
  * An enumeration of possible assistant personalities.
  * Used to specify the desired personality type for chat interactions.
@@ -66,6 +66,7 @@ export interface IAssistantSimpleChatRequest {
  * Use this for full chat sessions including prior context
  */
 export interface IAssistantFullChatRequest extends IAssistantSimpleChatRequest {
+    personality: EAssistantPersonality;
     history: IChatMessage[];
 }
 /**
@@ -87,6 +88,7 @@ export interface IScreeningClassificationResponse {
  * A request to summarise an message.
  */
 export interface ISummariseMessageRequest {
+    modelProvider: EModelProvider;
     sessionId: string;
     messages: IChatMessage[];
     wordCount: number;

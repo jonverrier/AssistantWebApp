@@ -52,7 +52,7 @@ const UserContext_1 = require("./UserContext");
 const LocalStorage_1 = require("./LocalStorage");
 const TermsContent_1 = require("./TermsContent");
 const PrivacyContent_1 = require("./PrivacyContent");
-const AssistantChatApiTypes_1 = require("import/AssistantChatApiTypes");
+const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 // Routed site component
 const RoutedSite = (props) => {
     return (react_1.default.createElement(react_components_1.FluentProvider, { theme: react_components_1.teamsDarkTheme },

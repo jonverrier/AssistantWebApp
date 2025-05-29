@@ -10,7 +10,8 @@ import { IChatMessage,
    IArchiveMessageRequest, 
    IArchiveMessageResponse, 
    renderChatMessageAsText,
-   EChatRole } from 'prompt-repository';
+   EChatRole, 
+   EModelProvider} from 'prompt-repository';
 import { ISummariseMessageRequest,
    ISummariseMessageResponse } from '../import/AssistantChatApiTypes';
 import { encode } from 'gpt-tokenizer';
@@ -122,6 +123,7 @@ export async function archive({
     try {
         // Prepare the summarize request
         const summarizeRequest: ISummariseMessageRequest = {
+            modelProvider: EModelProvider.kAzureOpenAI,
             sessionId,
             messages: olderMessages,  // Summarize the older messages instead of recent ones
             wordCount

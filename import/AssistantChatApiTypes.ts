@@ -7,7 +7,7 @@
 // Copyright (c) 2025 Jon Verrier
 
 
-import { IChatMessage } from "prompt-repository";
+import { IChatMessage, EModelProvider } from "prompt-repository";
 
 /**
  * An enumeration of possible assistant personalities.
@@ -77,6 +77,7 @@ export interface IAssistantSimpleChatRequest {
  * Use this for full chat sessions including prior context
  */
 export interface IAssistantFullChatRequest extends IAssistantSimpleChatRequest {
+   personality: EAssistantPersonality;
    history: IChatMessage[];
 }
 
@@ -101,6 +102,7 @@ export interface IScreeningClassificationResponse {
  * A request to summarise an message.
  */
 export interface ISummariseMessageRequest {
+   modelProvider: EModelProvider;
    sessionId: string;
    messages: IChatMessage[];
    wordCount: number;
