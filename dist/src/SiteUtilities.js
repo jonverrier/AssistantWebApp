@@ -94,7 +94,7 @@ const Header = ({ title }) => {
 };
 exports.Header = Header;
 const Spacer = (props) => {
-    return (react_1.default.createElement("div", { style: { height: '20px' } }));
+    return (react_1.default.createElement("div", { style: { height: '12px' } }));
 };
 exports.Spacer = Spacer;
 const Footer = (props) => {
@@ -132,16 +132,16 @@ const Footer = (props) => {
                 } }, uiStrings.kHome),
             react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
+                    handleLinkClick(config.aboutAction, '/chat');
+                } }, uiStrings.kChat),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+                    e.preventDefault();
                     handleLinkClick(config.privacyAction, '/privacy');
                 } }, uiStrings.kPrivacy),
             react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
                     handleLinkClick(config.termsAction, '/terms');
-                } }, uiStrings.kTerms),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
-                    e.preventDefault();
-                    handleLinkClick(config.aboutAction, '/about');
-                } }, uiStrings.kAbout)),
+                } }, uiStrings.kTerms)),
         react_1.default.createElement("div", { style: { textAlign: 'center' } },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.footer }, "\u00A9 2025 Strong AI Technologies Ltd"))));
 };

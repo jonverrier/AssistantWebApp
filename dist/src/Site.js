@@ -46,6 +46,7 @@ const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const Login_1 = require("./Login");
 const PlainText_1 = require("./PlainText");
+const Home_1 = require("./Home");
 const react_components_1 = require("@fluentui/react-components");
 const UIStrings_1 = require("./UIStrings");
 const UserContext_1 = require("./UserContext");
@@ -95,31 +96,31 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, content: AboutContent_1.kAboutContent })
+        },
+        {
+            path: '/chat',
             element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
         },
         {
-            path: '/index',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
-        },
-        {
-            path: '/index.html',
+            path: '/chat.html',
             element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
         },
         {
             path: '/theyard',
-            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/index" })
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/chat" })
         },
         {
             path: '/theyard.html',
-            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/index" })
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/chat" })
         },
         {
             path: '/demo',
-            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/index" })
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/chat" })
         },
         {
             path: '/demo.html',
-            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/index" })
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/chat" })
         },
         {
             path: '/privacy',
@@ -138,16 +139,8 @@ const Site = (props) => {
             element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kTermsTitle, content: TermsContent_1.kTermsContent })
         },
         {
-            path: '/about',
-            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent })
-        },
-        {
-            path: '/about.html',
-            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent })
-        },
-        {
             path: '*',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, content: AboutContent_1.kAboutContent })
         }
     ]);
     return routes;

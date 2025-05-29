@@ -28,13 +28,13 @@ export interface ICommonUIStrings {
    kError: string;
    kSuccess: string;
    kServerErrorDescription: string;
-   kHome: string;
+   kHomeTitle: string;
    kPrivacyTitle: string;
    kTermsTitle: string;
-   kAboutTitle: string;
+   kHome: string,
+   kChat: string;   
    kPrivacy: string;
    kTerms: string;
-   kAbout: string;
    kAIWarning: string;
    kArchivingPleaseWait: string;
    kArchivingDescription: string;
@@ -66,13 +66,13 @@ export const CommonUIStrings: ICommonUIStrings = {
    kError: "Error:",
    kSuccess: "Success:",
    kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
-   kHome: "Home",
+   kHomeTitle: "Strong AI Technologies",
    kPrivacyTitle: "Privacy Policy",
    kTermsTitle: "Terms of Service",
-   kAboutTitle: "About Strong AI Technologies",
+   kHome: "Home",
    kPrivacy: "Privacy",
    kTerms: "Terms",
-   kAbout: "About",
+   kChat: "Chat",
    kAIWarning: "AI can make mistakes. Think about it.",
    kProcessingPleaseWait: "Please wait a few seconds...",
    kArchivingPleaseWait: "Please wait a few seconds...",

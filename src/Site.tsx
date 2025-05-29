@@ -8,10 +8,11 @@
 
 // Copyright (c) Jon Verrier, 2025
 
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter, useRoutes, redirect, Navigate } from "react-router-dom";
+import React, { useEffect } from 'react';
+import { BrowserRouter, useRoutes, Navigate } from "react-router-dom";
 import { Login } from "./Login";
 import { PlainText } from './PlainText';
+import { Home } from './Home';
 import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 import { getCommonUIStrings } from './UIStrings';
 import { UserProvider, useUser } from './UserContext';
@@ -124,42 +125,42 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
+         element: <Home title={uiStrings.kHomeTitle} content={kAboutContent} />
+      },
+      {
+         path: '/chat',
          element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
       },
       {
-         path: '/index',
-         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
-      },
-      {
-         path: '/index.html',
+         path: '/chat.html',
          element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
       },
       {
          path: '/theyard',
          element: <PersonalityRedirect 
             personality={EAssistantPersonality.kTheYardAssistant} 
-            to="/index" 
+            to="/chat" 
          />
       },
       {
          path: '/theyard.html',
          element: <PersonalityRedirect 
             personality={EAssistantPersonality.kTheYardAssistant} 
-            to="/index" 
+            to="/chat" 
          />
       },
       {
          path: '/demo',
          element: <PersonalityRedirect 
             personality={EAssistantPersonality.kDemoAssistant} 
-            to="/index" 
+            to="/chat" 
          />
       },
       {
          path: '/demo.html',
          element: <PersonalityRedirect 
             personality={EAssistantPersonality.kDemoAssistant} 
-            to="/index" 
+            to="/chat" 
          />
       },
       {
@@ -179,16 +180,8 @@ export const Site = (props: ISiteProps) => {
          element: <PlainText title={uiStrings.kTermsTitle} content={kTermsContent} />
       },
       {
-         path: '/about',
-         element: <PlainText title={uiStrings.kAboutTitle} content={kAboutContent} />
-      },
-      {
-         path: '/about.html',
-         element: <PlainText title={uiStrings.kAboutTitle} content={kAboutContent} />
-      },
-      {
          path: '*',
-         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
+         element: <Home title={uiStrings.kHomeTitle} content={kAboutContent} />
       }
    ]);
 

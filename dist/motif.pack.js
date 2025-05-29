@@ -1098,7 +1098,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState15(initialState) {
+          function useState14(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1901,7 +1901,7 @@
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
           exports.useRef = useRef18;
-          exports.useState = useState15;
+          exports.useState = useState14;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2397,9 +2397,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React104 = require_react();
+          var React106 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React104.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React106.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React104.Children.forEach(props.children, function(child) {
+                  React106.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -30364,7 +30364,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React104 = require_react();
+          var React106 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30390,7 +30390,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React104.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React106.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -45888,13 +45888,13 @@ You can check this by searching up for matching entries in a lockfile produced b
         kError: "Error:",
         kSuccess: "Success:",
         kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
-        kHome: "Home",
+        kHomeTitle: "Strong AI Technologies",
         kPrivacyTitle: "Privacy Policy",
         kTermsTitle: "Terms of Service",
-        kAboutTitle: "About Strong AI Technologies",
+        kHome: "Home",
         kPrivacy: "Privacy",
         kTerms: "Terms",
-        kAbout: "About",
+        kChat: "Chat",
         kAIWarning: "AI can make mistakes. Think about it.",
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
@@ -49394,7 +49394,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         ), /* @__PURE__ */ import_react29.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, title)));
       };
       Spacer = (props) => {
-        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: "20px" } });
+        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: "12px" } });
       };
       Footer = (props) => {
         const user = useUser();
@@ -49439,6 +49439,17 @@ You can check this by searching up for matching entries in a lockfile produced b
             className: linkClasses.centred,
             onClick: (e) => {
               e.preventDefault();
+              handleLinkClick(config.aboutAction, "/chat");
+            }
+          },
+          uiStrings.kChat
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "#",
+            className: linkClasses.centred,
+            onClick: (e) => {
+              e.preventDefault();
               handleLinkClick(config.privacyAction, "/privacy");
             }
           },
@@ -49454,17 +49465,6 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kTerms
-        ), /* @__PURE__ */ import_react29.default.createElement(
-          Link,
-          {
-            to: "#",
-            className: linkClasses.centred,
-            onClick: (e) => {
-              e.preventDefault();
-              handleLinkClick(config.aboutAction, "/about");
-            }
-          },
-          uiStrings.kAbout
         )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
       };
     }
@@ -60920,32 +60920,109 @@ ${message.content}
     }
   });
 
-  // src/PlainText.tsx
-  var import_react35, PlainText;
-  var init_PlainText = __esm({
-    "src/PlainText.tsx"() {
+  // src/PlainTextParagraphs.tsx
+  var import_react35, PlainTextParagraphs;
+  var init_PlainTextParagraphs = __esm({
+    "src/PlainTextParagraphs.tsx"() {
       "use strict";
       import_react35 = __toESM(require_react());
-      init_OuterStyles();
       init_lib23();
       init_CommonStyles();
       init_SiteUtilities();
+      PlainTextParagraphs = (props) => {
+        const textClasses = standardTextStyles();
+        const alignment = props.alignment || "left" /* kLeft */;
+        const getTextStyle = (baseClassName) => ({
+          className: baseClassName,
+          style: {
+            textAlign: alignment,
+            width: "100%",
+            display: "block"
+          }
+        });
+        return /* @__PURE__ */ import_react35.default.createElement("div", { style: { width: "100%", textAlign: alignment } }, props.content.split("\n").map((line2, index) => {
+          if (/^\d+\.\s/.test(line2)) {
+            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.subHeadingLeft) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, null));
+          }
+          if (line2.match(/https?:\/\/\S+/)) {
+            const parts = line2.split(/(https?:\/\/\S+)/);
+            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react35.default.createElement(Link3, { key: i, href: part, style: { textAlign: "inherit" } }, part) : part
+            )), /* @__PURE__ */ import_react35.default.createElement(Spacer, null));
+          }
+          return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, null));
+        }));
+      };
+    }
+  });
+
+  // src/PlainText.tsx
+  var import_react36, PlainText;
+  var init_PlainText = __esm({
+    "src/PlainText.tsx"() {
+      "use strict";
+      import_react36 = __toESM(require_react());
+      init_OuterStyles();
+      init_CommonStyles();
+      init_SiteUtilities();
+      init_PlainTextParagraphs();
       PlainText = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react35.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react35.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react35.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react35.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
-          if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react35.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
+        return /* @__PURE__ */ import_react36.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react36.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react36.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(PlainTextParagraphs, { content: props.content }), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(Footer, null)));
+      };
+    }
+  });
+
+  // src/Home.tsx
+  var import_react37, Home2;
+  var init_Home = __esm({
+    "src/Home.tsx"() {
+      "use strict";
+      import_react37 = __toESM(require_react());
+      init_dist2();
+      init_OuterStyles();
+      init_lib23();
+      init_CommonStyles();
+      init_SiteUtilities();
+      init_PlainTextParagraphs();
+      Home2 = (props) => {
+        const pageOuterClasses = pageOuterStyles();
+        const innerColumnClasses = innerColumnStyles();
+        const textClasses = standardTextStyles();
+        const navigate = useNavigate();
+        return /* @__PURE__ */ import_react37.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /* @__PURE__ */ import_react37.default.createElement(
+          Image,
+          {
+            src: "assets/img/hero.jpg",
+            style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
+            alt: "Strong AI Bold Image"
           }
-          if (line2.match(/https?:\/\/\S+/)) {
-            const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react35.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react35.default.createElement(Link3, { key: i, href: part }, part) : part
-            ));
-          }
-          return /* @__PURE__ */ import_react35.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
-        }), /* @__PURE__ */ import_react35.default.createElement(Spacer, null), /* @__PURE__ */ import_react35.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, null), /* @__PURE__ */ import_react37.default.createElement(
+          Text,
+          {
+            as: "h1",
+            style: {
+              fontSize: "2.5rem",
+              fontWeight: "bold",
+              textAlign: "center"
+            }
+          },
+          "Welcome to Strong AI"
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, null), /* @__PURE__ */ import_react37.default.createElement(
+          Button,
+          {
+            appearance: "primary",
+            size: "large",
+            style: {
+              fontSize: "1.2rem",
+              padding: "16px 32px"
+            },
+            onClick: () => navigate("/theyard")
+          },
+          "The Yard, Peckham ..."
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, null), /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "center" /* kCenter */ }), /* @__PURE__ */ import_react37.default.createElement(Spacer, null)), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
       };
     }
   });
@@ -61125,8 +61202,8 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
     "src/AboutContent.ts"() {
       "use strict";
       kAboutContent = `Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike. 
-Our friendly, smart automation handles 'outside the gym' interactions \u2014 answering FAQs, helping new members understand functional fitness, helping more experienced members with nutrition, accessory exercise advice, or adaptations for their personal circumstances \u2014 so your team can focus on coaching and building community. 
-Our AI does not seek to replace your coaches, our AI acts as an additional assistant, helping cover questions your coaches may lack the time to cover, or allowing members to ask them in a more private environment. 
+Our friendly, smart AI handles 'outside the gym' interactions \u2014 answering FAQs, helping new members understand functional fitness, helping more experienced members with nutrition, accessory exercise advice, or adaptations for their personal circumstances \u2014 so your team can focus on coaching and building community. 
+Our AI does not seek to replace your coaches, our AI acts as an assistant outside the gym, helping answer questions your coaches may lack the time to cover, or allowing members to ask them in a more private environment. 
 Overall, this means more engaged members making more progress towards their goals. 
 Be one of the first gyms in London with its own AI assistant.
 `;
@@ -61134,14 +61211,15 @@ Be one of the first gyms in London with its own AI assistant.
   });
 
   // src/Site.tsx
-  var import_react36, RoutedSite, DEFAULT_PERSONALITY, PersonalityRedirect, Site;
+  var import_react38, RoutedSite, DEFAULT_PERSONALITY, PersonalityRedirect, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react36 = __toESM(require_react());
+      import_react38 = __toESM(require_react());
       init_dist2();
       init_Login();
       init_PlainText();
+      init_Home();
       init_lib23();
       init_UIStrings();
       init_UserContext();
@@ -61151,10 +61229,10 @@ Be one of the first gyms in London with its own AI assistant.
       init_AboutContent();
       init_AssistantChatApiTypes();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react36.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react36.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react36.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react38.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react38.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react38.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react36.default.createElement(Site, null))));
+        } }, /* @__PURE__ */ import_react38.default.createElement(Site, null))));
       };
       DEFAULT_PERSONALITY = "DemoAssistant" /* kDemoAssistant */;
       PersonalityRedirect = ({
@@ -61162,15 +61240,15 @@ Be one of the first gyms in London with its own AI assistant.
         to
       }) => {
         const { setPersonality } = useUser();
-        (0, import_react36.useEffect)(() => {
+        (0, import_react38.useEffect)(() => {
           setPersonality(personality);
         }, [personality, setPersonality]);
-        return /* @__PURE__ */ import_react36.default.createElement(Navigate, { to });
+        return /* @__PURE__ */ import_react38.default.createElement(Navigate, { to });
       };
       Site = (props) => {
         const { personality, setPersonality } = useUser();
         const uiStrings = getCommonUIStrings();
-        (0, import_react36.useEffect)(() => {
+        (0, import_react38.useEffect)(() => {
           const script = document.createElement("script");
           script.src = "https://accounts.google.com/gsi/client";
           script.async = true;
@@ -61186,83 +61264,75 @@ Be one of the first gyms in London with its own AI assistant.
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: /* @__PURE__ */ import_react38.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
           },
           {
-            path: "/index",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            path: "/chat",
+            element: /* @__PURE__ */ import_react38.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
-            path: "/index.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            path: "/chat.html",
+            element: /* @__PURE__ */ import_react38.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
             path: "/theyard",
-            element: /* @__PURE__ */ import_react36.default.createElement(
+            element: /* @__PURE__ */ import_react38.default.createElement(
               PersonalityRedirect,
               {
                 personality: "TheYardAssistant" /* kTheYardAssistant */,
-                to: "/index"
+                to: "/chat"
               }
             )
           },
           {
             path: "/theyard.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(
+            element: /* @__PURE__ */ import_react38.default.createElement(
               PersonalityRedirect,
               {
                 personality: "TheYardAssistant" /* kTheYardAssistant */,
-                to: "/index"
+                to: "/chat"
               }
             )
           },
           {
             path: "/demo",
-            element: /* @__PURE__ */ import_react36.default.createElement(
+            element: /* @__PURE__ */ import_react38.default.createElement(
               PersonalityRedirect,
               {
                 personality: "DemoAssistant" /* kDemoAssistant */,
-                to: "/index"
+                to: "/chat"
               }
             )
           },
           {
             path: "/demo.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(
+            element: /* @__PURE__ */ import_react38.default.createElement(
               PersonalityRedirect,
               {
                 personality: "DemoAssistant" /* kDemoAssistant */,
-                to: "/index"
+                to: "/chat"
               }
             )
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
-          },
-          {
-            path: "/about",
-            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kAboutTitle, content: kAboutContent })
-          },
-          {
-            path: "/about.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(PlainText, { title: uiStrings.kAboutTitle, content: kAboutContent })
+            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: /* @__PURE__ */ import_react38.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
           }
         ]);
         return routes;
@@ -61273,13 +61343,13 @@ Be one of the first gyms in London with its own AI assistant.
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react37 = __toESM(require_react());
+      var import_react39 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react37.default.createElement(RoutedSite, null)
+          /* @__PURE__ */ import_react39.default.createElement(RoutedSite, null)
         );
       }
     }

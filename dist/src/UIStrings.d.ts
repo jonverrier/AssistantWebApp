@@ -21,13 +21,13 @@ export interface ICommonUIStrings {
     kError: string;
     kSuccess: string;
     kServerErrorDescription: string;
-    kHome: string;
+    kHomeTitle: string;
     kPrivacyTitle: string;
     kTermsTitle: string;
-    kAboutTitle: string;
+    kHome: string;
+    kChat: string;
     kPrivacy: string;
     kTerms: string;
-    kAbout: string;
     kAIWarning: string;
     kArchivingPleaseWait: string;
     kArchivingDescription: string;
