@@ -74,13 +74,6 @@ export const kPrivacyContent =
 12.	Amendments
 12.1	We may update this policy from time to time by publishing a new version on our website.
 12.2	You should check this page occasionally to ensure you are happy with any changes to this policy.
-`;
-
-export const kPrivacyContent2  = 
-`13.	Our details
-13.1	This website is owned and operated by Verrier Technology Services Ltd.
-13.2	We are registered in England and Wales under registration number NNNNNNNN, and our registered office is at AAAAAAAAA.
-13.4	You can contact us by email, using the email address published on our website.
 
 Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
 `;
