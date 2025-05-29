@@ -11,7 +11,8 @@ import { IChatMessage,
    IArchiveMessageResponse, 
    renderChatMessageAsText,
    EChatRole, 
-   EModelProvider} from 'prompt-repository';
+   EModelProvider,
+   IUserSessionSummary} from 'prompt-repository';
 import { ISummariseMessageRequest,
    ISummariseMessageResponse } from '../import/AssistantChatApiTypes';
 import { encode } from 'gpt-tokenizer';
@@ -30,7 +31,7 @@ interface ArchiveOptions {
     apiClient?: ApiClient;   
     archiveApiUrl: string;
     summarizeApiUrl: string;    
-    sessionId: string;
+    sessionSummary: IUserSessionSummary;
     messages: IChatMessage[];
     wordCount: number;    
     updateState: (event: EApiEvent) => void;
@@ -81,7 +82,7 @@ export function shouldArchive(messages: IChatMessage[]): boolean {
 export async function archive({
     archiveApiUrl,
     summarizeApiUrl,
-    sessionId,
+    sessionSummary,
     messages,
     wordCount,
     apiClient,
@@ -124,7 +125,7 @@ export async function archive({
         // Prepare the summarize request
         const summarizeRequest: ISummariseMessageRequest = {
             modelProvider: EModelProvider.kAzureOpenAI,
-            sessionId,
+            sessionId: sessionSummary.sessionId,
             messages: olderMessages,  // Summarize the older messages instead of recent ones
             wordCount
         };
@@ -151,7 +152,7 @@ export async function archive({
         do {
             // Prepare the archive request
             const archiveRequest: IArchiveMessageRequest = {
-                sessionId,
+                sessionSummary: sessionSummary,
                 createdAfter: firstMessageTime,
                 createdBefore: midPointTime,
                 limit: kArchivePageSize,

@@ -209,7 +209,7 @@ export const Login = (props: ILoginProps) => {
 
          // If no session ID returned, create a temporary one
          if (!newSessionId) {
-            newSessionId = { sessionId: uuidv4(), role: EUserRole.kOnboarding };
+            newSessionId = { sessionId: uuidv4(), role: EUserRole.kGuest };
             console.warn('Using temporary session ID');
          }
 
@@ -315,7 +315,7 @@ export const Login = (props: ILoginProps) => {
                <App
                   personality={props.personality}
                   sessionId={sessionId}
-                  userName={userName}
+                  email={userName}
                   onLogout={handleLogout}
                />
             )}

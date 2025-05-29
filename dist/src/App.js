@@ -223,7 +223,10 @@ const App = (props) => {
             try {
                 await (0, ChatHistoryCall_1.processChatHistory)({
                     messagesApiUrl: config.messagesApiUrl,
-                    sessionId: props.sessionId,
+                    sessionSummary: {
+                        sessionId: props.sessionId,
+                        email: props.email
+                    },
                     limit: kChatHistoryPageSize,
                     onPage: (messages) => {
                         setChatHistory(prev => [...prev, ...messages]);
@@ -252,7 +255,10 @@ const App = (props) => {
                         const newHistory = await (0, ArchiveCall_1.archive)({
                             archiveApiUrl: config.archiveApiUrl,
                             summarizeApiUrl: config.summariseApiUrl,
-                            sessionId: props.sessionId,
+                            sessionSummary: {
+                                sessionId: props.sessionId,
+                                email: props.email
+                            },
                             messages: chatHistory,
                             wordCount: kSummaryLength,
                             updateState: handleStateUpdate
@@ -286,7 +292,10 @@ const App = (props) => {
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
-            sessionId: props.sessionId,
+            sessionSummary: {
+                sessionId: props.sessionId,
+                email: props.email
+            },
             personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant,
             onChunk: (chunk) => {
                 if (chunk) {

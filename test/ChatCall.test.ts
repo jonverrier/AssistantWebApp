@@ -16,8 +16,7 @@ import {
     EScreeningClassification 
 } from '../import/AssistantChatApiTypes';
 import { processChat } from '../src/ChatCall';
-
-const sessionId = '1234567890';
+import { IUserSessionSummary } from 'prompt-repository';
 
 interface MockResponse {
     status: number;
@@ -33,6 +32,7 @@ describe('processChat', function() {
 
     let mockUpdateState: sinon.SinonSpy;
     let mockApi: { post: sinon.SinonStub };
+    let testSessionSummary: IUserSessionSummary;
 
     beforeEach(() => {
         // Reset the stubs before each test
@@ -40,6 +40,10 @@ describe('processChat', function() {
         mockUpdateState = sandbox.spy();
         mockApi = {
             post: sandbox.stub()
+        };
+        testSessionSummary = {
+            sessionId: '1234567890',
+            email: 'test@example.com'
         };
     });
 
@@ -122,7 +126,7 @@ describe('processChat', function() {
             input: 'What is the best way to improve my CrossFit performance?',
             history: [],
             personality: EAssistantPersonality.kTheYardAssistant,
-            sessionId: sessionId,
+            sessionSummary: testSessionSummary,
             updateState: mockUpdateState,
             apiClient: mockApi,
             onChunk: (chunk) => {
@@ -142,7 +146,7 @@ describe('processChat', function() {
         const sentRequest = mockApi.post.firstCall.args[1] as IAssistantFullChatRequest;
         expect(sentRequest.personality).toBe(EAssistantPersonality.kTheYardAssistant);
         expect(sentRequest.input).toBe('What is the best way to improve my CrossFit performance?');
-        expect(sentRequest.sessionId).toBe(sessionId);
+        expect(sentRequest.sessionSummary).toEqual(testSessionSummary);
         
         // Verify chunks were received
         expect(receivedChunks.length).toBe(3); // 3 content chunks (excluding [DONE])
@@ -172,7 +176,7 @@ describe('processChat', function() {
             input: 'What is the best way to improve my CrossFit performance?',
             history: [],
             personality: EAssistantPersonality.kTheYardAssistant,
-            sessionId: sessionId,
+            sessionSummary: testSessionSummary,
             updateState: mockUpdateState,
             apiClient: mockApi,
             onChunk: () => {
@@ -206,7 +210,7 @@ describe('processChat', function() {
             input: 'Tell me about cake recipes',
             history: [],
             personality: EAssistantPersonality.kTheYardAssistant,
-            sessionId: sessionId,
+            sessionSummary: testSessionSummary,
             updateState: mockUpdateState,
             apiClient: mockApi,
             onChunk: () => {

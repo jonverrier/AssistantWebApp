@@ -12,7 +12,8 @@ import axiosRetry from 'axios-retry';
 import { 
     IChatMessageRequest,
     IChatMessageResponse,
-    IChatMessage
+    IChatMessage,
+    IUserSessionSummary
 } from 'prompt-repository';
 
 import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
@@ -22,7 +23,7 @@ import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
  */
 interface processChatHistoryOptions {
     messagesApiUrl: string;
-    sessionId: string;
+    sessionSummary: IUserSessionSummary;
     limit: number;
     onPage?: (messages: IChatMessage[]) => void;
     apiClient?: ApiClient;
@@ -39,7 +40,7 @@ interface processChatHistoryOptions {
  */
 export async function processChatHistory({
     messagesApiUrl,
-    sessionId,
+    sessionSummary,
     limit,
     onPage,
     apiClient
@@ -54,7 +55,7 @@ export async function processChatHistory({
     try {
         do {
             const request: IChatMessageRequest = {
-                sessionId,
+                sessionSummary,
                 limit,
                 continuation
             };

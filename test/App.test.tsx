@@ -19,7 +19,7 @@ import { MockStorage } from './MockStorage';
 
 // Test user data
 const TEST_USER = {
-   userName: 'TestUser',
+   email: 'test@example.com',
    sessionId: 'test-session-' + Date.now().toString()
 };
 
@@ -96,7 +96,7 @@ describe('App Component', () => {
       renderWithRouter(
          <App
             personality={EAssistantPersonality.kTheYardAssistant}
-            userName={TEST_USER.userName}
+            email={TEST_USER.email}
             sessionId={TEST_USER.sessionId}
             onLogout={stubOnLogout}
          />
@@ -117,7 +117,7 @@ describe('App Component', () => {
       renderWithRouter(
          <App
             personality={EAssistantPersonality.kTheYardAssistant}
-            userName={TEST_USER.userName}
+            email={TEST_USER.email}
             sessionId={TEST_USER.sessionId}
             onLogout={stubOnLogout}
          />
@@ -132,7 +132,7 @@ describe('App Component', () => {
       renderWithRouter(
          <App
             personality={EAssistantPersonality.kTheYardAssistant}
-            userName={TEST_USER.userName}
+            email={TEST_USER.email}
             sessionId={TEST_USER.sessionId}
             onLogout={stubOnLogout}
          />
@@ -159,7 +159,7 @@ describe('App Component', () => {
       renderWithRouter(
          <App
             personality={EAssistantPersonality.kTheYardAssistant}
-            userName={TEST_USER.userName}
+            email={TEST_USER.email}
             sessionId={TEST_USER.sessionId}
             onLogout={stubOnLogout}
          />
@@ -180,7 +180,7 @@ describe('App Component', () => {
       renderWithRouter(
          <App
             personality={EAssistantPersonality.kTheYardAssistant}
-            userName={TEST_USER.userName}
+            email={TEST_USER.email}
             sessionId={TEST_USER.sessionId}
             onLogout={stubOnLogout}
          />

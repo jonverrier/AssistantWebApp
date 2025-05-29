@@ -6,7 +6,7 @@
 import { expect } from 'expect';
 import { axiosPostStub } from './setup';
 import { getSessionData } from '../src/SessionCall';
-import { EUserRole } from '../import/AssistantChatApiTypes';
+import { EUserRole, ELoginProvider } from '../import/AssistantChatApiTypes';
 
 describe('getSessionData', function() {
     afterEach(() => {
@@ -19,18 +19,25 @@ describe('getSessionData', function() {
         axiosPostStub.resolves({
             data: {
                 sessionId: testUuid,
-                role: EUserRole.kOnboarding
+                role: EUserRole.kGuest
             }
         });
 
-        const result = await getSessionData('http://test-api/session', 'test@example.com');
+        const userDetails = {
+            email: 'test@example.com',
+            userID: 'test-user-id',
+            name: 'Test User',
+            loginProvider: ELoginProvider.kGoogle
+        };
+
+        const result = await getSessionData('http://test-api/session', userDetails);
         
         expect(result?.sessionId).toBe(testUuid);
-        expect(result?.role).toBe(EUserRole.kOnboarding);
+        expect(result?.role).toBe(EUserRole.kGuest);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[0]).toBe('http://test-api/session');
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            email: 'test@example.com'
+            userDetails
         });
         expect(axiosPostStub.firstCall.args[2]).toEqual({
             headers: {
@@ -42,7 +49,12 @@ describe('getSessionData', function() {
 
     it('should echo back the provided session ID', async () => {
         const existingUuid = 'existing-uuid-123';
-        const testEmail = 'test@example.com';
+        const userDetails = {
+            email: 'test@example.com',
+            userID: 'test-user-id',
+            name: 'Test User',
+            loginProvider: ELoginProvider.kGoogle
+        };
         
         axiosPostStub.resolves({
             data: {
@@ -51,60 +63,79 @@ describe('getSessionData', function() {
             }
         });
 
-        const result = await getSessionData('http://test-api/session', testEmail);
+        const result = await getSessionData('http://test-api/session', userDetails);
         
         expect(result?.sessionId).toBe(existingUuid);
         expect(result?.role).toBe(EUserRole.kMember);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            email: testEmail
+            userDetails
         });
     });
 
     it('should generate consistent session ID based on email when no session ID provided', async () => {
-        const testEmail = 'test@example.com';
+        const userDetails = {
+            email: 'test@example.com',
+            userID: 'test-user-id',
+            name: 'Test User',
+            loginProvider: ELoginProvider.kGoogle
+        };
         const emailBasedUuid = '456e7890-e12d-12d3-a456-789012345678'; // Example consistent UUID based on email
         
         axiosPostStub.resolves({
             data: {
                 sessionId: emailBasedUuid,
-                role: EUserRole.kOnboarding
+                role: EUserRole.kGuest
             }
         });
 
         // First call
-        const result1 = await getSessionData('http://test-api/session', testEmail);
+        const result1 = await getSessionData('http://test-api/session', userDetails);
         expect(result1?.sessionId).toBe(emailBasedUuid);
-        expect(result1?.role).toBe(EUserRole.kOnboarding);
+        expect(result1?.role).toBe(EUserRole.kGuest);
         
         // Second call should return same UUID
-        const result2 = await getSessionData('http://test-api/session', testEmail);
+        const result2 = await getSessionData('http://test-api/session', userDetails);
         expect(result2?.sessionId).toBe(emailBasedUuid);
-        expect(result2?.role).toBe(EUserRole.kOnboarding);
+        expect(result2?.role).toBe(EUserRole.kGuest);
         
         expect(axiosPostStub.calledTwice).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            email: testEmail
+            userDetails
         });
         expect(axiosPostStub.secondCall.args[1]).toEqual({
-            email: testEmail
+            userDetails
         });
     });
 
     it('should handle missing sessionId in response', async () => {
+        const userDetails = {
+            email: 'test@example.com',
+            userID: 'test-user-id',
+            name: 'Test User',
+            loginProvider: ELoginProvider.kGoogle
+        };
+
         axiosPostStub.resolves({
             data: {}
         });
 
-        const result = await getSessionData('http://test-api/session', 'test@example.com');
+        const result = await getSessionData('http://test-api/session', userDetails);
         
         expect(result).toBeUndefined();
     });
 
     it('should handle API error', async () => {
+        const userDetails = {
+            email: 'test@example.com',
+            userID: 'test-user-id',
+            name: 'Test User',
+            loginProvider: ELoginProvider.kGoogle
+        };
+
         axiosPostStub.rejects(new Error('Network error'));
 
-        const result = await getSessionData('http://test-api/session', 'test@example.com');
+        const result = await getSessionData('http://test-api/session', userDetails);
         
         expect(result).toBeUndefined();
     });

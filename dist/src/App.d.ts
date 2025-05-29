@@ -11,7 +11,7 @@ import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 export interface IAppProps {
     personality: EAssistantPersonality;
     sessionId: string;
-    userName: string;
+    email: string;
     onLogout: () => Promise<void>;
 }
 export declare const App: (props: IAppProps) => React.JSX.Element;

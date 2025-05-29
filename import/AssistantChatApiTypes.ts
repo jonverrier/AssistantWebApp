@@ -7,7 +7,7 @@
 // Copyright (c) 2025 Jon Verrier
 
 
-import { IChatMessage, EModelProvider } from "prompt-repository";
+import { IUserSessionSummary, IChatMessage, EModelProvider } from "prompt-repository";
 
 /**
  * An enumeration of possible assistant personalities.
@@ -23,9 +23,29 @@ export enum EAssistantPersonality {
  * Used to specify the role of the user within a facility
  */
 export enum EUserRole {
-   kOnboarding = 'onboarding',
+   kArchived = 'archived',
+   kGuest = 'guest',
    kMember = 'member',
    kAdmin = 'admin'
+}
+
+/**
+ * An enumeration of possible login providers.
+ * Used to specify the provider of the user's login credentials
+ */
+export enum ELoginProvider {
+   kGoogle = 'google'
+}
+
+/**
+ * A data structure for user data.
+ * Used to specify the user's data for a chat session
+ */
+export interface IUserDetails {
+   email: string;
+   userID: string;
+   name: string;
+   loginProvider: ELoginProvider;
 }
 
 /**
@@ -49,7 +69,7 @@ export interface IAssistantCaptchaResponse {
  * A request for a new session, optionally populated with the existing session ID.
  */
 export interface ISessionRequest {
-   email?: string;
+   userDetails?: IUserDetails;
    sessionId?: string;
 }
 
@@ -62,12 +82,22 @@ export interface ISessionResponse {
 }
 
 /**
+ * A data structure for a user session.
+ * Used to specify the user's session data for a chat session. 
+ */
+export interface IUserSessionDetails {
+   sessionId: string;
+   userDetails: IUserDetails;
+   role: EUserRole;
+}
+
+/**
  * A request to the assistant chat API.
  * Use this for one-shot screening of the specific new input
  */
 export interface IAssistantSimpleChatRequest {
    personality: EAssistantPersonality;
-   sessionId: string;
+   sessionSummary: IUserSessionSummary;
    input: string;   
    benefitOfDoubt?: boolean;
 }

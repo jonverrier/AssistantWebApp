@@ -138,7 +138,7 @@ describe('Login Component', () => {
    it('should update session ID when getSessionUuid returns a value', async () => {
       // Mock getSessionUuid to return a specific session ID
       const mockSessionId = 'test-session-123';
-      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kOnboarding };
+      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kGuest };
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(mockSessionData);
 
       // Create a mock JWT token that will decode to our test user
@@ -228,7 +228,7 @@ describe('Login Component', () => {
       
       // Mock getSessionUuid to return a session ID
       const mockSessionId = 'test-session-456';
-      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kOnboarding };
+      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kGuest };
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(mockSessionData);
 
       // Mock reCAPTCHA with a high score

@@ -57919,7 +57919,7 @@ ${message.content}
     chatApiUrl,
     input,
     history,
-    sessionId,
+    sessionSummary,
     personality,
     updateState,
     apiClient,
@@ -57933,7 +57933,7 @@ ${message.content}
     try {
       const chatRequest = {
         personality,
-        sessionId,
+        sessionSummary,
         input,
         benefitOfDoubt,
         history
@@ -58256,7 +58256,7 @@ ${message.content}
   // src/ChatHistoryCall.ts
   async function processChatHistory({
     messagesApiUrl,
-    sessionId,
+    sessionSummary,
     limit,
     onPage,
     apiClient
@@ -58269,7 +58269,7 @@ ${message.content}
     try {
       do {
         const request = {
-          sessionId,
+          sessionSummary,
           limit,
           continuation
         };
@@ -60165,7 +60165,7 @@ ${message.content}
   async function archive({
     archiveApiUrl,
     summarizeApiUrl,
-    sessionId,
+    sessionSummary,
     messages,
     wordCount,
     apiClient,
@@ -60194,7 +60194,7 @@ ${message.content}
     try {
       const summarizeRequest = {
         modelProvider: import_prompt_repository3.EModelProvider.kAzureOpenAI,
-        sessionId,
+        sessionId: sessionSummary.sessionId,
         messages: olderMessages,
         // Summarize the older messages instead of recent ones
         wordCount
@@ -60214,7 +60214,7 @@ ${message.content}
       let continuation;
       do {
         const archiveRequest = {
-          sessionId,
+          sessionSummary,
           createdAfter: firstMessageTime,
           createdBefore: midPointTime,
           limit: kArchivePageSize,
@@ -60443,7 +60443,10 @@ ${message.content}
             try {
               await processChatHistory({
                 messagesApiUrl: config.messagesApiUrl,
-                sessionId: props.sessionId,
+                sessionSummary: {
+                  sessionId: props.sessionId,
+                  email: props.email
+                },
                 limit: kChatHistoryPageSize,
                 onPage: (messages) => {
                   setChatHistory((prev2) => [...prev2, ...messages]);
@@ -60469,7 +60472,10 @@ ${message.content}
                   const newHistory = await archive({
                     archiveApiUrl: config.archiveApiUrl,
                     summarizeApiUrl: config.summariseApiUrl,
-                    sessionId: props.sessionId,
+                    sessionSummary: {
+                      sessionId: props.sessionId,
+                      email: props.email
+                    },
                     messages: chatHistory,
                     wordCount: kSummaryLength,
                     updateState: handleStateUpdate
@@ -60500,7 +60506,10 @@ ${message.content}
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
-            sessionId: props.sessionId,
+            sessionSummary: {
+              sessionId: props.sessionId,
+              email: props.email
+            },
             personality: "TheYardAssistant" /* kTheYardAssistant */,
             onChunk: (chunk) => {
               if (chunk) {
@@ -60567,10 +60576,10 @@ ${message.content}
   });
 
   // src/SessionCall.ts
-  async function getSessionData(sessionApiUrl, email) {
+  async function getSessionData(sessionApiUrl, userDetails) {
     try {
       const request = {
-        email
+        userDetails
       };
       const response = await axios_default.post(sessionApiUrl, request, {
         headers: {
@@ -60579,7 +60588,7 @@ ${message.content}
         }
       });
       const newSessionId = response?.data?.sessionId || void 0;
-      const userRole = response?.data?.role || "onboarding" /* kOnboarding */;
+      const userRole = response?.data?.role || "guest" /* kGuest */;
       if (!newSessionId) {
         console.error("No sessionId in response");
         return void 0;
@@ -60716,7 +60725,7 @@ ${message.content}
               console.error("Error getting session ID:", error2);
             }
             if (!newSessionId) {
-              newSessionId = { sessionId: uuidv4(), role: "onboarding" /* kOnboarding */ };
+              newSessionId = { sessionId: uuidv4(), role: "guest" /* kGuest */ };
               console.warn("Using temporary session ID");
             }
             if (user) {
@@ -60797,7 +60806,7 @@ ${message.content}
           {
             personality: props.personality,
             sessionId,
-            userName,
+            email: userName,
             onLogout: handleLogout
           }
         )), /* @__PURE__ */ import_react34.default.createElement(Footer, null));

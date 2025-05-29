@@ -18,7 +18,7 @@ import {
 
 // external packages
 import { ChatMessageClassName, EChatRole, IChatMessage } from 'prompt-repository';
-import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
+import { EAssistantPersonality, EUserRole } from '../import/AssistantChatApiTypes';
 
 // local packages
 import { IMultilineEditProps, MultilineEdit } from './MultilineEdit';
@@ -71,7 +71,7 @@ const multilineEditContainerStyles = makeStyles({
 export interface IAppProps {
    personality: EAssistantPersonality;
    sessionId: string;
-   userName: string;
+   email: string;
    onLogout: () => Promise<void>;
 }
 
@@ -298,7 +298,10 @@ export const App = (props: IAppProps) => {
          try {
             await processChatHistory({
                messagesApiUrl: config.messagesApiUrl,
-               sessionId: props.sessionId,
+               sessionSummary: {
+                  sessionId: props.sessionId,
+                  email: props.email
+               },
                limit: kChatHistoryPageSize,
                onPage: (messages) => {
                   setChatHistory(prev => [...prev, ...messages]);
@@ -329,7 +332,10 @@ export const App = (props: IAppProps) => {
                   const newHistory = await archive({
                      archiveApiUrl: config.archiveApiUrl,
                      summarizeApiUrl: config.summariseApiUrl,
-                     sessionId: props.sessionId,
+                     sessionSummary: {
+                        sessionId: props.sessionId,
+                        email: props.email
+                     },
                      messages: chatHistory,
                      wordCount: kSummaryLength,
                      updateState: handleStateUpdate
@@ -370,7 +376,10 @@ export const App = (props: IAppProps) => {
          input: localMessage,
          history: chatHistory,
          updateState: handleStateUpdate,
-         sessionId: props.sessionId,
+         sessionSummary: {
+            sessionId: props.sessionId,
+            email: props.email
+         },
          personality: EAssistantPersonality.kTheYardAssistant,
          onChunk: (chunk: string) => {
             if (chunk) {
