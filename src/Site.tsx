@@ -17,6 +17,7 @@ import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 import { getCommonUIStrings } from './UIStrings';
 import { UserProvider, useUser } from './UserContext';
 import { browserSessionStorage } from './LocalStorage';
+import { ScrollToTop } from './ScrollToTop';
 
 import { kTermsContent } from './TermsContent';
 import { kPrivacyContent } from './PrivacyContent';
@@ -71,6 +72,7 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
                v7_startTransition: true,
                v7_relativeSplatPath: true
             }}>
+               <ScrollToTop />
                <Site />
             </BrowserRouter>
          </UserProvider>
@@ -97,7 +99,7 @@ const PersonalityRedirect = ({
       setPersonality(personality);
    }, [personality, setPersonality]);
 
-   return <Navigate to={to} />;
+   return <Navigate to={to} replace />;
 };
 
 // Site component

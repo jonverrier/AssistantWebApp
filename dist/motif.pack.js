@@ -1110,7 +1110,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect19(create, deps) {
+          function useEffect20(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1893,7 +1893,7 @@
           exports.useContext = useContext24;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect19;
+          exports.useEffect = useEffect20;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
@@ -61027,6 +61027,23 @@ ${message.content}
     }
   });
 
+  // src/ScrollToTop.tsx
+  var import_react38, ScrollToTop;
+  var init_ScrollToTop = __esm({
+    "src/ScrollToTop.tsx"() {
+      "use strict";
+      import_react38 = __toESM(require_react());
+      init_dist2();
+      ScrollToTop = () => {
+        const { pathname } = useLocation();
+        (0, import_react38.useEffect)(() => {
+          window.scrollTo(0, 0);
+        }, [pathname]);
+        return null;
+      };
+    }
+  });
+
   // src/TermsContent.ts
   var kTermsContent;
   var init_TermsContent = __esm({
@@ -61211,11 +61228,11 @@ Be one of the first gyms in London with its own AI assistant.
   });
 
   // src/Site.tsx
-  var import_react38, RoutedSite, DEFAULT_PERSONALITY, PersonalityRedirect, Site;
+  var import_react39, RoutedSite, DEFAULT_PERSONALITY, PersonalityRedirect, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react38 = __toESM(require_react());
+      import_react39 = __toESM(require_react());
       init_dist2();
       init_Login();
       init_PlainText();
@@ -61224,15 +61241,16 @@ Be one of the first gyms in London with its own AI assistant.
       init_UIStrings();
       init_UserContext();
       init_LocalStorage();
+      init_ScrollToTop();
       init_TermsContent();
       init_PrivacyContent();
       init_AboutContent();
       init_AssistantChatApiTypes();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react38.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react38.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react38.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react39.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react39.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react39.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react38.default.createElement(Site, null))));
+        } }, /* @__PURE__ */ import_react39.default.createElement(ScrollToTop, null), /* @__PURE__ */ import_react39.default.createElement(Site, null))));
       };
       DEFAULT_PERSONALITY = "DemoAssistant" /* kDemoAssistant */;
       PersonalityRedirect = ({
@@ -61240,15 +61258,15 @@ Be one of the first gyms in London with its own AI assistant.
         to
       }) => {
         const { setPersonality } = useUser();
-        (0, import_react38.useEffect)(() => {
+        (0, import_react39.useEffect)(() => {
           setPersonality(personality);
         }, [personality, setPersonality]);
-        return /* @__PURE__ */ import_react38.default.createElement(Navigate, { to });
+        return /* @__PURE__ */ import_react39.default.createElement(Navigate, { to, replace: true });
       };
       Site = (props) => {
         const { personality, setPersonality } = useUser();
         const uiStrings = getCommonUIStrings();
-        (0, import_react38.useEffect)(() => {
+        (0, import_react39.useEffect)(() => {
           const script = document.createElement("script");
           script.src = "https://accounts.google.com/gsi/client";
           script.async = true;
@@ -61264,19 +61282,19 @@ Be one of the first gyms in London with its own AI assistant.
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react38.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
           },
           {
             path: "/chat",
-            element: /* @__PURE__ */ import_react38.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: /* @__PURE__ */ import_react39.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
             path: "/chat.html",
-            element: /* @__PURE__ */ import_react38.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: /* @__PURE__ */ import_react39.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
             path: "/theyard",
-            element: /* @__PURE__ */ import_react38.default.createElement(
+            element: /* @__PURE__ */ import_react39.default.createElement(
               PersonalityRedirect,
               {
                 personality: "TheYardAssistant" /* kTheYardAssistant */,
@@ -61286,7 +61304,7 @@ Be one of the first gyms in London with its own AI assistant.
           },
           {
             path: "/theyard.html",
-            element: /* @__PURE__ */ import_react38.default.createElement(
+            element: /* @__PURE__ */ import_react39.default.createElement(
               PersonalityRedirect,
               {
                 personality: "TheYardAssistant" /* kTheYardAssistant */,
@@ -61296,7 +61314,7 @@ Be one of the first gyms in London with its own AI assistant.
           },
           {
             path: "/demo",
-            element: /* @__PURE__ */ import_react38.default.createElement(
+            element: /* @__PURE__ */ import_react39.default.createElement(
               PersonalityRedirect,
               {
                 personality: "DemoAssistant" /* kDemoAssistant */,
@@ -61306,7 +61324,7 @@ Be one of the first gyms in London with its own AI assistant.
           },
           {
             path: "/demo.html",
-            element: /* @__PURE__ */ import_react38.default.createElement(
+            element: /* @__PURE__ */ import_react39.default.createElement(
               PersonalityRedirect,
               {
                 personality: "DemoAssistant" /* kDemoAssistant */,
@@ -61316,23 +61334,23 @@ Be one of the first gyms in London with its own AI assistant.
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react38.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react38.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
           }
         ]);
         return routes;
@@ -61343,13 +61361,13 @@ Be one of the first gyms in London with its own AI assistant.
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react39 = __toESM(require_react());
+      var import_react40 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react39.default.createElement(RoutedSite, null)
+          /* @__PURE__ */ import_react40.default.createElement(RoutedSite, null)
         );
       }
     }

@@ -51,6 +51,7 @@ const react_components_1 = require("@fluentui/react-components");
 const UIStrings_1 = require("./UIStrings");
 const UserContext_1 = require("./UserContext");
 const LocalStorage_1 = require("./LocalStorage");
+const ScrollToTop_1 = require("./ScrollToTop");
 const TermsContent_1 = require("./TermsContent");
 const PrivacyContent_1 = require("./PrivacyContent");
 const AboutContent_1 = require("./AboutContent");
@@ -63,6 +64,7 @@ const RoutedSite = (props) => {
                     v7_startTransition: true,
                     v7_relativeSplatPath: true
                 } },
+                react_1.default.createElement(ScrollToTop_1.ScrollToTop, null),
                 react_1.default.createElement(exports.Site, null)))));
 };
 exports.RoutedSite = RoutedSite;
@@ -72,7 +74,7 @@ const PersonalityRedirect = ({ personality, to }) => {
     (0, react_1.useEffect)(() => {
         setPersonality(personality);
     }, [personality, setPersonality]);
-    return react_1.default.createElement(react_router_dom_1.Navigate, { to: to });
+    return react_1.default.createElement(react_router_dom_1.Navigate, { to: to, replace: true });
 };
 // Site component
 const Site = (props) => {
