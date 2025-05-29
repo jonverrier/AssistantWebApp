@@ -8,7 +8,7 @@
 export const SESSION_STORAGE_KEY = 'strong_session_id';
 export const USER_ID_STORAGE_KEY = 'strong_user_id';
 export const USER_NAME_STORAGE_KEY = 'strong_user_name';
-export const USER_FACILITY_KEY = 'strong_user_facility';
+export const USER_FACILITY_PERSONALITY_KEY = 'strong_user_facility_personality';
 export const USER_ROLE_KEY = 'strong_user_role';
 
 /**

@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, SESSION_STORAGE_KEY, USER_FACILITY_KEY, USER_ROLE_KEY, IStorage } from './LocalStorage';
+import { USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, SESSION_STORAGE_KEY, USER_FACILITY_PERSONALITY_KEY, USER_ROLE_KEY, IStorage } from './LocalStorage';
 import { EUserRole, EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 interface UserContextType {
@@ -15,6 +15,7 @@ interface UserContextType {
       sessionId: string, 
       userRole: EUserRole) => void;
    onLogout: () => void;
+   setPersonality: (personality: EAssistantPersonality) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -35,7 +36,7 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       return storage.get(SESSION_STORAGE_KEY) || undefined;
    });
    const [facilityPersonality, setFacilityPersonality] = useState<string | undefined>(() => {
-      return storage.get(USER_FACILITY_KEY) || undefined;
+      return storage.get(USER_FACILITY_PERSONALITY_KEY) || undefined;
    });
    const [userRole, setUserRole] = useState<EUserRole | undefined>(() => {
       const storedRole = storage.get(USER_ROLE_KEY);
@@ -72,9 +73,9 @@ export function UserProvider({ children, storage }: UserProviderProps) {
 
    useEffect(() => {
       if (facilityPersonality) {
-         storage.set(USER_FACILITY_KEY, facilityPersonality);
+         storage.set(USER_FACILITY_PERSONALITY_KEY, facilityPersonality);
       } else {
-         storage.remove(USER_FACILITY_KEY);
+         storage.remove(USER_FACILITY_PERSONALITY_KEY);
       }
    }, [facilityPersonality, storage]);
 
@@ -108,8 +109,12 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       storage.remove(USER_ID_STORAGE_KEY);
       storage.remove(USER_NAME_STORAGE_KEY);
       storage.remove(SESSION_STORAGE_KEY);
-      storage.remove(USER_FACILITY_KEY);
+      storage.remove(USER_FACILITY_PERSONALITY_KEY);
       storage.remove(USER_ROLE_KEY);
+   };
+
+   const handleSetPersonality = (newPersonality: EAssistantPersonality) => {
+      setPersonality(newPersonality);
    };
 
    return (
@@ -122,7 +127,8 @@ export function UserProvider({ children, storage }: UserProviderProps) {
             userRole,
             personality,
             onLogin: handleLogin,
-            onLogout: handleLogout
+            onLogout: handleLogout,
+            setPersonality: handleSetPersonality
          }}
       >
          {children}

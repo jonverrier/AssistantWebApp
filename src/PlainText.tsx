@@ -16,9 +16,6 @@ import { Text, Link as FluentLink, Image } from '@fluentui/react-components';
 import { standardTextStyles, standardLinkStyles } from './CommonStyles';
 import { Spacer, Footer, Header } from './SiteUtilities';
 
-// The image should be placed in public/assets/img/lifter.png
-const lifterIcon = 'assets/img/lifter-w.png';
-
 export interface IPlainTextProps {
    title: string;
    content: string;

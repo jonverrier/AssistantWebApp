@@ -6,7 +6,7 @@
 /*! Copyright Jon Verrier 2025 */
 
 import React, { useRef, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { standardLinkStyles, standardTextStyles } from './CommonStyles';
 import { getUIStrings } from './UIStrings';
 import { makeStyles, shorthands, Text, Image } from '@fluentui/react-components';
@@ -93,13 +93,13 @@ export const Footer = (props: IFooterProps) => {
    const footerRef = useRef<HTMLDivElement>(null);
    const config = getConfigStrings();
    const textClasses = standardTextStyles();
+   const navigate = useNavigate();
    
    const handleLinkClick = async (action: string, path: string) => {
       // Call reCAPTCHA before navigation
       // We throw away the result - we are recording actions as per the Google guidance     
       const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
-            
-      window.location.href = path;
+      navigate(path);
    };
 
    useEffect(() => {
@@ -120,24 +120,36 @@ export const Footer = (props: IFooterProps) => {
       <div ref={footerRef} className={styles.footerContainer}>
          <div className={styles.footerContent}>
             <Link 
-               to="/index" 
+               to="#" 
                className={linkClasses.centred}
-               onClick={() => handleLinkClick(config.homeAction, '/index')}
+               onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(config.homeAction, '/index');
+               }}
             >{uiStrings.kHome}</Link>         
             <Link 
-               to="/privacy" 
+               to="#" 
                className={linkClasses.centred}
-               onClick={() => handleLinkClick(config.privacyAction, '/privacy')}
+               onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(config.privacyAction, '/privacy');
+               }}
             >{uiStrings.kPrivacy}</Link>
             <Link 
-               to="/terms" 
+               to="#" 
                className={linkClasses.centred}
-               onClick={() => handleLinkClick(config.termsAction, '/terms')}
+               onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(config.termsAction, '/terms');
+               }}
             >{uiStrings.kTerms}</Link>
             <Link 
-               to="/about" 
+               to="#" 
                className={linkClasses.centred}
-               onClick={() => handleLinkClick(config.aboutAction, '/about')}
+               onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(config.aboutAction, '/about');
+               }}
             >{uiStrings.kAbout}</Link>
          </div>
          <div style={{ textAlign: 'center' }}>

@@ -24175,7 +24175,7 @@
   function isRouteErrorResponse(error) {
     return error != null && typeof error.status === "number" && typeof error.statusText === "string" && typeof error.internal === "boolean" && "data" in error;
   }
-  var Action, PopStateEventType, ResultType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, joinPaths, normalizePathname, normalizeSearch, normalizeHash, redirect, validMutationMethodsArr, validMutationMethods, validRequestMethodsArr, validRequestMethods, UNSAFE_DEFERRED_SYMBOL;
+  var Action, PopStateEventType, ResultType, paramRe, dynamicSegmentValue, indexRouteValue, emptySegmentValue, staticSegmentValue, splatPenalty, isSplat, joinPaths, normalizePathname, normalizeSearch, normalizeHash, validMutationMethodsArr, validMutationMethods, validRequestMethodsArr, validRequestMethods, UNSAFE_DEFERRED_SYMBOL;
   var init_router = __esm({
     "node_modules/@remix-run/router/dist/router.js"() {
       (function(Action2) {
@@ -24201,24 +24201,6 @@
       normalizePathname = (pathname) => pathname.replace(/\/+$/, "").replace(/^\/*/, "/");
       normalizeSearch = (search) => !search || search === "?" ? "" : search.startsWith("?") ? search : "?" + search;
       normalizeHash = (hash2) => !hash2 || hash2 === "#" ? "" : hash2.startsWith("#") ? hash2 : "#" + hash2;
-      redirect = function redirect2(url, init) {
-        if (init === void 0) {
-          init = 302;
-        }
-        let responseInit = init;
-        if (typeof responseInit === "number") {
-          responseInit = {
-            status: responseInit
-          };
-        } else if (typeof responseInit.status === "undefined") {
-          responseInit.status = 302;
-        }
-        let headers = new Headers(responseInit.headers);
-        headers.set("Location", url);
-        return new Response(null, _extends({}, responseInit, {
-          headers
-        }));
-      };
       validMutationMethodsArr = ["post", "put", "patch", "delete"];
       validMutationMethods = new Set(validMutationMethodsArr);
       validRequestMethodsArr = ["get", ...validMutationMethodsArr];
@@ -24700,6 +24682,40 @@
         logDeprecation("v7_skipActionErrorRevalidation", "The revalidation behavior after 4xx/5xx `action` responses is changing in v7", "https://reactrouter.com/v6/upgrading/future#v7_skipactionerrorrevalidation");
       }
     }
+  }
+  function Navigate(_ref4) {
+    let {
+      to,
+      replace: replace3,
+      state,
+      relative
+    } = _ref4;
+    !useInRouterContext() ? true ? invariant(
+      false,
+      // TODO: This error is probably because they somehow have 2 versions of
+      // the router loaded. We can help them understand how to avoid that.
+      "<Navigate> may be used only in the context of a <Router> component."
+    ) : invariant(false) : void 0;
+    let {
+      future,
+      static: isStatic
+    } = React.useContext(NavigationContext);
+    true ? warning(!isStatic, "<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.") : void 0;
+    let {
+      matches
+    } = React.useContext(RouteContext);
+    let {
+      pathname: locationPathname
+    } = useLocation();
+    let navigate = useNavigate();
+    let path = resolveTo(to, getResolveToMatches(matches, future.v7_relativeSplatPath), locationPathname, relative === "path");
+    let jsonPath = JSON.stringify(path);
+    React.useEffect(() => navigate(JSON.parse(jsonPath), {
+      replace: replace3,
+      state,
+      relative
+    }), [navigate, jsonPath, relative, replace3, state]);
+    return null;
   }
   function Router(_ref5) {
     let {
@@ -49048,14 +49064,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/LocalStorage.ts
-  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, USER_FACILITY_KEY, USER_ROLE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
+  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, USER_FACILITY_PERSONALITY_KEY, USER_ROLE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
   var init_LocalStorage = __esm({
     "src/LocalStorage.ts"() {
       "use strict";
       SESSION_STORAGE_KEY = "strong_session_id";
       USER_ID_STORAGE_KEY = "strong_user_id";
       USER_NAME_STORAGE_KEY = "strong_user_name";
-      USER_FACILITY_KEY = "strong_user_facility";
+      USER_FACILITY_PERSONALITY_KEY = "strong_user_facility_personality";
       USER_ROLE_KEY = "strong_user_role";
       isAppInLocalhost = () => {
         if (typeof window !== "undefined") {
@@ -49213,7 +49229,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       return storage.get(SESSION_STORAGE_KEY) || void 0;
     });
     const [facilityPersonality, setFacilityPersonality] = (0, import_react28.useState)(() => {
-      return storage.get(USER_FACILITY_KEY) || void 0;
+      return storage.get(USER_FACILITY_PERSONALITY_KEY) || void 0;
     });
     const [userRole, setUserRole] = (0, import_react28.useState)(() => {
       const storedRole = storage.get(USER_ROLE_KEY);
@@ -49245,9 +49261,9 @@ You can check this by searching up for matching entries in a lockfile produced b
     }, [sessionId, storage]);
     (0, import_react28.useEffect)(() => {
       if (facilityPersonality) {
-        storage.set(USER_FACILITY_KEY, facilityPersonality);
+        storage.set(USER_FACILITY_PERSONALITY_KEY, facilityPersonality);
       } else {
-        storage.remove(USER_FACILITY_KEY);
+        storage.remove(USER_FACILITY_PERSONALITY_KEY);
       }
     }, [facilityPersonality, storage]);
     (0, import_react28.useEffect)(() => {
@@ -49274,8 +49290,11 @@ You can check this by searching up for matching entries in a lockfile produced b
       storage.remove(USER_ID_STORAGE_KEY);
       storage.remove(USER_NAME_STORAGE_KEY);
       storage.remove(SESSION_STORAGE_KEY);
-      storage.remove(USER_FACILITY_KEY);
+      storage.remove(USER_FACILITY_PERSONALITY_KEY);
       storage.remove(USER_ROLE_KEY);
+    };
+    const handleSetPersonality = (newPersonality) => {
+      setPersonality(newPersonality);
     };
     return /* @__PURE__ */ import_react28.default.createElement(
       UserContext.Provider,
@@ -49288,7 +49307,8 @@ You can check this by searching up for matching entries in a lockfile produced b
           userRole,
           personality,
           onLogin: handleLogin,
-          onLogout: handleLogout
+          onLogout: handleLogout,
+          setPersonality: handleSetPersonality
         }
       },
       children
@@ -49385,9 +49405,10 @@ You can check this by searching up for matching entries in a lockfile produced b
         const footerRef = (0, import_react29.useRef)(null);
         const config = getConfigStrings();
         const textClasses = standardTextStyles();
+        const navigate = useNavigate();
         const handleLinkClick = async (action, path) => {
           const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
-          window.location.href = path;
+          navigate(path);
         };
         (0, import_react29.useEffect)(() => {
           const updateFooterHeight = () => {
@@ -49403,33 +49424,45 @@ You can check this by searching up for matching entries in a lockfile produced b
         return /* @__PURE__ */ import_react29.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react29.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "/index",
+            to: "#",
             className: linkClasses.centred,
-            onClick: () => handleLinkClick(config.homeAction, "/index")
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.homeAction, "/index");
+            }
           },
           uiStrings.kHome
         ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "/privacy",
+            to: "#",
             className: linkClasses.centred,
-            onClick: () => handleLinkClick(config.privacyAction, "/privacy")
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.privacyAction, "/privacy");
+            }
           },
           uiStrings.kPrivacy
         ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "/terms",
+            to: "#",
             className: linkClasses.centred,
-            onClick: () => handleLinkClick(config.termsAction, "/terms")
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.termsAction, "/terms");
+            }
           },
           uiStrings.kTerms
         ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "/about",
+            to: "#",
             className: linkClasses.centred,
-            onClick: () => handleLinkClick(config.aboutAction, "/about")
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.aboutAction, "/about");
+            }
           },
           uiStrings.kAbout
         )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
@@ -61101,7 +61134,7 @@ Be one of the first gyms in London with its own AI assistant.
   });
 
   // src/Site.tsx
-  var import_react36, RoutedSite, Site;
+  var import_react36, RoutedSite, DEFAULT_PERSONALITY, PersonalityRedirect, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
@@ -61123,8 +61156,19 @@ Be one of the first gyms in London with its own AI assistant.
           v7_relativeSplatPath: true
         } }, /* @__PURE__ */ import_react36.default.createElement(Site, null))));
       };
+      DEFAULT_PERSONALITY = "DemoAssistant" /* kDemoAssistant */;
+      PersonalityRedirect = ({
+        personality,
+        to
+      }) => {
+        const { setPersonality } = useUser();
+        (0, import_react36.useEffect)(() => {
+          setPersonality(personality);
+        }, [personality, setPersonality]);
+        return /* @__PURE__ */ import_react36.default.createElement(Navigate, { to });
+      };
       Site = (props) => {
-        const [personality, setPersonality] = (0, import_react36.useState)(void 0);
+        const { personality, setPersonality } = useUser();
         const uiStrings = getCommonUIStrings();
         (0, import_react36.useEffect)(() => {
           const script = document.createElement("script");
@@ -61142,47 +61186,55 @@ Be one of the first gyms in London with its own AI assistant.
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
             path: "/index",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
             path: "/index.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           },
           {
             path: "/theyard",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "TheYardAssistant" /* kTheYardAssistant */ }),
-            loader: () => {
-              setPersonality("TheYardAssistant" /* kTheYardAssistant */);
-              return redirect("/index");
-            }
+            element: /* @__PURE__ */ import_react36.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "TheYardAssistant" /* kTheYardAssistant */,
+                to: "/index"
+              }
+            )
           },
           {
             path: "/theyard.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "TheYardAssistant" /* kTheYardAssistant */ }),
-            loader: () => {
-              setPersonality("TheYardAssistant" /* kTheYardAssistant */);
-              return redirect("/index");
-            }
+            element: /* @__PURE__ */ import_react36.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "TheYardAssistant" /* kTheYardAssistant */,
+                to: "/index"
+              }
+            )
           },
           {
             path: "/demo",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "DemoAssistant" /* kDemoAssistant */ }),
-            loader: () => {
-              setPersonality("DemoAssistant" /* kDemoAssistant */);
-              return redirect("/index");
-            }
+            element: /* @__PURE__ */ import_react36.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "DemoAssistant" /* kDemoAssistant */,
+                to: "/index"
+              }
+            )
           },
           {
             path: "/demo.html",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: "DemoAssistant" /* kDemoAssistant */ }),
-            loader: () => {
-              setPersonality("DemoAssistant" /* kDemoAssistant */);
-              return redirect("/index");
-            }
+            element: /* @__PURE__ */ import_react36.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "DemoAssistant" /* kDemoAssistant */,
+                to: "/index"
+              }
+            )
           },
           {
             path: "/privacy",
@@ -61210,7 +61262,7 @@ Be one of the first gyms in London with its own AI assistant.
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? "DemoAssistant" /* kDemoAssistant */ })
+            element: /* @__PURE__ */ import_react36.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
           }
         ]);
         return routes;

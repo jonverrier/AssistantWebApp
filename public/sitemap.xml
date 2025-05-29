@@ -10,9 +10,14 @@
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
-  <url>
-    <loc>https://nice-wave-0746ea503.6.azurestaticapps.net/terms</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.5</priority>
-  </url>
+   <url>
+      <loc>https://nice-wave-0746ea503.6.azurestaticapps.net/terms</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+   </url>
+   <url>
+      <loc>https://nice-wave-0746ea503.6.azurestaticapps.net/about</loc>
+      <changefreq>monthly</changefreq>
+      <priority>0.5</priority>
+   </url>
 </urlset> 

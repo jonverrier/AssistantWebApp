@@ -18,8 +18,6 @@ const OuterStyles_1 = require("./OuterStyles");
 const react_components_1 = require("@fluentui/react-components");
 const CommonStyles_1 = require("./CommonStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
-// The image should be placed in public/assets/img/lifter.png
-const lifterIcon = 'assets/img/lifter-w.png';
 const PlainText = (props) => {
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();

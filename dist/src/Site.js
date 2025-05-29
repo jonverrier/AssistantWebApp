@@ -65,9 +65,17 @@ const RoutedSite = (props) => {
                 react_1.default.createElement(exports.Site, null)))));
 };
 exports.RoutedSite = RoutedSite;
+const DEFAULT_PERSONALITY = AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant;
+const PersonalityRedirect = ({ personality, to }) => {
+    const { setPersonality } = (0, UserContext_1.useUser)();
+    (0, react_1.useEffect)(() => {
+        setPersonality(personality);
+    }, [personality, setPersonality]);
+    return react_1.default.createElement(react_router_dom_1.Navigate, { to: to });
+};
 // Site component
 const Site = (props) => {
-    const [personality, setPersonality] = (0, react_1.useState)(undefined);
+    const { personality, setPersonality } = (0, UserContext_1.useUser)();
     const uiStrings = (0, UIStrings_1.getCommonUIStrings)();
     // Initialize Google Sign-In
     (0, react_1.useEffect)(() => {
@@ -87,47 +95,31 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
         },
         {
             path: '/index',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
         },
         {
             path: '/index.html',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
         },
         {
             path: '/theyard',
-            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant }),
-            loader: () => {
-                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant);
-                return (0, react_router_dom_1.redirect)('/index');
-            }
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/index" })
         },
         {
             path: '/theyard.html',
-            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant }),
-            loader: () => {
-                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant);
-                return (0, react_router_dom_1.redirect)('/index');
-            }
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/index" })
         },
         {
             path: '/demo',
-            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant }),
-            loader: () => {
-                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant);
-                return (0, react_router_dom_1.redirect)('/index');
-            }
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/index" })
         },
         {
             path: '/demo.html',
-            element: react_1.default.createElement(Login_1.Login, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant }),
-            loader: () => {
-                setPersonality(AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant);
-                return (0, react_router_dom_1.redirect)('/index');
-            }
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/index" })
         },
         {
             path: '/privacy',
@@ -155,7 +147,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant })
+            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
         }
     ]);
     return routes;

@@ -9,12 +9,12 @@
 // Copyright (c) Jon Verrier, 2025
 
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter, useRoutes, redirect } from "react-router-dom";
+import { BrowserRouter, useRoutes, redirect, Navigate } from "react-router-dom";
 import { Login } from "./Login";
 import { PlainText } from './PlainText';
 import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 import { getCommonUIStrings } from './UIStrings';
-import { UserProvider } from './UserContext';
+import { UserProvider, useUser } from './UserContext';
 import { browserSessionStorage } from './LocalStorage';
 
 import { kTermsContent } from './TermsContent';
@@ -81,10 +81,27 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
 export interface ISiteProps {
 }
 
+const DEFAULT_PERSONALITY = EAssistantPersonality.kDemoAssistant;
+
+const PersonalityRedirect = ({ 
+   personality,
+   to 
+}: { 
+   personality: EAssistantPersonality,
+   to: string 
+}) => {
+   const { setPersonality } = useUser();
+   
+   useEffect(() => {
+      setPersonality(personality);
+   }, [personality, setPersonality]);
+
+   return <Navigate to={to} />;
+};
+
 // Site component
 export const Site = (props: ISiteProps) => {
-
-   const [personality, setPersonality] = useState<EAssistantPersonality | undefined>(undefined);
+   const { personality, setPersonality } = useUser();
    const uiStrings = getCommonUIStrings();
 
    // Initialize Google Sign-In
@@ -107,48 +124,44 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
+         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
       },
       {
          path: '/index',
-         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
+         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
       },
       {
          path: '/index.html',
-         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
+         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
       },
       {
          path: '/theyard',
-         element: <Login personality={EAssistantPersonality.kTheYardAssistant} />,
-         loader: () => {
-            setPersonality(EAssistantPersonality.kTheYardAssistant);
-            return redirect('/index');
-         }
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kTheYardAssistant} 
+            to="/index" 
+         />
       },
       {
          path: '/theyard.html',
-         element: <Login personality={EAssistantPersonality.kTheYardAssistant} />,
-         loader: () => {
-            setPersonality(EAssistantPersonality.kTheYardAssistant);
-            return redirect('/index');
-         }
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kTheYardAssistant} 
+            to="/index" 
+         />
       },
       {
          path: '/demo',
-         element: <Login personality={EAssistantPersonality.kDemoAssistant} />,
-         loader: () => {
-            setPersonality(EAssistantPersonality.kDemoAssistant);
-            return redirect('/index');
-         }
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kDemoAssistant} 
+            to="/index" 
+         />
       },
       {
          path: '/demo.html',
-         element: <Login personality={EAssistantPersonality.kDemoAssistant} />,
-         loader: () => {
-            setPersonality(EAssistantPersonality.kDemoAssistant);
-            return redirect('/index');
-         }
-      },      
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kDemoAssistant} 
+            to="/index" 
+         />
+      },
       {
          path: '/privacy',
          element: <PlainText title={uiStrings.kPrivacyTitle} content={kPrivacyContent} />
@@ -175,7 +188,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <Login personality={personality ?? EAssistantPersonality.kDemoAssistant} />
+         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
       }
    ]);
 

@@ -106,11 +106,12 @@ const Footer = (props) => {
     const footerRef = (0, react_1.useRef)(null);
     const config = (0, ConfigStrings_1.getConfigStrings)();
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
+    const navigate = (0, react_router_dom_1.useNavigate)();
     const handleLinkClick = async (action, path) => {
         // Call reCAPTCHA before navigation
         // We throw away the result - we are recording actions as per the Google guidance     
         const captchaResult = await (0, captcha_1.executeReCaptcha)(config.captchaApiUrl, action);
-        window.location.href = path;
+        navigate(path);
     };
     (0, react_1.useEffect)(() => {
         const updateFooterHeight = () => {
@@ -125,10 +126,22 @@ const Footer = (props) => {
     }, []);
     return (react_1.default.createElement("div", { ref: footerRef, className: styles.footerContainer },
         react_1.default.createElement("div", { className: styles.footerContent },
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/index", className: linkClasses.centred, onClick: () => handleLinkClick(config.homeAction, '/index') }, uiStrings.kHome),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: () => handleLinkClick(config.privacyAction, '/privacy') }, uiStrings.kPrivacy),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: () => handleLinkClick(config.termsAction, '/terms') }, uiStrings.kTerms),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/about", className: linkClasses.centred, onClick: () => handleLinkClick(config.aboutAction, '/about') }, uiStrings.kAbout)),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+                    e.preventDefault();
+                    handleLinkClick(config.homeAction, '/index');
+                } }, uiStrings.kHome),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+                    e.preventDefault();
+                    handleLinkClick(config.privacyAction, '/privacy');
+                } }, uiStrings.kPrivacy),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+                    e.preventDefault();
+                    handleLinkClick(config.termsAction, '/terms');
+                } }, uiStrings.kTerms),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+                    e.preventDefault();
+                    handleLinkClick(config.aboutAction, '/about');
+                } }, uiStrings.kAbout)),
         react_1.default.createElement("div", { style: { textAlign: 'center' } },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.footer }, "\u00A9 2025 Strong AI Technologies Ltd"))));
 };
