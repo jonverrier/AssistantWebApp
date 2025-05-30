@@ -6,7 +6,7 @@ exports.kTermsContent = `Strong AI Technologies Ltd (we, us) helps small gym own
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
 (b)	the transmission, storage and processing of content by you, or by any person on your behalf, using the Services ("Content").
-1.2	References in these Terms of Service to "you" are to any customer for the Services and any individual user of the Services (and "your" should be construed accordingly); and references to "us" are to Verrier Technology Services Ltd (and "we" and "our" should be construed accordingly).
+1.2	References in these Terms of Service to "you" are to any customer for the Services and any individual user of the Services (and "your" should be construed accordingly); and references to "us" are to Strong AI Technologies Ltd (and "we" and "our" should be construed accordingly).
 1.3	By using the Services, you agree to the rules set out in these Terms of Service.
 1.5	You must be at least 18 years of age to use the Services; and by using the Services, you warrant and represent to us that you are at least 18 years of age.
 2.	General usage rules
