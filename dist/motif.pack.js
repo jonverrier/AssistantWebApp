@@ -61039,7 +61039,7 @@ ${message.content}
   var init_TermsContent = __esm({
     "src/TermsContent.ts"() {
       "use strict";
-      kTermsContent = `Strong AI Technologies Ltd (we, us)helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+      kTermsContent = `Strong AI Technologies Ltd (we, us) helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
@@ -61135,7 +61135,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
     "src/PrivacyContent.ts"() {
       "use strict";
       kPrivacyContent = `1. Introduction
-1.1	Strong AI Technologies (we, us)helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	Strong AI Technologies (we, us) helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
