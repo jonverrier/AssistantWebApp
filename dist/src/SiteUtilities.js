@@ -39,7 +39,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Footer = exports.Spacer = exports.Header = void 0;
+exports.Footer = exports.Spacer = exports.ESpacerSize = exports.Header = void 0;
 const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const CommonStyles_1 = require("./CommonStyles");
@@ -52,18 +52,11 @@ const UserContext_1 = require("./UserContext");
 const MOBILE_BREAKPOINT = 512;
 const useFooterStyles = (0, react_components_1.makeStyles)({
     footerContainer: {
-        position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
         backgroundColor: 'var(--colorNeutralBackground1)',
         ...react_components_1.shorthands.padding('12px'),
         ...react_components_1.shorthands.borderTop('1px', 'solid', 'var(--colorNeutralStroke1)'),
-        zIndex: 100,
-        '&::after': {
-            content: '""',
-            height: 'var(--footer-height)',
-        }
+        width: '100%',
+        marginTop: 'auto'
     },
     footerContent: {
         display: 'flex',
@@ -93,8 +86,16 @@ const Header = ({ title }) => {
             react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, title))));
 };
 exports.Header = Header;
+var ESpacerSize;
+(function (ESpacerSize) {
+    ESpacerSize[ESpacerSize["kSmall"] = 8] = "kSmall";
+    ESpacerSize[ESpacerSize["kMedium"] = 14] = "kMedium";
+    ESpacerSize[ESpacerSize["kLarge"] = 20] = "kLarge";
+    ESpacerSize[ESpacerSize["kXLarge"] = 32] = "kXLarge";
+})(ESpacerSize || (exports.ESpacerSize = ESpacerSize = {}));
 const Spacer = (props) => {
-    return (react_1.default.createElement("div", { style: { height: '12px' } }));
+    const size = props.size ?? ESpacerSize.kMedium;
+    return (react_1.default.createElement("div", { style: { height: `${size}px` } }));
 };
 exports.Spacer = Spacer;
 const Footer = (props) => {

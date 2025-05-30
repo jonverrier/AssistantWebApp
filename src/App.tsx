@@ -106,7 +106,6 @@ const AppView: React.FC<IAppViewProps> = ({
    onDismiss,
    sessionId
 }) => {
-   const config = getConfigStrings();
    const bottomRef = useRef<HTMLDivElement>(null);
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
@@ -115,8 +114,6 @@ const AppView: React.FC<IAppViewProps> = ({
    const linkClasses = standardLinkStyles();
    const scrollableContentClasses = scrollableContentStyles();
    const multilineEditContainerClasses = multilineEditContainerStyles();
-
-   const lifterIcon = 'assets/img/lifter-w.png';
 
    // Scroll to the bottom of the chat history when a response is received
    useEffect(() => {
@@ -267,7 +264,6 @@ const AppView: React.FC<IAppViewProps> = ({
                </div>
             </div>
             <Spacer />
-            <Footer />
          </div>
       </div>
    );

@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.kTermsContent = void 0;
-exports.kTermsContent = `Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+exports.kTermsContent = `Strong AI Technologies Ltd (we, us)helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").

@@ -1,9 +1,7 @@
 /**
- * Plain.tsx
+ * Home.tsx
  * 
- * Renders a simple page component with a title, content and back link.
- * Used for displaying privacy policy and other static content pages.
- * Utilizes common layout styles from OuterStyles.
+ * Renders the main landing page component with hero image, title and call-to-action.
  */
 
 /*! Copyright Jon Verrier 2025 */
@@ -15,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { Text, Image, Button } from '@fluentui/react-components';
 import { standardTextStyles } from './CommonStyles';
-import { Spacer, Footer } from './SiteUtilities';
+import { Spacer, Footer, ESpacerSize } from './SiteUtilities';
 import { PlainTextParagraphs, PlainTextAlignment } from './PlainTextParagraphs';
 
 export interface HomeProps {
@@ -38,7 +36,7 @@ export const Home = (props: HomeProps) => {
                   style={{ width: '100%', height: 'auto', maxHeight: '512px', objectFit: 'cover' }}
                   alt="Strong AI Bold Image"
                />
-               <Spacer />
+               <Spacer size={ESpacerSize.kLarge} />
                <Text 
                   as="h1" 
                   style={{ 
@@ -49,7 +47,7 @@ export const Home = (props: HomeProps) => {
                >
                   Welcome to Strong AI
                </Text>
-               <Spacer />
+               <Spacer size={ESpacerSize.kLarge} />
                <Button 
                   appearance="primary"
                   size="large"
@@ -61,9 +59,9 @@ export const Home = (props: HomeProps) => {
                >
                   The Yard, Peckham ...
                </Button>
-               <Spacer />
-               <PlainTextParagraphs content={props.content} alignment={PlainTextAlignment.kCenter} />
-               <Spacer />               
+               <Spacer size={ESpacerSize.kLarge} />
+               <PlainTextParagraphs content={props.content} alignment={PlainTextAlignment.kLeft} />
+               <Spacer size={ESpacerSize.kXLarge} />                                        
             </div>
             <Footer />
          </div>

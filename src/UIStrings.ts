@@ -97,7 +97,7 @@ export const TheYardBrandStrings: IBrandUIStrings = {
 export const DemoBrandStrings: IBrandUIStrings = {
    kAppPageCaption: "Strong AI Demo",
    kAppPageStrapline: "Strong and Intelligent.",
-   kOverview: "Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike.",
+   kOverview: "Strong AI Technologies helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor.",
    kLinks: "",
    kChatPreamble: "Chat to the Strong AI by typing your question in the box below. Don't share private information.",
    kChatPlaceholder: "Let's talk about fitness...",

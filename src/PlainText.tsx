@@ -3,7 +3,6 @@
  * 
  * Renders a simple page component with a title, content and back link.
  * Used for displaying privacy policy and other static content pages.
- * Utilizes common layout styles from OuterStyles.
  */
 
 /*! Copyright Jon Verrier 2025 */
@@ -12,8 +11,7 @@
 
 import React from 'react';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
-import { standardTextStyles } from './CommonStyles';
-import { Spacer, Footer, Header } from './SiteUtilities';
+import { Spacer, Footer, Header, ESpacerSize } from './SiteUtilities';
 import { PlainTextParagraphs } from './PlainTextParagraphs';
 
 export interface IPlainTextProps {
@@ -24,16 +22,14 @@ export interface IPlainTextProps {
 export const PlainText = (props: IPlainTextProps) => {
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
-   const textClasses = standardTextStyles();
 
    return (
       <div className={pageOuterClasses.root}>
          <div className={innerColumnClasses.root}>
             <Header title={props.title} />
-            <Spacer />    
-            <Spacer />        
+            <Spacer size={ESpacerSize.kLarge} />         
             <PlainTextParagraphs content={props.content} />
-            <Spacer/>
+            <Spacer size={ESpacerSize.kXLarge} />              
             <Footer />
          </div>
       </div>

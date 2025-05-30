@@ -5,7 +5,6 @@
  * Handles special formatting for numbered lists and URLs.
  * URLs are automatically converted into clickable links.
  * Numbered items (e.g. "1. Item") are styled as subheadings.
- * Uses common text styles from CommonStyles.
  */
 
 // Copyright (c) Jon Verrier, 2025
@@ -14,7 +13,7 @@
 import React from 'react';
 import { Text, Link as FluentLink } from '@fluentui/react-components';
 import { standardTextStyles } from './CommonStyles';
-import { Spacer } from './SiteUtilities';
+import { ESpacerSize, Spacer } from './SiteUtilities';
 
 export enum PlainTextAlignment {
     kLeft = 'left',
@@ -47,7 +46,7 @@ export const PlainTextParagraphs = (props: IPlainTextParagraphsProps) => {
                     return (
                         <React.Fragment key={index}>
                             <Text {...getTextStyle(textClasses.subHeadingLeft)}>{line}</Text>
-                            <Spacer />
+                            <Spacer size={ESpacerSize.kSmall} />
                         </React.Fragment>
                     );
                 }
@@ -62,14 +61,14 @@ export const PlainTextParagraphs = (props: IPlainTextParagraphsProps) => {
                                         part
                                 )}
                             </Text>
-                            <Spacer />
+                            <Spacer size={ESpacerSize.kSmall} />
                         </React.Fragment>
                     );
                 }
                 return (
                     <React.Fragment key={index}>
                         <Text {...getTextStyle(textClasses.normal)}>{line}</Text>
-                        <Spacer />
+                        <Spacer size={ESpacerSize.kSmall} />
                     </React.Fragment>
                 );
             })}

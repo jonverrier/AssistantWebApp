@@ -19,18 +19,11 @@ const MOBILE_BREAKPOINT = 512;
 
 const useFooterStyles = makeStyles({
    footerContainer: {
-      position: 'fixed',
-      bottom: 0,
-      left: 0,
-      right: 0,
       backgroundColor: 'var(--colorNeutralBackground1)',
       ...shorthands.padding('12px'),
       ...shorthands.borderTop('1px', 'solid', 'var(--colorNeutralStroke1)'),
-      zIndex: 100,
-      '&::after': {
-         content: '""',
-         height: 'var(--footer-height)',
-      }
+      width: '100%',
+      marginTop: 'auto'
    },
    footerContent: {
       display: 'flex',
@@ -74,11 +67,20 @@ export const Header: React.FC<IHeaderProps> = ({ title }) => {
    );
 };
 
+export enum ESpacerSize {
+   kSmall = 8,
+   kMedium = 14,
+   kLarge = 20,
+   kXLarge = 32
+}
+
 export interface ISpacerProps {
+   size?: ESpacerSize;
 }
 
 export const Spacer = (props: ISpacerProps) => {
-   return (<div style={{ height: '12px' }} />);
+   const size = props.size ?? ESpacerSize.kMedium;
+   return (<div style={{ height: `${size}px` }} />);
 }
 
 export interface IFooterProps {

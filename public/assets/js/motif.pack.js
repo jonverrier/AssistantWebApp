@@ -45917,7 +45917,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       DemoBrandStrings = {
         kAppPageCaption: "Strong AI Demo",
         kAppPageStrapline: "Strong and Intelligent.",
-        kOverview: "Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike.",
+        kOverview: "Strong AI Technologies helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor.",
         kLinks: "",
         kChatPreamble: "Chat to the Strong AI by typing your question in the box below. Don't share private information.",
         kChatPlaceholder: "Let's talk about fitness...",
@@ -49349,18 +49349,11 @@ You can check this by searching up for matching entries in a lockfile produced b
       MOBILE_BREAKPOINT = 512;
       useFooterStyles = makeStyles2({
         footerContainer: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
           backgroundColor: "var(--colorNeutralBackground1)",
           ...shorthands2.padding("12px"),
           ...shorthands2.borderTop("1px", "solid", "var(--colorNeutralStroke1)"),
-          zIndex: 100,
-          "&::after": {
-            content: '""',
-            height: "var(--footer-height)"
-          }
+          width: "100%",
+          marginTop: "auto"
         },
         footerContent: {
           display: "flex",
@@ -49394,7 +49387,8 @@ You can check this by searching up for matching entries in a lockfile produced b
         ), /* @__PURE__ */ import_react29.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, title)));
       };
       Spacer = (props) => {
-        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: "12px" } });
+        const size = props.size ?? 14 /* kMedium */;
+        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: `${size}px` } });
       };
       Footer = (props) => {
         const user = useUser();
@@ -60409,7 +60403,6 @@ ${message.content}
         onDismiss,
         sessionId
       }) => {
-        const config = getConfigStrings();
         const bottomRef = (0, import_react33.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
@@ -60418,7 +60411,6 @@ ${message.content}
         const linkClasses = standardLinkStyles();
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
-        const lifterIcon = "assets/img/lifter-w.png";
         (0, import_react33.useEffect)(() => {
           if (streamedResponse) {
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -60503,7 +60495,7 @@ ${message.content}
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Footer, null)));
+        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react33.default.createElement(Spacer, null)));
       };
       App = (props) => {
         const config = getConfigStrings();
@@ -60942,15 +60934,15 @@ ${message.content}
         });
         return /* @__PURE__ */ import_react35.default.createElement("div", { style: { width: "100%", textAlign: alignment } }, props.content.split("\n").map((line2, index) => {
           if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.subHeadingLeft) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, null));
+            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.subHeadingLeft) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
           }
           if (line2.match(/https?:\/\/\S+/)) {
             const parts = line2.split(/(https?:\/\/\S+)/);
             return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, parts.map(
               (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react35.default.createElement(Link3, { key: i, href: part, style: { textAlign: "inherit" } }, part) : part
-            )), /* @__PURE__ */ import_react35.default.createElement(Spacer, null));
+            )), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
           }
-          return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, null));
+          return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
         }));
       };
     }
@@ -60963,14 +60955,12 @@ ${message.content}
       "use strict";
       import_react36 = __toESM(require_react());
       init_OuterStyles();
-      init_CommonStyles();
       init_SiteUtilities();
       init_PlainTextParagraphs();
       PlainText = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
-        const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react36.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react36.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react36.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(PlainTextParagraphs, { content: props.content }), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(Footer, null)));
+        return /* @__PURE__ */ import_react36.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react36.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react36.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react36.default.createElement(PlainTextParagraphs, { content: props.content }), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 32 /* kXLarge */ }), /* @__PURE__ */ import_react36.default.createElement(Footer, null)));
       };
     }
   });
@@ -60999,7 +60989,7 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, null), /* @__PURE__ */ import_react37.default.createElement(
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(
           Text,
           {
             as: "h1",
@@ -61010,7 +61000,7 @@ ${message.content}
             }
           },
           "Welcome to Strong AI"
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, null), /* @__PURE__ */ import_react37.default.createElement(
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61022,7 +61012,7 @@ ${message.content}
             onClick: () => navigate("/theyard")
           },
           "The Yard, Peckham ..."
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, null), /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "center" /* kCenter */ }), /* @__PURE__ */ import_react37.default.createElement(Spacer, null)), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 32 /* kXLarge */ })), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
       };
     }
   });
@@ -61049,7 +61039,7 @@ ${message.content}
   var init_TermsContent = __esm({
     "src/TermsContent.ts"() {
       "use strict";
-      kTermsContent = `Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+      kTermsContent = `Strong AI Technologies Ltd (we, us)helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
@@ -61145,7 +61135,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
     "src/PrivacyContent.ts"() {
       "use strict";
       kPrivacyContent = `1. Introduction
-1.1	Strong AI Technologies Ltd (we, us) helps businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	Strong AI Technologies (we, us)helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
@@ -61229,11 +61219,9 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
   var init_AboutContent = __esm({
     "src/AboutContent.ts"() {
       "use strict";
-      kAboutContent = `Strong AI Technologies provides innovative, AI-powered solutions for boutique gyms, helping club owners and members alike. 
-Our friendly, smart AI handles 'outside the gym' interactions \u2014 answering FAQs, helping new members understand functional fitness, helping more experienced members with nutrition, accessory exercise advice, or adaptations for their personal circumstances \u2014 so your team can focus on coaching and building community. 
-Our AI does not seek to replace your coaches, our AI acts as an assistant outside the gym, helping answer questions your coaches may lack the time to cover, or allowing members to ask them in a more private environment. 
-Overall, this means more engaged members making more progress towards their goals. 
-Be one of the first gyms in London with its own AI assistant.
+      kAboutContent = `CrossFit works. Functional fitness works. Coached classes, varied movement, strength and conditioning, and a real sense of community \u2014 it works. And right now, there\u2019s never been a greater need for what small, independent gym owners deliver: real results, grounded in real relationships. But let\u2019s be honest \u2014 it\u2019s a zoo out there. Influencers, workout apps, and big-box gyms are shouting the loudest, often selling quick fixes that turn out to be mirages. Meanwhile, they\u2019re driving down prices and making it harder for the real thing to stand out.
+That\u2019s where Strong AI Technologies comes in. We help small gym owners compete \u2014 and thrive \u2014 by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. From answering FAQs and streamlining onboarding to offering nutrition support, accessory work, and personalised guidance for more experienced members, our AI solutions will extend your care, your knowledge, and your values into every part of a member\u2019s journey. The more members interact, the smarter the system gets \u2014 offering tailored advice imbued with the spirit and values of your gym. We\u2019re here to help you scale your impact, not your screen time \u2014 and keep the heart of your gym exactly where it belongs: in your community.
+Be one of the first gyms in London with your own AI assistant.
 `;
     }
   });

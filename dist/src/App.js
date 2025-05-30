@@ -97,7 +97,6 @@ const kMinArchivingDisplayMs = 2000;
 // This component is responsible for rendering the main UI of the application.
 // It includes the chat history, message input, and other UI elements.
 const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResponseId, message, onSend, onChange, onDismiss, sessionId }) => {
-    const config = (0, ConfigStrings_1.getConfigStrings)();
     const bottomRef = (0, react_1.useRef)(null);
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
@@ -106,7 +105,6 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
-    const lifterIcon = 'assets/img/lifter-w.png';
     // Scroll to the bottom of the chat history when a response is received
     (0, react_1.useEffect)(() => {
         if (streamedResponse) {
@@ -199,8 +197,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
                     react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
                     react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            react_1.default.createElement(SiteUtilities_1.Footer, null))));
+            react_1.default.createElement(SiteUtilities_1.Spacer, null))));
 };
 // App component
 // This component is responsible for managing the state of the application.
