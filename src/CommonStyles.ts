@@ -29,7 +29,7 @@ export const standardCenteredRowElementStyles = makeStyles({
       flexDirection: 'row', 
       width: '100%',
       justifyContent: 'center',
-      padding: '6px 6px',
+      padding: '6px',
       alignItems: 'center',
       alignContent: 'center',
       alignSelf: 'center'
@@ -42,7 +42,7 @@ export const standardJustifiedRowElementStyles = makeStyles({
       flexDirection: 'row',
       width: '100%',
       justifyContent: 'space-between',
-      padding: '6px 6px',
+      padding: '6px',
       alignItems: 'center',
       alignSelf: 'center'      
    },
@@ -54,7 +54,7 @@ export const mobileRowElementStyles = makeStyles({
       flexDirection: 'column',
       width: '100%',
       justifyContent: 'center',
-      padding: '6px 6px',
+      padding: '6px',
       alignItems: 'center',
       alignSelf: 'center'
    },

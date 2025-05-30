@@ -27,7 +27,7 @@ exports.standardCenteredRowElementStyles = (0, react_components_1.makeStyles)({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'center',
-        padding: '6px 6px',
+        padding: '6px',
         alignItems: 'center',
         alignContent: 'center',
         alignSelf: 'center'
@@ -39,7 +39,7 @@ exports.standardJustifiedRowElementStyles = (0, react_components_1.makeStyles)({
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'space-between',
-        padding: '6px 6px',
+        padding: '6px',
         alignItems: 'center',
         alignSelf: 'center'
     },
@@ -50,7 +50,7 @@ exports.mobileRowElementStyles = (0, react_components_1.makeStyles)({
         flexDirection: 'column',
         width: '100%',
         justifyContent: 'center',
-        padding: '6px 6px',
+        padding: '6px',
         alignItems: 'center',
         alignSelf: 'center'
     },

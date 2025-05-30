@@ -9,6 +9,6 @@ export declare const standardRowElementStyles: () => Record<"root", string>;
 export declare const standardCenteredRowElementStyles: () => Record<"root", string>;
 export declare const standardJustifiedRowElementStyles: () => Record<"root", string>;
 export declare const mobileRowElementStyles: () => Record<"root", string>;
-export declare const standardTextStyles: () => Record<"root" | "footer" | "textarea" | "normal" | "heading" | "subHeadingLeft" | "normalGrey" | "centredHint", string>;
+export declare const standardTextStyles: () => Record<"root" | "normal" | "heading" | "subHeadingLeft" | "normalGrey" | "textarea" | "centredHint" | "footer", string>;
 export declare const standardLinkStyles: () => Record<"left" | "centred", string>;
 //# sourceMappingURL=CommonStyles.d.ts.map

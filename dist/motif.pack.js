@@ -45729,7 +45729,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           flexDirection: "row",
           width: "100%",
           justifyContent: "center",
-          padding: "6px 6px",
+          padding: "6px",
           alignItems: "center",
           alignContent: "center",
           alignSelf: "center"
@@ -45741,7 +45741,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           flexDirection: "row",
           width: "100%",
           justifyContent: "space-between",
-          padding: "6px 6px",
+          padding: "6px",
           alignItems: "center",
           alignSelf: "center"
         }
@@ -45752,7 +45752,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           flexDirection: "column",
           width: "100%",
           justifyContent: "center",
-          padding: "6px 6px",
+          padding: "6px",
           alignItems: "center",
           alignSelf: "center"
         }
@@ -45899,6 +45899,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
         kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
+        kLoginPlease: "Please login with Google to continue. We need you to login so we can keep recognise you on multiple devies and keep your chat history correct.",
         kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
         kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
         kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
@@ -60376,8 +60377,7 @@ ${message.content}
           overflowY: "auto",
           width: "100%",
           position: "relative",
-          height: "100%",
-          paddingBottom: "var(--footer-height)"
+          height: "100%"
         }
       });
       multilineEditContainerStyles = makeStyles2({
@@ -60495,7 +60495,7 @@ ${message.content}
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react33.default.createElement(Spacer, null)));
+        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps })))));
       };
       App = (props) => {
         const config = getConfigStrings();
@@ -60887,11 +60887,10 @@ ${message.content}
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
         const uiStrings = getUIStrings(props.personality);
-        const lifterIcon = "assets/img/lifter-w.png";
         const handleErrorDismiss = () => {
           props.setError(void 0);
         };
-        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kOverview), props.error && /* @__PURE__ */ import_react34.default.createElement(import_react34.default.Fragment, null, /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
+        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kLoginPlease), props.error && /* @__PURE__ */ import_react34.default.createElement(import_react34.default.Fragment, null, /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
           Message,
           {
             intent: "error" /* kError */,

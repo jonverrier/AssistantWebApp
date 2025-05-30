@@ -51,8 +51,7 @@ const scrollableContentStyles = makeStyles({
       overflowY: 'auto',
       width: '100%',
       position: 'relative',
-      height: '100%',
-      paddingBottom: 'var(--footer-height)'
+      height: '100%'
    }
 });
 
@@ -263,7 +262,6 @@ const AppView: React.FC<IAppViewProps> = ({
                   <MultilineEdit {...multilineEditProps} />
                </div>
             </div>
-            <Spacer />
          </div>
       </div>
    );

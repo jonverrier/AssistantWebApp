@@ -78,8 +78,7 @@ const scrollableContentStyles = (0, react_components_1.makeStyles)({
         overflowY: 'auto',
         width: '100%',
         position: 'relative',
-        height: '100%',
-        paddingBottom: 'var(--footer-height)'
+        height: '100%'
     }
 });
 const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
@@ -196,8 +195,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
                     archiving,
                     react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
-                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null))));
+                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))))));
 };
 // App component
 // This component is responsible for managing the state of the application.

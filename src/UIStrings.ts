@@ -36,6 +36,7 @@ export interface ICommonUIStrings {
    kPrivacy: string;
    kTerms: string;
    kAIWarning: string;
+   kLoginPlease: string;
    kArchivingPleaseWait: string;
    kArchivingDescription: string;
    kProcessingPleaseWait: string;
@@ -77,6 +78,7 @@ export const CommonUIStrings: ICommonUIStrings = {
    kProcessingPleaseWait: "Please wait a few seconds...",
    kArchivingPleaseWait: "Please wait a few seconds...",
    kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
+   kLoginPlease: "Please login with Google to continue. We need you to login so we can keep recognise you on multiple devies and keep your chat history correct.",
    kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
    kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
    kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",

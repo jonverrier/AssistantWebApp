@@ -336,7 +336,6 @@ export const LoginView = (props: ILoginUiProps) => {
    const innerColumnClasses = innerColumnStyles();
    const textClasses = standardTextStyles();
    const uiStrings = getUIStrings(props.personality);
-   const lifterIcon = 'assets/img/lifter-w.png';
 
    const handleErrorDismiss = () => {
       props.setError(undefined);
@@ -349,6 +348,8 @@ export const LoginView = (props: ILoginUiProps) => {
             <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
             <Spacer />
             <Text>{uiStrings.kOverview}</Text>
+            <Spacer />
+            <Text>{uiStrings.kLoginPlease}</Text>
             {props.error && (
                <>
                   <Spacer />

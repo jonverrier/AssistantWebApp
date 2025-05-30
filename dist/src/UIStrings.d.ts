@@ -29,6 +29,7 @@ export interface ICommonUIStrings {
     kPrivacy: string;
     kTerms: string;
     kAIWarning: string;
+    kLoginPlease: string;
     kArchivingPleaseWait: string;
     kArchivingDescription: string;
     kProcessingPleaseWait: string;
