@@ -25,10 +25,10 @@ function replaceStringParameter(template, parameter, index = 0) {
     return template.replace(`{${index}}`, parameter.toString());
 }
 exports.CommonUIStrings = {
-    kWarning: "Warning:",
-    kInfo: "Information:",
-    kError: "Error:",
-    kSuccess: "Success:",
+    kWarning: "Warning.",
+    kInfo: "Information.",
+    kError: "Error.",
+    kSuccess: "Success.",
     kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
     kHomeTitle: "Strong AI Technologies",
     kPrivacyTitle: "Privacy Policy",
@@ -46,7 +46,8 @@ exports.CommonUIStrings = {
     kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
     kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
     kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
-    kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
+    kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page.",
+    kGuestLoginNotice: "You are currently logged in as a guest. Please use this site responsibly."
 };
 exports.TheYardBrandStrings = {
     kAppPageCaption: "Yard Talk",

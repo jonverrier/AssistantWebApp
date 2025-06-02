@@ -38,6 +38,7 @@ export interface ICommonUIStrings {
     kTooManyAttempts: string;
     kLoginFailed: string;
     kLogoutFailed: string;
+    kGuestLoginNotice: string;
 }
 export interface IBrandUIStrings {
     kAppPageCaption: string;

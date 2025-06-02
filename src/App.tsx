@@ -34,6 +34,7 @@ import { processChatHistory } from './ChatHistoryCall';
 import { archive, shouldArchive } from './ArchiveCall';
 import { uuidv4 } from './uuid';
 import { getConfigStrings } from './ConfigStrings';
+import { useUser } from './UserContext';
 
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
@@ -105,6 +106,7 @@ const AppView: React.FC<IAppViewProps> = ({
    onDismiss,
    sessionId
 }) => {
+   const { userRole } = useUser();
    const bottomRef = useRef<HTMLDivElement>(null);
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
@@ -133,6 +135,7 @@ const AppView: React.FC<IAppViewProps> = ({
    let error = blank;
    let archiving = blank;
    let streaming = blank;
+   let guestLoginNotice = blank;
    
    if (state.getState() === EUIState.kOffTopic) {
       offTopic = (
@@ -159,6 +162,20 @@ const AppView: React.FC<IAppViewProps> = ({
                body={uiStrings.kServerErrorDescription}
                dismissable={true}
                onDismiss={onDismiss}
+            />
+         </div>
+      );
+   }
+
+   if (userRole === EUserRole.kGuest) {
+      guestLoginNotice = (
+         <div className={columnElementClasses.root}>
+            &nbsp;&nbsp;&nbsp;                  
+            <Message
+               intent={MessageIntent.kInfo}
+               title={uiStrings.kInfo}
+               body={uiStrings.kGuestLoginNotice}
+               dismissable={false}
             />
          </div>
       );
@@ -254,6 +271,7 @@ const AppView: React.FC<IAppViewProps> = ({
                   </div>
                   {offTopic}
                   {error}
+                  {guestLoginNotice}
                   {archiving}                  
                   <div ref={bottomRef} />
                </div>

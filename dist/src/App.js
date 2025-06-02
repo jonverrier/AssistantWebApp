@@ -63,6 +63,7 @@ const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const ArchiveCall_1 = require("./ArchiveCall");
 const uuid_1 = require("./uuid");
 const ConfigStrings_1 = require("./ConfigStrings");
+const UserContext_1 = require("./UserContext");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const kChatHistoryPageSize = 50;
@@ -96,6 +97,7 @@ const kMinArchivingDisplayMs = 2000;
 // This component is responsible for rendering the main UI of the application.
 // It includes the chat history, message input, and other UI elements.
 const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResponseId, message, onSend, onChange, onDismiss, sessionId }) => {
+    const { userRole } = (0, UserContext_1.useUser)();
     const bottomRef = (0, react_1.useRef)(null);
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
@@ -121,6 +123,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
     let error = blank;
     let archiving = blank;
     let streaming = blank;
+    let guestLoginNotice = blank;
     if (state.getState() === UIStateMachine_1.EUIState.kOffTopic) {
         offTopic = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
@@ -130,6 +133,11 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
         error = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
             react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kError, title: uiStrings.kError, body: uiStrings.kServerErrorDescription, dismissable: true, onDismiss: onDismiss })));
+    }
+    if (userRole === AssistantChatApiTypes_1.EUserRole.kGuest) {
+        guestLoginNotice = (react_1.default.createElement("div", { className: columnElementClasses.root },
+            "\u00A0\u00A0\u00A0",
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kInfo, body: uiStrings.kGuestLoginNotice, dismissable: false })));
     }
     if (state.getState() === UIStateMachine_1.EUIState.kArchiving) {
         archiving = (react_1.default.createElement("div", { className: columnElementClasses.root },
@@ -192,6 +200,7 @@ const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResp
                     react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
                     offTopic,
                     error,
+                    guestLoginNotice,
                     archiving,
                     react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },

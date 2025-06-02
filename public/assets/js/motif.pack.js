@@ -45883,10 +45883,10 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_AssistantChatApiTypes();
       init_MultilineEditUIStrings();
       CommonUIStrings = {
-        kWarning: "Warning:",
-        kInfo: "Information:",
-        kError: "Error:",
-        kSuccess: "Success:",
+        kWarning: "Warning.",
+        kInfo: "Information.",
+        kError: "Error.",
+        kSuccess: "Success.",
         kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
         kHomeTitle: "Strong AI Technologies",
         kPrivacyTitle: "Privacy Policy",
@@ -45904,7 +45904,8 @@ You can check this by searching up for matching entries in a lockfile produced b
         kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
         kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
         kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
-        kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
+        kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page.",
+        kGuestLoginNotice: "You are currently logged in as a guest. Please use this site responsibly."
       };
       TheYardBrandStrings = {
         kAppPageCaption: "Yard Talk",
@@ -60361,6 +60362,7 @@ ${message.content}
       init_ArchiveCall();
       init_uuid();
       init_ConfigStrings();
+      init_UserContext();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
       kChatHistoryPageSize = 50;
@@ -60402,6 +60404,7 @@ ${message.content}
         onDismiss,
         sessionId
       }) => {
+        const { userRole } = useUser();
         const bottomRef = (0, import_react33.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
@@ -60425,6 +60428,7 @@ ${message.content}
         let error = blank;
         let archiving = blank;
         let streaming = blank;
+        let guestLoginNotice = blank;
         if (state.getState() === "OffTopic" /* kOffTopic */) {
           offTopic = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
             Message,
@@ -60446,6 +60450,17 @@ ${message.content}
               body: uiStrings.kServerErrorDescription,
               dismissable: true,
               onDismiss
+            }
+          ));
+        }
+        if (userRole === "guest" /* kGuest */) {
+          guestLoginNotice = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+            Message,
+            {
+              intent: "info" /* kInfo */,
+              title: uiStrings.kInfo,
+              body: uiStrings.kGuestLoginNotice,
+              dismissable: false
             }
           ));
         }
@@ -60494,7 +60509,7 @@ ${message.content}
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps })))));
+        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, guestLoginNotice, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps })))));
       };
       App = (props) => {
         const config = getConfigStrings();

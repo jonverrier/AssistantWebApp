@@ -45,6 +45,7 @@ export interface ICommonUIStrings {
    kTooManyAttempts: string;
    kLoginFailed: string;
    kLogoutFailed: string;
+   kGuestLoginNotice: string;
 }
 
 // Strings that vary between different white labelled implementations
@@ -62,10 +63,10 @@ export interface IBrandUIStrings {
 export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 
 export const CommonUIStrings: ICommonUIStrings = {
-   kWarning: "Warning:",
-   kInfo: "Information:",
-   kError: "Error:",
-   kSuccess: "Success:",
+   kWarning: "Warning.",
+   kInfo: "Information.",
+   kError: "Error.",
+   kSuccess: "Success.",
    kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
    kHomeTitle: "Strong AI Technologies",
    kPrivacyTitle: "Privacy Policy",
@@ -83,7 +84,8 @@ export const CommonUIStrings: ICommonUIStrings = {
    kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
    kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
    kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
-   kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page."
+   kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page.",
+   kGuestLoginNotice: "You are currently logged in as a guest. Please use this site responsibly."
 }
 
 export const TheYardBrandStrings: IBrandUIStrings = {
