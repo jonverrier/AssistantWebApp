@@ -9,11 +9,11 @@
 // Copyright (c) Jon Verrier, 2025
 
 import React, { useState, useEffect, useRef } from 'react';
-import { EAssistantPersonality, ISessionResponse, EUserRole } from '../import/AssistantChatApiTypes';
+import { EAssistantPersonality, ISessionResponse, EUserRole, IUserDetails, ELoginProvider } from '../import/AssistantChatApiTypes';
 
 import { Text } from '@fluentui/react-components';
 import { Message, MessageIntent } from './Message';
-import { Header } from './SiteUtilities';
+import { ESpacerSize, Header } from './SiteUtilities';
 import { App } from './App';
 import { getSessionData } from './SessionCall';
 import { Footer, Spacer } from './SiteUtilities';
@@ -199,12 +199,17 @@ export const Login = (props: ILoginProps) => {
          const userId = decodedToken.sub;
          const userName = decodedToken.name || undefined;
          const userEmail = decodedToken.email || undefined;
-         const newUserFacility = '';  // Default empty facility for now
 
          // Get session ID before updating state
          let newSessionId: ISessionResponse | undefined;
          try {
-            newSessionId = await getSessionData(config.sessionApiUrl, userEmail);
+            let userDetails: IUserDetails = {
+               userID: userId,
+               name: userName,
+               email: userEmail,
+               loginProvider: ELoginProvider.kGoogle
+            };
+            newSessionId = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
          } catch (error) {
             console.error('Error getting session ID:', error);
          }
@@ -348,7 +353,7 @@ export const LoginView = (props: ILoginUiProps) => {
             <Text className={textClasses.centredHint}>{uiStrings.kAppPageStrapline}</Text>
             <Spacer />
             <Text>{uiStrings.kOverview}</Text>
-            <Spacer />
+            <Spacer size={ESpacerSize.kLarge} />
             <Text>{uiStrings.kLoginPlease}</Text>
             {props.error && (
                <>
@@ -368,7 +373,6 @@ export const LoginView = (props: ILoginUiProps) => {
                className="google-login-button" 
                style={{ display: props.isWaiting ? 'none' : 'block' }}
             />         
-            <Footer />
          </div>
       </div>
    );

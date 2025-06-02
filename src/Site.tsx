@@ -84,8 +84,6 @@ export const RoutedSite = (props: IRoutedSiteProps) => {
 export interface ISiteProps {
 }
 
-const DEFAULT_PERSONALITY = EAssistantPersonality.kDemoAssistant;
-
 const PersonalityRedirect = ({ 
    personality,
    to 
@@ -131,11 +129,11 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '/chat',
-         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
+         element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
       },
       {
          path: '/chat.html',
-         element: <Login personality={personality ?? DEFAULT_PERSONALITY} />
+         element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
       },
       {
          path: '/theyard',

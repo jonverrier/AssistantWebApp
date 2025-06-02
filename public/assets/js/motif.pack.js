@@ -45899,7 +45899,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
         kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
-        kLoginPlease: "Please login with Google to continue. We need you to login so we can keep recognise you on multiple devies and keep your chat history correct.",
+        kLoginPlease: "Please login with Google to continue. We need you to login so we can keep your data secure.",
         kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
         kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
         kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
@@ -49237,7 +49237,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       return storedRole ? storedRole : void 0;
     });
     const [personality, setPersonality] = (0, import_react28.useState)(
-      "DemoAssistant" /* kDemoAssistant */
+      void 0
     );
     (0, import_react28.useEffect)(() => {
       if (userId) {
@@ -49328,7 +49328,6 @@ You can check this by searching up for matching entries in a lockfile produced b
       "use strict";
       import_react28 = __toESM(require_react());
       init_LocalStorage();
-      init_AssistantChatApiTypes();
       UserContext = (0, import_react28.createContext)(void 0);
     }
   });
@@ -49419,18 +49418,18 @@ You can check this by searching up for matching entries in a lockfile produced b
         return /* @__PURE__ */ import_react29.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react29.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "#",
+            to: "/",
             className: linkClasses.centred,
             onClick: (e) => {
               e.preventDefault();
-              handleLinkClick(config.homeAction, "/index");
+              handleLinkClick(config.homeAction, "/");
             }
           },
           uiStrings.kHome
         ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "#",
+            to: "/chat",
             className: linkClasses.centred,
             onClick: (e) => {
               e.preventDefault();
@@ -49441,7 +49440,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "#",
+            to: "/privacy",
             className: linkClasses.centred,
             onClick: (e) => {
               e.preventDefault();
@@ -49452,7 +49451,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         ), /* @__PURE__ */ import_react29.default.createElement(
           Link,
           {
-            to: "#",
+            to: "/terms",
             className: linkClasses.centred,
             onClick: (e) => {
               e.preventDefault();
@@ -60646,10 +60645,11 @@ ${message.content}
   });
 
   // src/SessionCall.ts
-  async function getSessionData(sessionApiUrl, userDetails) {
+  async function getSessionData(sessionApiUrl, userDetails, personality) {
     try {
       const request = {
-        userDetails
+        userDetails,
+        personality
       };
       const response = await axios_default.post(sessionApiUrl, request, {
         headers: {
@@ -60788,10 +60788,15 @@ ${message.content}
             const userId2 = decodedToken.sub;
             const userName2 = decodedToken.name || void 0;
             const userEmail = decodedToken.email || void 0;
-            const newUserFacility = "";
             let newSessionId;
             try {
-              newSessionId = await getSessionData(config.sessionApiUrl, userEmail);
+              let userDetails = {
+                userID: userId2,
+                name: userName2,
+                email: userEmail,
+                loginProvider: "google" /* kGoogle */
+              };
+              newSessionId = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
             } catch (error2) {
               console.error("Error getting session ID:", error2);
             }
@@ -60890,7 +60895,7 @@ ${message.content}
         const handleErrorDismiss = () => {
           props.setError(void 0);
         };
-        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kLoginPlease), props.error && /* @__PURE__ */ import_react34.default.createElement(import_react34.default.Fragment, null, /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
+        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react34.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kLoginPlease), props.error && /* @__PURE__ */ import_react34.default.createElement(import_react34.default.Fragment, null, /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
           Message,
           {
             intent: "error" /* kError */,
@@ -60906,7 +60911,7 @@ ${message.content}
             className: "google-login-button",
             style: { display: props.isWaiting ? "none" : "block" }
           }
-        ), /* @__PURE__ */ import_react34.default.createElement(Footer, null)));
+        )));
       };
     }
   });
@@ -61226,7 +61231,7 @@ Be one of the first gyms in London with your own AI assistant.
   });
 
   // src/Site.tsx
-  var import_react39, RoutedSite, DEFAULT_PERSONALITY, PersonalityRedirect, Site;
+  var import_react39, RoutedSite, PersonalityRedirect, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
@@ -61250,7 +61255,6 @@ Be one of the first gyms in London with your own AI assistant.
           v7_relativeSplatPath: true
         } }, /* @__PURE__ */ import_react39.default.createElement(ScrollToTop, null), /* @__PURE__ */ import_react39.default.createElement(Site, null))));
       };
-      DEFAULT_PERSONALITY = "DemoAssistant" /* kDemoAssistant */;
       PersonalityRedirect = ({
         personality,
         to
@@ -61284,11 +61288,11 @@ Be one of the first gyms in London with your own AI assistant.
           },
           {
             path: "/chat",
-            element: /* @__PURE__ */ import_react39.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
           },
           {
             path: "/chat.html",
-            element: /* @__PURE__ */ import_react39.default.createElement(Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
           },
           {
             path: "/theyard",

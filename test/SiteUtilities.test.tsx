@@ -11,11 +11,11 @@ import { MockStorage } from './MockStorage';
 
 describe('SiteUtilities', () => {
     describe('Spacer', () => {
-        it('should render a div with 20px height', () => {
+        it('should render a div with 14px height', () => {
             const { container } = render(<Spacer />);
             const spacer = container.firstChild as HTMLElement;
             expect(spacer.tagName).toBe('DIV');
-            expect(spacer.style.height).toBe('20px');
+            expect(spacer.style.height).toBe('14px');
         });
     });
 
@@ -60,7 +60,7 @@ describe('SiteUtilities', () => {
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
 
-            expect(homeLink.getAttribute('href')).toBe('/index');
+            expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
         });
@@ -79,7 +79,7 @@ describe('SiteUtilities', () => {
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
 
-            expect(homeLink.getAttribute('href')).toBe('/index');
+            expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
         });
@@ -98,7 +98,7 @@ describe('SiteUtilities', () => {
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
 
-            expect(homeLink.getAttribute('href')).toBe('/index');
+            expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
         });

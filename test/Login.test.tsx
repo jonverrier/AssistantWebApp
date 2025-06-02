@@ -19,7 +19,7 @@ import * as MultilineEditModule from '../src/MultilineEdit';
 import * as CaptchaModule from '../src/captcha';
 import sinon from 'sinon';
 import { MockStorage } from './MockStorage';
-import { UIStrings } from '../src/UIStrings';
+import { getUIStrings } from '../src/UIStrings';
 import { RECAPTCHA_THRESHOLD } from '../src/captcha';
 import { UserProvider } from '../src/UserContext';
 
@@ -28,6 +28,8 @@ describe('Login Component', () => {
    const originalMultilineEdit = MultilineEditModule.MultilineEdit;
    const originalExecuteReCaptcha = CaptchaModule.executeReCaptcha;
    let mockStorage: MockStorage;
+
+   const uiStrings = getUIStrings(EAssistantPersonality.kDemoAssistant);
 
    beforeEach(() => {
       // Reset all mocks before each test
@@ -210,17 +212,17 @@ describe('Login Component', () => {
 
    it('should handle low captcha scores appropriately', async function() {
       this.timeout(10000); // Set higher Mocha timeout
-      await testSecurityScenario(0.2, UIStrings.kLoginBlocked, 5000);
+      await testSecurityScenario(0.2, uiStrings.kLoginBlocked, 5000);
    });
 
    it('should require additional verification for moderate-low captcha scores', async function() {
       this.timeout(10000);
-      await testSecurityScenario(0.35, UIStrings.kAdditionalVerification, 5000);
+      await testSecurityScenario(0.35, uiStrings.kAdditionalVerification, 5000);
    });
 
    it('should apply rate limiting for moderate captcha scores', async function() {
       this.timeout(10000);
-      await testSecurityScenario(0.45, UIStrings.kTooManyAttempts, 5000);
+      await testSecurityScenario(0.45, uiStrings.kTooManyAttempts, 5000);
    });
 
    it('should allow login with high captcha scores', async function() {
@@ -270,7 +272,7 @@ describe('Login Component', () => {
          expect(container.getAttribute('data-session-id')).toBe(mockSessionId);
          
          // Verify no error message is shown
-         const errorElements = screen.queryByText(UIStrings.kLoginBlocked);
+         const errorElements = screen.queryByText(uiStrings.kLoginBlocked);
          expect(errorElements).toBeNull();
       }, { timeout: 5000 });
 

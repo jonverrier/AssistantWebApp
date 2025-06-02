@@ -122,15 +122,15 @@ export const Footer = (props: IFooterProps) => {
       <div ref={footerRef} className={styles.footerContainer}>
          <div className={styles.footerContent}>
             <Link
-               to="#"
+               to="/"
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
-                  handleLinkClick(config.homeAction, '/index');
+                  handleLinkClick(config.homeAction, '/');
                }}
             >{uiStrings.kHome}</Link>
             <Link
-               to="#"
+               to="/chat"
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
@@ -138,7 +138,7 @@ export const Footer = (props: IFooterProps) => {
                }}
             >{uiStrings.kChat}</Link>
             <Link
-               to="#"
+               to="/privacy"
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
@@ -146,7 +146,7 @@ export const Footer = (props: IFooterProps) => {
                }}
             >{uiStrings.kPrivacy}</Link>
             <Link
-               to="#"
+               to="/terms"
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();

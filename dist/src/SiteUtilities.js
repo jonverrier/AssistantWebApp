@@ -127,19 +127,19 @@ const Footer = (props) => {
     }, []);
     return (react_1.default.createElement("div", { ref: footerRef, className: styles.footerContainer },
         react_1.default.createElement("div", { className: styles.footerContent },
-            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
-                    handleLinkClick(config.homeAction, '/index');
+                    handleLinkClick(config.homeAction, '/');
                 } }, uiStrings.kHome),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/chat", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
                     handleLinkClick(config.aboutAction, '/chat');
                 } }, uiStrings.kChat),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
                     handleLinkClick(config.privacyAction, '/privacy');
                 } }, uiStrings.kPrivacy),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "#", className: linkClasses.centred, onClick: (e) => {
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
                     handleLinkClick(config.termsAction, '/terms');
                 } }, uiStrings.kTerms)),

@@ -6,7 +6,7 @@
 import { expect } from 'expect';
 import { axiosPostStub } from './setup';
 import { getSessionData } from '../src/SessionCall';
-import { EUserRole, ELoginProvider } from '../import/AssistantChatApiTypes';
+import { EUserRole, ELoginProvider, EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 describe('getSessionData', function() {
     afterEach(() => {
@@ -30,14 +30,15 @@ describe('getSessionData', function() {
             loginProvider: ELoginProvider.kGoogle
         };
 
-        const result = await getSessionData('http://test-api/session', userDetails);
+        const result = await getSessionData('http://test-api/session', userDetails, EAssistantPersonality.kDemoAssistant);
         
         expect(result?.sessionId).toBe(testUuid);
         expect(result?.role).toBe(EUserRole.kGuest);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[0]).toBe('http://test-api/session');
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            userDetails
+            userDetails,
+            personality: EAssistantPersonality.kDemoAssistant
         });
         expect(axiosPostStub.firstCall.args[2]).toEqual({
             headers: {
@@ -63,13 +64,14 @@ describe('getSessionData', function() {
             }
         });
 
-        const result = await getSessionData('http://test-api/session', userDetails);
+        const result = await getSessionData('http://test-api/session', userDetails, EAssistantPersonality.kDemoAssistant);
         
         expect(result?.sessionId).toBe(existingUuid);
         expect(result?.role).toBe(EUserRole.kMember);
         expect(axiosPostStub.calledOnce).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            userDetails
+            userDetails,
+            personality: EAssistantPersonality.kDemoAssistant
         });
     });
 
@@ -90,21 +92,23 @@ describe('getSessionData', function() {
         });
 
         // First call
-        const result1 = await getSessionData('http://test-api/session', userDetails);
+        const result1 = await getSessionData('http://test-api/session', userDetails, EAssistantPersonality.kDemoAssistant);
         expect(result1?.sessionId).toBe(emailBasedUuid);
         expect(result1?.role).toBe(EUserRole.kGuest);
         
         // Second call should return same UUID
-        const result2 = await getSessionData('http://test-api/session', userDetails);
+        const result2 = await getSessionData('http://test-api/session', userDetails, EAssistantPersonality.kDemoAssistant);
         expect(result2?.sessionId).toBe(emailBasedUuid);
         expect(result2?.role).toBe(EUserRole.kGuest);
         
         expect(axiosPostStub.calledTwice).toBe(true);
         expect(axiosPostStub.firstCall.args[1]).toEqual({
-            userDetails
+            userDetails,
+            personality: EAssistantPersonality.kDemoAssistant
         });
         expect(axiosPostStub.secondCall.args[1]).toEqual({
-            userDetails
+            userDetails,
+            personality: EAssistantPersonality.kDemoAssistant
         });
     });
 
@@ -120,7 +124,7 @@ describe('getSessionData', function() {
             data: {}
         });
 
-        const result = await getSessionData('http://test-api/session', userDetails);
+        const result = await getSessionData('http://test-api/session', userDetails, EAssistantPersonality.kDemoAssistant);
         
         expect(result).toBeUndefined();
     });
@@ -135,7 +139,7 @@ describe('getSessionData', function() {
 
         axiosPostStub.rejects(new Error('Network error'));
 
-        const result = await getSessionData('http://test-api/session', userDetails);
+        const result = await getSessionData('http://test-api/session', userDetails, EAssistantPersonality.kDemoAssistant);
         
         expect(result).toBeUndefined();
     });

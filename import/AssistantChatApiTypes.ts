@@ -67,8 +67,10 @@ export interface IAssistantCaptchaResponse {
 
 /**
  * A request for a new session, optionally populated with the existing session ID.
+ * TODO - remove optionality when clear on way forward with TheYard
  */
 export interface ISessionRequest {
+   personality?: EAssistantPersonality;
    userDetails?: IUserDetails;
    sessionId?: string;
 }

@@ -41,6 +41,7 @@ describe(`RoutedSite Component`, () => {
 
 describe(`Site Component`, () => {
    const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
+   let homePageTitle = 'Welcome to Strong AI';
    let mockStorage: MockStorage;
 
    beforeEach(() => {
@@ -51,7 +52,7 @@ describe(`Site Component`, () => {
       mockStorage.clear();
    });
 
-   it('renders App component for root path', () => {
+   it('renders Home component for root path', () => {
       render(
          <UserProvider storage={mockStorage}>
             <MemoryRouter initialEntries={['/']}>
@@ -61,11 +62,11 @@ describe(`Site Component`, () => {
       );
 
       // Since App is rendered, we should see its content
-      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
+      const privacyTitle = screen.getByText(homePageTitle);
       expect(privacyTitle).toBeTruthy();
    });
 
-   it('renders App component for /index path', () => {
+   it('renders Home component for /index path', () => {
       render(
          <UserProvider storage={mockStorage}>
             <MemoryRouter initialEntries={['/index']}>
@@ -74,11 +75,11 @@ describe(`Site Component`, () => {
          </UserProvider>
       );
 
-      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-      expect(privacyTitle).toBeTruthy();
+      const homeTitle = screen.getByText(homePageTitle);
+      expect(homeTitle).toBeTruthy();
    });
 
-   it('renders App component for /index.html path', () => {
+   it('renders Home component for /index.html path', () => {
       render(
          <UserProvider storage={mockStorage}>
             <MemoryRouter initialEntries={['/index.html']}>
@@ -87,8 +88,8 @@ describe(`Site Component`, () => {
          </UserProvider>
       );
 
-      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-      expect(privacyTitle).toBeTruthy();
+      const homeTitle = screen.getByText(homePageTitle);
+      expect(homeTitle).toBeTruthy();
    });
 
    it('renders PlainText component for /privacy path', () => {
@@ -143,19 +144,6 @@ describe(`Site Component`, () => {
       expect(termsTitle).toBeTruthy();
    });
 
-   it('renders PlainText component for /about path', () => {
-      render(
-         <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/about']}>
-               <Site />
-            </MemoryRouter>
-         </UserProvider>
-      );
-
-      const aboutTitle = screen.getByText(uiStrings.kAboutTitle);
-      expect(aboutTitle).toBeTruthy();
-   });
-
    it('handles unknown routes gracefully', () => {
       render(
          <UserProvider storage={mockStorage}>
@@ -166,7 +154,7 @@ describe(`Site Component`, () => {
       );
 
       // Should default to App component for unknown routes
-      const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-      expect(privacyTitle).toBeTruthy();
+      const homeTitle = screen.getByText(homePageTitle);
+      expect(homeTitle).toBeTruthy();
    });
 });

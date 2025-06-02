@@ -43,7 +43,7 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       return storedRole ? storedRole as EUserRole : undefined;
    });
    const [personality, setPersonality] = useState<EAssistantPersonality | undefined>(
-      EAssistantPersonality.kDemoAssistant
+      undefined
    );
 
    // Persist state changes to storage

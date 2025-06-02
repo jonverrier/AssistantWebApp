@@ -68,7 +68,6 @@ const RoutedSite = (props) => {
                 react_1.default.createElement(exports.Site, null)))));
 };
 exports.RoutedSite = RoutedSite;
-const DEFAULT_PERSONALITY = AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant;
 const PersonalityRedirect = ({ personality, to }) => {
     const { setPersonality } = (0, UserContext_1.useUser)();
     (0, react_1.useEffect)(() => {
@@ -102,11 +101,11 @@ const Site = (props) => {
         },
         {
             path: '/chat',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: personality ? react_1.default.createElement(Login_1.Login, { personality: personality }) : react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
         },
         {
             path: '/chat.html',
-            element: react_1.default.createElement(Login_1.Login, { personality: personality ?? DEFAULT_PERSONALITY })
+            element: personality ? react_1.default.createElement(Login_1.Login, { personality: personality }) : react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
         },
         {
             path: '/theyard',
