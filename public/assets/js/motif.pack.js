@@ -61238,9 +61238,9 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
   var init_AboutContent = __esm({
     "src/AboutContent.ts"() {
       "use strict";
-      kAboutContent = `CrossFit works. Functional fitness works. Coached classes, varied movement, strength and conditioning, and a real sense of community \u2014 it works. And right now, there\u2019s never been a greater need for what small, independent gym owners deliver: real results, grounded in real relationships. But let\u2019s be honest \u2014 it\u2019s a zoo out there. Influencers, workout apps, and big-box gyms are shouting the loudest, often selling quick fixes that turn out to be mirages. Meanwhile, they\u2019re driving down prices and making it harder for the real thing to stand out.
-That\u2019s where Strong AI Technologies comes in. We help small gym owners compete \u2014 and thrive \u2014 by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. From answering FAQs and streamlining onboarding to offering nutrition support, accessory work, and personalised guidance for more experienced members, our AI solutions will extend your care, your knowledge, and your values into every part of a member\u2019s journey. The more members interact, the smarter the system gets \u2014 offering tailored advice imbued with the spirit and values of your gym. We\u2019re here to help you scale your impact, not your screen time \u2014 and keep the heart of your gym exactly where it belongs: in your community.
-Be one of the first gyms in London with your own AI assistant.
+      kAboutContent = `CrossFit works. Community works. Real coaching works. And let\u2019s be honest \u2014 the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. All noise, less substance, and hard for the real thing to be seen.
+Strong AI Technologies gives small, mighty gyms a tech edge \u2014 smart, friendly AI that helps with FAQs, onboarding, nutrition tips, accessory programming, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: actual humans.
+Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
 `;
     }
   });
