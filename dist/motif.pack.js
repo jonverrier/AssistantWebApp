@@ -61238,7 +61238,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
   var init_AboutContent = __esm({
     "src/AboutContent.ts"() {
       "use strict";
-      kAboutContent = `CrossFit works. Community works. Real coaching works. And let\u2019s be honest \u2014 the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. All noise, less substance, and hard for the real thing to be seen.
+      kAboutContent = `CrossFit works. Community works. Real coaching works. And let\u2019s be honest \u2014 the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. Noise, not substance, and hard for the real thing to stand out.
 Strong AI Technologies gives small, mighty gyms a tech edge \u2014 smart, friendly AI that helps with FAQs, onboarding, nutrition tips, accessory programming, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: actual humans.
 Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
 `;
