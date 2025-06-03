@@ -125,15 +125,15 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Home title={uiStrings.kHomeTitle} content={kAboutContent} />
+         element: <Home title={uiStrings.kHomeTitle} content={undefined} launchButton={true} />
       },
       {
-         path: '/chat',
-         element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
+         path: '/about',
+         element: <Home title={uiStrings.kAboutTitle} content={kAboutContent} launchButton={false} />
       },
       {
-         path: '/chat.html',
-         element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
+         path: '/about.html',
+         element: <Home title={uiStrings.kAboutTitle} content={kAboutContent} launchButton={false} />
       },
       {
          path: '/theyard',
@@ -164,6 +164,10 @@ export const Site = (props: ISiteProps) => {
          />
       },
       {
+         path: '/chat',
+         element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
+      },
+      {
          path: '/privacy',
          element: <PlainText title={uiStrings.kPrivacyTitle} content={kPrivacyContent} />
       },
@@ -181,7 +185,7 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <Home title={uiStrings.kHomeTitle} content={kAboutContent} />
+         element: <Navigate to="/" replace />
       }
    ]);
 

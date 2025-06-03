@@ -12,19 +12,18 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { Text, Image, Button } from '@fluentui/react-components';
-import { standardTextStyles } from './CommonStyles';
 import { Spacer, Footer, ESpacerSize } from './SiteUtilities';
 import { PlainTextParagraphs, PlainTextAlignment } from './PlainTextParagraphs';
 
 export interface HomeProps {
    title: string;
-   content: string;
+   launchButton: boolean;
+   content: string | undefined;
 }
 
 export const Home = (props: HomeProps) => {
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
-   const textClasses = standardTextStyles();
    const navigate = useNavigate();
 
    return (
@@ -45,23 +44,32 @@ export const Home = (props: HomeProps) => {
                      textAlign: 'center' 
                   }}
                >
-                  Welcome to Strong AI
+                  {props.title}
                </Text>
                <Spacer size={ESpacerSize.kLarge} />
-               <Button 
-                  appearance="primary"
-                  size="large"
-                  style={{ 
-                     fontSize: '1.2rem',
-                     padding: '16px 32px'
-                  }}
-                  onClick={() => navigate('/theyard')}
-               >
-                  The Yard, Peckham ...
-               </Button>
-               <Spacer size={ESpacerSize.kLarge} />
-               <PlainTextParagraphs content={props.content} alignment={PlainTextAlignment.kLeft} />
-               <Spacer size={ESpacerSize.kXLarge} />                                        
+               {props.launchButton && (
+                  <>
+                     <Button
+                        appearance="primary"
+                        size="large"
+                        style={{
+                           fontSize: '1.2rem',
+                           padding: '16px 32px'
+                        }}
+                        onClick={() => navigate('/theyard')}
+                     >
+                        The Yard, Peckham ...
+                     </Button>
+                     <Spacer size={ESpacerSize.kLarge} />
+                  </>
+               )}
+               {props.content && (
+                  <>
+
+                     <PlainTextParagraphs content={props.content} alignment={PlainTextAlignment.kLeft} />
+                     <Spacer size={ESpacerSize.kXLarge} />  
+                  </>
+               )}
             </div>
             <Footer />
          </div>

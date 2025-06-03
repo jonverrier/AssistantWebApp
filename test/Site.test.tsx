@@ -41,7 +41,6 @@ describe(`RoutedSite Component`, () => {
 
 describe(`Site Component`, () => {
    const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
-   let homePageTitle = 'Welcome to Strong AI';
    let mockStorage: MockStorage;
 
    beforeEach(() => {
@@ -52,7 +51,7 @@ describe(`Site Component`, () => {
       mockStorage.clear();
    });
 
-   it('renders Home component for root path', () => {
+   it('renders Home component with launch button for root path', () => {
       render(
          <UserProvider storage={mockStorage}>
             <MemoryRouter initialEntries={['/']}>
@@ -61,35 +60,42 @@ describe(`Site Component`, () => {
          </UserProvider>
       );
 
-      // Since App is rendered, we should see its content
-      const privacyTitle = screen.getByText(homePageTitle);
-      expect(privacyTitle).toBeTruthy();
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const launchButton = screen.getByText(/The Yard, Peckham/i);
+      expect(title).toBeTruthy();
+      expect(launchButton).toBeTruthy();
    });
 
-   it('renders Home component for /index path', () => {
+   it('renders About component with content but no launch button', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/index']}>
+            <MemoryRouter initialEntries={['/about']}>
                <Site />
             </MemoryRouter>
          </UserProvider>
       );
 
-      const homeTitle = screen.getByText(homePageTitle);
-      expect(homeTitle).toBeTruthy();
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const content = screen.getByText(/CrossFit works/i);
+      expect(title).toBeTruthy();
+      expect(content).toBeTruthy();
+      expect(screen.queryByText(/The Yard, Peckham/i)).toBeNull();
    });
 
-   it('renders Home component for /index.html path', () => {
+   it('renders About component for /about.html path', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/index.html']}>
+            <MemoryRouter initialEntries={['/about.html']}>
                <Site />
             </MemoryRouter>
          </UserProvider>
       );
 
-      const homeTitle = screen.getByText(homePageTitle);
-      expect(homeTitle).toBeTruthy();
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const content = screen.getByText(/CrossFit works/i);
+      expect(title).toBeTruthy();
+      expect(content).toBeTruthy();
+      expect(screen.queryByText(/The Yard, Peckham/i)).toBeNull();
    });
 
    it('renders PlainText component for /privacy path', () => {
@@ -153,8 +159,10 @@ describe(`Site Component`, () => {
          </UserProvider>
       );
 
-      // Should default to App component for unknown routes
-      const homeTitle = screen.getByText(homePageTitle);
-      expect(homeTitle).toBeTruthy();
+      // Should redirect to home page with launch button
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const launchButton = screen.getByText(/The Yard, Peckham/i);
+      expect(title).toBeTruthy();
+      expect(launchButton).toBeTruthy();
    });
 });

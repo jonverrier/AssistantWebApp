@@ -45888,10 +45888,12 @@ You can check this by searching up for matching entries in a lockfile produced b
         kError: "Error.",
         kSuccess: "Success.",
         kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
-        kHomeTitle: "Strong AI Technologies",
+        kHomeTitle: "Welcome to Strong AI",
+        kAboutTitle: "Welcome to Strong AI",
         kPrivacyTitle: "Privacy Policy",
         kTermsTitle: "Terms of Service",
         kHome: "Home",
+        kAbout: "About",
         kPrivacy: "Privacy",
         kTerms: "Terms",
         kChat: "Chat",
@@ -49120,6 +49122,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       CommonConfigStrings = {
         googleCaptchaClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
         loginAction: "login",
+        chatAction: "chat",
         termsAction: "terms",
         privacyAction: "privacy",
         homeAction: "home",
@@ -49345,7 +49348,6 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_lib23();
       init_captcha();
       init_ConfigStrings();
-      init_AssistantChatApiTypes();
       init_UserContext();
       MOBILE_BREAKPOINT = 512;
       useFooterStyles = makeStyles2({
@@ -49365,6 +49367,11 @@ You can check this by searching up for matching entries in a lockfile produced b
             alignItems: "center",
             gap: "12px"
           }
+        },
+        disabledLink: {
+          opacity: 0.5,
+          pointerEvents: "none",
+          cursor: "not-allowed"
         }
       });
       Header = ({ title }) => {
@@ -49393,8 +49400,8 @@ You can check this by searching up for matching entries in a lockfile produced b
       };
       Footer = (props) => {
         const user = useUser();
-        const personality = user?.personality ?? "DemoAssistant" /* kDemoAssistant */;
-        const uiStrings = getUIStrings(personality);
+        const personality = user?.personality;
+        const uiStrings = getCommonUIStrings();
         const linkClasses = standardLinkStyles();
         const styles = useFooterStyles();
         const footerRef = (0, import_react29.useRef)(null);
@@ -49431,10 +49438,12 @@ You can check this by searching up for matching entries in a lockfile produced b
           Link,
           {
             to: "/chat",
-            className: linkClasses.centred,
+            className: `${linkClasses.centred} ${!personality ? styles.disabledLink : ""}`,
             onClick: (e) => {
               e.preventDefault();
-              handleLinkClick(config.aboutAction, "/chat");
+              if (personality) {
+                handleLinkClick(config.chatAction, "/chat");
+              }
             }
           },
           uiStrings.kChat
@@ -49460,6 +49469,17 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kTerms
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/about",
+            className: linkClasses.centred,
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.aboutAction, "/about");
+            }
+          },
+          uiStrings.kAbout
         )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
       };
     }
@@ -60993,13 +61013,11 @@ ${message.content}
       init_dist2();
       init_OuterStyles();
       init_lib23();
-      init_CommonStyles();
       init_SiteUtilities();
       init_PlainTextParagraphs();
       Home2 = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
-        const textClasses = standardTextStyles();
         const navigate = useNavigate();
         return /* @__PURE__ */ import_react37.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /* @__PURE__ */ import_react37.default.createElement(
           Image,
@@ -61018,8 +61036,8 @@ ${message.content}
               textAlign: "center"
             }
           },
-          "Welcome to Strong AI"
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(
+          props.title
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61031,7 +61049,7 @@ ${message.content}
             onClick: () => navigate("/theyard")
           },
           "The Yard, Peckham ..."
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 32 /* kXLarge */ })), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 32 /* kXLarge */ }))), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
       };
     }
   });
@@ -61239,7 +61257,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
     "src/AboutContent.ts"() {
       "use strict";
       kAboutContent = `CrossFit works. Community works. Real coaching works. And the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. Noise, not substance, and hard for the real thing to stand out.
-Strong AI Technologies gives small, mighty gyms a tech edge \u2014 smart, friendly AI that helps with FAQs, onboarding, nutrition tips, accessory programming, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: actual humans.
+Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI that helps with FAQs, onboarding, nutrition tips, accessory programming, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: building stronger humans.
 Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
 `;
     }
@@ -61299,15 +61317,15 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: void 0, launchButton: true })
           },
           {
-            path: "/chat",
-            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
+            path: "/about",
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
           },
           {
-            path: "/chat.html",
-            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
+            path: "/about.html",
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
           },
           {
             path: "/theyard",
@@ -61350,6 +61368,10 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
             )
           },
           {
+            path: "/chat",
+            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
+          },
+          {
             path: "/privacy",
             element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
@@ -61367,7 +61389,7 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: kAboutContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
           }
         ]);
         return routes;

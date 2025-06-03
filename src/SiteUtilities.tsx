@@ -8,7 +8,7 @@
 import React, { useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { standardLinkStyles, standardTextStyles } from './CommonStyles';
-import { getUIStrings } from './UIStrings';
+import { getCommonUIStrings, getUIStrings } from './UIStrings';
 import { makeStyles, shorthands, Text, Image } from '@fluentui/react-components';
 import { executeReCaptcha } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
@@ -35,6 +35,11 @@ const useFooterStyles = makeStyles({
          gap: '12px',
       },
    },
+   disabledLink: {
+      opacity: 0.5,
+      pointerEvents: 'none',
+      cursor: 'not-allowed'
+   }
 });
 
 export interface IHeaderProps {
@@ -88,8 +93,8 @@ export interface IFooterProps {
 
 export const Footer = (props: IFooterProps) => {
    const user = useUser();
-   const personality = user?.personality ?? EAssistantPersonality.kDemoAssistant;
-   const uiStrings = getUIStrings(personality);
+   const personality = user?.personality;
+   const uiStrings = getCommonUIStrings();
    const linkClasses = standardLinkStyles();
    const styles = useFooterStyles();
    const footerRef = useRef<HTMLDivElement>(null);
@@ -131,12 +136,14 @@ export const Footer = (props: IFooterProps) => {
             >{uiStrings.kHome}</Link>
             <Link
                to="/chat"
-               className={linkClasses.centred}
+               className={`${linkClasses.centred} ${!personality ? styles.disabledLink : ''}`}
                onClick={(e) => {
                   e.preventDefault();
-                  handleLinkClick(config.aboutAction, '/chat');
+                  if (personality) {
+                     handleLinkClick(config.chatAction, '/chat');
+                  }
                }}
-            >{uiStrings.kChat}</Link>
+            >{uiStrings.kChat}</Link>            
             <Link
                to="/privacy"
                className={linkClasses.centred}
@@ -153,6 +160,14 @@ export const Footer = (props: IFooterProps) => {
                   handleLinkClick(config.termsAction, '/terms');
                }}
             >{uiStrings.kTerms}</Link>
+            <Link
+               to="/about"
+               className={linkClasses.centred}
+               onClick={(e) => {
+                  e.preventDefault();
+                  handleLinkClick(config.aboutAction, '/about');
+               }}
+            >{uiStrings.kAbout}</Link>            
          </div>
          <div style={{ textAlign: 'center' }}>
             <Text className={textClasses.footer}>&copy; 2025 Strong AI Technologies Ltd</Text>

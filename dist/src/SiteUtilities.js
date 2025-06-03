@@ -47,7 +47,6 @@ const UIStrings_1 = require("./UIStrings");
 const react_components_1 = require("@fluentui/react-components");
 const captcha_1 = require("./captcha");
 const ConfigStrings_1 = require("./ConfigStrings");
-const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 const UserContext_1 = require("./UserContext");
 const MOBILE_BREAKPOINT = 512;
 const useFooterStyles = (0, react_components_1.makeStyles)({
@@ -68,6 +67,11 @@ const useFooterStyles = (0, react_components_1.makeStyles)({
             gap: '12px',
         },
     },
+    disabledLink: {
+        opacity: 0.5,
+        pointerEvents: 'none',
+        cursor: 'not-allowed'
+    }
 });
 const Header = ({ title }) => {
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
@@ -100,8 +104,8 @@ const Spacer = (props) => {
 exports.Spacer = Spacer;
 const Footer = (props) => {
     const user = (0, UserContext_1.useUser)();
-    const personality = user?.personality ?? AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant;
-    const uiStrings = (0, UIStrings_1.getUIStrings)(personality);
+    const personality = user?.personality;
+    const uiStrings = (0, UIStrings_1.getCommonUIStrings)();
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const styles = useFooterStyles();
     const footerRef = (0, react_1.useRef)(null);
@@ -131,9 +135,11 @@ const Footer = (props) => {
                     e.preventDefault();
                     handleLinkClick(config.homeAction, '/');
                 } }, uiStrings.kHome),
-            react_1.default.createElement(react_router_dom_1.Link, { to: "/chat", className: linkClasses.centred, onClick: (e) => {
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/chat", className: `${linkClasses.centred} ${!personality ? styles.disabledLink : ''}`, onClick: (e) => {
                     e.preventDefault();
-                    handleLinkClick(config.aboutAction, '/chat');
+                    if (personality) {
+                        handleLinkClick(config.chatAction, '/chat');
+                    }
                 } }, uiStrings.kChat),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
@@ -142,7 +148,11 @@ const Footer = (props) => {
             react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
                     handleLinkClick(config.termsAction, '/terms');
-                } }, uiStrings.kTerms)),
+                } }, uiStrings.kTerms),
+            react_1.default.createElement(react_router_dom_1.Link, { to: "/about", className: linkClasses.centred, onClick: (e) => {
+                    e.preventDefault();
+                    handleLinkClick(config.aboutAction, '/about');
+                } }, uiStrings.kAbout)),
         react_1.default.createElement("div", { style: { textAlign: 'center' } },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.footer }, "\u00A9 2025 Strong AI Technologies Ltd"))));
 };

@@ -44,25 +44,29 @@ describe('SiteUtilities', () => {
         it('should render all navigation links', () => {
             renderFooter();
             
-            const homeLink = screen.getByText(uiStrings.kHome);
+            const homeLink = screen.getByText(uiStrings.kChat);
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
+            const aboutLink = screen.getByText(uiStrings.kAbout);
 
             expect(homeLink).toBeTruthy();
             expect(privacyLink).toBeTruthy();
             expect(termsLink).toBeTruthy();
+            expect(aboutLink).toBeTruthy();
         });
 
         it('should have correct href attributes for links', () => {
             renderFooter();
             
-            const homeLink = screen.getByText(uiStrings.kHome);
+            const homeLink = screen.getByText(uiStrings.kChat);
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
+            const aboutLink = screen.getByText(uiStrings.kAbout);
 
             expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
+            expect(aboutLink.getAttribute('href')).toBe('/about');
         });
 
         it('should apply mobile styles when window width is below breakpoint', () => {
@@ -75,13 +79,15 @@ describe('SiteUtilities', () => {
 
             const { container } = renderFooter();
 
-            const homeLink = screen.getByText(uiStrings.kHome);
+            const homeLink = screen.getByText(uiStrings.kChat);
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
+            const aboutLink = screen.getByText(uiStrings.kAbout);
 
             expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
+            expect(aboutLink.getAttribute('href')).toBe('/about');
         });
 
         it('should apply desktop styles when window width is above breakpoint', () => {
@@ -94,13 +100,15 @@ describe('SiteUtilities', () => {
 
             const { container } = renderFooter();
             
-            const homeLink = screen.getByText(uiStrings.kHome);
+            const homeLink = screen.getByText(uiStrings.kChat);
             const privacyLink = screen.getByText(uiStrings.kPrivacy);
             const termsLink = screen.getByText(uiStrings.kTerms);
+            const aboutLink = screen.getByText(uiStrings.kAbout);
 
             expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
+            expect(aboutLink.getAttribute('href')).toBe('/about');
         });
     });
 }); 

@@ -12,6 +12,7 @@ import { isAppInLocalhost } from './LocalStorage';
 export interface ICommonConfigStrings {
    googleCaptchaClientId: string;
    loginAction: string;
+   chatAction: string;
    termsAction: string;
    privacyAction: string;
    homeAction: string;
@@ -37,6 +38,7 @@ export type IConfigStrings = ICommonConfigStrings & IEnvironmentConfigStrings;
 const CommonConfigStrings: ICommonConfigStrings = {
    googleCaptchaClientId: '603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com',
    loginAction: 'login',
+   chatAction: 'chat',
    termsAction: 'terms',
    privacyAction: 'privacy',
    homeAction: 'home',

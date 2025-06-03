@@ -97,15 +97,15 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, content: AboutContent_1.kAboutContent })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, content: undefined, launchButton: true })
         },
         {
-            path: '/chat',
-            element: personality ? react_1.default.createElement(Login_1.Login, { personality: personality }) : react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
+            path: '/about',
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent, launchButton: false })
         },
         {
-            path: '/chat.html',
-            element: personality ? react_1.default.createElement(Login_1.Login, { personality: personality }) : react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
+            path: '/about.html',
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent, launchButton: false })
         },
         {
             path: '/theyard',
@@ -122,6 +122,10 @@ const Site = (props) => {
         {
             path: '/demo.html',
             element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/chat" })
+        },
+        {
+            path: '/chat',
+            element: personality ? react_1.default.createElement(Login_1.Login, { personality: personality }) : react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
         },
         {
             path: '/privacy',
@@ -141,7 +145,7 @@ const Site = (props) => {
         },
         {
             path: '*',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, content: AboutContent_1.kAboutContent })
+            element: react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
         }
     ]);
     return routes;
