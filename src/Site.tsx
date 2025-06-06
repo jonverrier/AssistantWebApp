@@ -150,6 +150,20 @@ export const Site = (props: ISiteProps) => {
          />
       },
       {
+         path: '/crank',
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kCrankAssistant} 
+            to="/chat" 
+         />
+      },
+      {
+         path: '/crank.html',
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kCrankAssistant} 
+            to="/chat" 
+         />
+      },
+      {
          path: '/demo',
          element: <PersonalityRedirect 
             personality={EAssistantPersonality.kDemoAssistant} 

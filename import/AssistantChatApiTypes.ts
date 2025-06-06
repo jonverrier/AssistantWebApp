@@ -15,6 +15,7 @@ import { IUserSessionSummary, IChatMessage, EModelProvider } from "prompt-reposi
  */
 export enum EAssistantPersonality {
    kTheYardAssistant = 'TheYardAssistant',
+   kCrankAssistant = 'CrankAssistant',   
    kDemoAssistant = 'DemoAssistant'
 }
 
