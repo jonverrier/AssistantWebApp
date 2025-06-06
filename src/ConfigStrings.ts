@@ -17,6 +17,7 @@ export interface ICommonConfigStrings {
    privacyAction: string;
    homeAction: string;
    aboutAction: string;
+   contactAction: string;
    reCaptchaSiteKey: string;
 }
 
@@ -43,6 +44,7 @@ const CommonConfigStrings: ICommonConfigStrings = {
    privacyAction: 'privacy',
    homeAction: 'home',
    aboutAction: 'about',
+   contactAction: 'contact',
    reCaptchaSiteKey: '6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3'
 };
 

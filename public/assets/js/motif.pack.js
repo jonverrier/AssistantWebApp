@@ -1098,7 +1098,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState14(initialState) {
+          function useState15(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1110,7 +1110,7 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect20(create, deps) {
+          function useEffect21(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1893,7 +1893,7 @@
           exports.useContext = useContext24;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect20;
+          exports.useEffect = useEffect21;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
@@ -1901,7 +1901,7 @@
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
           exports.useRef = useRef18;
-          exports.useState = useState14;
+          exports.useState = useState15;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -49127,6 +49127,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         privacyAction: "privacy",
         homeAction: "home",
         aboutAction: "about",
+        contactAction: "contact",
         reCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3"
       };
       LocalEnvironmentStrings = {
@@ -61016,10 +61017,23 @@ ${message.content}
       init_lib23();
       init_SiteUtilities();
       init_PlainTextParagraphs();
+      init_captcha();
+      init_ConfigStrings();
       Home2 = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const navigate = useNavigate();
+        const [isButtonDisabled, setIsButtonDisabled] = (0, import_react37.useState)(false);
+        (0, import_react37.useEffect)(() => {
+          const checkCaptcha = async () => {
+            const config = getConfigStrings();
+            const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
+            if (result.score && result.score < RECAPTCHA_THRESHOLD) {
+              setIsButtonDisabled(true);
+            }
+          };
+          checkCaptcha();
+        }, []);
         return /* @__PURE__ */ import_react37.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /* @__PURE__ */ import_react37.default.createElement(
           Image,
           {
@@ -61047,10 +61061,24 @@ ${message.content}
               fontSize: "1.2rem",
               padding: "16px 32px"
             },
-            onClick: () => navigate("/theyard")
+            onClick: () => navigate("/theyard"),
+            disabled: isButtonDisabled
           },
           "The Yard, Peckham ..."
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 32 /* kXLarge */ }))), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(
+          Button,
+          {
+            appearance: "primary",
+            size: "large",
+            style: {
+              fontSize: "1.2rem",
+              padding: "16px 32px"
+            },
+            onClick: () => window.open("mailto:infostrongai@gmail.com", "_blank"),
+            disabled: isButtonDisabled
+          },
+          "Contact us ..."
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }))), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
       };
     }
   });
