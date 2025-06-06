@@ -102,6 +102,16 @@ export const TheYardBrandStrings: IBrandUIStrings = {
    kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
 }
 
+export const CrankBrandStrings: IBrandUIStrings = {
+   kAppPageCaption: "CrankBot",
+   kAppPageStrapline: "Fitness answers, no fluff.",
+   kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'CrankBot' chatbot; your online training assistant here to answer fitness-related questions, chat about getting strong, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
+   kLinks: "",
+   kChatPreamble: "Chat to the CrankBot AI by typing your question in the box below. Don't share private information.",
+   kChatPlaceholder: "Let's talk about fitness...",
+   kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+}
+
 export const DemoBrandStrings: IBrandUIStrings = {
    kAppPageCaption: "Strong AI Demo",
    kAppPageStrapline: "Strong and Intelligent.",
@@ -123,6 +133,11 @@ const DemoUIString: IUIStrings = {
    ...DemoBrandStrings
 }
 
+const CrankUIString: IUIStrings = {
+   ...CommonUIStrings,
+   ...CrankBrandStrings
+}
+
 // Function to get common UI strings 
 export function getCommonUIStrings(): ICommonUIStrings {
    return CommonUIStrings;
@@ -133,6 +148,8 @@ export function getUIStrings(mode: EAssistantPersonality): IUIStrings {
    switch (mode) {
       case EAssistantPersonality.kTheYardAssistant:
          return TheYardUIString;
+      case EAssistantPersonality.kCrankAssistant:
+         return CrankUIString;
       case EAssistantPersonality.kDemoAssistant:
          return DemoUIString;
       default:

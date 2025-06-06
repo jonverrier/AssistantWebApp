@@ -116,6 +116,14 @@ const Site = (props) => {
             element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant, to: "/chat" })
         },
         {
+            path: '/crank',
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kCrankAssistant, to: "/chat" })
+        },
+        {
+            path: '/crank.html',
+            element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kCrankAssistant, to: "/chat" })
+        },
+        {
             path: '/demo',
             element: react_1.default.createElement(PersonalityRedirect, { personality: AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant, to: "/chat" })
         },

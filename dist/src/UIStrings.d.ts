@@ -54,6 +54,7 @@ export interface IBrandUIStrings {
 export type IUIStrings = ICommonUIStrings & IBrandUIStrings;
 export declare const CommonUIStrings: ICommonUIStrings;
 export declare const TheYardBrandStrings: IBrandUIStrings;
+export declare const CrankBrandStrings: IBrandUIStrings;
 export declare const DemoBrandStrings: IBrandUIStrings;
 export declare function getCommonUIStrings(): ICommonUIStrings;
 export declare function getUIStrings(mode: EAssistantPersonality): IUIStrings;

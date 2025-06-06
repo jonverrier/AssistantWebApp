@@ -985,7 +985,7 @@
             }
             return lazyType;
           }
-          function forwardRef20(render) {
+          function forwardRef21(render) {
             {
               if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
                 error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1883,7 +1883,7 @@
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef3;
-          exports.forwardRef = forwardRef20;
+          exports.forwardRef = forwardRef21;
           exports.isValidElement = isValidElement5;
           exports.lazy = lazy;
           exports.memo = memo2;
@@ -2397,9 +2397,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React106 = require_react();
+          var React108 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React106.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React108.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React106.Children.forEach(props.children, function(child) {
+                  React108.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -30364,7 +30364,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React106 = require_react();
+          var React108 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30390,7 +30390,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React106.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React108.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -42290,6 +42290,9 @@ You can check this by searching up for matching entries in a lockfile produced b
   var init_Text2 = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/index.js"() {
       init_Text();
+      init_renderText();
+      init_useText();
+      init_useTextStyles_styles();
     }
   });
 
@@ -42300,10 +42303,84 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // node_modules/@fluentui/react-text/lib/components/presets/createPreset.js
+  function createPreset(options) {
+    const { useStyles: useStyles12, className, displayName } = options;
+    const Wrapper = React67.forwardRef((props, ref) => {
+      "use no memo";
+      const styles = useStyles12();
+      const state = useText_unstable(props, ref);
+      useTextStyles_unstable(state);
+      state.root.className = mergeClasses(className, state.root.className, styles.root, props.className);
+      return renderText_unstable(state);
+    });
+    Wrapper.displayName = displayName;
+    return Wrapper;
+  }
+  var React67;
+  var init_createPreset = __esm({
+    "node_modules/@fluentui/react-text/lib/components/presets/createPreset.js"() {
+      React67 = __toESM(require_react());
+      init_index_esm2();
+      init_Text2();
+    }
+  });
+
+  // node_modules/@fluentui/react-text/lib/components/presets/LargeTitle/useLargeTitleStyles.styles.js
+  var largeTitleClassNames, useLargeTitleStyles;
+  var init_useLargeTitleStyles_styles = __esm({
+    "node_modules/@fluentui/react-text/lib/components/presets/LargeTitle/useLargeTitleStyles.styles.js"() {
+      init_index_esm2();
+      largeTitleClassNames = {
+        root: "fui-LargeTitle"
+      };
+      useLargeTitleStyles = /* @__PURE__ */ __styles2({
+        root: {
+          Bahqtrf: "fk6fouc",
+          Be2twd7: "f15afnhw",
+          Bhrd7zp: "fl43uef",
+          Bg96gwp: "fr3w3wp"
+        }
+      }, {
+        d: [".fk6fouc{font-family:var(--fontFamilyBase);}", ".f15afnhw{font-size:var(--fontSizeHero900);}", ".fl43uef{font-weight:var(--fontWeightSemibold);}", ".fr3w3wp{line-height:var(--lineHeightHero900);}"]
+      });
+    }
+  });
+
+  // node_modules/@fluentui/react-text/lib/components/presets/LargeTitle/LargeTitle.js
+  var React68, LargeTitle;
+  var init_LargeTitle = __esm({
+    "node_modules/@fluentui/react-text/lib/components/presets/LargeTitle/LargeTitle.js"() {
+      React68 = __toESM(require_react());
+      init_createPreset();
+      init_useLargeTitleStyles_styles();
+      LargeTitle = createPreset({
+        useStyles: useLargeTitleStyles,
+        className: largeTitleClassNames.root,
+        displayName: "LargeTitle"
+      });
+    }
+  });
+
+  // node_modules/@fluentui/react-text/lib/components/presets/LargeTitle/index.js
+  var init_LargeTitle2 = __esm({
+    "node_modules/@fluentui/react-text/lib/components/presets/LargeTitle/index.js"() {
+      init_LargeTitle();
+    }
+  });
+
+  // node_modules/@fluentui/react-text/lib/LargeTitle.js
+  var init_LargeTitle3 = __esm({
+    "node_modules/@fluentui/react-text/lib/LargeTitle.js"() {
+      init_LargeTitle2();
+    }
+  });
+
   // node_modules/@fluentui/react-text/lib/index.js
   var init_lib19 = __esm({
     "node_modules/@fluentui/react-text/lib/index.js"() {
       init_Text3();
+      init_LargeTitle3();
     }
   });
 
@@ -42323,10 +42400,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js
-  var React67, useTextarea_unstable;
+  var React69, useTextarea_unstable;
   var init_useTextarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js"() {
-      React67 = __toESM(require_react());
+      React69 = __toESM(require_react());
       init_lib15();
       init_lib2();
       init_lib();
@@ -42786,15 +42863,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js
-  var React68, Textarea;
+  var React70, Textarea;
   var init_Textarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js"() {
-      React68 = __toESM(require_react());
+      React70 = __toESM(require_react());
       init_renderTextarea();
       init_useTextarea();
       init_useTextareaStyles_styles();
       init_lib();
-      Textarea = /* @__PURE__ */ React68.forwardRef((props, ref) => {
+      Textarea = /* @__PURE__ */ React70.forwardRef((props, ref) => {
         const state = useTextarea_unstable(props, ref);
         useTextareaStyles_unstable(state);
         useCustomStyleHook("useTextareaStyles_unstable")(state);
@@ -42826,10 +42903,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js
-  var React69, useToolbar_unstable, useToolbarSelectableState;
+  var React71, useToolbar_unstable, useToolbarSelectableState;
   var init_useToolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js"() {
-      React69 = __toESM(require_react());
+      React71 = __toESM(require_react());
       init_lib2();
       init_lib5();
       useToolbar_unstable = (props, ref) => {
@@ -43048,16 +43125,16 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js
-  var React70, Toolbar;
+  var React72, Toolbar;
   var init_Toolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js"() {
-      React70 = __toESM(require_react());
+      React72 = __toESM(require_react());
       init_useToolbar();
       init_renderToolbar();
       init_useToolbarStyles_styles();
       init_useToolbarContextValues();
       init_lib();
-      Toolbar = /* @__PURE__ */ React70.forwardRef((props, ref) => {
+      Toolbar = /* @__PURE__ */ React72.forwardRef((props, ref) => {
         const state = useToolbar_unstable(props, ref);
         const contextValues = useToolbarContextValues_unstable(state);
         useToolbarStyles_unstable(state);
@@ -43118,10 +43195,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js
-  var React71, useToolbarButton_unstable;
+  var React73, useToolbarButton_unstable;
   var init_useToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js"() {
-      React71 = __toESM(require_react());
+      React73 = __toESM(require_react());
       init_lib13();
       useToolbarButton_unstable = (props, ref) => {
         const { vertical = false, ...buttonProps } = props;
@@ -43139,15 +43216,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js
-  var React72, ToolbarButton;
+  var React74, ToolbarButton;
   var init_ToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js"() {
-      React72 = __toESM(require_react());
+      React74 = __toESM(require_react());
       init_lib13();
       init_useToolbarButtonStyles_styles();
       init_useToolbarButton();
       init_lib();
-      ToolbarButton = /* @__PURE__ */ React72.forwardRef((props, ref) => {
+      ToolbarButton = /* @__PURE__ */ React74.forwardRef((props, ref) => {
         const state = useToolbarButton_unstable(props, ref);
         useToolbarButtonStyles_unstable(state);
         useCustomStyleHook("useToolbarButtonStyles_unstable")(state);
@@ -43183,21 +43260,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   function getIntentIcon(intent) {
     switch (intent) {
       case "info":
-        return /* @__PURE__ */ React73.createElement(InfoFilled, null);
+        return /* @__PURE__ */ React75.createElement(InfoFilled, null);
       case "warning":
-        return /* @__PURE__ */ React73.createElement(WarningFilled, null);
+        return /* @__PURE__ */ React75.createElement(WarningFilled, null);
       case "error":
-        return /* @__PURE__ */ React73.createElement(DismissCircleFilled, null);
+        return /* @__PURE__ */ React75.createElement(DismissCircleFilled, null);
       case "success":
-        return /* @__PURE__ */ React73.createElement(CheckmarkCircleFilled, null);
+        return /* @__PURE__ */ React75.createElement(CheckmarkCircleFilled, null);
       default:
         return null;
     }
   }
-  var React73;
+  var React75;
   var init_getIntentIcon = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/getIntentIcon.js"() {
-      React73 = __toESM(require_react());
+      React75 = __toESM(require_react());
       init_lib10();
     }
   });
@@ -43205,11 +43282,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js
   function useMessageBarReflow(enabled = false) {
     const { targetDocument } = useFluent();
-    const forceUpdate = React74.useReducer(() => ({}), {})[1];
-    const reflowingRef = React74.useRef(false);
-    const resizeObserverRef = React74.useRef(null);
-    const prevInlineSizeRef = React74.useRef(-1);
-    const handleResize = React74.useCallback((entries) => {
+    const forceUpdate = React76.useReducer(() => ({}), {})[1];
+    const reflowingRef = React76.useRef(false);
+    const resizeObserverRef = React76.useRef(null);
+    const prevInlineSizeRef = React76.useRef(-1);
+    const handleResize = React76.useCallback((entries) => {
       var _entry_borderBoxSize_, _entry_borderBoxSize;
       if (entries.length > 1) {
         console.error([
@@ -43247,7 +43324,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }, [
       forceUpdate
     ]);
-    const ref = React74.useCallback((el) => {
+    const ref = React76.useCallback((el) => {
       var _resizeObserverRef_current;
       if (!enabled || !el || !(targetDocument === null || targetDocument === void 0 ? void 0 : targetDocument.defaultView)) {
         return;
@@ -43264,7 +43341,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       handleResize,
       enabled
     ]);
-    React74.useEffect(() => {
+    React76.useEffect(() => {
       return () => {
         var _resizeObserverRef_current;
         (_resizeObserverRef_current = resizeObserverRef.current) === null || _resizeObserverRef_current === void 0 ? void 0 : _resizeObserverRef_current.disconnect();
@@ -43275,38 +43352,38 @@ You can check this by searching up for matching entries in a lockfile produced b
       reflowing: reflowingRef.current
     };
   }
-  var React74;
+  var React76;
   var init_useMessageBarReflow = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js"() {
-      React74 = __toESM(require_react());
+      React76 = __toESM(require_react());
       init_lib();
       init_lib2();
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js
-  var React75, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
+  var React77, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
   var init_messageBarTransitionContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js"() {
-      React75 = __toESM(require_react());
-      messageBarTransitionContext = React75.createContext(void 0);
+      React77 = __toESM(require_react());
+      messageBarTransitionContext = React77.createContext(void 0);
       messageBarTransitionContextDefaultValue = {
         className: "",
-        nodeRef: React75.createRef()
+        nodeRef: React77.createRef()
       };
       MessageBarTransitionContextProvider = messageBarTransitionContext.Provider;
       useMessageBarTransitionContext = () => {
         var _React_useContext;
-        return (_React_useContext = React75.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
+        return (_React_useContext = React77.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js
-  var React76, useMessageBar_unstable;
+  var React78, useMessageBar_unstable;
   var init_useMessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js"() {
-      React76 = __toESM(require_react());
+      React78 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_getIntentIcon();
@@ -43319,11 +43396,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         const { ref: reflowRef, reflowing } = useMessageBarReflow(autoReflow);
         const computedLayout = autoReflow ? reflowing ? "multiline" : "singleline" : layout;
         const { className: transitionClassName, nodeRef } = useMessageBarTransitionContext();
-        const actionsRef = React76.useRef(null);
-        const bodyRef = React76.useRef(null);
+        const actionsRef = React78.useRef(null);
+        const bodyRef = React78.useRef(null);
         const { announce } = useAnnounce();
         const titleId = useId2();
-        React76.useEffect(() => {
+        React78.useEffect(() => {
           var _bodyRef_current, _actionsRef_current;
           const bodyMessage = (_bodyRef_current = bodyRef.current) === null || _bodyRef_current === void 0 ? void 0 : _bodyRef_current.textContent;
           const actionsMessage = (_actionsRef_current = actionsRef.current) === null || _actionsRef_current === void 0 ? void 0 : _actionsRef_current.textContent;
@@ -43379,21 +43456,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js
-  var React77, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
+  var React79, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
   var init_messageBarContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js"() {
-      React77 = __toESM(require_react());
-      messageBarContext = React77.createContext(void 0);
+      React79 = __toESM(require_react());
+      messageBarContext = React79.createContext(void 0);
       messageBarContextDefaultValue = {
         titleId: "",
         layout: "singleline",
-        actionsRef: React77.createRef(),
-        bodyRef: React77.createRef()
+        actionsRef: React79.createRef(),
+        bodyRef: React79.createRef()
       };
       MessageBarContextProvider = messageBarContext.Provider;
       useMessageBarContext = () => {
         var _React_useContext;
-        return (_React_useContext = React77.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
+        return (_React_useContext = React79.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
       };
     }
   });
@@ -43523,7 +43600,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js
   function useMessageBarContextValue_unstable(state) {
     const { layout, actionsRef, bodyRef, titleId } = state;
-    const messageBarContext2 = React78.useMemo(() => ({
+    const messageBarContext2 = React80.useMemo(() => ({
       layout,
       actionsRef,
       bodyRef,
@@ -43538,24 +43615,24 @@ You can check this by searching up for matching entries in a lockfile produced b
       messageBar: messageBarContext2
     };
   }
-  var React78;
+  var React80;
   var init_useMessageBarContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js"() {
-      React78 = __toESM(require_react());
+      React80 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js
-  var React79, MessageBar;
+  var React81, MessageBar;
   var init_MessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js"() {
-      React79 = __toESM(require_react());
+      React81 = __toESM(require_react());
       init_lib();
       init_useMessageBar();
       init_renderMessageBar();
       init_useMessageBarStyles_styles();
       init_useMessageBarContextValues();
-      MessageBar = /* @__PURE__ */ React79.forwardRef((props, ref) => {
+      MessageBar = /* @__PURE__ */ React81.forwardRef((props, ref) => {
         const state = useMessageBar_unstable(props, ref);
         useMessageBarStyles_unstable(state);
         useCustomStyleHook("useMessageBarStyles_unstable")(state);
@@ -43580,10 +43657,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js
-  var React80, useMessageBarTitle_unstable;
+  var React82, useMessageBarTitle_unstable;
   var init_useMessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js"() {
-      React80 = __toESM(require_react());
+      React82 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarTitle_unstable = (props, ref) => {
@@ -43636,15 +43713,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js
-  var React81, MessageBarTitle;
+  var React83, MessageBarTitle;
   var init_MessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js"() {
-      React81 = __toESM(require_react());
+      React83 = __toESM(require_react());
       init_lib();
       init_useMessageBarTitle();
       init_renderMessageBarTitle();
       init_useMessageBarTitleStyles_styles();
-      MessageBarTitle = /* @__PURE__ */ React81.forwardRef((props, ref) => {
+      MessageBarTitle = /* @__PURE__ */ React83.forwardRef((props, ref) => {
         const state = useMessageBarTitle_unstable(props, ref);
         useMessageBarTitleStyles_unstable(state);
         useCustomStyleHook("useMessageBarTitleStyles_unstable")(state);
@@ -43669,10 +43746,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js
-  var React82, useMessageBarActions_unstable;
+  var React84, useMessageBarActions_unstable;
   var init_useMessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js"() {
-      React82 = __toESM(require_react());
+      React84 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarActions_unstable = (props, ref) => {
@@ -43769,31 +43846,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js
   function useMessageBarActionsContextValue_unstable() {
-    const buttonContext2 = React83.useMemo(() => ({
+    const buttonContext2 = React85.useMemo(() => ({
       size: "small"
     }), []);
     return {
       button: buttonContext2
     };
   }
-  var React83;
+  var React85;
   var init_useMessageBarActionsContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js"() {
-      React83 = __toESM(require_react());
+      React85 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js
-  var React84, MessageBarActions;
+  var React86, MessageBarActions;
   var init_MessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js"() {
-      React84 = __toESM(require_react());
+      React86 = __toESM(require_react());
       init_lib();
       init_useMessageBarActions();
       init_renderMessageBarActions();
       init_useMessageBarActionsStyles_styles();
       init_useMessageBarActionsContextValues();
-      MessageBarActions = /* @__PURE__ */ React84.forwardRef((props, ref) => {
+      MessageBarActions = /* @__PURE__ */ React86.forwardRef((props, ref) => {
         const state = useMessageBarActions_unstable(props, ref);
         useMessageBarActionsStyles_unstable(state);
         useCustomStyleHook("useMessageBarActionsStyles_unstable")(state);
@@ -43818,10 +43895,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js
-  var React85, useMessageBarBody_unstable;
+  var React87, useMessageBarBody_unstable;
   var init_useMessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js"() {
-      React85 = __toESM(require_react());
+      React87 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarBody_unstable = (props, ref) => {
@@ -43878,31 +43955,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js
   function useMessageBarBodyContextValues_unstable(state) {
-    const link = React86.useMemo(() => ({
+    const link = React88.useMemo(() => ({
       inline: true
     }), []);
     return {
       link
     };
   }
-  var React86;
+  var React88;
   var init_useMessageBarBodyContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js"() {
-      React86 = __toESM(require_react());
+      React88 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js
-  var React87, MessageBarBody;
+  var React89, MessageBarBody;
   var init_MessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js"() {
-      React87 = __toESM(require_react());
+      React89 = __toESM(require_react());
       init_lib();
       init_useMessageBarBody();
       init_renderMessageBarBody();
       init_useMessageBarBodyStyles_styles();
       init_useMessageBarBodyContextValues();
-      MessageBarBody = /* @__PURE__ */ React87.forwardRef((props, ref) => {
+      MessageBarBody = /* @__PURE__ */ React89.forwardRef((props, ref) => {
         const state = useMessageBarBody_unstable(props, ref);
         const ctx = useMessageBarBodyContextValues_unstable(state);
         useMessageBarBodyStyles_unstable(state);
@@ -43928,21 +44005,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js
-  var React88, useMessageBarGroup_unstable;
+  var React90, useMessageBarGroup_unstable;
   var init_useMessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js"() {
-      React88 = __toESM(require_react());
+      React90 = __toESM(require_react());
       init_lib2();
       useMessageBarGroup_unstable = (props, ref) => {
         if (true) {
-          React88.Children.forEach(props.children, (c) => {
-            if (!React88.isValidElement(c) || c.type === React88.Fragment) {
+          React90.Children.forEach(props.children, (c) => {
+            if (!React90.isValidElement(c) || c.type === React90.Fragment) {
               throw new Error("MessageBarGroup: children must be valid MessageBar components. Please ensure you're not using fragments. ");
             }
           });
         }
         var _props_children;
-        const children = React88.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React88.isValidElement(c) && c.type !== React88.Fragment ? c : null).filter(Boolean);
+        const children = React90.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React90.isValidElement(c) && c.type !== React90.Fragment ? c : null).filter(Boolean);
         var _props_animate;
         return {
           components: {
@@ -44827,11 +44904,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/react-transition-group/esm/TransitionGroupContext.js
-  var import_react21, TransitionGroupContext_default;
+  var import_react23, TransitionGroupContext_default;
   var init_TransitionGroupContext = __esm({
     "node_modules/react-transition-group/esm/TransitionGroupContext.js"() {
-      import_react21 = __toESM(require_react());
-      TransitionGroupContext_default = import_react21.default.createContext(null);
+      import_react23 = __toESM(require_react());
+      TransitionGroupContext_default = import_react23.default.createContext(null);
     }
   });
 
@@ -44848,13 +44925,13 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/Transition.js
   function noop3() {
   }
-  var import_prop_types2, import_react22, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
+  var import_prop_types2, import_react24, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
   var init_Transition = __esm({
     "node_modules/react-transition-group/esm/Transition.js"() {
       init_objectWithoutPropertiesLoose();
       init_inheritsLoose();
       import_prop_types2 = __toESM(require_prop_types());
-      import_react22 = __toESM(require_react());
+      import_react24 = __toESM(require_react());
       import_react_dom = __toESM(require_react_dom());
       init_config();
       init_PropTypes();
@@ -45067,13 +45144,13 @@ You can check this by searching up for matching entries in a lockfile produced b
           var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose2(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
           return (
             // allows for nested Transitions
-            /* @__PURE__ */ import_react22.default.createElement(TransitionGroupContext_default.Provider, {
+            /* @__PURE__ */ import_react24.default.createElement(TransitionGroupContext_default.Provider, {
               value: null
-            }, typeof children === "function" ? children(status, childProps) : import_react22.default.cloneElement(import_react22.default.Children.only(children), childProps))
+            }, typeof children === "function" ? children(status, childProps) : import_react24.default.cloneElement(import_react24.default.Children.only(children), childProps))
           );
         };
         return Transition2;
-      }(import_react22.default.Component);
+      }(import_react24.default.Component);
       Transition.contextType = TransitionGroupContext_default;
       Transition.propTypes = true ? {
         /**
@@ -45281,10 +45358,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/utils/ChildMapping.js
   function getChildMapping(children, mapFn) {
     var mapper = function mapper2(child) {
-      return mapFn && (0, import_react23.isValidElement)(child) ? mapFn(child) : child;
+      return mapFn && (0, import_react25.isValidElement)(child) ? mapFn(child) : child;
     };
     var result = /* @__PURE__ */ Object.create(null);
-    if (children) import_react23.Children.map(children, function(c) {
+    if (children) import_react25.Children.map(children, function(c) {
       return c;
     }).forEach(function(child) {
       result[child.key] = mapper(child);
@@ -45330,7 +45407,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   }
   function getInitialChildMapping(props, onExited) {
     return getChildMapping(props.children, function(child) {
-      return (0, import_react23.cloneElement)(child, {
+      return (0, import_react25.cloneElement)(child, {
         onExited: onExited.bind(null, child),
         in: true,
         appear: getProp(child, "appear", props),
@@ -45344,24 +45421,24 @@ You can check this by searching up for matching entries in a lockfile produced b
     var children = mergeChildMappings(prevChildMapping, nextChildMapping);
     Object.keys(children).forEach(function(key) {
       var child = children[key];
-      if (!(0, import_react23.isValidElement)(child)) return;
+      if (!(0, import_react25.isValidElement)(child)) return;
       var hasPrev = key in prevChildMapping;
       var hasNext = key in nextChildMapping;
       var prevChild = prevChildMapping[key];
-      var isLeaving = (0, import_react23.isValidElement)(prevChild) && !prevChild.props.in;
+      var isLeaving = (0, import_react25.isValidElement)(prevChild) && !prevChild.props.in;
       if (hasNext && (!hasPrev || isLeaving)) {
-        children[key] = (0, import_react23.cloneElement)(child, {
+        children[key] = (0, import_react25.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: true,
           exit: getProp(child, "exit", nextProps),
           enter: getProp(child, "enter", nextProps)
         });
       } else if (!hasNext && hasPrev && !isLeaving) {
-        children[key] = (0, import_react23.cloneElement)(child, {
+        children[key] = (0, import_react25.cloneElement)(child, {
           in: false
         });
-      } else if (hasNext && hasPrev && (0, import_react23.isValidElement)(prevChild)) {
-        children[key] = (0, import_react23.cloneElement)(child, {
+      } else if (hasNext && hasPrev && (0, import_react25.isValidElement)(prevChild)) {
+        children[key] = (0, import_react25.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: prevChild.props.in,
           exit: getProp(child, "exit", nextProps),
@@ -45371,15 +45448,15 @@ You can check this by searching up for matching entries in a lockfile produced b
     });
     return children;
   }
-  var import_react23;
+  var import_react25;
   var init_ChildMapping = __esm({
     "node_modules/react-transition-group/esm/utils/ChildMapping.js"() {
-      import_react23 = __toESM(require_react());
+      import_react25 = __toESM(require_react());
     }
   });
 
   // node_modules/react-transition-group/esm/TransitionGroup.js
-  var import_prop_types3, import_react24, values, defaultProps, TransitionGroup, TransitionGroup_default;
+  var import_prop_types3, import_react26, values, defaultProps, TransitionGroup, TransitionGroup_default;
   var init_TransitionGroup = __esm({
     "node_modules/react-transition-group/esm/TransitionGroup.js"() {
       init_objectWithoutPropertiesLoose();
@@ -45387,7 +45464,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_assertThisInitialized();
       init_inheritsLoose();
       import_prop_types3 = __toESM(require_prop_types());
-      import_react24 = __toESM(require_react());
+      import_react26 = __toESM(require_react());
       init_TransitionGroupContext();
       init_ChildMapping();
       values = Object.values || function(obj) {
@@ -45459,16 +45536,16 @@ You can check this by searching up for matching entries in a lockfile produced b
           delete props.enter;
           delete props.exit;
           if (Component2 === null) {
-            return /* @__PURE__ */ import_react24.default.createElement(TransitionGroupContext_default.Provider, {
+            return /* @__PURE__ */ import_react26.default.createElement(TransitionGroupContext_default.Provider, {
               value: contextValue
             }, children);
           }
-          return /* @__PURE__ */ import_react24.default.createElement(TransitionGroupContext_default.Provider, {
+          return /* @__PURE__ */ import_react26.default.createElement(TransitionGroupContext_default.Provider, {
             value: contextValue
-          }, /* @__PURE__ */ import_react24.default.createElement(Component2, props, children));
+          }, /* @__PURE__ */ import_react26.default.createElement(Component2, props, children));
         };
         return TransitionGroup2;
-      }(import_react24.default.Component);
+      }(import_react26.default.Component);
       TransitionGroup.propTypes = true ? {
         /**
          * `<TransitionGroup>` renders a `<div>` by default. You can change this
@@ -45536,10 +45613,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js
-  var React92, getClassName, MessageBarTransition, MessageBarTransitionInner;
+  var React94, getClassName, MessageBarTransition, MessageBarTransitionInner;
   var init_MessageBarTransition = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js"() {
-      React92 = __toESM(require_react());
+      React94 = __toESM(require_react());
       init_esm2();
       init_messageBarTransitionContext();
       getClassName = (status, enterClassName, exitClassName, animate) => {
@@ -45555,12 +45632,12 @@ You can check this by searching up for matching entries in a lockfile produced b
         }
       };
       MessageBarTransition = ({ children, enterClassName, exitClassName, animate, ...rest }) => {
-        const nodeRef = React92.useRef(null);
-        return /* @__PURE__ */ React92.createElement(Transition_default, {
+        const nodeRef = React94.useRef(null);
+        return /* @__PURE__ */ React94.createElement(Transition_default, {
           timeout: 250,
           nodeRef,
           ...rest
-        }, (state) => /* @__PURE__ */ React92.createElement(MessageBarTransitionInner, {
+        }, (state) => /* @__PURE__ */ React94.createElement(MessageBarTransitionInner, {
           animate,
           enterClassName,
           exitClassName,
@@ -45570,14 +45647,14 @@ You can check this by searching up for matching entries in a lockfile produced b
       };
       MessageBarTransitionInner = ({ children, state, enterClassName, exitClassName, animate, nodeRef }) => {
         const className = getClassName(state, enterClassName, exitClassName, animate);
-        const context = React92.useMemo(() => ({
+        const context = React94.useMemo(() => ({
           className,
           nodeRef
         }), [
           className,
           nodeRef
         ]);
-        return /* @__PURE__ */ React92.createElement(MessageBarTransitionContextProvider, {
+        return /* @__PURE__ */ React94.createElement(MessageBarTransitionContextProvider, {
           value: context
         }, children);
       };
@@ -45644,15 +45721,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js
-  var React93, MessageBarGroup;
+  var React95, MessageBarGroup;
   var init_MessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js"() {
-      React93 = __toESM(require_react());
+      React95 = __toESM(require_react());
       init_lib();
       init_useMessageBarGroup();
       init_renderMessageBarGroup();
       init_useMessageBarGroupStyles_styles();
-      MessageBarGroup = /* @__PURE__ */ React93.forwardRef((props, ref) => {
+      MessageBarGroup = /* @__PURE__ */ React95.forwardRef((props, ref) => {
         const state = useMessageBarGroup_unstable(props, ref);
         useMessageBarGroupStyles_unstable(state);
         useCustomStyleHook("useMessageBarGroupStyles_unstable")(state);
@@ -45822,30 +45899,30 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/Message.tsx
-  var import_react27, Message;
+  var import_react29, Message;
   var init_Message = __esm({
     "src/Message.tsx"() {
       "use strict";
-      import_react27 = __toESM(require_react());
+      import_react29 = __toESM(require_react());
       init_lib23();
       init_lib10();
       init_CommonStyles();
       Message = (props) => {
         const messageClasses = standardColumnElementStyles();
-        const [isDismissed, setIsDismissed] = (0, import_react27.useState)(false);
+        const [isDismissed, setIsDismissed] = (0, import_react29.useState)(false);
         const onDismiss = () => {
           setIsDismissed(true);
           props.onDismiss?.();
         };
-        return !isDismissed && /* @__PURE__ */ import_react27.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react27.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react27.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react27.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react27.default.createElement(
+        return !isDismissed && /* @__PURE__ */ import_react29.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react29.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react29.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react29.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react29.default.createElement(
           MessageBarActions,
           {
-            containerAction: /* @__PURE__ */ import_react27.default.createElement(
+            containerAction: /* @__PURE__ */ import_react29.default.createElement(
               Button,
               {
                 "aria-label": "dismiss",
                 appearance: "transparent",
-                icon: /* @__PURE__ */ import_react27.default.createElement(DismissRegular, null),
+                icon: /* @__PURE__ */ import_react29.default.createElement(DismissRegular, null),
                 onClick: onDismiss
               }
             )
@@ -45870,13 +45947,15 @@ You can check this by searching up for matching entries in a lockfile produced b
     switch (mode) {
       case "TheYardAssistant" /* kTheYardAssistant */:
         return TheYardUIString;
+      case "CrankAssistant" /* kCrankAssistant */:
+        return CrankUIString;
       case "DemoAssistant" /* kDemoAssistant */:
         return DemoUIString;
       default:
         return TheYardUIString;
     }
   }
-  var CommonUIStrings, TheYardBrandStrings, DemoBrandStrings, TheYardUIString, DemoUIString;
+  var CommonUIStrings, TheYardBrandStrings, CrankBrandStrings, DemoBrandStrings, TheYardUIString, DemoUIString, CrankUIString;
   var init_UIStrings = __esm({
     "src/UIStrings.ts"() {
       "use strict";
@@ -45918,6 +45997,15 @@ You can check this by searching up for matching entries in a lockfile produced b
         kChatPlaceholder: "Let's talk about fitness...",
         kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
       };
+      CrankBrandStrings = {
+        kAppPageCaption: "CrankBot",
+        kAppPageStrapline: "Fitness answers, no fluff.",
+        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'CrankBot' chatbot; your online training assistant here to answer fitness-related questions, chat about getting strong, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
+        kLinks: "",
+        kChatPreamble: "Chat to the CrankBot AI by typing your question in the box below. Don't share private information.",
+        kChatPlaceholder: "Let's talk about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+      };
       DemoBrandStrings = {
         kAppPageCaption: "Strong AI Demo",
         kAppPageStrapline: "Strong and Intelligent.",
@@ -45934,6 +46022,10 @@ You can check this by searching up for matching entries in a lockfile produced b
       DemoUIString = {
         ...CommonUIStrings,
         ...DemoBrandStrings
+      };
+      CrankUIString = {
+        ...CommonUIStrings,
+        ...CrankBrandStrings
       };
     }
   });
@@ -49228,54 +49320,54 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // src/UserContext.tsx
   function UserProvider({ children, storage }) {
-    const [userId, setUserId] = (0, import_react28.useState)(() => {
+    const [userId, setUserId] = (0, import_react30.useState)(() => {
       return storage.get(USER_ID_STORAGE_KEY) || void 0;
     });
-    const [userName, setUserName] = (0, import_react28.useState)(() => {
+    const [userName, setUserName] = (0, import_react30.useState)(() => {
       return storage.get(USER_NAME_STORAGE_KEY) || void 0;
     });
-    const [sessionId, setSessionId] = (0, import_react28.useState)(() => {
+    const [sessionId, setSessionId] = (0, import_react30.useState)(() => {
       return storage.get(SESSION_STORAGE_KEY) || void 0;
     });
-    const [facilityPersonality, setFacilityPersonality] = (0, import_react28.useState)(() => {
+    const [facilityPersonality, setFacilityPersonality] = (0, import_react30.useState)(() => {
       return storage.get(USER_FACILITY_PERSONALITY_KEY) || void 0;
     });
-    const [userRole, setUserRole] = (0, import_react28.useState)(() => {
+    const [userRole, setUserRole] = (0, import_react30.useState)(() => {
       const storedRole = storage.get(USER_ROLE_KEY);
       return storedRole ? storedRole : void 0;
     });
-    const [personality, setPersonality] = (0, import_react28.useState)(
+    const [personality, setPersonality] = (0, import_react30.useState)(
       void 0
     );
-    (0, import_react28.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       if (userId) {
         storage.set(USER_ID_STORAGE_KEY, userId);
       } else {
         storage.remove(USER_ID_STORAGE_KEY);
       }
     }, [userId, storage]);
-    (0, import_react28.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       if (userName) {
         storage.set(USER_NAME_STORAGE_KEY, userName);
       } else {
         storage.remove(USER_NAME_STORAGE_KEY);
       }
     }, [userName, storage]);
-    (0, import_react28.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       if (sessionId) {
         storage.set(SESSION_STORAGE_KEY, sessionId);
       } else {
         storage.remove(SESSION_STORAGE_KEY);
       }
     }, [sessionId, storage]);
-    (0, import_react28.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       if (facilityPersonality) {
         storage.set(USER_FACILITY_PERSONALITY_KEY, facilityPersonality);
       } else {
         storage.remove(USER_FACILITY_PERSONALITY_KEY);
       }
     }, [facilityPersonality, storage]);
-    (0, import_react28.useEffect)(() => {
+    (0, import_react30.useEffect)(() => {
       if (userRole) {
         storage.set(USER_ROLE_KEY, userRole);
       } else {
@@ -49305,7 +49397,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     const handleSetPersonality = (newPersonality) => {
       setPersonality(newPersonality);
     };
-    return /* @__PURE__ */ import_react28.default.createElement(
+    return /* @__PURE__ */ import_react30.default.createElement(
       UserContext.Provider,
       {
         value: {
@@ -49324,28 +49416,28 @@ You can check this by searching up for matching entries in a lockfile produced b
     );
   }
   function useUser() {
-    const context = (0, import_react28.useContext)(UserContext);
+    const context = (0, import_react30.useContext)(UserContext);
     if (context === void 0) {
       throw new Error("useUser must be used within a UserProvider");
     }
     return context;
   }
-  var import_react28, UserContext;
+  var import_react30, UserContext;
   var init_UserContext = __esm({
     "src/UserContext.tsx"() {
       "use strict";
-      import_react28 = __toESM(require_react());
+      import_react30 = __toESM(require_react());
       init_LocalStorage();
-      UserContext = (0, import_react28.createContext)(void 0);
+      UserContext = (0, import_react30.createContext)(void 0);
     }
   });
 
   // src/SiteUtilities.tsx
-  var import_react29, MOBILE_BREAKPOINT, useFooterStyles, Header, Spacer, Footer;
+  var import_react31, MOBILE_BREAKPOINT, useFooterStyles, Header, Spacer, Footer;
   var init_SiteUtilities = __esm({
     "src/SiteUtilities.tsx"() {
       "use strict";
-      import_react29 = __toESM(require_react());
+      import_react31 = __toESM(require_react());
       init_dist2();
       init_CommonStyles();
       init_UIStrings();
@@ -49381,7 +49473,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       Header = ({ title }) => {
         const textClasses = standardTextStyles();
         const lifterIcon = "assets/img/lifter-w.png";
-        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { position: "relative", width: "100%", textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(
+        return /* @__PURE__ */ import_react31.default.createElement("div", { style: { position: "relative", width: "100%", textAlign: "center" } }, /* @__PURE__ */ import_react31.default.createElement(
           Image,
           {
             src: lifterIcon,
@@ -49396,11 +49488,11 @@ You can check this by searching up for matching entries in a lockfile produced b
               transform: "translateY(-50%)"
             }
           }
-        ), /* @__PURE__ */ import_react29.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, title)));
+        ), /* @__PURE__ */ import_react31.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, title)));
       };
       Spacer = (props) => {
         const size = props.size ?? 14 /* kMedium */;
-        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: `${size}px` } });
+        return /* @__PURE__ */ import_react31.default.createElement("div", { style: { height: `${size}px` } });
       };
       Footer = (props) => {
         const user = useUser();
@@ -49408,7 +49500,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const uiStrings = getCommonUIStrings();
         const linkClasses = standardLinkStyles();
         const styles = useFooterStyles();
-        const footerRef = (0, import_react29.useRef)(null);
+        const footerRef = (0, import_react31.useRef)(null);
         const config = getConfigStrings();
         const textClasses = standardTextStyles();
         const navigate = useNavigate();
@@ -49416,7 +49508,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
           navigate(path);
         };
-        (0, import_react29.useEffect)(() => {
+        (0, import_react31.useEffect)(() => {
           const updateFooterHeight = () => {
             if (footerRef.current) {
               const height = footerRef.current.offsetHeight;
@@ -49427,7 +49519,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           window.addEventListener("resize", updateFooterHeight);
           return () => window.removeEventListener("resize", updateFooterHeight);
         }, []);
-        return /* @__PURE__ */ import_react29.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react29.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react29.default.createElement(
+        return /* @__PURE__ */ import_react31.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react31.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react31.default.createElement(
           Link,
           {
             to: "/",
@@ -49438,7 +49530,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kHome
-        ), /* @__PURE__ */ import_react29.default.createElement(
+        ), /* @__PURE__ */ import_react31.default.createElement(
           Link,
           {
             to: "/chat",
@@ -49451,7 +49543,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kChat
-        ), /* @__PURE__ */ import_react29.default.createElement(
+        ), /* @__PURE__ */ import_react31.default.createElement(
           Link,
           {
             to: "/privacy",
@@ -49462,7 +49554,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kPrivacy
-        ), /* @__PURE__ */ import_react29.default.createElement(
+        ), /* @__PURE__ */ import_react31.default.createElement(
           Link,
           {
             to: "/terms",
@@ -49473,7 +49565,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kTerms
-        ), /* @__PURE__ */ import_react29.default.createElement(
+        ), /* @__PURE__ */ import_react31.default.createElement(
           Link,
           {
             to: "/about",
@@ -49484,7 +49576,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
           },
           uiStrings.kAbout
-        )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
+        )), /* @__PURE__ */ import_react31.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
       };
     }
   });
@@ -57791,11 +57883,11 @@ ${message.content}
     offscreenContext = null;
     return Math.max(dyMin, Math.min(dyMax, dyNeeded));
   }
-  var import_react30, MultilineEdit;
+  var import_react32, MultilineEdit;
   var init_MultilineEdit = __esm({
     "src/MultilineEdit.tsx"() {
       "use strict";
-      import_react30 = __toESM(require_react());
+      import_react32 = __toESM(require_react());
       init_lib23();
       init_lib10();
       init_CommonStyles();
@@ -57803,13 +57895,13 @@ ${message.content}
       MultilineEdit = (props) => {
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
-        const [width, setWidth] = (0, import_react30.useState)(0);
-        const textareaRef = (0, import_react30.useRef)(null);
+        const [width, setWidth] = (0, import_react32.useState)(0);
+        const textareaRef = (0, import_react32.useRef)(null);
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
-        (0, import_react30.useEffect)(() => {
+        (0, import_react32.useEffect)(() => {
           if (props.enabled && textareaRef.current) {
             try {
               textareaRef.current.focus();
@@ -57818,7 +57910,7 @@ ${message.content}
             }
           }
         }, [props.enabled, props.message]);
-        (0, import_react30.useLayoutEffect)(() => {
+        (0, import_react32.useLayoutEffect)(() => {
           if (textareaRef.current) {
             let dx = textareaRef.current.offsetWidth;
             if (width !== dx) {
@@ -57869,7 +57961,7 @@ ${message.content}
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react30.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react30.default.createElement(
+        return /* @__PURE__ */ import_react32.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react32.default.createElement(
           Text,
           {
             className: textFieldClasses.normal,
@@ -57882,7 +57974,7 @@ ${message.content}
             }
           },
           props.caption
-        ), /* @__PURE__ */ import_react30.default.createElement(
+        ), /* @__PURE__ */ import_react32.default.createElement(
           Textarea,
           {
             ref: textareaRef,
@@ -57902,12 +57994,12 @@ ${message.content}
             },
             onKeyDown: (e) => onSend(e, props.message)
           }
-        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react30.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react30.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react30.default.createElement(
+        ), /* @__PURE__ */ import_react32.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react32.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react32.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Send",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react30.default.createElement(SendRegular, null),
+            icon: /* @__PURE__ */ import_react32.default.createElement(SendRegular, null),
             onClick,
             disabled: !props.enabled || props.message.length === 0
           }
@@ -58211,11 +58303,11 @@ ${message.content}
   });
 
   // src/CopyableText.tsx
-  var import_react31, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
+  var import_react33, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
   var init_CopyableText = __esm({
     "src/CopyableText.tsx"() {
       "use strict";
-      import_react31 = __toESM(require_react());
+      import_react33 = __toESM(require_react());
       init_lib23();
       init_lib10();
       init_CommonStyles();
@@ -58253,28 +58345,28 @@ ${message.content}
           }).catch((err) => {
           });
         };
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react31.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react31.default.createElement(
+        return /* @__PURE__ */ import_react33.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react33.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react33.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Copy",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react31.default.createElement(CopyRegular, null),
+            icon: /* @__PURE__ */ import_react33.default.createElement(CopyRegular, null),
             onClick: copyToClipboard
           }
         ))), props.text.split("\n").map((line2, index) => {
           const myId = props.id + "-" + index;
-          return /* @__PURE__ */ import_react31.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
-        })) : /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
+          return /* @__PURE__ */ import_react33.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
+        })) : /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
       };
     }
   });
 
   // src/ChatHistory.tsx
-  var import_react32, import_prompt_repository2, useStyles11, ChatMessage, ChatHistory;
+  var import_react34, import_prompt_repository2, useStyles11, ChatMessage, ChatHistory;
   var init_ChatHistory = __esm({
     "src/ChatHistory.tsx"() {
       "use strict";
-      import_react32 = __toESM(require_react());
+      import_react34 = __toESM(require_react());
       init_lib23();
       init_lib10();
       import_prompt_repository2 = __toESM(require_entry());
@@ -58316,14 +58408,14 @@ ${message.content}
       });
       ChatMessage = ({ message }) => {
         const styles = useStyles11();
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react32.default.createElement(
+        return /* @__PURE__ */ import_react34.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react34.default.createElement(
           Avatar,
           {
             className: styles.avatar,
-            icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react32.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react32.default.createElement(BotRegular, null),
+            icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react34.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react34.default.createElement(BotRegular, null),
             color: message.role === import_prompt_repository2.EChatRole.kUser ? "brand" : "neutral"
           }
-        ), /* @__PURE__ */ import_react32.default.createElement(
+        ), /* @__PURE__ */ import_react34.default.createElement(
           "div",
           {
             className: mergeClasses(
@@ -58332,7 +58424,7 @@ ${message.content}
             ),
             "data-testid": "message-content"
           },
-          /* @__PURE__ */ import_react32.default.createElement(
+          /* @__PURE__ */ import_react34.default.createElement(
             CopyableText,
             {
               text: message.content,
@@ -58340,12 +58432,12 @@ ${message.content}
               id: `message-${new Date(message.timestamp).getTime()}`
             }
           ),
-          /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
+          /* @__PURE__ */ import_react34.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
         ));
       };
       ChatHistory = ({ messages }) => {
         const styles = useStyles11();
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react32.default.createElement(ChatMessage, { key: index, message })));
+        return /* @__PURE__ */ import_react34.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react34.default.createElement(ChatMessage, { key: index, message })));
       };
     }
   });
@@ -60365,11 +60457,11 @@ ${message.content}
   });
 
   // src/App.tsx
-  var import_react33, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
+  var import_react35, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
-      import_react33 = __toESM(require_react());
+      import_react35 = __toESM(require_react());
       init_lib23();
       import_prompt_repository4 = __toESM(require_entry());
       init_AssistantChatApiTypes();
@@ -60429,7 +60521,7 @@ ${message.content}
         sessionId
       }) => {
         const { userRole } = useUser();
-        const bottomRef = (0, import_react33.useRef)(null);
+        const bottomRef = (0, import_react35.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const columnElementClasses = standardColumnElementStyles();
@@ -60437,24 +60529,24 @@ ${message.content}
         const linkClasses = standardLinkStyles();
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
-        (0, import_react33.useEffect)(() => {
+        (0, import_react35.useEffect)(() => {
           if (streamedResponse) {
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         }, [streamedResponse]);
-        (0, import_react33.useEffect)(() => {
+        (0, import_react35.useEffect)(() => {
           if (chatHistory.length > 0) {
             bottomRef.current?.scrollIntoView({ behavior: "smooth" });
           }
         }, [chatHistory]);
-        let blank = /* @__PURE__ */ import_react33.default.createElement("div", null);
+        let blank = /* @__PURE__ */ import_react35.default.createElement("div", null);
         let offTopic = blank;
         let error = blank;
         let archiving = blank;
         let streaming = blank;
         let guestLoginNotice = blank;
         if (state.getState() === "OffTopic" /* kOffTopic */) {
-          offTopic = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+          offTopic = /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react35.default.createElement(
             Message,
             {
               intent: "warning" /* kWarning */,
@@ -60466,7 +60558,7 @@ ${message.content}
           ));
         }
         if (state.getState() === "Error" /* kError */) {
-          error = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+          error = /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react35.default.createElement(
             Message,
             {
               intent: "error" /* kError */,
@@ -60478,7 +60570,7 @@ ${message.content}
           ));
         }
         if (userRole === "guest" /* kGuest */) {
-          guestLoginNotice = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+          guestLoginNotice = /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react35.default.createElement(
             Message,
             {
               intent: "info" /* kInfo */,
@@ -60489,7 +60581,7 @@ ${message.content}
           ));
         }
         if (state.getState() === "Archiving" /* kArchiving */) {
-          archiving = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+          archiving = /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react35.default.createElement(
             Message,
             {
               intent: "info" /* kInfo */,
@@ -60500,7 +60592,7 @@ ${message.content}
           ));
         }
         if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          streaming = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react33.default.createElement(
+          streaming = /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react35.default.createElement(
             ChatMessage,
             {
               message: {
@@ -60524,27 +60616,27 @@ ${message.content}
           onSend,
           onChange
         };
-        return /* @__PURE__ */ import_react33.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId }, /* @__PURE__ */ import_react33.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+        return /* @__PURE__ */ import_react35.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId }, /* @__PURE__ */ import_react35.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react35.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react35.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react35.default.createElement(Spacer, null), /* @__PURE__ */ import_react35.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react35.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
           return markdownLinks.split(",").map((link, index) => {
             const matches = link.match(/\[(.*?)\]\((.*?)\)/);
             if (matches) {
               const [_, text, url] = matches;
-              return /* @__PURE__ */ import_react33.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+              return /* @__PURE__ */ import_react35.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
             }
             return null;
           });
-        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, guestLoginNotice, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps })))));
+        }), /* @__PURE__ */ import_react35.default.createElement(Spacer, null), /* @__PURE__ */ import_react35.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react35.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react35.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react35.default.createElement(Spacer, null), /* @__PURE__ */ import_react35.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react35.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, guestLoginNotice, archiving, /* @__PURE__ */ import_react35.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react35.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react35.default.createElement(MultilineEdit, { ...multilineEditProps })))));
       };
       App = (props) => {
         const config = getConfigStrings();
         const uiStrings = getUIStrings(props.personality);
-        let [state, setState] = (0, import_react33.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
-        const [chatHistory, setChatHistory] = (0, import_react33.useState)([]);
-        const [message, setMessage] = (0, import_react33.useState)(void 0);
-        const [streamedResponse, setStreamedResponse] = (0, import_react33.useState)(void 0);
-        const [streamedResponseId, setStreamedResponseId] = (0, import_react33.useState)(void 0);
-        const [idleSince, setIdleSince] = (0, import_react33.useState)(/* @__PURE__ */ new Date());
-        (0, import_react33.useEffect)(() => {
+        let [state, setState] = (0, import_react35.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+        const [chatHistory, setChatHistory] = (0, import_react35.useState)([]);
+        const [message, setMessage] = (0, import_react35.useState)(void 0);
+        const [streamedResponse, setStreamedResponse] = (0, import_react35.useState)(void 0);
+        const [streamedResponseId, setStreamedResponseId] = (0, import_react35.useState)(void 0);
+        const [idleSince, setIdleSince] = (0, import_react35.useState)(/* @__PURE__ */ new Date());
+        (0, import_react35.useEffect)(() => {
           const loadChatHistory = async () => {
             state.transition("StartedLoading" /* kStartedLoading */);
             setState(new AssistantUIStateMachine(state.getState()));
@@ -60569,7 +60661,7 @@ ${message.content}
           };
           loadChatHistory();
         }, [props.sessionId]);
-        (0, import_react33.useEffect)(() => {
+        (0, import_react35.useEffect)(() => {
           const timer = setInterval(async () => {
             const idleTime = Date.now() - idleSince.getTime();
             if (idleTime >= kIdleTimeoutMs && state.getState() === "Waiting" /* kWaiting */) {
@@ -60664,7 +60756,7 @@ ${message.content}
           state.transition("Reset" /* kReset */);
           setState(new AssistantUIStateMachine(state.getState()));
         };
-        return /* @__PURE__ */ import_react33.default.createElement(
+        return /* @__PURE__ */ import_react35.default.createElement(
           AppView,
           {
             uiStrings,
@@ -60718,11 +60810,11 @@ ${message.content}
   });
 
   // src/Login.tsx
-  var import_react34, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
+  var import_react36, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
   var init_Login = __esm({
     "src/Login.tsx"() {
       "use strict";
-      import_react34 = __toESM(require_react());
+      import_react36 = __toESM(require_react());
       init_AssistantChatApiTypes();
       init_lib23();
       init_Message();
@@ -60762,12 +60854,12 @@ ${message.content}
         const uiStrings = getUIStrings(props.personality);
         const user = useUser();
         const { userId, userName, sessionId, onLogin, onLogout } = user;
-        const [error, setError] = (0, import_react34.useState)();
-        const [googleCredential, setGoogleCredential] = (0, import_react34.useState)();
-        const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react34.useState)(0);
-        const [lastAttemptTime, setLastAttemptTime] = (0, import_react34.useState)(0);
-        const [isWaiting, setIsWaiting] = (0, import_react34.useState)(false);
-        const googleButtonRef = (0, import_react34.useRef)(null);
+        const [error, setError] = (0, import_react36.useState)();
+        const [googleCredential, setGoogleCredential] = (0, import_react36.useState)();
+        const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react36.useState)(0);
+        const [lastAttemptTime, setLastAttemptTime] = (0, import_react36.useState)(0);
+        const [isWaiting, setIsWaiting] = (0, import_react36.useState)(false);
+        const googleButtonRef = (0, import_react36.useRef)(null);
         const handleLogout = async () => {
           try {
             if (window.google?.accounts?.id) {
@@ -60871,7 +60963,7 @@ ${message.content}
           );
           return delay;
         };
-        (0, import_react34.useEffect)(() => {
+        (0, import_react36.useEffect)(() => {
           window.onGoogleLogin = (response) => {
             if (response.credential) {
               handleLogin(response.credential);
@@ -60900,7 +60992,7 @@ ${message.content}
             }
           }
         }, [userName, userId, sessionId, config.googleCaptchaClientId]);
-        (0, import_react34.useEffect)(() => {
+        (0, import_react36.useEffect)(() => {
           if (googleButtonRef.current && window.google?.accounts?.id) {
             window.google.accounts.id.renderButton(googleButtonRef.current, {
               theme: "outline",
@@ -60909,7 +61001,7 @@ ${message.content}
             });
           }
         }, [googleButtonRef.current]);
-        return /* @__PURE__ */ import_react34.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react34.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react34.default.createElement(
+        return /* @__PURE__ */ import_react36.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react36.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react36.default.createElement(
           LoginView,
           {
             personality: props.personality,
@@ -60920,7 +61012,7 @@ ${message.content}
             setError,
             isWaiting
           }
-        ) : /* @__PURE__ */ import_react34.default.createElement(
+        ) : /* @__PURE__ */ import_react36.default.createElement(
           App,
           {
             personality: props.personality,
@@ -60928,7 +61020,7 @@ ${message.content}
             email: userName,
             onLogout: handleLogout
           }
-        )), /* @__PURE__ */ import_react34.default.createElement(Footer, null));
+        )), /* @__PURE__ */ import_react36.default.createElement(Footer, null));
       };
       LoginView = (props) => {
         const pageOuterClasses = pageOuterStyles();
@@ -60938,7 +61030,7 @@ ${message.content}
         const handleErrorDismiss = () => {
           props.setError(void 0);
         };
-        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react34.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kLoginPlease), props.error && /* @__PURE__ */ import_react34.default.createElement(import_react34.default.Fragment, null, /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
+        return /* @__PURE__ */ import_react36.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react36.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react36.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react36.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react36.default.createElement(Text, null, uiStrings.kLoginPlease), props.error && /* @__PURE__ */ import_react36.default.createElement(import_react36.default.Fragment, null, /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(
           Message,
           {
             intent: "error" /* kError */,
@@ -60947,7 +61039,7 @@ ${message.content}
             dismissable: true,
             onDismiss: handleErrorDismiss
           }
-        )), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
+        )), /* @__PURE__ */ import_react36.default.createElement(Spacer, null), /* @__PURE__ */ import_react36.default.createElement(
           "div",
           {
             ref: props.googleButtonRef,
@@ -60960,11 +61052,11 @@ ${message.content}
   });
 
   // src/PlainTextParagraphs.tsx
-  var import_react35, PlainTextParagraphs;
+  var import_react37, PlainTextParagraphs;
   var init_PlainTextParagraphs = __esm({
     "src/PlainTextParagraphs.tsx"() {
       "use strict";
-      import_react35 = __toESM(require_react());
+      import_react37 = __toESM(require_react());
       init_lib23();
       init_CommonStyles();
       init_SiteUtilities();
@@ -60979,45 +61071,45 @@ ${message.content}
             display: "block"
           }
         });
-        return /* @__PURE__ */ import_react35.default.createElement("div", { style: { width: "100%", textAlign: alignment } }, props.content.split("\n").map((line2, index) => {
+        return /* @__PURE__ */ import_react37.default.createElement("div", { style: { width: "100%", textAlign: alignment } }, props.content.split("\n").map((line2, index) => {
           if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.subHeadingLeft) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
+            return /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, { key: index }, /* @__PURE__ */ import_react37.default.createElement(Text, { ...getTextStyle(textClasses.subHeadingLeft) }, line2), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 8 /* kSmall */ }));
           }
           if (line2.match(/https?:\/\/\S+/)) {
             const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react35.default.createElement(Link3, { key: i, href: part, style: { textAlign: "inherit" } }, part) : part
-            )), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
+            return /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, { key: index }, /* @__PURE__ */ import_react37.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react37.default.createElement(Link3, { key: i, href: part, style: { textAlign: "inherit" } }, part) : part
+            )), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 8 /* kSmall */ }));
           }
-          return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
+          return /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, { key: index }, /* @__PURE__ */ import_react37.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, line2), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 8 /* kSmall */ }));
         }));
       };
     }
   });
 
   // src/PlainText.tsx
-  var import_react36, PlainText;
+  var import_react38, PlainText;
   var init_PlainText = __esm({
     "src/PlainText.tsx"() {
       "use strict";
-      import_react36 = __toESM(require_react());
+      import_react38 = __toESM(require_react());
       init_OuterStyles();
       init_SiteUtilities();
       init_PlainTextParagraphs();
       PlainText = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
-        return /* @__PURE__ */ import_react36.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react36.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react36.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react36.default.createElement(PlainTextParagraphs, { content: props.content }), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 32 /* kXLarge */ }), /* @__PURE__ */ import_react36.default.createElement(Footer, null)));
+        return /* @__PURE__ */ import_react38.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react38.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react38.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react38.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react38.default.createElement(PlainTextParagraphs, { content: props.content }), /* @__PURE__ */ import_react38.default.createElement(Spacer, { size: 32 /* kXLarge */ }), /* @__PURE__ */ import_react38.default.createElement(Footer, null)));
       };
     }
   });
 
   // src/Home.tsx
-  var import_react37, Home2;
+  var import_react39, Home2;
   var init_Home = __esm({
     "src/Home.tsx"() {
       "use strict";
-      import_react37 = __toESM(require_react());
+      import_react39 = __toESM(require_react());
       init_dist2();
       init_OuterStyles();
       init_lib23();
@@ -61029,8 +61121,8 @@ ${message.content}
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const navigate = useNavigate();
-        const [isButtonDisabled, setIsButtonDisabled] = (0, import_react37.useState)(false);
-        (0, import_react37.useEffect)(() => {
+        const [isButtonDisabled, setIsButtonDisabled] = (0, import_react39.useState)(false);
+        (0, import_react39.useEffect)(() => {
           const checkCaptcha = async () => {
             const config = getConfigStrings();
             const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
@@ -61040,25 +61132,14 @@ ${message.content}
           };
           checkCaptcha();
         }, []);
-        return /* @__PURE__ */ import_react37.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /* @__PURE__ */ import_react37.default.createElement(
+        return /* @__PURE__ */ import_react39.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react39.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react39.default.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /* @__PURE__ */ import_react39.default.createElement(
           Image,
           {
             src: "assets/img/hero.jpg",
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(
-          Text,
-          {
-            as: "h1",
-            style: {
-              fontSize: "2.5rem",
-              fontWeight: "bold",
-              textAlign: "center"
-            }
-          },
-          props.title
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61070,8 +61151,21 @@ ${message.content}
             onClick: () => navigate("/theyard"),
             disabled: isButtonDisabled
           },
-          "The Yard, Peckham ..."
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(
+          "The Yard ..."
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(
+          Button,
+          {
+            appearance: "primary",
+            size: "large",
+            style: {
+              fontSize: "1.2rem",
+              padding: "16px 32px"
+            },
+            onClick: () => navigate("/crank"),
+            disabled: isButtonDisabled
+          },
+          "Crank ..."
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61084,21 +61178,21 @@ ${message.content}
             disabled: isButtonDisabled
           },
           "Contact us ..."
-        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }))), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }))), /* @__PURE__ */ import_react39.default.createElement(Footer, null)));
       };
     }
   });
 
   // src/ScrollToTop.tsx
-  var import_react38, ScrollToTop;
+  var import_react40, ScrollToTop;
   var init_ScrollToTop = __esm({
     "src/ScrollToTop.tsx"() {
       "use strict";
-      import_react38 = __toESM(require_react());
+      import_react40 = __toESM(require_react());
       init_dist2();
       ScrollToTop = () => {
         const { pathname } = useLocation();
-        (0, import_react38.useEffect)(() => {
+        (0, import_react40.useEffect)(() => {
           window.scrollTo(0, 0);
         }, [pathname]);
         return null;
@@ -61211,7 +61305,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
-2.2	We may process data enabling us to get in touch with you ("contact data"). The contact data may include your name, email address, and/or social media account identifiers. The source of the contact data is you and/or your employer. If you log into our website using a social media account, we will obtain elements of the contact data from the relevant social media account provider.
+2.2	We may process data enabling us to get in touch with you ("contact data"). The contact data may include your name, email address, and/or social media account identifiers. The source of the contact data is you, and/or your gym operator, and/or your employer. If you log into our website using a social media account, we will obtain elements of the contact data from the relevant social media account provider.
 2.5	We may process information contained in or relating to any communication that you send to us or that we send to you ("communication data"). The communication data may include the communication content and metadata associated with the communication. Our website may generate metadata associated with communications made using the website contact forms.
 2.6	We may process data about your use of our website and services ("usage data"). The usage data may include your IP address, geographical location, browser type and version, operating system, referral source, length of visit, page views and website navigation paths, as well as information about the timing, frequency, and pattern of your service use. The source of the usage data is our analytics tracking system.
 3.	Purposes of processing and legal bases
@@ -61299,11 +61393,11 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
   });
 
   // src/Site.tsx
-  var import_react39, RoutedSite, PersonalityRedirect, Site;
+  var import_react41, RoutedSite, PersonalityRedirect, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react39 = __toESM(require_react());
+      import_react41 = __toESM(require_react());
       init_dist2();
       init_Login();
       init_PlainText();
@@ -61318,25 +61412,25 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
       init_AboutContent();
       init_AssistantChatApiTypes();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react39.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react39.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react39.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react41.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react41.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react41.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react39.default.createElement(ScrollToTop, null), /* @__PURE__ */ import_react39.default.createElement(Site, null))));
+        } }, /* @__PURE__ */ import_react41.default.createElement(ScrollToTop, null), /* @__PURE__ */ import_react41.default.createElement(Site, null))));
       };
       PersonalityRedirect = ({
         personality,
         to
       }) => {
         const { setPersonality } = useUser();
-        (0, import_react39.useEffect)(() => {
+        (0, import_react41.useEffect)(() => {
           setPersonality(personality);
         }, [personality, setPersonality]);
-        return /* @__PURE__ */ import_react39.default.createElement(Navigate, { to, replace: true });
+        return /* @__PURE__ */ import_react41.default.createElement(Navigate, { to, replace: true });
       };
       Site = (props) => {
         const { personality, setPersonality } = useUser();
         const uiStrings = getCommonUIStrings();
-        (0, import_react39.useEffect)(() => {
+        (0, import_react41.useEffect)(() => {
           const script = document.createElement("script");
           script.src = "https://accounts.google.com/gsi/client";
           script.async = true;
@@ -61352,19 +61446,19 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: void 0, launchButton: true })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: void 0, launchButton: true })
           },
           {
             path: "/about",
-            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
           },
           {
             path: "/about.html",
-            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
           },
           {
             path: "/theyard",
-            element: /* @__PURE__ */ import_react39.default.createElement(
+            element: /* @__PURE__ */ import_react41.default.createElement(
               PersonalityRedirect,
               {
                 personality: "TheYardAssistant" /* kTheYardAssistant */,
@@ -61374,7 +61468,7 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
           },
           {
             path: "/theyard.html",
-            element: /* @__PURE__ */ import_react39.default.createElement(
+            element: /* @__PURE__ */ import_react41.default.createElement(
               PersonalityRedirect,
               {
                 personality: "TheYardAssistant" /* kTheYardAssistant */,
@@ -61383,8 +61477,28 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
             )
           },
           {
+            path: "/crank",
+            element: /* @__PURE__ */ import_react41.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "CrankAssistant" /* kCrankAssistant */,
+                to: "/chat"
+              }
+            )
+          },
+          {
+            path: "/crank.html",
+            element: /* @__PURE__ */ import_react41.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "CrankAssistant" /* kCrankAssistant */,
+                to: "/chat"
+              }
+            )
+          },
+          {
             path: "/demo",
-            element: /* @__PURE__ */ import_react39.default.createElement(
+            element: /* @__PURE__ */ import_react41.default.createElement(
               PersonalityRedirect,
               {
                 personality: "DemoAssistant" /* kDemoAssistant */,
@@ -61394,7 +61508,7 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
           },
           {
             path: "/demo.html",
-            element: /* @__PURE__ */ import_react39.default.createElement(
+            element: /* @__PURE__ */ import_react41.default.createElement(
               PersonalityRedirect,
               {
                 personality: "DemoAssistant" /* kDemoAssistant */,
@@ -61404,27 +61518,27 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
           },
           {
             path: "/chat",
-            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
+            element: personality ? /* @__PURE__ */ import_react41.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react41.default.createElement(Navigate, { to: "/", replace: true })
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react41.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react41.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react41.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react41.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
+            element: /* @__PURE__ */ import_react41.default.createElement(Navigate, { to: "/", replace: true })
           }
         ]);
         return routes;
@@ -61435,13 +61549,13 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react40 = __toESM(require_react());
+      var import_react42 = __toESM(require_react());
       var import_client = __toESM(require_client());
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react40.default.createElement(RoutedSite, null)
+          /* @__PURE__ */ import_react42.default.createElement(RoutedSite, null)
         );
       }
     }

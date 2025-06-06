@@ -15,6 +15,7 @@ exports.EScreeningClassification = exports.EShowInterstitialPrompt = exports.ELo
 var EAssistantPersonality;
 (function (EAssistantPersonality) {
     EAssistantPersonality["kTheYardAssistant"] = "TheYardAssistant";
+    EAssistantPersonality["kCrankAssistant"] = "CrankAssistant";
     EAssistantPersonality["kDemoAssistant"] = "DemoAssistant";
 })(EAssistantPersonality || (exports.EAssistantPersonality = EAssistantPersonality = {}));
 /**

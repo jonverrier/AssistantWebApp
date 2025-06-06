@@ -8,7 +8,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
-import { Text, Image, Button } from '@fluentui/react-components';
+import { LargeTitle, Image, Button } from '@fluentui/react-components';
 import { Spacer, Footer, ESpacerSize } from './SiteUtilities';
 import { PlainTextParagraphs, PlainTextAlignment } from './PlainTextParagraphs';
 import { executeReCaptcha, RECAPTCHA_THRESHOLD } from './captcha';
@@ -47,16 +47,9 @@ export const Home = (props: HomeProps) => {
                   alt="Strong AI Bold Image"
                />
                <Spacer size={ESpacerSize.kLarge} />
-               <Text 
-                  as="h1" 
-                  style={{ 
-                     fontSize: '2.5rem', 
-                     fontWeight: 'bold',
-                     textAlign: 'center' 
-                  }}
-               >
+               <LargeTitle> 
                   {props.title}
-               </Text>
+               </LargeTitle>
                <Spacer size={ESpacerSize.kLarge} />
                {props.launchButton && (
                   <>
@@ -70,9 +63,22 @@ export const Home = (props: HomeProps) => {
                         onClick={() => navigate('/theyard')}
                         disabled={isButtonDisabled}                        
                      >
-                        The Yard, Peckham ...
+                        The Yard ...
                      </Button>
                      <Spacer size={ESpacerSize.kLarge} />
+                     <Button
+                        appearance="primary"
+                        size="large"
+                        style={{
+                           fontSize: '1.2rem',
+                           padding: '16px 32px'
+                        }}
+                        onClick={() => navigate('/crank')}
+                        disabled={isButtonDisabled}                        
+                     >
+                        Crank ...
+                     </Button>
+                     <Spacer size={ESpacerSize.kLarge} />                     
                   </>
                )}
                {props.content && (

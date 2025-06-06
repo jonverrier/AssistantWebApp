@@ -7,7 +7,7 @@
  */
 /*! Copyright Jon Verrier 2025 */
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DemoBrandStrings = exports.TheYardBrandStrings = exports.CommonUIStrings = exports.EMultilineEditUIStrings = void 0;
+exports.DemoBrandStrings = exports.CrankBrandStrings = exports.TheYardBrandStrings = exports.CommonUIStrings = exports.EMultilineEditUIStrings = void 0;
 exports.replaceStringParameter = replaceStringParameter;
 exports.getCommonUIStrings = getCommonUIStrings;
 exports.getUIStrings = getUIStrings;
@@ -60,6 +60,15 @@ exports.TheYardBrandStrings = {
     kChatPlaceholder: "Let's talk about fitness...",
     kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
 };
+exports.CrankBrandStrings = {
+    kAppPageCaption: "CrankBot",
+    kAppPageStrapline: "Fitness answers, no fluff.",
+    kOverview: "We're trialling something new – and no, it's not more burpees. Meet our 'CrankBot' chatbot; your online training assistant here to answer fitness-related questions, chat about getting strong, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.",
+    kLinks: "",
+    kChatPreamble: "Chat to the CrankBot AI by typing your question in the box below. Don't share private information.",
+    kChatPlaceholder: "Let's talk about fitness...",
+    kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+};
 exports.DemoBrandStrings = {
     kAppPageCaption: "Strong AI Demo",
     kAppPageStrapline: "Strong and Intelligent.",
@@ -78,6 +87,10 @@ const DemoUIString = {
     ...exports.CommonUIStrings,
     ...exports.DemoBrandStrings
 };
+const CrankUIString = {
+    ...exports.CommonUIStrings,
+    ...exports.CrankBrandStrings
+};
 // Function to get common UI strings 
 function getCommonUIStrings() {
     return exports.CommonUIStrings;
@@ -87,6 +100,8 @@ function getUIStrings(mode) {
     switch (mode) {
         case AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant:
             return TheYardUIString;
+        case AssistantChatApiTypes_1.EAssistantPersonality.kCrankAssistant:
+            return CrankUIString;
         case AssistantChatApiTypes_1.EAssistantPersonality.kDemoAssistant:
             return DemoUIString;
         default:
