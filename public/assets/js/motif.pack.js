@@ -45901,7 +45901,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         kProcessingPleaseWait: "Please wait a few seconds...",
         kArchivingPleaseWait: "Please wait a few seconds...",
         kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
-        kLoginPlease: "Please login with Google to continue. We need you to login so we can keep your data secure.",
+        kLoginPlease: "Please login with Google to continue. We need you to login so we can keep your data private.",
         kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
         kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
         kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
