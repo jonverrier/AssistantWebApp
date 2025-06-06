@@ -60802,6 +60802,7 @@ ${message.content}
         const handleLogin = async (credential) => {
           try {
             const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
+            console.log("reCAPTCHA result:", recaptchaResult);
             if (!recaptchaResult.success) {
               const securitySteps = handleLowScore(recaptchaResult.score || 0);
               if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {

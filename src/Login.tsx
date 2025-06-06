@@ -165,6 +165,8 @@ export const Login = (props: ILoginProps) => {
       try {
          // First verify with reCAPTCHA
          const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
+
+         console.log('reCAPTCHA result:', recaptchaResult);
          
          if (!recaptchaResult.success) {
             // Handle low score
