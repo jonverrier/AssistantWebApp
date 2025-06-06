@@ -63,7 +63,7 @@ export const Home = (props: HomeProps) => {
                         onClick={() => navigate('/theyard')}
                         disabled={isButtonDisabled}                        
                      >
-                        The Yard ...
+                        The Yard...
                      </Button>
                      <Spacer size={ESpacerSize.kLarge} />
                      <Button
@@ -76,7 +76,7 @@ export const Home = (props: HomeProps) => {
                         onClick={() => navigate('/crank')}
                         disabled={isButtonDisabled}                        
                      >
-                        Crank ...
+                        Crank...
                      </Button>
                      <Spacer size={ESpacerSize.kLarge} />                     
                   </>
