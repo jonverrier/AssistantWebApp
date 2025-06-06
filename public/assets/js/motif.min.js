@@ -798,7 +798,7 @@
             }
             return children;
           }
-          function createContext25(defaultValue) {
+          function createContext26(defaultValue) {
             var context = {
               $$typeof: REACT_CONTEXT_TYPE,
               // As a workaround to support multiple concurrent renderers, we categorize
@@ -985,7 +985,7 @@
             }
             return lazyType;
           }
-          function forwardRef19(render) {
+          function forwardRef20(render) {
             {
               if (render != null && render.$$typeof === REACT_MEMO_TYPE) {
                 error("forwardRef requires a render function but received a `memo` component. Instead of forwardRef(memo(...)), use memo(forwardRef(...)).");
@@ -1084,7 +1084,7 @@
             }
             return dispatcher;
           }
-          function useContext23(Context) {
+          function useContext24(Context) {
             var dispatcher = resolveDispatcher();
             {
               if (Context._context !== void 0) {
@@ -1098,7 +1098,7 @@
             }
             return dispatcher.useContext(Context);
           }
-          function useState12(initialState) {
+          function useState15(initialState) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useState(initialState);
           }
@@ -1106,11 +1106,11 @@
             var dispatcher = resolveDispatcher();
             return dispatcher.useReducer(reducer, initialArg, init);
           }
-          function useRef17(initialValue) {
+          function useRef18(initialValue) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useRef(initialValue);
           }
-          function useEffect16(create, deps) {
+          function useEffect21(create, deps) {
             var dispatcher = resolveDispatcher();
             return dispatcher.useEffect(create, deps);
           }
@@ -1879,29 +1879,29 @@
           exports.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED = ReactSharedInternals;
           exports.act = act;
           exports.cloneElement = cloneElement$1;
-          exports.createContext = createContext25;
+          exports.createContext = createContext26;
           exports.createElement = createElement$1;
           exports.createFactory = createFactory;
           exports.createRef = createRef3;
-          exports.forwardRef = forwardRef19;
+          exports.forwardRef = forwardRef20;
           exports.isValidElement = isValidElement5;
           exports.lazy = lazy;
           exports.memo = memo2;
           exports.startTransition = startTransition;
           exports.unstable_act = act;
           exports.useCallback = useCallback8;
-          exports.useContext = useContext23;
+          exports.useContext = useContext24;
           exports.useDebugValue = useDebugValue;
           exports.useDeferredValue = useDeferredValue;
-          exports.useEffect = useEffect16;
+          exports.useEffect = useEffect21;
           exports.useId = useId3;
           exports.useImperativeHandle = useImperativeHandle;
           exports.useInsertionEffect = useInsertionEffect5;
           exports.useLayoutEffect = useLayoutEffect6;
           exports.useMemo = useMemo12;
           exports.useReducer = useReducer2;
-          exports.useRef = useRef17;
-          exports.useState = useState12;
+          exports.useRef = useRef18;
+          exports.useState = useState15;
           exports.useSyncExternalStore = useSyncExternalStore;
           exports.useTransition = useTransition;
           exports.version = ReactVersion;
@@ -2397,9 +2397,9 @@
           if (typeof __REACT_DEVTOOLS_GLOBAL_HOOK__ !== "undefined" && typeof __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart === "function") {
             __REACT_DEVTOOLS_GLOBAL_HOOK__.registerInternalModuleStart(new Error());
           }
-          var React100 = require_react();
+          var React106 = require_react();
           var Scheduler = require_scheduler();
-          var ReactSharedInternals = React100.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React106.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           var suppressWarning = false;
           function setSuppressWarning(newSuppressWarning) {
             {
@@ -4006,7 +4006,7 @@
             {
               if (props.value == null) {
                 if (typeof props.children === "object" && props.children !== null) {
-                  React100.Children.forEach(props.children, function(child) {
+                  React106.Children.forEach(props.children, function(child) {
                     if (child == null) {
                       return;
                     }
@@ -23595,59 +23595,6 @@
     }
   });
 
-  // src/MultilineEditUIStrings.ts
-  var init_MultilineEditUIStrings = __esm({
-    "src/MultilineEditUIStrings.ts"() {
-      "use strict";
-    }
-  });
-
-  // src/UIStrings.ts
-  function getUIStrings(mode) {
-    switch (mode) {
-      case "yardtalk" /* kYardTalk */:
-        return UIStrings;
-      default:
-        return UIStrings;
-    }
-  }
-  var CommonUIStrings, TheYardUIStrings, UIStrings;
-  var init_UIStrings = __esm({
-    "src/UIStrings.ts"() {
-      "use strict";
-      init_MultilineEditUIStrings();
-      CommonUIStrings = {
-        kWarning: "Warning:",
-        kInfo: "Information:",
-        kError: "Error:",
-        kSuccess: "Success:",
-        kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
-        kHome: "Home",
-        kPrivacyTitle: "Privacy Policy",
-        kTermsTitle: "Terms of Service",
-        kPrivacy: "Privacy",
-        kTerms: "Terms",
-        kAIWarning: "AI can make mistakes. Think about it.",
-        kProcessingPleaseWait: "Please wait a few seconds...",
-        kArchivingPleaseWait: "Please wait a few seconds...",
-        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones."
-      };
-      TheYardUIStrings = {
-        kAppPageCaption: "Yard Talk",
-        kAppPageStrapline: "Where sweat meets sass.",
-        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we\u2019re testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
-        kLinks: "",
-        kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
-        kChatPlaceholder: "Let's talk about fitness...",
-        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
-      };
-      UIStrings = {
-        ...CommonUIStrings,
-        ...TheYardUIStrings
-      };
-    }
-  });
-
   // node_modules/@remix-run/router/dist/router.js
   function _extends() {
     _extends = Object.assign ? Object.assign.bind() : function(target) {
@@ -24736,6 +24683,40 @@
       }
     }
   }
+  function Navigate(_ref4) {
+    let {
+      to,
+      replace: replace3,
+      state,
+      relative
+    } = _ref4;
+    !useInRouterContext() ? true ? invariant(
+      false,
+      // TODO: This error is probably because they somehow have 2 versions of
+      // the router loaded. We can help them understand how to avoid that.
+      "<Navigate> may be used only in the context of a <Router> component."
+    ) : invariant(false) : void 0;
+    let {
+      future,
+      static: isStatic
+    } = React.useContext(NavigationContext);
+    true ? warning(!isStatic, "<Navigate> must not be used on the initial render in a <StaticRouter>. This is a no-op, but you should modify your code so the <Navigate> is only ever rendered in response to some user interaction or state change.") : void 0;
+    let {
+      matches
+    } = React.useContext(RouteContext);
+    let {
+      pathname: locationPathname
+    } = useLocation();
+    let navigate = useNavigate();
+    let path = resolveTo(to, getResolveToMatches(matches, future.v7_relativeSplatPath), locationPathname, relative === "path");
+    let jsonPath = JSON.stringify(path);
+    React.useEffect(() => navigate(JSON.parse(jsonPath), {
+      replace: replace3,
+      state,
+      relative
+    }), [navigate, jsonPath, relative, replace3, state]);
+    return null;
+  }
   function Router(_ref5) {
     let {
       basename: basenameProp = "/",
@@ -25572,6 +25553,13 @@
       getUniqueFetcherId = () => "__" + String(++fetcherId) + "__";
       SCROLL_RESTORATION_STORAGE_KEY = "react-router-scroll-positions";
       savedScrollPositions = {};
+    }
+  });
+
+  // import/AssistantChatApiTypes.ts
+  var init_AssistantChatApiTypes = __esm({
+    "import/AssistantChatApiTypes.ts"() {
+      "use strict";
     }
   });
 
@@ -30376,7 +30364,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       if (true) {
         (function() {
           "use strict";
-          var React100 = require_react();
+          var React106 = require_react();
           var REACT_ELEMENT_TYPE = Symbol.for("react.element");
           var REACT_PORTAL_TYPE = Symbol.for("react.portal");
           var REACT_FRAGMENT_TYPE = Symbol.for("react.fragment");
@@ -30402,7 +30390,7 @@ You can check this by searching up for matching entries in a lockfile produced b
             }
             return null;
           }
-          var ReactSharedInternals = React100.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+          var ReactSharedInternals = React106.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
           function error(format) {
             {
               {
@@ -41323,11 +41311,189 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // node_modules/@fluentui/react-image/lib/components/Image/renderImage.js
+  var renderImage_unstable;
+  var init_renderImage = __esm({
+    "node_modules/@fluentui/react-image/lib/components/Image/renderImage.js"() {
+      init_jsx_runtime();
+      init_lib2();
+      renderImage_unstable = (state) => {
+        assertSlots(state);
+        return /* @__PURE__ */ jsx(state.root, {});
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-image/lib/components/Image/useImage.js
+  var React56, useImage_unstable;
+  var init_useImage = __esm({
+    "node_modules/@fluentui/react-image/lib/components/Image/useImage.js"() {
+      React56 = __toESM(require_react());
+      init_lib2();
+      useImage_unstable = (props, ref) => {
+        const { bordered = false, fit = "default", block = false, shape = "square", shadow = false } = props;
+        const state = {
+          bordered,
+          fit,
+          block,
+          shape,
+          shadow,
+          components: {
+            root: "img"
+          },
+          root: slot_exports.always(getIntrinsicElementProps("img", {
+            ref,
+            ...props
+          }), {
+            elementType: "img"
+          })
+        };
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-image/lib/components/Image/useImageStyles.styles.js
+  var imageClassNames, useStyles5, useImageStyles_unstable;
+  var init_useImageStyles_styles = __esm({
+    "node_modules/@fluentui/react-image/lib/components/Image/useImageStyles.styles.js"() {
+      init_index_esm2();
+      imageClassNames = {
+        root: "fui-Image"
+      };
+      useStyles5 = /* @__PURE__ */ __styles2({
+        base: {
+          g2u3we: "fj3muxo",
+          h3c5rm: ["f1akhkt", "f1lxtadh"],
+          B9xav0g: "f1aperda",
+          zhjwy3: ["f1lxtadh", "f1akhkt"],
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "f1fabniw",
+          B7ck84d: "f1ewtqcl",
+          mc9l5x: "f14t3ns0"
+        },
+        bordered: {
+          icvyot: "fzkkow9",
+          vrafjx: ["fcdblym", "fjik90z"],
+          oivjwe: "fg706s2",
+          wvpqe5: ["fjik90z", "fcdblym"],
+          B4j52fo: "f192inf7",
+          Bekrc4i: ["f5tn483", "f1ojsxk5"],
+          Bn0qgzm: "f1vxd6vx",
+          ibv6hh: ["f1ojsxk5", "f5tn483"]
+        },
+        circular: {
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "f44lkw9"
+        },
+        rounded: {
+          Beyfa6y: 0,
+          Bbmb7ep: 0,
+          Btl43ni: 0,
+          B7oj6ja: 0,
+          Dimara: "ft85np5"
+        },
+        square: {},
+        shadow: {
+          E5pizo: "f1whvlc6"
+        },
+        center: {
+          st4lth: "f1plgu50",
+          Ermj5k: "f14xojzb",
+          Bqenvij: "f1l02sjl",
+          a9b677: "fly5x3f"
+        },
+        contain: {
+          st4lth: "f1kle4es",
+          Ermj5k: "f14xojzb",
+          Bqenvij: "f1l02sjl",
+          a9b677: "fly5x3f"
+        },
+        "default": {},
+        cover: {
+          st4lth: "f1ps3kmd",
+          Ermj5k: "f14xojzb",
+          Bqenvij: "f1l02sjl",
+          a9b677: "fly5x3f"
+        },
+        none: {
+          st4lth: "f1plgu50",
+          Ermj5k: ["f13uwng7", "fjmyj0p"],
+          Bqenvij: "f1l02sjl",
+          a9b677: "fly5x3f"
+        },
+        block: {
+          a9b677: "fly5x3f"
+        }
+      }, {
+        d: [".fj3muxo{border-top-color:var(--colorNeutralStroke1);}", ".f1akhkt{border-right-color:var(--colorNeutralStroke1);}", ".f1lxtadh{border-left-color:var(--colorNeutralStroke1);}", ".f1aperda{border-bottom-color:var(--colorNeutralStroke1);}", [".f1fabniw{border-radius:var(--borderRadiusNone);}", {
+          p: -1
+        }], ".f1ewtqcl{box-sizing:border-box;}", ".f14t3ns0{display:inline-block;}", ".fzkkow9{border-top-style:solid;}", ".fcdblym{border-right-style:solid;}", ".fjik90z{border-left-style:solid;}", ".fg706s2{border-bottom-style:solid;}", ".f192inf7{border-top-width:var(--strokeWidthThin);}", ".f5tn483{border-right-width:var(--strokeWidthThin);}", ".f1ojsxk5{border-left-width:var(--strokeWidthThin);}", ".f1vxd6vx{border-bottom-width:var(--strokeWidthThin);}", [".f44lkw9{border-radius:var(--borderRadiusCircular);}", {
+          p: -1
+        }], [".ft85np5{border-radius:var(--borderRadiusMedium);}", {
+          p: -1
+        }], ".f1whvlc6{box-shadow:var(--shadow4);}", ".f1plgu50{object-fit:none;}", ".f14xojzb{object-position:center;}", ".f1l02sjl{height:100%;}", ".fly5x3f{width:100%;}", ".f1kle4es{object-fit:contain;}", ".f1ps3kmd{object-fit:cover;}", ".f13uwng7{object-position:left top;}", ".fjmyj0p{object-position:right top;}"]
+      });
+      useImageStyles_unstable = (state) => {
+        "use no memo";
+        const styles = useStyles5();
+        state.root.className = mergeClasses(imageClassNames.root, styles.base, state.block && styles.block, state.bordered && styles.bordered, state.shadow && styles.shadow, styles[state.fit], styles[state.shape], state.root.className);
+        return state;
+      };
+    }
+  });
+
+  // node_modules/@fluentui/react-image/lib/components/Image/Image.js
+  var React57, Image;
+  var init_Image = __esm({
+    "node_modules/@fluentui/react-image/lib/components/Image/Image.js"() {
+      React57 = __toESM(require_react());
+      init_renderImage();
+      init_useImage();
+      init_useImageStyles_styles();
+      init_lib();
+      Image = /* @__PURE__ */ React57.forwardRef((props, ref) => {
+        const state = useImage_unstable(props, ref);
+        useImageStyles_unstable(state);
+        useCustomStyleHook("useImageStyles_unstable")(state);
+        return renderImage_unstable(state);
+      });
+      Image.displayName = "Image";
+    }
+  });
+
+  // node_modules/@fluentui/react-image/lib/components/Image/index.js
+  var init_Image2 = __esm({
+    "node_modules/@fluentui/react-image/lib/components/Image/index.js"() {
+      init_Image();
+    }
+  });
+
+  // node_modules/@fluentui/react-image/lib/Image.js
+  var init_Image3 = __esm({
+    "node_modules/@fluentui/react-image/lib/Image.js"() {
+      init_Image2();
+    }
+  });
+
+  // node_modules/@fluentui/react-image/lib/index.js
+  var init_lib16 = __esm({
+    "node_modules/@fluentui/react-image/lib/index.js"() {
+      init_Image3();
+    }
+  });
+
   // node_modules/@fluentui/react-link/lib/components/Link/useLinkState.js
-  var React56, useLinkState_unstable;
+  var React58, useLinkState_unstable;
   var init_useLinkState = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLinkState.js"() {
-      React56 = __toESM(require_react());
+      React58 = __toESM(require_react());
       init_lib8();
       useLinkState_unstable = (state) => {
         const { disabled, disabledFocusable } = state;
@@ -41372,27 +41538,27 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/contexts/linkContext.js
-  var React57, LinkContext, linkContextDefaultValue, LinkContextProvider, useLinkContext;
+  var React59, LinkContext, linkContextDefaultValue, LinkContextProvider, useLinkContext;
   var init_linkContext = __esm({
     "node_modules/@fluentui/react-link/lib/contexts/linkContext.js"() {
-      React57 = __toESM(require_react());
-      LinkContext = React57.createContext(void 0);
+      React59 = __toESM(require_react());
+      LinkContext = React59.createContext(void 0);
       linkContextDefaultValue = {
         inline: false
       };
       LinkContextProvider = LinkContext.Provider;
       useLinkContext = () => {
         var _React_useContext;
-        return (_React_useContext = React57.useContext(LinkContext)) !== null && _React_useContext !== void 0 ? _React_useContext : linkContextDefaultValue;
+        return (_React_useContext = React59.useContext(LinkContext)) !== null && _React_useContext !== void 0 ? _React_useContext : linkContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLink.js
-  var React58, useLink_unstable;
+  var React60, useLink_unstable;
   var init_useLink = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLink.js"() {
-      React58 = __toESM(require_react());
+      React60 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_useLinkState();
@@ -41433,14 +41599,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/useLinkStyles.styles.js
-  var linkClassNames, useStyles5, useLinkStyles_unstable;
+  var linkClassNames, useStyles6, useLinkStyles_unstable;
   var init_useLinkStyles_styles = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/useLinkStyles.styles.js"() {
       init_index_esm2();
       linkClassNames = {
         root: "fui-Link"
       };
-      useStyles5 = /* @__PURE__ */ __styles2({
+      useStyles6 = /* @__PURE__ */ __styles2({
         focusIndicator: {
           Bttzg6e: "fhgqx19",
           B3uz8dt: "f1olyrje",
@@ -41527,7 +41693,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useLinkStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles5();
+        const styles = useStyles6();
         const {
           appearance,
           disabled,
@@ -41555,15 +41721,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/components/Link/Link.js
-  var React59, Link3;
+  var React61, Link3;
   var init_Link = __esm({
     "node_modules/@fluentui/react-link/lib/components/Link/Link.js"() {
-      React59 = __toESM(require_react());
+      React61 = __toESM(require_react());
       init_useLink();
       init_useLinkStyles_styles();
       init_renderLink();
       init_lib();
-      Link3 = /* @__PURE__ */ React59.forwardRef((props, ref) => {
+      Link3 = /* @__PURE__ */ React61.forwardRef((props, ref) => {
         const state = useLink_unstable(props, ref);
         useLinkStyles_unstable(state);
         useCustomStyleHook("useLinkStyles_unstable")(state);
@@ -41595,7 +41761,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-link/lib/index.js
-  var init_lib16 = __esm({
+  var init_lib17 = __esm({
     "node_modules/@fluentui/react-link/lib/index.js"() {
       init_Link3();
       init_contexts4();
@@ -41603,25 +41769,25 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-spinner/lib/contexts/SpinnerContext.js
-  var React60, SpinnerContext, SpinnerContextDefaultValue, SpinnerContextProvider, useSpinnerContext;
+  var React62, SpinnerContext, SpinnerContextDefaultValue, SpinnerContextProvider, useSpinnerContext;
   var init_SpinnerContext = __esm({
     "node_modules/@fluentui/react-spinner/lib/contexts/SpinnerContext.js"() {
-      React60 = __toESM(require_react());
-      SpinnerContext = React60.createContext(void 0);
+      React62 = __toESM(require_react());
+      SpinnerContext = React62.createContext(void 0);
       SpinnerContextDefaultValue = {};
       SpinnerContextProvider = SpinnerContext.Provider;
       useSpinnerContext = () => {
         var _React_useContext;
-        return (_React_useContext = React60.useContext(SpinnerContext)) !== null && _React_useContext !== void 0 ? _React_useContext : SpinnerContextDefaultValue;
+        return (_React_useContext = React62.useContext(SpinnerContext)) !== null && _React_useContext !== void 0 ? _React_useContext : SpinnerContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinner.js
-  var React61, useSpinner_unstable;
+  var React63, useSpinner_unstable;
   var init_useSpinner = __esm({
     "node_modules/@fluentui/react-spinner/lib/components/Spinner/useSpinner.js"() {
-      React61 = __toESM(require_react());
+      React63 = __toESM(require_react());
       init_lib2();
       init_lib14();
       init_SpinnerContext();
@@ -41642,9 +41808,9 @@ You can check this by searching up for matching entries in a lockfile produced b
         ]), {
           elementType: "div"
         });
-        const [isShownAfterDelay, setIsShownAfterDelay] = React61.useState(false);
+        const [isShownAfterDelay, setIsShownAfterDelay] = React63.useState(false);
         const [setDelayTimeout, clearDelayTimeout] = useTimeout();
-        React61.useEffect(() => {
+        React63.useEffect(() => {
           if (delay <= 0) {
             return;
           }
@@ -41890,15 +42056,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-spinner/lib/components/Spinner/Spinner.js
-  var React62, Spinner;
+  var React64, Spinner;
   var init_Spinner = __esm({
     "node_modules/@fluentui/react-spinner/lib/components/Spinner/Spinner.js"() {
-      React62 = __toESM(require_react());
+      React64 = __toESM(require_react());
       init_useSpinner();
       init_renderSpinner();
       init_useSpinnerStyles_styles();
       init_lib();
-      Spinner = /* @__PURE__ */ React62.forwardRef((props, ref) => {
+      Spinner = /* @__PURE__ */ React64.forwardRef((props, ref) => {
         const state = useSpinner_unstable(props, ref);
         useSpinnerStyles_unstable(state);
         useCustomStyleHook("useSpinnerStyles_unstable")(state);
@@ -41923,17 +42089,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-spinner/lib/index.js
-  var init_lib17 = __esm({
+  var init_lib18 = __esm({
     "node_modules/@fluentui/react-spinner/lib/index.js"() {
       init_Spinner3();
     }
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/useText.js
-  var React63, useText_unstable;
+  var React65, useText_unstable;
   var init_useText = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/useText.js"() {
-      React63 = __toESM(require_react());
+      React65 = __toESM(require_react());
       init_lib2();
       useText_unstable = (props, ref) => {
         const { wrap, truncate, block, italic, underline, strikethrough, size, font, weight, align } = props;
@@ -41980,14 +42146,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/useTextStyles.styles.js
-  var textClassNames, useStyles6, useTextStyles_unstable;
+  var textClassNames, useStyles7, useTextStyles_unstable;
   var init_useTextStyles_styles = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/useTextStyles.styles.js"() {
       init_index_esm2();
       textClassNames = {
         root: "fui-Text"
       };
-      useStyles6 = /* @__PURE__ */ __styles2({
+      useStyles7 = /* @__PURE__ */ __styles2({
         root: {
           Bahqtrf: "fk6fouc",
           Be2twd7: "fkhj508",
@@ -42094,7 +42260,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useTextStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles6();
+        const styles = useStyles7();
         state.root.className = mergeClasses(textClassNames.root, styles.root, state.wrap === false && styles.nowrap, state.truncate && styles.truncate, state.block && styles.block, state.italic && styles.italic, state.underline && styles.underline, state.strikethrough && styles.strikethrough, state.underline && state.strikethrough && styles.strikethroughUnderline, state.size === 100 && styles.base100, state.size === 200 && styles.base200, state.size === 400 && styles.base400, state.size === 500 && styles.base500, state.size === 600 && styles.base600, state.size === 700 && styles.hero700, state.size === 800 && styles.hero800, state.size === 900 && styles.hero900, state.size === 1e3 && styles.hero1000, state.font === "monospace" && styles.monospace, state.font === "numeric" && styles.numeric, state.weight === "medium" && styles.weightMedium, state.weight === "semibold" && styles.weightSemibold, state.weight === "bold" && styles.weightBold, state.align === "center" && styles.alignCenter, state.align === "end" && styles.alignEnd, state.align === "justify" && styles.alignJustify, state.root.className);
         return state;
       };
@@ -42102,15 +42268,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/components/Text/Text.js
-  var React64, Text;
+  var React66, Text;
   var init_Text = __esm({
     "node_modules/@fluentui/react-text/lib/components/Text/Text.js"() {
-      React64 = __toESM(require_react());
+      React66 = __toESM(require_react());
       init_useText();
       init_renderText();
       init_useTextStyles_styles();
       init_lib();
-      Text = /* @__PURE__ */ React64.forwardRef((props, ref) => {
+      Text = /* @__PURE__ */ React66.forwardRef((props, ref) => {
         const state = useText_unstable(props, ref);
         useTextStyles_unstable(state);
         useCustomStyleHook("useTextStyles_unstable")(state);
@@ -42135,7 +42301,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-text/lib/index.js
-  var init_lib18 = __esm({
+  var init_lib19 = __esm({
     "node_modules/@fluentui/react-text/lib/index.js"() {
       init_Text3();
     }
@@ -42157,10 +42323,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js
-  var React65, useTextarea_unstable;
+  var React67, useTextarea_unstable;
   var init_useTextarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/useTextarea.js"() {
-      React65 = __toESM(require_react());
+      React67 = __toESM(require_react());
       init_lib15();
       init_lib2();
       init_lib();
@@ -42620,15 +42786,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js
-  var React66, Textarea;
+  var React68, Textarea;
   var init_Textarea = __esm({
     "node_modules/@fluentui/react-textarea/lib/components/Textarea/Textarea.js"() {
-      React66 = __toESM(require_react());
+      React68 = __toESM(require_react());
       init_renderTextarea();
       init_useTextarea();
       init_useTextareaStyles_styles();
       init_lib();
-      Textarea = /* @__PURE__ */ React66.forwardRef((props, ref) => {
+      Textarea = /* @__PURE__ */ React68.forwardRef((props, ref) => {
         const state = useTextarea_unstable(props, ref);
         useTextareaStyles_unstable(state);
         useCustomStyleHook("useTextareaStyles_unstable")(state);
@@ -42653,17 +42819,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-textarea/lib/index.js
-  var init_lib19 = __esm({
+  var init_lib20 = __esm({
     "node_modules/@fluentui/react-textarea/lib/index.js"() {
       init_Textarea3();
     }
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js
-  var React67, useToolbar_unstable, useToolbarSelectableState;
+  var React69, useToolbar_unstable, useToolbarSelectableState;
   var init_useToolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbar.js"() {
-      React67 = __toESM(require_react());
+      React69 = __toESM(require_react());
       init_lib2();
       init_lib5();
       useToolbar_unstable = (props, ref) => {
@@ -42796,14 +42962,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbarStyles.styles.js
-  var toolbarClassNames, useStyles7, useToolbarStyles_unstable;
+  var toolbarClassNames, useStyles8, useToolbarStyles_unstable;
   var init_useToolbarStyles_styles = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/useToolbarStyles.styles.js"() {
       init_index_esm2();
       toolbarClassNames = {
         root: "fui-Toolbar"
       };
-      useStyles7 = /* @__PURE__ */ __styles2({
+      useStyles8 = /* @__PURE__ */ __styles2({
         root: {
           mc9l5x: "f22iagw",
           Bt984gj: "f122n59",
@@ -42851,7 +43017,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useToolbarStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles7();
+        const styles = useStyles8();
         const {
           vertical,
           size
@@ -42882,16 +43048,16 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js
-  var React68, Toolbar;
+  var React70, Toolbar;
   var init_Toolbar = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/Toolbar/Toolbar.js"() {
-      React68 = __toESM(require_react());
+      React70 = __toESM(require_react());
       init_useToolbar();
       init_renderToolbar();
       init_useToolbarStyles_styles();
       init_useToolbarContextValues();
       init_lib();
-      Toolbar = /* @__PURE__ */ React68.forwardRef((props, ref) => {
+      Toolbar = /* @__PURE__ */ React70.forwardRef((props, ref) => {
         const state = useToolbar_unstable(props, ref);
         const contextValues = useToolbarContextValues_unstable(state);
         useToolbarStyles_unstable(state);
@@ -42952,10 +43118,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js
-  var React69, useToolbarButton_unstable;
+  var React71, useToolbarButton_unstable;
   var init_useToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/useToolbarButton.js"() {
-      React69 = __toESM(require_react());
+      React71 = __toESM(require_react());
       init_lib13();
       useToolbarButton_unstable = (props, ref) => {
         const { vertical = false, ...buttonProps } = props;
@@ -42973,15 +43139,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js
-  var React70, ToolbarButton;
+  var React72, ToolbarButton;
   var init_ToolbarButton = __esm({
     "node_modules/@fluentui/react-toolbar/lib/components/ToolbarButton/ToolbarButton.js"() {
-      React70 = __toESM(require_react());
+      React72 = __toESM(require_react());
       init_lib13();
       init_useToolbarButtonStyles_styles();
       init_useToolbarButton();
       init_lib();
-      ToolbarButton = /* @__PURE__ */ React70.forwardRef((props, ref) => {
+      ToolbarButton = /* @__PURE__ */ React72.forwardRef((props, ref) => {
         const state = useToolbarButton_unstable(props, ref);
         useToolbarButtonStyles_unstable(state);
         useCustomStyleHook("useToolbarButtonStyles_unstable")(state);
@@ -43006,7 +43172,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-toolbar/lib/index.js
-  var init_lib20 = __esm({
+  var init_lib21 = __esm({
     "node_modules/@fluentui/react-toolbar/lib/index.js"() {
       init_Toolbar3();
       init_ToolbarButton3();
@@ -43017,21 +43183,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   function getIntentIcon(intent) {
     switch (intent) {
       case "info":
-        return /* @__PURE__ */ React71.createElement(InfoFilled, null);
+        return /* @__PURE__ */ React73.createElement(InfoFilled, null);
       case "warning":
-        return /* @__PURE__ */ React71.createElement(WarningFilled, null);
+        return /* @__PURE__ */ React73.createElement(WarningFilled, null);
       case "error":
-        return /* @__PURE__ */ React71.createElement(DismissCircleFilled, null);
+        return /* @__PURE__ */ React73.createElement(DismissCircleFilled, null);
       case "success":
-        return /* @__PURE__ */ React71.createElement(CheckmarkCircleFilled, null);
+        return /* @__PURE__ */ React73.createElement(CheckmarkCircleFilled, null);
       default:
         return null;
     }
   }
-  var React71;
+  var React73;
   var init_getIntentIcon = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/getIntentIcon.js"() {
-      React71 = __toESM(require_react());
+      React73 = __toESM(require_react());
       init_lib10();
     }
   });
@@ -43039,11 +43205,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js
   function useMessageBarReflow(enabled = false) {
     const { targetDocument } = useFluent();
-    const forceUpdate = React72.useReducer(() => ({}), {})[1];
-    const reflowingRef = React72.useRef(false);
-    const resizeObserverRef = React72.useRef(null);
-    const prevInlineSizeRef = React72.useRef(-1);
-    const handleResize = React72.useCallback((entries) => {
+    const forceUpdate = React74.useReducer(() => ({}), {})[1];
+    const reflowingRef = React74.useRef(false);
+    const resizeObserverRef = React74.useRef(null);
+    const prevInlineSizeRef = React74.useRef(-1);
+    const handleResize = React74.useCallback((entries) => {
       var _entry_borderBoxSize_, _entry_borderBoxSize;
       if (entries.length > 1) {
         console.error([
@@ -43081,7 +43247,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }, [
       forceUpdate
     ]);
-    const ref = React72.useCallback((el) => {
+    const ref = React74.useCallback((el) => {
       var _resizeObserverRef_current;
       if (!enabled || !el || !(targetDocument === null || targetDocument === void 0 ? void 0 : targetDocument.defaultView)) {
         return;
@@ -43098,7 +43264,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       handleResize,
       enabled
     ]);
-    React72.useEffect(() => {
+    React74.useEffect(() => {
       return () => {
         var _resizeObserverRef_current;
         (_resizeObserverRef_current = resizeObserverRef.current) === null || _resizeObserverRef_current === void 0 ? void 0 : _resizeObserverRef_current.disconnect();
@@ -43109,38 +43275,38 @@ You can check this by searching up for matching entries in a lockfile produced b
       reflowing: reflowingRef.current
     };
   }
-  var React72;
+  var React74;
   var init_useMessageBarReflow = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarReflow.js"() {
-      React72 = __toESM(require_react());
+      React74 = __toESM(require_react());
       init_lib();
       init_lib2();
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js
-  var React73, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
+  var React75, messageBarTransitionContext, messageBarTransitionContextDefaultValue, MessageBarTransitionContextProvider, useMessageBarTransitionContext;
   var init_messageBarTransitionContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarTransitionContext.js"() {
-      React73 = __toESM(require_react());
-      messageBarTransitionContext = React73.createContext(void 0);
+      React75 = __toESM(require_react());
+      messageBarTransitionContext = React75.createContext(void 0);
       messageBarTransitionContextDefaultValue = {
         className: "",
-        nodeRef: React73.createRef()
+        nodeRef: React75.createRef()
       };
       MessageBarTransitionContextProvider = messageBarTransitionContext.Provider;
       useMessageBarTransitionContext = () => {
         var _React_useContext;
-        return (_React_useContext = React73.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
+        return (_React_useContext = React75.useContext(messageBarTransitionContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarTransitionContextDefaultValue;
       };
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js
-  var React74, useMessageBar_unstable;
+  var React76, useMessageBar_unstable;
   var init_useMessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBar.js"() {
-      React74 = __toESM(require_react());
+      React76 = __toESM(require_react());
       init_lib2();
       init_lib();
       init_getIntentIcon();
@@ -43153,11 +43319,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         const { ref: reflowRef, reflowing } = useMessageBarReflow(autoReflow);
         const computedLayout = autoReflow ? reflowing ? "multiline" : "singleline" : layout;
         const { className: transitionClassName, nodeRef } = useMessageBarTransitionContext();
-        const actionsRef = React74.useRef(null);
-        const bodyRef = React74.useRef(null);
+        const actionsRef = React76.useRef(null);
+        const bodyRef = React76.useRef(null);
         const { announce } = useAnnounce();
         const titleId = useId2();
-        React74.useEffect(() => {
+        React76.useEffect(() => {
           var _bodyRef_current, _actionsRef_current;
           const bodyMessage = (_bodyRef_current = bodyRef.current) === null || _bodyRef_current === void 0 ? void 0 : _bodyRef_current.textContent;
           const actionsMessage = (_actionsRef_current = actionsRef.current) === null || _actionsRef_current === void 0 ? void 0 : _actionsRef_current.textContent;
@@ -43213,21 +43379,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js
-  var React75, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
+  var React77, messageBarContext, messageBarContextDefaultValue, MessageBarContextProvider, useMessageBarContext;
   var init_messageBarContext = __esm({
     "node_modules/@fluentui/react-message-bar/lib/contexts/messageBarContext.js"() {
-      React75 = __toESM(require_react());
-      messageBarContext = React75.createContext(void 0);
+      React77 = __toESM(require_react());
+      messageBarContext = React77.createContext(void 0);
       messageBarContextDefaultValue = {
         titleId: "",
         layout: "singleline",
-        actionsRef: React75.createRef(),
-        bodyRef: React75.createRef()
+        actionsRef: React77.createRef(),
+        bodyRef: React77.createRef()
       };
       MessageBarContextProvider = messageBarContext.Provider;
       useMessageBarContext = () => {
         var _React_useContext;
-        return (_React_useContext = React75.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
+        return (_React_useContext = React77.useContext(messageBarContext)) !== null && _React_useContext !== void 0 ? _React_useContext : messageBarContextDefaultValue;
       };
     }
   });
@@ -43256,7 +43422,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarStyles.styles.js
-  var messageBarClassNames, useRootBaseStyles, useIconBaseStyles, useReflowSpacerBaseStyles, useStyles8, useIconIntentStyles, useRootIntentStyles, useMessageBarStyles_unstable;
+  var messageBarClassNames, useRootBaseStyles, useIconBaseStyles, useReflowSpacerBaseStyles, useStyles9, useIconIntentStyles, useRootIntentStyles, useMessageBarStyles_unstable;
   var init_useMessageBarStyles_styles = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarStyles.styles.js"() {
       init_index_esm2();
@@ -43268,7 +43434,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       useRootBaseStyles = /* @__PURE__ */ __resetStyles2("r2oyxsj", "r1wuyrhw", ['.r2oyxsj{white-space:nowrap;display:grid;grid-template-columns:auto 1fr auto auto;grid-template-rows:1fr;grid-template-areas:"icon body secondaryActions actions";padding-left:var(--spacingHorizontalM);border:var(--strokeWidthThin) solid var(--colorNeutralStroke1);border-radius:var(--borderRadiusMedium);align-items:center;min-height:36px;box-sizing:border-box;background-color:var(--colorNeutralBackground3);}', '.r1wuyrhw{white-space:nowrap;display:grid;grid-template-columns:auto 1fr auto auto;grid-template-rows:1fr;grid-template-areas:"icon body secondaryActions actions";padding-right:var(--spacingHorizontalM);border:var(--strokeWidthThin) solid var(--colorNeutralStroke1);border-radius:var(--borderRadiusMedium);align-items:center;min-height:36px;box-sizing:border-box;background-color:var(--colorNeutralBackground3);}']);
       useIconBaseStyles = /* @__PURE__ */ __resetStyles2("r1df1z33", "rivnfjc", [".r1df1z33{grid-area:icon;font-size:var(--fontSizeBase500);margin-right:var(--spacingHorizontalS);color:var(--colorNeutralForeground3);display:flex;align-items:center;}", ".rivnfjc{grid-area:icon;font-size:var(--fontSizeBase500);margin-left:var(--spacingHorizontalS);color:var(--colorNeutralForeground3);display:flex;align-items:center;}"]);
       useReflowSpacerBaseStyles = /* @__PURE__ */ __resetStyles2("r1vx593n", null, [".r1vx593n{margin-bottom:var(--spacingVerticalS);grid-area:secondaryActions;}"]);
-      useStyles8 = /* @__PURE__ */ __styles2({
+      useStyles9 = /* @__PURE__ */ __styles2({
         rootMultiline: {
           Huce71: "f6juhto",
           Bt984gj: "f1s2louj",
@@ -43341,7 +43507,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         const iconIntentStyles = useIconIntentStyles();
         const rootIntentStyles = useRootIntentStyles();
         const reflowSpacerStyles = useReflowSpacerBaseStyles();
-        const styles = useStyles8();
+        const styles = useStyles9();
         state.root.className = mergeClasses(messageBarClassNames.root, rootBaseStyles, state.layout === "multiline" && styles.rootMultiline, state.shape === "square" && styles.square, rootIntentStyles[state.intent], state.transitionClassName, state.root.className);
         if (state.icon) {
           state.icon.className = mergeClasses(messageBarClassNames.icon, iconBaseStyles, iconIntentStyles[state.intent], state.icon.className);
@@ -43357,7 +43523,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js
   function useMessageBarContextValue_unstable(state) {
     const { layout, actionsRef, bodyRef, titleId } = state;
-    const messageBarContext2 = React76.useMemo(() => ({
+    const messageBarContext2 = React78.useMemo(() => ({
       layout,
       actionsRef,
       bodyRef,
@@ -43372,24 +43538,24 @@ You can check this by searching up for matching entries in a lockfile produced b
       messageBar: messageBarContext2
     };
   }
-  var React76;
+  var React78;
   var init_useMessageBarContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/useMessageBarContextValues.js"() {
-      React76 = __toESM(require_react());
+      React78 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js
-  var React77, MessageBar;
+  var React79, MessageBar;
   var init_MessageBar = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBar/MessageBar.js"() {
-      React77 = __toESM(require_react());
+      React79 = __toESM(require_react());
       init_lib();
       init_useMessageBar();
       init_renderMessageBar();
       init_useMessageBarStyles_styles();
       init_useMessageBarContextValues();
-      MessageBar = /* @__PURE__ */ React77.forwardRef((props, ref) => {
+      MessageBar = /* @__PURE__ */ React79.forwardRef((props, ref) => {
         const state = useMessageBar_unstable(props, ref);
         useMessageBarStyles_unstable(state);
         useCustomStyleHook("useMessageBarStyles_unstable")(state);
@@ -43414,10 +43580,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js
-  var React78, useMessageBarTitle_unstable;
+  var React80, useMessageBarTitle_unstable;
   var init_useMessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/useMessageBarTitle.js"() {
-      React78 = __toESM(require_react());
+      React80 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarTitle_unstable = (props, ref) => {
@@ -43470,15 +43636,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js
-  var React79, MessageBarTitle;
+  var React81, MessageBarTitle;
   var init_MessageBarTitle = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarTitle/MessageBarTitle.js"() {
-      React79 = __toESM(require_react());
+      React81 = __toESM(require_react());
       init_lib();
       init_useMessageBarTitle();
       init_renderMessageBarTitle();
       init_useMessageBarTitleStyles_styles();
-      MessageBarTitle = /* @__PURE__ */ React79.forwardRef((props, ref) => {
+      MessageBarTitle = /* @__PURE__ */ React81.forwardRef((props, ref) => {
         const state = useMessageBarTitle_unstable(props, ref);
         useMessageBarTitleStyles_unstable(state);
         useCustomStyleHook("useMessageBarTitleStyles_unstable")(state);
@@ -43503,10 +43669,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js
-  var React80, useMessageBarActions_unstable;
+  var React82, useMessageBarActions_unstable;
   var init_useMessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActions.js"() {
-      React80 = __toESM(require_react());
+      React82 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarActions_unstable = (props, ref) => {
@@ -43603,31 +43769,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js
   function useMessageBarActionsContextValue_unstable() {
-    const buttonContext2 = React81.useMemo(() => ({
+    const buttonContext2 = React83.useMemo(() => ({
       size: "small"
     }), []);
     return {
       button: buttonContext2
     };
   }
-  var React81;
+  var React83;
   var init_useMessageBarActionsContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/useMessageBarActionsContextValues.js"() {
-      React81 = __toESM(require_react());
+      React83 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js
-  var React82, MessageBarActions;
+  var React84, MessageBarActions;
   var init_MessageBarActions = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarActions/MessageBarActions.js"() {
-      React82 = __toESM(require_react());
+      React84 = __toESM(require_react());
       init_lib();
       init_useMessageBarActions();
       init_renderMessageBarActions();
       init_useMessageBarActionsStyles_styles();
       init_useMessageBarActionsContextValues();
-      MessageBarActions = /* @__PURE__ */ React82.forwardRef((props, ref) => {
+      MessageBarActions = /* @__PURE__ */ React84.forwardRef((props, ref) => {
         const state = useMessageBarActions_unstable(props, ref);
         useMessageBarActionsStyles_unstable(state);
         useCustomStyleHook("useMessageBarActionsStyles_unstable")(state);
@@ -43652,10 +43818,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js
-  var React83, useMessageBarBody_unstable;
+  var React85, useMessageBarBody_unstable;
   var init_useMessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBody.js"() {
-      React83 = __toESM(require_react());
+      React85 = __toESM(require_react());
       init_lib2();
       init_messageBarContext();
       useMessageBarBody_unstable = (props, ref) => {
@@ -43681,7 +43847,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/renderMessageBarBody.js"() {
       init_jsx_runtime();
       init_lib2();
-      init_lib16();
+      init_lib17();
       renderMessageBarBody_unstable = (state, contextValues) => {
         assertSlots(state);
         return /* @__PURE__ */ jsx(LinkContextProvider, {
@@ -43712,31 +43878,31 @@ You can check this by searching up for matching entries in a lockfile produced b
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js
   function useMessageBarBodyContextValues_unstable(state) {
-    const link = React84.useMemo(() => ({
+    const link = React86.useMemo(() => ({
       inline: true
     }), []);
     return {
       link
     };
   }
-  var React84;
+  var React86;
   var init_useMessageBarBodyContextValues = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/useMessageBarBodyContextValues.js"() {
-      React84 = __toESM(require_react());
+      React86 = __toESM(require_react());
     }
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js
-  var React85, MessageBarBody;
+  var React87, MessageBarBody;
   var init_MessageBarBody = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarBody/MessageBarBody.js"() {
-      React85 = __toESM(require_react());
+      React87 = __toESM(require_react());
       init_lib();
       init_useMessageBarBody();
       init_renderMessageBarBody();
       init_useMessageBarBodyStyles_styles();
       init_useMessageBarBodyContextValues();
-      MessageBarBody = /* @__PURE__ */ React85.forwardRef((props, ref) => {
+      MessageBarBody = /* @__PURE__ */ React87.forwardRef((props, ref) => {
         const state = useMessageBarBody_unstable(props, ref);
         const ctx = useMessageBarBodyContextValues_unstable(state);
         useMessageBarBodyStyles_unstable(state);
@@ -43762,21 +43928,21 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js
-  var React86, useMessageBarGroup_unstable;
+  var React88, useMessageBarGroup_unstable;
   var init_useMessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroup.js"() {
-      React86 = __toESM(require_react());
+      React88 = __toESM(require_react());
       init_lib2();
       useMessageBarGroup_unstable = (props, ref) => {
         if (true) {
-          React86.Children.forEach(props.children, (c) => {
-            if (!React86.isValidElement(c) || c.type === React86.Fragment) {
+          React88.Children.forEach(props.children, (c) => {
+            if (!React88.isValidElement(c) || c.type === React88.Fragment) {
               throw new Error("MessageBarGroup: children must be valid MessageBar components. Please ensure you're not using fragments. ");
             }
           });
         }
         var _props_children;
-        const children = React86.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React86.isValidElement(c) && c.type !== React86.Fragment ? c : null).filter(Boolean);
+        const children = React88.Children.map((_props_children = props.children) !== null && _props_children !== void 0 ? _props_children : [], (c) => React88.isValidElement(c) && c.type !== React88.Fragment ? c : null).filter(Boolean);
         var _props_animate;
         return {
           components: {
@@ -44661,11 +44827,11 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/react-transition-group/esm/TransitionGroupContext.js
-  var import_react20, TransitionGroupContext_default;
+  var import_react21, TransitionGroupContext_default;
   var init_TransitionGroupContext = __esm({
     "node_modules/react-transition-group/esm/TransitionGroupContext.js"() {
-      import_react20 = __toESM(require_react());
-      TransitionGroupContext_default = import_react20.default.createContext(null);
+      import_react21 = __toESM(require_react());
+      TransitionGroupContext_default = import_react21.default.createContext(null);
     }
   });
 
@@ -44682,13 +44848,13 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/Transition.js
   function noop3() {
   }
-  var import_prop_types2, import_react21, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
+  var import_prop_types2, import_react22, import_react_dom, UNMOUNTED, EXITED, ENTERING, ENTERED, EXITING, Transition, Transition_default;
   var init_Transition = __esm({
     "node_modules/react-transition-group/esm/Transition.js"() {
       init_objectWithoutPropertiesLoose();
       init_inheritsLoose();
       import_prop_types2 = __toESM(require_prop_types());
-      import_react21 = __toESM(require_react());
+      import_react22 = __toESM(require_react());
       import_react_dom = __toESM(require_react_dom());
       init_config();
       init_PropTypes();
@@ -44901,13 +45067,13 @@ You can check this by searching up for matching entries in a lockfile produced b
           var _this$props = this.props, children = _this$props.children, _in = _this$props.in, _mountOnEnter = _this$props.mountOnEnter, _unmountOnExit = _this$props.unmountOnExit, _appear = _this$props.appear, _enter = _this$props.enter, _exit = _this$props.exit, _timeout = _this$props.timeout, _addEndListener = _this$props.addEndListener, _onEnter = _this$props.onEnter, _onEntering = _this$props.onEntering, _onEntered = _this$props.onEntered, _onExit = _this$props.onExit, _onExiting = _this$props.onExiting, _onExited = _this$props.onExited, _nodeRef = _this$props.nodeRef, childProps = _objectWithoutPropertiesLoose2(_this$props, ["children", "in", "mountOnEnter", "unmountOnExit", "appear", "enter", "exit", "timeout", "addEndListener", "onEnter", "onEntering", "onEntered", "onExit", "onExiting", "onExited", "nodeRef"]);
           return (
             // allows for nested Transitions
-            /* @__PURE__ */ import_react21.default.createElement(TransitionGroupContext_default.Provider, {
+            /* @__PURE__ */ import_react22.default.createElement(TransitionGroupContext_default.Provider, {
               value: null
-            }, typeof children === "function" ? children(status, childProps) : import_react21.default.cloneElement(import_react21.default.Children.only(children), childProps))
+            }, typeof children === "function" ? children(status, childProps) : import_react22.default.cloneElement(import_react22.default.Children.only(children), childProps))
           );
         };
         return Transition2;
-      }(import_react21.default.Component);
+      }(import_react22.default.Component);
       Transition.contextType = TransitionGroupContext_default;
       Transition.propTypes = true ? {
         /**
@@ -45115,10 +45281,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   // node_modules/react-transition-group/esm/utils/ChildMapping.js
   function getChildMapping(children, mapFn) {
     var mapper = function mapper2(child) {
-      return mapFn && (0, import_react22.isValidElement)(child) ? mapFn(child) : child;
+      return mapFn && (0, import_react23.isValidElement)(child) ? mapFn(child) : child;
     };
     var result = /* @__PURE__ */ Object.create(null);
-    if (children) import_react22.Children.map(children, function(c) {
+    if (children) import_react23.Children.map(children, function(c) {
       return c;
     }).forEach(function(child) {
       result[child.key] = mapper(child);
@@ -45164,7 +45330,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   }
   function getInitialChildMapping(props, onExited) {
     return getChildMapping(props.children, function(child) {
-      return (0, import_react22.cloneElement)(child, {
+      return (0, import_react23.cloneElement)(child, {
         onExited: onExited.bind(null, child),
         in: true,
         appear: getProp(child, "appear", props),
@@ -45178,24 +45344,24 @@ You can check this by searching up for matching entries in a lockfile produced b
     var children = mergeChildMappings(prevChildMapping, nextChildMapping);
     Object.keys(children).forEach(function(key) {
       var child = children[key];
-      if (!(0, import_react22.isValidElement)(child)) return;
+      if (!(0, import_react23.isValidElement)(child)) return;
       var hasPrev = key in prevChildMapping;
       var hasNext = key in nextChildMapping;
       var prevChild = prevChildMapping[key];
-      var isLeaving = (0, import_react22.isValidElement)(prevChild) && !prevChild.props.in;
+      var isLeaving = (0, import_react23.isValidElement)(prevChild) && !prevChild.props.in;
       if (hasNext && (!hasPrev || isLeaving)) {
-        children[key] = (0, import_react22.cloneElement)(child, {
+        children[key] = (0, import_react23.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: true,
           exit: getProp(child, "exit", nextProps),
           enter: getProp(child, "enter", nextProps)
         });
       } else if (!hasNext && hasPrev && !isLeaving) {
-        children[key] = (0, import_react22.cloneElement)(child, {
+        children[key] = (0, import_react23.cloneElement)(child, {
           in: false
         });
-      } else if (hasNext && hasPrev && (0, import_react22.isValidElement)(prevChild)) {
-        children[key] = (0, import_react22.cloneElement)(child, {
+      } else if (hasNext && hasPrev && (0, import_react23.isValidElement)(prevChild)) {
+        children[key] = (0, import_react23.cloneElement)(child, {
           onExited: onExited.bind(null, child),
           in: prevChild.props.in,
           exit: getProp(child, "exit", nextProps),
@@ -45205,15 +45371,15 @@ You can check this by searching up for matching entries in a lockfile produced b
     });
     return children;
   }
-  var import_react22;
+  var import_react23;
   var init_ChildMapping = __esm({
     "node_modules/react-transition-group/esm/utils/ChildMapping.js"() {
-      import_react22 = __toESM(require_react());
+      import_react23 = __toESM(require_react());
     }
   });
 
   // node_modules/react-transition-group/esm/TransitionGroup.js
-  var import_prop_types3, import_react23, values, defaultProps, TransitionGroup, TransitionGroup_default;
+  var import_prop_types3, import_react24, values, defaultProps, TransitionGroup, TransitionGroup_default;
   var init_TransitionGroup = __esm({
     "node_modules/react-transition-group/esm/TransitionGroup.js"() {
       init_objectWithoutPropertiesLoose();
@@ -45221,7 +45387,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_assertThisInitialized();
       init_inheritsLoose();
       import_prop_types3 = __toESM(require_prop_types());
-      import_react23 = __toESM(require_react());
+      import_react24 = __toESM(require_react());
       init_TransitionGroupContext();
       init_ChildMapping();
       values = Object.values || function(obj) {
@@ -45293,16 +45459,16 @@ You can check this by searching up for matching entries in a lockfile produced b
           delete props.enter;
           delete props.exit;
           if (Component2 === null) {
-            return /* @__PURE__ */ import_react23.default.createElement(TransitionGroupContext_default.Provider, {
+            return /* @__PURE__ */ import_react24.default.createElement(TransitionGroupContext_default.Provider, {
               value: contextValue
             }, children);
           }
-          return /* @__PURE__ */ import_react23.default.createElement(TransitionGroupContext_default.Provider, {
+          return /* @__PURE__ */ import_react24.default.createElement(TransitionGroupContext_default.Provider, {
             value: contextValue
-          }, /* @__PURE__ */ import_react23.default.createElement(Component2, props, children));
+          }, /* @__PURE__ */ import_react24.default.createElement(Component2, props, children));
         };
         return TransitionGroup2;
-      }(import_react23.default.Component);
+      }(import_react24.default.Component);
       TransitionGroup.propTypes = true ? {
         /**
          * `<TransitionGroup>` renders a `<div>` by default. You can change this
@@ -45370,10 +45536,10 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js
-  var React90, getClassName, MessageBarTransition, MessageBarTransitionInner;
+  var React92, getClassName, MessageBarTransition, MessageBarTransitionInner;
   var init_MessageBarTransition = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarTransition.js"() {
-      React90 = __toESM(require_react());
+      React92 = __toESM(require_react());
       init_esm2();
       init_messageBarTransitionContext();
       getClassName = (status, enterClassName, exitClassName, animate) => {
@@ -45389,12 +45555,12 @@ You can check this by searching up for matching entries in a lockfile produced b
         }
       };
       MessageBarTransition = ({ children, enterClassName, exitClassName, animate, ...rest }) => {
-        const nodeRef = React90.useRef(null);
-        return /* @__PURE__ */ React90.createElement(Transition_default, {
+        const nodeRef = React92.useRef(null);
+        return /* @__PURE__ */ React92.createElement(Transition_default, {
           timeout: 250,
           nodeRef,
           ...rest
-        }, (state) => /* @__PURE__ */ React90.createElement(MessageBarTransitionInner, {
+        }, (state) => /* @__PURE__ */ React92.createElement(MessageBarTransitionInner, {
           animate,
           enterClassName,
           exitClassName,
@@ -45404,14 +45570,14 @@ You can check this by searching up for matching entries in a lockfile produced b
       };
       MessageBarTransitionInner = ({ children, state, enterClassName, exitClassName, animate, nodeRef }) => {
         const className = getClassName(state, enterClassName, exitClassName, animate);
-        const context = React90.useMemo(() => ({
+        const context = React92.useMemo(() => ({
           className,
           nodeRef
         }), [
           className,
           nodeRef
         ]);
-        return /* @__PURE__ */ React90.createElement(MessageBarTransitionContextProvider, {
+        return /* @__PURE__ */ React92.createElement(MessageBarTransitionContextProvider, {
           value: context
         }, children);
       };
@@ -45444,14 +45610,14 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroupStyles.styles.js
-  var messageBarGroupClassNames, useStyles9, useMessageBarGroupStyles_unstable;
+  var messageBarGroupClassNames, useStyles10, useMessageBarGroupStyles_unstable;
   var init_useMessageBarGroupStyles_styles = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/useMessageBarGroupStyles.styles.js"() {
       init_index_esm2();
       messageBarGroupClassNames = {
         root: "fui-MessageBarGroup"
       };
-      useStyles9 = /* @__PURE__ */ __styles2({
+      useStyles10 = /* @__PURE__ */ __styles2({
         base: {
           Bf5fcs: "f4cll0y",
           vin17d: "fy8si0b"
@@ -45468,7 +45634,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       });
       useMessageBarGroupStyles_unstable = (state) => {
         "use no memo";
-        const styles = useStyles9();
+        const styles = useStyles10();
         state.root.className = mergeClasses(messageBarGroupClassNames.root, state.root.className);
         state.enterStyles = mergeClasses(styles.base, styles.enter);
         state.exitStyles = mergeClasses(styles.base, styles.exit);
@@ -45478,15 +45644,15 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js
-  var React91, MessageBarGroup;
+  var React93, MessageBarGroup;
   var init_MessageBarGroup = __esm({
     "node_modules/@fluentui/react-message-bar/lib/components/MessageBarGroup/MessageBarGroup.js"() {
-      React91 = __toESM(require_react());
+      React93 = __toESM(require_react());
       init_lib();
       init_useMessageBarGroup();
       init_renderMessageBarGroup();
       init_useMessageBarGroupStyles_styles();
-      MessageBarGroup = /* @__PURE__ */ React91.forwardRef((props, ref) => {
+      MessageBarGroup = /* @__PURE__ */ React93.forwardRef((props, ref) => {
         const state = useMessageBarGroup_unstable(props, ref);
         useMessageBarGroupStyles_unstable(state);
         useCustomStyleHook("useMessageBarGroupStyles_unstable")(state);
@@ -45511,7 +45677,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-message-bar/lib/index.js
-  var init_lib21 = __esm({
+  var init_lib22 = __esm({
     "node_modules/@fluentui/react-message-bar/lib/index.js"() {
       init_MessageBar3();
       init_MessageBarTitle3();
@@ -45522,7 +45688,7 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // node_modules/@fluentui/react-components/lib/index.js
-  var init_lib22 = __esm({
+  var init_lib23 = __esm({
     "node_modules/@fluentui/react-components/lib/index.js"() {
       init_index_esm2();
       init_lib6();
@@ -45535,6 +45701,3788 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_lib19();
       init_lib20();
       init_lib21();
+      init_lib22();
+    }
+  });
+
+  // src/CommonStyles.ts
+  var standardColumnElementStyles, standardRowElementStyles, standardCenteredRowElementStyles, standardJustifiedRowElementStyles, mobileRowElementStyles, standardTextStyles, standardLinkStyles;
+  var init_CommonStyles = __esm({
+    "src/CommonStyles.ts"() {
+      "use strict";
+      init_lib23();
+      standardColumnElementStyles = makeStyles2({
+        root: {
+          width: "100%"
+        }
+      });
+      standardRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          width: "100%"
+        }
+      });
+      standardCenteredRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "center",
+          padding: "6px",
+          alignItems: "center",
+          alignContent: "center",
+          alignSelf: "center"
+        }
+      });
+      standardJustifiedRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "row",
+          width: "100%",
+          justifyContent: "space-between",
+          padding: "6px",
+          alignItems: "center",
+          alignSelf: "center"
+        }
+      });
+      mobileRowElementStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column",
+          width: "100%",
+          justifyContent: "center",
+          padding: "6px",
+          alignItems: "center",
+          alignSelf: "center"
+        }
+      });
+      standardTextStyles = makeStyles2({
+        root: {
+          display: "flex",
+          flexDirection: "column"
+        },
+        heading: {
+          textAlign: "center",
+          fontSize: "16pt",
+          fontWeight: "bold",
+          marginBottom: "12px"
+        },
+        subHeadingLeft: {
+          textAlign: "left",
+          alignSelf: "flex-start",
+          fontSize: "12pt",
+          fontWeight: "bold",
+          marginTop: "12px",
+          marginBottom: "12px"
+        },
+        normal: {
+          textAlign: "left",
+          alignSelf: "flex-start",
+          fontSize: "10pt",
+          marginBottom: "10px"
+        },
+        normalGrey: {
+          textAlign: "left",
+          alignSelf: "flex-start",
+          fontSize: "10pt",
+          color: "grey",
+          marginBottom: "10px"
+        },
+        textarea: {
+          width: "100%",
+          height: "100%",
+          textAlign: "left",
+          verticalAlign: "top"
+        },
+        centredHint: {
+          textAlign: "center",
+          fontSize: "8pt",
+          color: "grey",
+          marginTop: "8px",
+          marginBottom: "8px"
+        },
+        footer: {
+          textAlign: "center",
+          fontSize: "8pt",
+          color: "grey",
+          marginTop: "12px"
+        }
+      });
+      standardLinkStyles = makeStyles2({
+        left: {
+          textAlign: "left",
+          alignSelf: "flex-start"
+        },
+        centred: {
+          textAlign: "center"
+        }
+      });
+    }
+  });
+
+  // src/Message.tsx
+  var import_react27, Message;
+  var init_Message = __esm({
+    "src/Message.tsx"() {
+      "use strict";
+      import_react27 = __toESM(require_react());
+      init_lib23();
+      init_lib10();
+      init_CommonStyles();
+      Message = (props) => {
+        const messageClasses = standardColumnElementStyles();
+        const [isDismissed, setIsDismissed] = (0, import_react27.useState)(false);
+        const onDismiss = () => {
+          setIsDismissed(true);
+          props.onDismiss?.();
+        };
+        return !isDismissed && /* @__PURE__ */ import_react27.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react27.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react27.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react27.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react27.default.createElement(
+          MessageBarActions,
+          {
+            containerAction: /* @__PURE__ */ import_react27.default.createElement(
+              Button,
+              {
+                "aria-label": "dismiss",
+                appearance: "transparent",
+                icon: /* @__PURE__ */ import_react27.default.createElement(DismissRegular, null),
+                onClick: onDismiss
+              }
+            )
+          }
+        )));
+      };
+    }
+  });
+
+  // src/MultilineEditUIStrings.ts
+  var init_MultilineEditUIStrings = __esm({
+    "src/MultilineEditUIStrings.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/UIStrings.ts
+  function getCommonUIStrings() {
+    return CommonUIStrings;
+  }
+  function getUIStrings(mode) {
+    switch (mode) {
+      case "TheYardAssistant" /* kTheYardAssistant */:
+        return TheYardUIString;
+      case "DemoAssistant" /* kDemoAssistant */:
+        return DemoUIString;
+      default:
+        return TheYardUIString;
+    }
+  }
+  var CommonUIStrings, TheYardBrandStrings, DemoBrandStrings, TheYardUIString, DemoUIString;
+  var init_UIStrings = __esm({
+    "src/UIStrings.ts"() {
+      "use strict";
+      init_AssistantChatApiTypes();
+      init_MultilineEditUIStrings();
+      CommonUIStrings = {
+        kWarning: "Warning.",
+        kInfo: "Information.",
+        kError: "Error.",
+        kSuccess: "Success.",
+        kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
+        kHomeTitle: "Welcome to Strong AI",
+        kAboutTitle: "Welcome to Strong AI",
+        kPrivacyTitle: "Privacy Policy",
+        kTermsTitle: "Terms of Service",
+        kHome: "Home",
+        kAbout: "About",
+        kPrivacy: "Privacy",
+        kTerms: "Terms",
+        kChat: "Chat",
+        kAIWarning: "AI can make mistakes. Think about it.",
+        kProcessingPleaseWait: "Please wait a few seconds...",
+        kArchivingPleaseWait: "Please wait a few seconds...",
+        kArchivingDescription: "Summarising and cleaning out old messages to make room for new ones.",
+        kLoginPlease: "Please login with Google to continue. We need you to login so we can keep your data secure.",
+        kLoginBlocked: "Sorry, this login attempt was blocked due to security concerns from our Google screening service. Please try again later.",
+        kAdditionalVerification: "Sorry, additional verification is required by our Google screening service. Please try again later.",
+        kTooManyAttempts: "Sorry, this login attempt has been flagged as suspicious by our Google screening service. Please wait a while before trying again.",
+        kLoginFailed: "Sorry, the login attempt failed. Please try again, or refresh the whole page.",
+        kLogoutFailed: "Sorry, we were not able to complete logout. Please try again, or refresh the whole page.",
+        kGuestLoginNotice: "You are currently logged in as a guest. Please use this site responsibly."
+      };
+      TheYardBrandStrings = {
+        kAppPageCaption: "Yard Talk",
+        kAppPageStrapline: "Where sweat meets sass.",
+        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
+        kLinks: "",
+        kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
+        kChatPlaceholder: "Let's talk about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+      };
+      DemoBrandStrings = {
+        kAppPageCaption: "Strong AI Demo",
+        kAppPageStrapline: "Strong and Intelligent.",
+        kOverview: "Strong AI Technologies helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor.",
+        kLinks: "",
+        kChatPreamble: "Chat to the Strong AI by typing your question in the box below. Don't share private information.",
+        kChatPlaceholder: "Let's talk about fitness...",
+        kLooksOffTopic: "Sorry, that looks off-topic. We should just talk about fitness. Please try again."
+      };
+      TheYardUIString = {
+        ...CommonUIStrings,
+        ...TheYardBrandStrings
+      };
+      DemoUIString = {
+        ...CommonUIStrings,
+        ...DemoBrandStrings
+      };
+    }
+  });
+
+  // node_modules/axios/lib/helpers/bind.js
+  function bind(fn, thisArg) {
+    return function wrap() {
+      return fn.apply(thisArg, arguments);
+    };
+  }
+  var init_bind = __esm({
+    "node_modules/axios/lib/helpers/bind.js"() {
+      "use strict";
+    }
+  });
+
+  // node_modules/axios/lib/utils.js
+  function isBuffer(val) {
+    return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && isFunction2(val.constructor.isBuffer) && val.constructor.isBuffer(val);
+  }
+  function isArrayBufferView(val) {
+    let result;
+    if (typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView) {
+      result = ArrayBuffer.isView(val);
+    } else {
+      result = val && val.buffer && isArrayBuffer(val.buffer);
+    }
+    return result;
+  }
+  function forEach(obj, fn, { allOwnKeys = false } = {}) {
+    if (obj === null || typeof obj === "undefined") {
+      return;
+    }
+    let i;
+    let l;
+    if (typeof obj !== "object") {
+      obj = [obj];
+    }
+    if (isArray(obj)) {
+      for (i = 0, l = obj.length; i < l; i++) {
+        fn.call(null, obj[i], i, obj);
+      }
+    } else {
+      const keys = allOwnKeys ? Object.getOwnPropertyNames(obj) : Object.keys(obj);
+      const len = keys.length;
+      let key;
+      for (i = 0; i < len; i++) {
+        key = keys[i];
+        fn.call(null, obj[key], key, obj);
+      }
+    }
+  }
+  function findKey(obj, key) {
+    key = key.toLowerCase();
+    const keys = Object.keys(obj);
+    let i = keys.length;
+    let _key;
+    while (i-- > 0) {
+      _key = keys[i];
+      if (key === _key.toLowerCase()) {
+        return _key;
+      }
+    }
+    return null;
+  }
+  function merge() {
+    const { caseless } = isContextDefined(this) && this || {};
+    const result = {};
+    const assignValue = (val, key) => {
+      const targetKey = caseless && findKey(result, key) || key;
+      if (isPlainObject(result[targetKey]) && isPlainObject(val)) {
+        result[targetKey] = merge(result[targetKey], val);
+      } else if (isPlainObject(val)) {
+        result[targetKey] = merge({}, val);
+      } else if (isArray(val)) {
+        result[targetKey] = val.slice();
+      } else {
+        result[targetKey] = val;
+      }
+    };
+    for (let i = 0, l = arguments.length; i < l; i++) {
+      arguments[i] && forEach(arguments[i], assignValue);
+    }
+    return result;
+  }
+  function isSpecCompliantForm(thing) {
+    return !!(thing && isFunction2(thing.append) && thing[Symbol.toStringTag] === "FormData" && thing[Symbol.iterator]);
+  }
+  var toString, getPrototypeOf, kindOf, kindOfTest, typeOfTest, isArray, isUndefined, isArrayBuffer, isString2, isFunction2, isNumber2, isObject3, isBoolean2, isPlainObject, isDate, isFile, isBlob, isFileList, isStream, isFormData, isURLSearchParams, isReadableStream, isRequest, isResponse, isHeaders, trim2, _global, isContextDefined, extend, stripBOM, inherits, toFlatObject, endsWith, toArray, isTypedArray, forEachEntry, matchAll, isHTMLForm, toCamelCase, hasOwnProperty, isRegExp, reduceDescriptors, freezeMethods, toObjectSet, noop4, toFiniteNumber, toJSONObject, isAsyncFn, isThenable, _setImmediate, asap, utils_default;
+  var init_utils3 = __esm({
+    "node_modules/axios/lib/utils.js"() {
+      "use strict";
+      init_bind();
+      ({ toString } = Object.prototype);
+      ({ getPrototypeOf } = Object);
+      kindOf = /* @__PURE__ */ ((cache2) => (thing) => {
+        const str = toString.call(thing);
+        return cache2[str] || (cache2[str] = str.slice(8, -1).toLowerCase());
+      })(/* @__PURE__ */ Object.create(null));
+      kindOfTest = (type) => {
+        type = type.toLowerCase();
+        return (thing) => kindOf(thing) === type;
+      };
+      typeOfTest = (type) => (thing) => typeof thing === type;
+      ({ isArray } = Array);
+      isUndefined = typeOfTest("undefined");
+      isArrayBuffer = kindOfTest("ArrayBuffer");
+      isString2 = typeOfTest("string");
+      isFunction2 = typeOfTest("function");
+      isNumber2 = typeOfTest("number");
+      isObject3 = (thing) => thing !== null && typeof thing === "object";
+      isBoolean2 = (thing) => thing === true || thing === false;
+      isPlainObject = (val) => {
+        if (kindOf(val) !== "object") {
+          return false;
+        }
+        const prototype3 = getPrototypeOf(val);
+        return (prototype3 === null || prototype3 === Object.prototype || Object.getPrototypeOf(prototype3) === null) && !(Symbol.toStringTag in val) && !(Symbol.iterator in val);
+      };
+      isDate = kindOfTest("Date");
+      isFile = kindOfTest("File");
+      isBlob = kindOfTest("Blob");
+      isFileList = kindOfTest("FileList");
+      isStream = (val) => isObject3(val) && isFunction2(val.pipe);
+      isFormData = (thing) => {
+        let kind;
+        return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction2(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
+        kind === "object" && isFunction2(thing.toString) && thing.toString() === "[object FormData]"));
+      };
+      isURLSearchParams = kindOfTest("URLSearchParams");
+      [isReadableStream, isRequest, isResponse, isHeaders] = ["ReadableStream", "Request", "Response", "Headers"].map(kindOfTest);
+      trim2 = (str) => str.trim ? str.trim() : str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
+      _global = (() => {
+        if (typeof globalThis !== "undefined") return globalThis;
+        return typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : global;
+      })();
+      isContextDefined = (context) => !isUndefined(context) && context !== _global;
+      extend = (a, b, thisArg, { allOwnKeys } = {}) => {
+        forEach(b, (val, key) => {
+          if (thisArg && isFunction2(val)) {
+            a[key] = bind(val, thisArg);
+          } else {
+            a[key] = val;
+          }
+        }, { allOwnKeys });
+        return a;
+      };
+      stripBOM = (content) => {
+        if (content.charCodeAt(0) === 65279) {
+          content = content.slice(1);
+        }
+        return content;
+      };
+      inherits = (constructor, superConstructor, props, descriptors2) => {
+        constructor.prototype = Object.create(superConstructor.prototype, descriptors2);
+        constructor.prototype.constructor = constructor;
+        Object.defineProperty(constructor, "super", {
+          value: superConstructor.prototype
+        });
+        props && Object.assign(constructor.prototype, props);
+      };
+      toFlatObject = (sourceObj, destObj, filter3, propFilter) => {
+        let props;
+        let i;
+        let prop;
+        const merged = {};
+        destObj = destObj || {};
+        if (sourceObj == null) return destObj;
+        do {
+          props = Object.getOwnPropertyNames(sourceObj);
+          i = props.length;
+          while (i-- > 0) {
+            prop = props[i];
+            if ((!propFilter || propFilter(prop, sourceObj, destObj)) && !merged[prop]) {
+              destObj[prop] = sourceObj[prop];
+              merged[prop] = true;
+            }
+          }
+          sourceObj = filter3 !== false && getPrototypeOf(sourceObj);
+        } while (sourceObj && (!filter3 || filter3(sourceObj, destObj)) && sourceObj !== Object.prototype);
+        return destObj;
+      };
+      endsWith = (str, searchString, position2) => {
+        str = String(str);
+        if (position2 === void 0 || position2 > str.length) {
+          position2 = str.length;
+        }
+        position2 -= searchString.length;
+        const lastIndex2 = str.indexOf(searchString, position2);
+        return lastIndex2 !== -1 && lastIndex2 === position2;
+      };
+      toArray = (thing) => {
+        if (!thing) return null;
+        if (isArray(thing)) return thing;
+        let i = thing.length;
+        if (!isNumber2(i)) return null;
+        const arr = new Array(i);
+        while (i-- > 0) {
+          arr[i] = thing[i];
+        }
+        return arr;
+      };
+      isTypedArray = /* @__PURE__ */ ((TypedArray) => {
+        return (thing) => {
+          return TypedArray && thing instanceof TypedArray;
+        };
+      })(typeof Uint8Array !== "undefined" && getPrototypeOf(Uint8Array));
+      forEachEntry = (obj, fn) => {
+        const generator = obj && obj[Symbol.iterator];
+        const iterator = generator.call(obj);
+        let result;
+        while ((result = iterator.next()) && !result.done) {
+          const pair = result.value;
+          fn.call(obj, pair[0], pair[1]);
+        }
+      };
+      matchAll = (regExp, str) => {
+        let matches;
+        const arr = [];
+        while ((matches = regExp.exec(str)) !== null) {
+          arr.push(matches);
+        }
+        return arr;
+      };
+      isHTMLForm = kindOfTest("HTMLFormElement");
+      toCamelCase = (str) => {
+        return str.toLowerCase().replace(
+          /[-_\s]([a-z\d])(\w*)/g,
+          function replacer(m, p1, p2) {
+            return p1.toUpperCase() + p2;
+          }
+        );
+      };
+      hasOwnProperty = (({ hasOwnProperty: hasOwnProperty2 }) => (obj, prop) => hasOwnProperty2.call(obj, prop))(Object.prototype);
+      isRegExp = kindOfTest("RegExp");
+      reduceDescriptors = (obj, reducer) => {
+        const descriptors2 = Object.getOwnPropertyDescriptors(obj);
+        const reducedDescriptors = {};
+        forEach(descriptors2, (descriptor, name) => {
+          let ret;
+          if ((ret = reducer(descriptor, name, obj)) !== false) {
+            reducedDescriptors[name] = ret || descriptor;
+          }
+        });
+        Object.defineProperties(obj, reducedDescriptors);
+      };
+      freezeMethods = (obj) => {
+        reduceDescriptors(obj, (descriptor, name) => {
+          if (isFunction2(obj) && ["arguments", "caller", "callee"].indexOf(name) !== -1) {
+            return false;
+          }
+          const value = obj[name];
+          if (!isFunction2(value)) return;
+          descriptor.enumerable = false;
+          if ("writable" in descriptor) {
+            descriptor.writable = false;
+            return;
+          }
+          if (!descriptor.set) {
+            descriptor.set = () => {
+              throw Error("Can not rewrite read-only method '" + name + "'");
+            };
+          }
+        });
+      };
+      toObjectSet = (arrayOrString, delimiter2) => {
+        const obj = {};
+        const define = (arr) => {
+          arr.forEach((value) => {
+            obj[value] = true;
+          });
+        };
+        isArray(arrayOrString) ? define(arrayOrString) : define(String(arrayOrString).split(delimiter2));
+        return obj;
+      };
+      noop4 = () => {
+      };
+      toFiniteNumber = (value, defaultValue) => {
+        return value != null && Number.isFinite(value = +value) ? value : defaultValue;
+      };
+      toJSONObject = (obj) => {
+        const stack = new Array(10);
+        const visit = (source, i) => {
+          if (isObject3(source)) {
+            if (stack.indexOf(source) >= 0) {
+              return;
+            }
+            if (!("toJSON" in source)) {
+              stack[i] = source;
+              const target = isArray(source) ? [] : {};
+              forEach(source, (value, key) => {
+                const reducedValue = visit(value, i + 1);
+                !isUndefined(reducedValue) && (target[key] = reducedValue);
+              });
+              stack[i] = void 0;
+              return target;
+            }
+          }
+          return source;
+        };
+        return visit(obj, 0);
+      };
+      isAsyncFn = kindOfTest("AsyncFunction");
+      isThenable = (thing) => thing && (isObject3(thing) || isFunction2(thing)) && isFunction2(thing.then) && isFunction2(thing.catch);
+      _setImmediate = ((setImmediateSupported, postMessageSupported) => {
+        if (setImmediateSupported) {
+          return setImmediate;
+        }
+        return postMessageSupported ? ((token2, callbacks) => {
+          _global.addEventListener("message", ({ source, data }) => {
+            if (source === _global && data === token2) {
+              callbacks.length && callbacks.shift()();
+            }
+          }, false);
+          return (cb) => {
+            callbacks.push(cb);
+            _global.postMessage(token2, "*");
+          };
+        })(`axios@${Math.random()}`, []) : (cb) => setTimeout(cb);
+      })(
+        typeof setImmediate === "function",
+        isFunction2(_global.postMessage)
+      );
+      asap = typeof queueMicrotask !== "undefined" ? queueMicrotask.bind(_global) : typeof process !== "undefined" && process.nextTick || _setImmediate;
+      utils_default = {
+        isArray,
+        isArrayBuffer,
+        isBuffer,
+        isFormData,
+        isArrayBufferView,
+        isString: isString2,
+        isNumber: isNumber2,
+        isBoolean: isBoolean2,
+        isObject: isObject3,
+        isPlainObject,
+        isReadableStream,
+        isRequest,
+        isResponse,
+        isHeaders,
+        isUndefined,
+        isDate,
+        isFile,
+        isBlob,
+        isRegExp,
+        isFunction: isFunction2,
+        isStream,
+        isURLSearchParams,
+        isTypedArray,
+        isFileList,
+        forEach,
+        merge,
+        extend,
+        trim: trim2,
+        stripBOM,
+        inherits,
+        toFlatObject,
+        kindOf,
+        kindOfTest,
+        endsWith,
+        toArray,
+        forEachEntry,
+        matchAll,
+        isHTMLForm,
+        hasOwnProperty,
+        hasOwnProp: hasOwnProperty,
+        // an alias to avoid ESLint no-prototype-builtins detection
+        reduceDescriptors,
+        freezeMethods,
+        toObjectSet,
+        toCamelCase,
+        noop: noop4,
+        toFiniteNumber,
+        findKey,
+        global: _global,
+        isContextDefined,
+        isSpecCompliantForm,
+        toJSONObject,
+        isAsyncFn,
+        isThenable,
+        setImmediate: _setImmediate,
+        asap
+      };
+    }
+  });
+
+  // node_modules/axios/lib/core/AxiosError.js
+  function AxiosError(message, code, config, request, response) {
+    Error.call(this);
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, this.constructor);
+    } else {
+      this.stack = new Error().stack;
+    }
+    this.message = message;
+    this.name = "AxiosError";
+    code && (this.code = code);
+    config && (this.config = config);
+    request && (this.request = request);
+    if (response) {
+      this.response = response;
+      this.status = response.status ? response.status : null;
+    }
+  }
+  var prototype, descriptors, AxiosError_default;
+  var init_AxiosError = __esm({
+    "node_modules/axios/lib/core/AxiosError.js"() {
+      "use strict";
+      init_utils3();
+      utils_default.inherits(AxiosError, Error, {
+        toJSON: function toJSON() {
+          return {
+            // Standard
+            message: this.message,
+            name: this.name,
+            // Microsoft
+            description: this.description,
+            number: this.number,
+            // Mozilla
+            fileName: this.fileName,
+            lineNumber: this.lineNumber,
+            columnNumber: this.columnNumber,
+            stack: this.stack,
+            // Axios
+            config: utils_default.toJSONObject(this.config),
+            code: this.code,
+            status: this.status
+          };
+        }
+      });
+      prototype = AxiosError.prototype;
+      descriptors = {};
+      [
+        "ERR_BAD_OPTION_VALUE",
+        "ERR_BAD_OPTION",
+        "ECONNABORTED",
+        "ETIMEDOUT",
+        "ERR_NETWORK",
+        "ERR_FR_TOO_MANY_REDIRECTS",
+        "ERR_DEPRECATED",
+        "ERR_BAD_RESPONSE",
+        "ERR_BAD_REQUEST",
+        "ERR_CANCELED",
+        "ERR_NOT_SUPPORT",
+        "ERR_INVALID_URL"
+        // eslint-disable-next-line func-names
+      ].forEach((code) => {
+        descriptors[code] = { value: code };
+      });
+      Object.defineProperties(AxiosError, descriptors);
+      Object.defineProperty(prototype, "isAxiosError", { value: true });
+      AxiosError.from = (error, code, config, request, response, customProps) => {
+        const axiosError = Object.create(prototype);
+        utils_default.toFlatObject(error, axiosError, function filter3(obj) {
+          return obj !== Error.prototype;
+        }, (prop) => {
+          return prop !== "isAxiosError";
+        });
+        AxiosError.call(axiosError, error.message, code, config, request, response);
+        axiosError.cause = error;
+        axiosError.name = error.name;
+        customProps && Object.assign(axiosError, customProps);
+        return axiosError;
+      };
+      AxiosError_default = AxiosError;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/null.js
+  var null_default;
+  var init_null = __esm({
+    "node_modules/axios/lib/helpers/null.js"() {
+      null_default = null;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/toFormData.js
+  function isVisitable(thing) {
+    return utils_default.isPlainObject(thing) || utils_default.isArray(thing);
+  }
+  function removeBrackets(key) {
+    return utils_default.endsWith(key, "[]") ? key.slice(0, -2) : key;
+  }
+  function renderKey(path, key, dots) {
+    if (!path) return key;
+    return path.concat(key).map(function each(token2, i) {
+      token2 = removeBrackets(token2);
+      return !dots && i ? "[" + token2 + "]" : token2;
+    }).join(dots ? "." : "");
+  }
+  function isFlatArray(arr) {
+    return utils_default.isArray(arr) && !arr.some(isVisitable);
+  }
+  function toFormData(obj, formData, options) {
+    if (!utils_default.isObject(obj)) {
+      throw new TypeError("target must be an object");
+    }
+    formData = formData || new (null_default || FormData)();
+    options = utils_default.toFlatObject(options, {
+      metaTokens: true,
+      dots: false,
+      indexes: false
+    }, false, function defined(option, source) {
+      return !utils_default.isUndefined(source[option]);
+    });
+    const metaTokens = options.metaTokens;
+    const visitor = options.visitor || defaultVisitor;
+    const dots = options.dots;
+    const indexes = options.indexes;
+    const _Blob = options.Blob || typeof Blob !== "undefined" && Blob;
+    const useBlob = _Blob && utils_default.isSpecCompliantForm(formData);
+    if (!utils_default.isFunction(visitor)) {
+      throw new TypeError("visitor must be a function");
+    }
+    function convertValue(value) {
+      if (value === null) return "";
+      if (utils_default.isDate(value)) {
+        return value.toISOString();
+      }
+      if (!useBlob && utils_default.isBlob(value)) {
+        throw new AxiosError_default("Blob is not supported. Use a Buffer instead.");
+      }
+      if (utils_default.isArrayBuffer(value) || utils_default.isTypedArray(value)) {
+        return useBlob && typeof Blob === "function" ? new Blob([value]) : Buffer.from(value);
+      }
+      return value;
+    }
+    function defaultVisitor(value, key, path) {
+      let arr = value;
+      if (value && !path && typeof value === "object") {
+        if (utils_default.endsWith(key, "{}")) {
+          key = metaTokens ? key : key.slice(0, -2);
+          value = JSON.stringify(value);
+        } else if (utils_default.isArray(value) && isFlatArray(value) || (utils_default.isFileList(value) || utils_default.endsWith(key, "[]")) && (arr = utils_default.toArray(value))) {
+          key = removeBrackets(key);
+          arr.forEach(function each(el, index) {
+            !(utils_default.isUndefined(el) || el === null) && formData.append(
+              // eslint-disable-next-line no-nested-ternary
+              indexes === true ? renderKey([key], index, dots) : indexes === null ? key : key + "[]",
+              convertValue(el)
+            );
+          });
+          return false;
+        }
+      }
+      if (isVisitable(value)) {
+        return true;
+      }
+      formData.append(renderKey(path, key, dots), convertValue(value));
+      return false;
+    }
+    const stack = [];
+    const exposedHelpers = Object.assign(predicates, {
+      defaultVisitor,
+      convertValue,
+      isVisitable
+    });
+    function build(value, path) {
+      if (utils_default.isUndefined(value)) return;
+      if (stack.indexOf(value) !== -1) {
+        throw Error("Circular reference detected in " + path.join("."));
+      }
+      stack.push(value);
+      utils_default.forEach(value, function each(el, key) {
+        const result = !(utils_default.isUndefined(el) || el === null) && visitor.call(
+          formData,
+          el,
+          utils_default.isString(key) ? key.trim() : key,
+          path,
+          exposedHelpers
+        );
+        if (result === true) {
+          build(el, path ? path.concat(key) : [key]);
+        }
+      });
+      stack.pop();
+    }
+    if (!utils_default.isObject(obj)) {
+      throw new TypeError("data must be an object");
+    }
+    build(obj);
+    return formData;
+  }
+  var predicates, toFormData_default;
+  var init_toFormData = __esm({
+    "node_modules/axios/lib/helpers/toFormData.js"() {
+      "use strict";
+      init_utils3();
+      init_AxiosError();
+      init_null();
+      predicates = utils_default.toFlatObject(utils_default, {}, null, function filter2(prop) {
+        return /^is[A-Z]/.test(prop);
+      });
+      toFormData_default = toFormData;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/AxiosURLSearchParams.js
+  function encode(str) {
+    const charMap = {
+      "!": "%21",
+      "'": "%27",
+      "(": "%28",
+      ")": "%29",
+      "~": "%7E",
+      "%20": "+",
+      "%00": "\0"
+    };
+    return encodeURIComponent(str).replace(/[!'()~]|%20|%00/g, function replacer(match2) {
+      return charMap[match2];
+    });
+  }
+  function AxiosURLSearchParams(params, options) {
+    this._pairs = [];
+    params && toFormData_default(params, this, options);
+  }
+  var prototype2, AxiosURLSearchParams_default;
+  var init_AxiosURLSearchParams = __esm({
+    "node_modules/axios/lib/helpers/AxiosURLSearchParams.js"() {
+      "use strict";
+      init_toFormData();
+      prototype2 = AxiosURLSearchParams.prototype;
+      prototype2.append = function append2(name, value) {
+        this._pairs.push([name, value]);
+      };
+      prototype2.toString = function toString2(encoder) {
+        const _encode = encoder ? function(value) {
+          return encoder.call(this, value, encode);
+        } : encode;
+        return this._pairs.map(function each(pair) {
+          return _encode(pair[0]) + "=" + _encode(pair[1]);
+        }, "").join("&");
+      };
+      AxiosURLSearchParams_default = AxiosURLSearchParams;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/buildURL.js
+  function encode2(val) {
+    return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
+  }
+  function buildURL(url, params, options) {
+    if (!params) {
+      return url;
+    }
+    const _encode = options && options.encode || encode2;
+    if (utils_default.isFunction(options)) {
+      options = {
+        serialize: options
+      };
+    }
+    const serializeFn = options && options.serialize;
+    let serializedParams;
+    if (serializeFn) {
+      serializedParams = serializeFn(params, options);
+    } else {
+      serializedParams = utils_default.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams_default(params, options).toString(_encode);
+    }
+    if (serializedParams) {
+      const hashmarkIndex = url.indexOf("#");
+      if (hashmarkIndex !== -1) {
+        url = url.slice(0, hashmarkIndex);
+      }
+      url += (url.indexOf("?") === -1 ? "?" : "&") + serializedParams;
+    }
+    return url;
+  }
+  var init_buildURL = __esm({
+    "node_modules/axios/lib/helpers/buildURL.js"() {
+      "use strict";
+      init_utils3();
+      init_AxiosURLSearchParams();
+    }
+  });
+
+  // node_modules/axios/lib/core/InterceptorManager.js
+  var InterceptorManager, InterceptorManager_default;
+  var init_InterceptorManager = __esm({
+    "node_modules/axios/lib/core/InterceptorManager.js"() {
+      "use strict";
+      init_utils3();
+      InterceptorManager = class {
+        constructor() {
+          this.handlers = [];
+        }
+        /**
+         * Add a new interceptor to the stack
+         *
+         * @param {Function} fulfilled The function to handle `then` for a `Promise`
+         * @param {Function} rejected The function to handle `reject` for a `Promise`
+         *
+         * @return {Number} An ID used to remove interceptor later
+         */
+        use(fulfilled, rejected, options) {
+          this.handlers.push({
+            fulfilled,
+            rejected,
+            synchronous: options ? options.synchronous : false,
+            runWhen: options ? options.runWhen : null
+          });
+          return this.handlers.length - 1;
+        }
+        /**
+         * Remove an interceptor from the stack
+         *
+         * @param {Number} id The ID that was returned by `use`
+         *
+         * @returns {Boolean} `true` if the interceptor was removed, `false` otherwise
+         */
+        eject(id) {
+          if (this.handlers[id]) {
+            this.handlers[id] = null;
+          }
+        }
+        /**
+         * Clear all interceptors from the stack
+         *
+         * @returns {void}
+         */
+        clear() {
+          if (this.handlers) {
+            this.handlers = [];
+          }
+        }
+        /**
+         * Iterate over all the registered interceptors
+         *
+         * This method is particularly useful for skipping over any
+         * interceptors that may have become `null` calling `eject`.
+         *
+         * @param {Function} fn The function to call for each interceptor
+         *
+         * @returns {void}
+         */
+        forEach(fn) {
+          utils_default.forEach(this.handlers, function forEachHandler(h) {
+            if (h !== null) {
+              fn(h);
+            }
+          });
+        }
+      };
+      InterceptorManager_default = InterceptorManager;
+    }
+  });
+
+  // node_modules/axios/lib/defaults/transitional.js
+  var transitional_default;
+  var init_transitional = __esm({
+    "node_modules/axios/lib/defaults/transitional.js"() {
+      "use strict";
+      transitional_default = {
+        silentJSONParsing: true,
+        forcedJSONParsing: true,
+        clarifyTimeoutError: false
+      };
+    }
+  });
+
+  // node_modules/axios/lib/platform/browser/classes/URLSearchParams.js
+  var URLSearchParams_default;
+  var init_URLSearchParams = __esm({
+    "node_modules/axios/lib/platform/browser/classes/URLSearchParams.js"() {
+      "use strict";
+      init_AxiosURLSearchParams();
+      URLSearchParams_default = typeof URLSearchParams !== "undefined" ? URLSearchParams : AxiosURLSearchParams_default;
+    }
+  });
+
+  // node_modules/axios/lib/platform/browser/classes/FormData.js
+  var FormData_default;
+  var init_FormData = __esm({
+    "node_modules/axios/lib/platform/browser/classes/FormData.js"() {
+      "use strict";
+      FormData_default = typeof FormData !== "undefined" ? FormData : null;
+    }
+  });
+
+  // node_modules/axios/lib/platform/browser/classes/Blob.js
+  var Blob_default;
+  var init_Blob = __esm({
+    "node_modules/axios/lib/platform/browser/classes/Blob.js"() {
+      "use strict";
+      Blob_default = typeof Blob !== "undefined" ? Blob : null;
+    }
+  });
+
+  // node_modules/axios/lib/platform/browser/index.js
+  var browser_default;
+  var init_browser = __esm({
+    "node_modules/axios/lib/platform/browser/index.js"() {
+      init_URLSearchParams();
+      init_FormData();
+      init_Blob();
+      browser_default = {
+        isBrowser: true,
+        classes: {
+          URLSearchParams: URLSearchParams_default,
+          FormData: FormData_default,
+          Blob: Blob_default
+        },
+        protocols: ["http", "https", "file", "blob", "url", "data"]
+      };
+    }
+  });
+
+  // node_modules/axios/lib/platform/common/utils.js
+  var utils_exports = {};
+  __export(utils_exports, {
+    hasBrowserEnv: () => hasBrowserEnv,
+    hasStandardBrowserEnv: () => hasStandardBrowserEnv,
+    hasStandardBrowserWebWorkerEnv: () => hasStandardBrowserWebWorkerEnv,
+    navigator: () => _navigator,
+    origin: () => origin
+  });
+  var hasBrowserEnv, _navigator, hasStandardBrowserEnv, hasStandardBrowserWebWorkerEnv, origin;
+  var init_utils4 = __esm({
+    "node_modules/axios/lib/platform/common/utils.js"() {
+      hasBrowserEnv = typeof window !== "undefined" && typeof document !== "undefined";
+      _navigator = typeof navigator === "object" && navigator || void 0;
+      hasStandardBrowserEnv = hasBrowserEnv && (!_navigator || ["ReactNative", "NativeScript", "NS"].indexOf(_navigator.product) < 0);
+      hasStandardBrowserWebWorkerEnv = (() => {
+        return typeof WorkerGlobalScope !== "undefined" && // eslint-disable-next-line no-undef
+        self instanceof WorkerGlobalScope && typeof self.importScripts === "function";
+      })();
+      origin = hasBrowserEnv && window.location.href || "http://localhost";
+    }
+  });
+
+  // node_modules/axios/lib/platform/index.js
+  var platform_default;
+  var init_platform = __esm({
+    "node_modules/axios/lib/platform/index.js"() {
+      init_browser();
+      init_utils4();
+      platform_default = {
+        ...utils_exports,
+        ...browser_default
+      };
+    }
+  });
+
+  // node_modules/axios/lib/helpers/toURLEncodedForm.js
+  function toURLEncodedForm(data, options) {
+    return toFormData_default(data, new platform_default.classes.URLSearchParams(), Object.assign({
+      visitor: function(value, key, path, helpers) {
+        if (platform_default.isNode && utils_default.isBuffer(value)) {
+          this.append(key, value.toString("base64"));
+          return false;
+        }
+        return helpers.defaultVisitor.apply(this, arguments);
+      }
+    }, options));
+  }
+  var init_toURLEncodedForm = __esm({
+    "node_modules/axios/lib/helpers/toURLEncodedForm.js"() {
+      "use strict";
+      init_utils3();
+      init_toFormData();
+      init_platform();
+    }
+  });
+
+  // node_modules/axios/lib/helpers/formDataToJSON.js
+  function parsePropPath(name) {
+    return utils_default.matchAll(/\w+|\[(\w*)]/g, name).map((match2) => {
+      return match2[0] === "[]" ? "" : match2[1] || match2[0];
+    });
+  }
+  function arrayToObject2(arr) {
+    const obj = {};
+    const keys = Object.keys(arr);
+    let i;
+    const len = keys.length;
+    let key;
+    for (i = 0; i < len; i++) {
+      key = keys[i];
+      obj[key] = arr[key];
+    }
+    return obj;
+  }
+  function formDataToJSON(formData) {
+    function buildPath(path, value, target, index) {
+      let name = path[index++];
+      if (name === "__proto__") return true;
+      const isNumericKey = Number.isFinite(+name);
+      const isLast = index >= path.length;
+      name = !name && utils_default.isArray(target) ? target.length : name;
+      if (isLast) {
+        if (utils_default.hasOwnProp(target, name)) {
+          target[name] = [target[name], value];
+        } else {
+          target[name] = value;
+        }
+        return !isNumericKey;
+      }
+      if (!target[name] || !utils_default.isObject(target[name])) {
+        target[name] = [];
+      }
+      const result = buildPath(path, value, target[name], index);
+      if (result && utils_default.isArray(target[name])) {
+        target[name] = arrayToObject2(target[name]);
+      }
+      return !isNumericKey;
+    }
+    if (utils_default.isFormData(formData) && utils_default.isFunction(formData.entries)) {
+      const obj = {};
+      utils_default.forEachEntry(formData, (name, value) => {
+        buildPath(parsePropPath(name), value, obj, 0);
+      });
+      return obj;
+    }
+    return null;
+  }
+  var formDataToJSON_default;
+  var init_formDataToJSON = __esm({
+    "node_modules/axios/lib/helpers/formDataToJSON.js"() {
+      "use strict";
+      init_utils3();
+      formDataToJSON_default = formDataToJSON;
+    }
+  });
+
+  // node_modules/axios/lib/defaults/index.js
+  function stringifySafely(rawValue, parser, encoder) {
+    if (utils_default.isString(rawValue)) {
+      try {
+        (parser || JSON.parse)(rawValue);
+        return utils_default.trim(rawValue);
+      } catch (e) {
+        if (e.name !== "SyntaxError") {
+          throw e;
+        }
+      }
+    }
+    return (encoder || JSON.stringify)(rawValue);
+  }
+  var defaults, defaults_default;
+  var init_defaults = __esm({
+    "node_modules/axios/lib/defaults/index.js"() {
+      "use strict";
+      init_utils3();
+      init_AxiosError();
+      init_transitional();
+      init_toFormData();
+      init_toURLEncodedForm();
+      init_platform();
+      init_formDataToJSON();
+      defaults = {
+        transitional: transitional_default,
+        adapter: ["xhr", "http", "fetch"],
+        transformRequest: [function transformRequest(data, headers) {
+          const contentType = headers.getContentType() || "";
+          const hasJSONContentType = contentType.indexOf("application/json") > -1;
+          const isObjectPayload = utils_default.isObject(data);
+          if (isObjectPayload && utils_default.isHTMLForm(data)) {
+            data = new FormData(data);
+          }
+          const isFormData2 = utils_default.isFormData(data);
+          if (isFormData2) {
+            return hasJSONContentType ? JSON.stringify(formDataToJSON_default(data)) : data;
+          }
+          if (utils_default.isArrayBuffer(data) || utils_default.isBuffer(data) || utils_default.isStream(data) || utils_default.isFile(data) || utils_default.isBlob(data) || utils_default.isReadableStream(data)) {
+            return data;
+          }
+          if (utils_default.isArrayBufferView(data)) {
+            return data.buffer;
+          }
+          if (utils_default.isURLSearchParams(data)) {
+            headers.setContentType("application/x-www-form-urlencoded;charset=utf-8", false);
+            return data.toString();
+          }
+          let isFileList2;
+          if (isObjectPayload) {
+            if (contentType.indexOf("application/x-www-form-urlencoded") > -1) {
+              return toURLEncodedForm(data, this.formSerializer).toString();
+            }
+            if ((isFileList2 = utils_default.isFileList(data)) || contentType.indexOf("multipart/form-data") > -1) {
+              const _FormData = this.env && this.env.FormData;
+              return toFormData_default(
+                isFileList2 ? { "files[]": data } : data,
+                _FormData && new _FormData(),
+                this.formSerializer
+              );
+            }
+          }
+          if (isObjectPayload || hasJSONContentType) {
+            headers.setContentType("application/json", false);
+            return stringifySafely(data);
+          }
+          return data;
+        }],
+        transformResponse: [function transformResponse(data) {
+          const transitional2 = this.transitional || defaults.transitional;
+          const forcedJSONParsing = transitional2 && transitional2.forcedJSONParsing;
+          const JSONRequested = this.responseType === "json";
+          if (utils_default.isResponse(data) || utils_default.isReadableStream(data)) {
+            return data;
+          }
+          if (data && utils_default.isString(data) && (forcedJSONParsing && !this.responseType || JSONRequested)) {
+            const silentJSONParsing = transitional2 && transitional2.silentJSONParsing;
+            const strictJSONParsing = !silentJSONParsing && JSONRequested;
+            try {
+              return JSON.parse(data);
+            } catch (e) {
+              if (strictJSONParsing) {
+                if (e.name === "SyntaxError") {
+                  throw AxiosError_default.from(e, AxiosError_default.ERR_BAD_RESPONSE, this, null, this.response);
+                }
+                throw e;
+              }
+            }
+          }
+          return data;
+        }],
+        /**
+         * A timeout in milliseconds to abort a request. If set to 0 (default) a
+         * timeout is not created.
+         */
+        timeout: 0,
+        xsrfCookieName: "XSRF-TOKEN",
+        xsrfHeaderName: "X-XSRF-TOKEN",
+        maxContentLength: -1,
+        maxBodyLength: -1,
+        env: {
+          FormData: platform_default.classes.FormData,
+          Blob: platform_default.classes.Blob
+        },
+        validateStatus: function validateStatus(status) {
+          return status >= 200 && status < 300;
+        },
+        headers: {
+          common: {
+            "Accept": "application/json, text/plain, */*",
+            "Content-Type": void 0
+          }
+        }
+      };
+      utils_default.forEach(["delete", "get", "head", "post", "put", "patch"], (method) => {
+        defaults.headers[method] = {};
+      });
+      defaults_default = defaults;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/parseHeaders.js
+  var ignoreDuplicateOf, parseHeaders_default;
+  var init_parseHeaders = __esm({
+    "node_modules/axios/lib/helpers/parseHeaders.js"() {
+      "use strict";
+      init_utils3();
+      ignoreDuplicateOf = utils_default.toObjectSet([
+        "age",
+        "authorization",
+        "content-length",
+        "content-type",
+        "etag",
+        "expires",
+        "from",
+        "host",
+        "if-modified-since",
+        "if-unmodified-since",
+        "last-modified",
+        "location",
+        "max-forwards",
+        "proxy-authorization",
+        "referer",
+        "retry-after",
+        "user-agent"
+      ]);
+      parseHeaders_default = (rawHeaders) => {
+        const parsed = {};
+        let key;
+        let val;
+        let i;
+        rawHeaders && rawHeaders.split("\n").forEach(function parser(line2) {
+          i = line2.indexOf(":");
+          key = line2.substring(0, i).trim().toLowerCase();
+          val = line2.substring(i + 1).trim();
+          if (!key || parsed[key] && ignoreDuplicateOf[key]) {
+            return;
+          }
+          if (key === "set-cookie") {
+            if (parsed[key]) {
+              parsed[key].push(val);
+            } else {
+              parsed[key] = [val];
+            }
+          } else {
+            parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
+          }
+        });
+        return parsed;
+      };
+    }
+  });
+
+  // node_modules/axios/lib/core/AxiosHeaders.js
+  function normalizeHeader(header) {
+    return header && String(header).trim().toLowerCase();
+  }
+  function normalizeValue(value) {
+    if (value === false || value == null) {
+      return value;
+    }
+    return utils_default.isArray(value) ? value.map(normalizeValue) : String(value);
+  }
+  function parseTokens(str) {
+    const tokens2 = /* @__PURE__ */ Object.create(null);
+    const tokensRE = /([^\s,;=]+)\s*(?:=\s*([^,;]+))?/g;
+    let match2;
+    while (match2 = tokensRE.exec(str)) {
+      tokens2[match2[1]] = match2[2];
+    }
+    return tokens2;
+  }
+  function matchHeaderValue(context, value, header, filter3, isHeaderNameFilter) {
+    if (utils_default.isFunction(filter3)) {
+      return filter3.call(this, value, header);
+    }
+    if (isHeaderNameFilter) {
+      value = header;
+    }
+    if (!utils_default.isString(value)) return;
+    if (utils_default.isString(filter3)) {
+      return value.indexOf(filter3) !== -1;
+    }
+    if (utils_default.isRegExp(filter3)) {
+      return filter3.test(value);
+    }
+  }
+  function formatHeader(header) {
+    return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w, char2, str) => {
+      return char2.toUpperCase() + str;
+    });
+  }
+  function buildAccessors(obj, header) {
+    const accessorName = utils_default.toCamelCase(" " + header);
+    ["get", "set", "has"].forEach((methodName) => {
+      Object.defineProperty(obj, methodName + accessorName, {
+        value: function(arg1, arg2, arg3) {
+          return this[methodName].call(this, header, arg1, arg2, arg3);
+        },
+        configurable: true
+      });
+    });
+  }
+  var $internals, isValidHeaderName, AxiosHeaders, AxiosHeaders_default;
+  var init_AxiosHeaders = __esm({
+    "node_modules/axios/lib/core/AxiosHeaders.js"() {
+      "use strict";
+      init_utils3();
+      init_parseHeaders();
+      $internals = Symbol("internals");
+      isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
+      AxiosHeaders = class {
+        constructor(headers) {
+          headers && this.set(headers);
+        }
+        set(header, valueOrRewrite, rewrite) {
+          const self2 = this;
+          function setHeader(_value, _header, _rewrite) {
+            const lHeader = normalizeHeader(_header);
+            if (!lHeader) {
+              throw new Error("header name must be a non-empty string");
+            }
+            const key = utils_default.findKey(self2, lHeader);
+            if (!key || self2[key] === void 0 || _rewrite === true || _rewrite === void 0 && self2[key] !== false) {
+              self2[key || _header] = normalizeValue(_value);
+            }
+          }
+          const setHeaders = (headers, _rewrite) => utils_default.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
+          if (utils_default.isPlainObject(header) || header instanceof this.constructor) {
+            setHeaders(header, valueOrRewrite);
+          } else if (utils_default.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
+            setHeaders(parseHeaders_default(header), valueOrRewrite);
+          } else if (utils_default.isHeaders(header)) {
+            for (const [key, value] of header.entries()) {
+              setHeader(value, key, rewrite);
+            }
+          } else {
+            header != null && setHeader(valueOrRewrite, header, rewrite);
+          }
+          return this;
+        }
+        get(header, parser) {
+          header = normalizeHeader(header);
+          if (header) {
+            const key = utils_default.findKey(this, header);
+            if (key) {
+              const value = this[key];
+              if (!parser) {
+                return value;
+              }
+              if (parser === true) {
+                return parseTokens(value);
+              }
+              if (utils_default.isFunction(parser)) {
+                return parser.call(this, value, key);
+              }
+              if (utils_default.isRegExp(parser)) {
+                return parser.exec(value);
+              }
+              throw new TypeError("parser must be boolean|regexp|function");
+            }
+          }
+        }
+        has(header, matcher) {
+          header = normalizeHeader(header);
+          if (header) {
+            const key = utils_default.findKey(this, header);
+            return !!(key && this[key] !== void 0 && (!matcher || matchHeaderValue(this, this[key], key, matcher)));
+          }
+          return false;
+        }
+        delete(header, matcher) {
+          const self2 = this;
+          let deleted = false;
+          function deleteHeader(_header) {
+            _header = normalizeHeader(_header);
+            if (_header) {
+              const key = utils_default.findKey(self2, _header);
+              if (key && (!matcher || matchHeaderValue(self2, self2[key], key, matcher))) {
+                delete self2[key];
+                deleted = true;
+              }
+            }
+          }
+          if (utils_default.isArray(header)) {
+            header.forEach(deleteHeader);
+          } else {
+            deleteHeader(header);
+          }
+          return deleted;
+        }
+        clear(matcher) {
+          const keys = Object.keys(this);
+          let i = keys.length;
+          let deleted = false;
+          while (i--) {
+            const key = keys[i];
+            if (!matcher || matchHeaderValue(this, this[key], key, matcher, true)) {
+              delete this[key];
+              deleted = true;
+            }
+          }
+          return deleted;
+        }
+        normalize(format) {
+          const self2 = this;
+          const headers = {};
+          utils_default.forEach(this, (value, header) => {
+            const key = utils_default.findKey(headers, header);
+            if (key) {
+              self2[key] = normalizeValue(value);
+              delete self2[header];
+              return;
+            }
+            const normalized = format ? formatHeader(header) : String(header).trim();
+            if (normalized !== header) {
+              delete self2[header];
+            }
+            self2[normalized] = normalizeValue(value);
+            headers[normalized] = true;
+          });
+          return this;
+        }
+        concat(...targets) {
+          return this.constructor.concat(this, ...targets);
+        }
+        toJSON(asStrings) {
+          const obj = /* @__PURE__ */ Object.create(null);
+          utils_default.forEach(this, (value, header) => {
+            value != null && value !== false && (obj[header] = asStrings && utils_default.isArray(value) ? value.join(", ") : value);
+          });
+          return obj;
+        }
+        [Symbol.iterator]() {
+          return Object.entries(this.toJSON())[Symbol.iterator]();
+        }
+        toString() {
+          return Object.entries(this.toJSON()).map(([header, value]) => header + ": " + value).join("\n");
+        }
+        get [Symbol.toStringTag]() {
+          return "AxiosHeaders";
+        }
+        static from(thing) {
+          return thing instanceof this ? thing : new this(thing);
+        }
+        static concat(first, ...targets) {
+          const computed = new this(first);
+          targets.forEach((target) => computed.set(target));
+          return computed;
+        }
+        static accessor(header) {
+          const internals = this[$internals] = this[$internals] = {
+            accessors: {}
+          };
+          const accessors = internals.accessors;
+          const prototype3 = this.prototype;
+          function defineAccessor(_header) {
+            const lHeader = normalizeHeader(_header);
+            if (!accessors[lHeader]) {
+              buildAccessors(prototype3, _header);
+              accessors[lHeader] = true;
+            }
+          }
+          utils_default.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
+          return this;
+        }
+      };
+      AxiosHeaders.accessor(["Content-Type", "Content-Length", "Accept", "Accept-Encoding", "User-Agent", "Authorization"]);
+      utils_default.reduceDescriptors(AxiosHeaders.prototype, ({ value }, key) => {
+        let mapped = key[0].toUpperCase() + key.slice(1);
+        return {
+          get: () => value,
+          set(headerValue) {
+            this[mapped] = headerValue;
+          }
+        };
+      });
+      utils_default.freezeMethods(AxiosHeaders);
+      AxiosHeaders_default = AxiosHeaders;
+    }
+  });
+
+  // node_modules/axios/lib/core/transformData.js
+  function transformData(fns, response) {
+    const config = this || defaults_default;
+    const context = response || config;
+    const headers = AxiosHeaders_default.from(context.headers);
+    let data = context.data;
+    utils_default.forEach(fns, function transform2(fn) {
+      data = fn.call(config, data, headers.normalize(), response ? response.status : void 0);
+    });
+    headers.normalize();
+    return data;
+  }
+  var init_transformData = __esm({
+    "node_modules/axios/lib/core/transformData.js"() {
+      "use strict";
+      init_utils3();
+      init_defaults();
+      init_AxiosHeaders();
+    }
+  });
+
+  // node_modules/axios/lib/cancel/isCancel.js
+  function isCancel(value) {
+    return !!(value && value.__CANCEL__);
+  }
+  var init_isCancel = __esm({
+    "node_modules/axios/lib/cancel/isCancel.js"() {
+      "use strict";
+    }
+  });
+
+  // node_modules/axios/lib/cancel/CanceledError.js
+  function CanceledError(message, config, request) {
+    AxiosError_default.call(this, message == null ? "canceled" : message, AxiosError_default.ERR_CANCELED, config, request);
+    this.name = "CanceledError";
+  }
+  var CanceledError_default;
+  var init_CanceledError = __esm({
+    "node_modules/axios/lib/cancel/CanceledError.js"() {
+      "use strict";
+      init_AxiosError();
+      init_utils3();
+      utils_default.inherits(CanceledError, AxiosError_default, {
+        __CANCEL__: true
+      });
+      CanceledError_default = CanceledError;
+    }
+  });
+
+  // node_modules/axios/lib/core/settle.js
+  function settle(resolve, reject, response) {
+    const validateStatus2 = response.config.validateStatus;
+    if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
+      resolve(response);
+    } else {
+      reject(new AxiosError_default(
+        "Request failed with status code " + response.status,
+        [AxiosError_default.ERR_BAD_REQUEST, AxiosError_default.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
+        response.config,
+        response.request,
+        response
+      ));
+    }
+  }
+  var init_settle = __esm({
+    "node_modules/axios/lib/core/settle.js"() {
+      "use strict";
+      init_AxiosError();
+    }
+  });
+
+  // node_modules/axios/lib/helpers/parseProtocol.js
+  function parseProtocol(url) {
+    const match2 = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url);
+    return match2 && match2[1] || "";
+  }
+  var init_parseProtocol = __esm({
+    "node_modules/axios/lib/helpers/parseProtocol.js"() {
+      "use strict";
+    }
+  });
+
+  // node_modules/axios/lib/helpers/speedometer.js
+  function speedometer(samplesCount, min) {
+    samplesCount = samplesCount || 10;
+    const bytes = new Array(samplesCount);
+    const timestamps = new Array(samplesCount);
+    let head = 0;
+    let tail = 0;
+    let firstSampleTS;
+    min = min !== void 0 ? min : 1e3;
+    return function push(chunkLength) {
+      const now = Date.now();
+      const startedAt = timestamps[tail];
+      if (!firstSampleTS) {
+        firstSampleTS = now;
+      }
+      bytes[head] = chunkLength;
+      timestamps[head] = now;
+      let i = tail;
+      let bytesCount = 0;
+      while (i !== head) {
+        bytesCount += bytes[i++];
+        i = i % samplesCount;
+      }
+      head = (head + 1) % samplesCount;
+      if (head === tail) {
+        tail = (tail + 1) % samplesCount;
+      }
+      if (now - firstSampleTS < min) {
+        return;
+      }
+      const passed = startedAt && now - startedAt;
+      return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
+    };
+  }
+  var speedometer_default;
+  var init_speedometer = __esm({
+    "node_modules/axios/lib/helpers/speedometer.js"() {
+      "use strict";
+      speedometer_default = speedometer;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/throttle.js
+  function throttle(fn, freq) {
+    let timestamp = 0;
+    let threshold = 1e3 / freq;
+    let lastArgs;
+    let timer;
+    const invoke = (args, now = Date.now()) => {
+      timestamp = now;
+      lastArgs = null;
+      if (timer) {
+        clearTimeout(timer);
+        timer = null;
+      }
+      fn.apply(null, args);
+    };
+    const throttled = (...args) => {
+      const now = Date.now();
+      const passed = now - timestamp;
+      if (passed >= threshold) {
+        invoke(args, now);
+      } else {
+        lastArgs = args;
+        if (!timer) {
+          timer = setTimeout(() => {
+            timer = null;
+            invoke(lastArgs);
+          }, threshold - passed);
+        }
+      }
+    };
+    const flush = () => lastArgs && invoke(lastArgs);
+    return [throttled, flush];
+  }
+  var throttle_default;
+  var init_throttle = __esm({
+    "node_modules/axios/lib/helpers/throttle.js"() {
+      throttle_default = throttle;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/progressEventReducer.js
+  var progressEventReducer, progressEventDecorator, asyncDecorator;
+  var init_progressEventReducer = __esm({
+    "node_modules/axios/lib/helpers/progressEventReducer.js"() {
+      init_speedometer();
+      init_throttle();
+      init_utils3();
+      progressEventReducer = (listener, isDownloadStream, freq = 3) => {
+        let bytesNotified = 0;
+        const _speedometer = speedometer_default(50, 250);
+        return throttle_default((e) => {
+          const loaded = e.loaded;
+          const total = e.lengthComputable ? e.total : void 0;
+          const progressBytes = loaded - bytesNotified;
+          const rate = _speedometer(progressBytes);
+          const inRange = loaded <= total;
+          bytesNotified = loaded;
+          const data = {
+            loaded,
+            total,
+            progress: total ? loaded / total : void 0,
+            bytes: progressBytes,
+            rate: rate ? rate : void 0,
+            estimated: rate && total && inRange ? (total - loaded) / rate : void 0,
+            event: e,
+            lengthComputable: total != null,
+            [isDownloadStream ? "download" : "upload"]: true
+          };
+          listener(data);
+        }, freq);
+      };
+      progressEventDecorator = (total, throttled) => {
+        const lengthComputable = total != null;
+        return [(loaded) => throttled[0]({
+          lengthComputable,
+          total,
+          loaded
+        }), throttled[1]];
+      };
+      asyncDecorator = (fn) => (...args) => utils_default.asap(() => fn(...args));
+    }
+  });
+
+  // node_modules/axios/lib/helpers/isURLSameOrigin.js
+  var isURLSameOrigin_default;
+  var init_isURLSameOrigin = __esm({
+    "node_modules/axios/lib/helpers/isURLSameOrigin.js"() {
+      init_platform();
+      isURLSameOrigin_default = platform_default.hasStandardBrowserEnv ? /* @__PURE__ */ ((origin2, isMSIE) => (url) => {
+        url = new URL(url, platform_default.origin);
+        return origin2.protocol === url.protocol && origin2.host === url.host && (isMSIE || origin2.port === url.port);
+      })(
+        new URL(platform_default.origin),
+        platform_default.navigator && /(msie|trident)/i.test(platform_default.navigator.userAgent)
+      ) : () => true;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/cookies.js
+  var cookies_default;
+  var init_cookies = __esm({
+    "node_modules/axios/lib/helpers/cookies.js"() {
+      init_utils3();
+      init_platform();
+      cookies_default = platform_default.hasStandardBrowserEnv ? (
+        // Standard browser envs support document.cookie
+        {
+          write(name, value, expires, path, domain, secure) {
+            const cookie = [name + "=" + encodeURIComponent(value)];
+            utils_default.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString());
+            utils_default.isString(path) && cookie.push("path=" + path);
+            utils_default.isString(domain) && cookie.push("domain=" + domain);
+            secure === true && cookie.push("secure");
+            document.cookie = cookie.join("; ");
+          },
+          read(name) {
+            const match2 = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
+            return match2 ? decodeURIComponent(match2[3]) : null;
+          },
+          remove(name) {
+            this.write(name, "", Date.now() - 864e5);
+          }
+        }
+      ) : (
+        // Non-standard browser env (web workers, react-native) lack needed support.
+        {
+          write() {
+          },
+          read() {
+            return null;
+          },
+          remove() {
+          }
+        }
+      );
+    }
+  });
+
+  // node_modules/axios/lib/helpers/isAbsoluteURL.js
+  function isAbsoluteURL(url) {
+    return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
+  }
+  var init_isAbsoluteURL = __esm({
+    "node_modules/axios/lib/helpers/isAbsoluteURL.js"() {
+      "use strict";
+    }
+  });
+
+  // node_modules/axios/lib/helpers/combineURLs.js
+  function combineURLs(baseURL, relativeURL) {
+    return relativeURL ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
+  }
+  var init_combineURLs = __esm({
+    "node_modules/axios/lib/helpers/combineURLs.js"() {
+      "use strict";
+    }
+  });
+
+  // node_modules/axios/lib/core/buildFullPath.js
+  function buildFullPath(baseURL, requestedURL, allowAbsoluteUrls) {
+    let isRelativeUrl = !isAbsoluteURL(requestedURL);
+    if (baseURL && (isRelativeUrl || allowAbsoluteUrls == false)) {
+      return combineURLs(baseURL, requestedURL);
+    }
+    return requestedURL;
+  }
+  var init_buildFullPath = __esm({
+    "node_modules/axios/lib/core/buildFullPath.js"() {
+      "use strict";
+      init_isAbsoluteURL();
+      init_combineURLs();
+    }
+  });
+
+  // node_modules/axios/lib/core/mergeConfig.js
+  function mergeConfig(config1, config2) {
+    config2 = config2 || {};
+    const config = {};
+    function getMergedValue(target, source, prop, caseless) {
+      if (utils_default.isPlainObject(target) && utils_default.isPlainObject(source)) {
+        return utils_default.merge.call({ caseless }, target, source);
+      } else if (utils_default.isPlainObject(source)) {
+        return utils_default.merge({}, source);
+      } else if (utils_default.isArray(source)) {
+        return source.slice();
+      }
+      return source;
+    }
+    function mergeDeepProperties(a, b, prop, caseless) {
+      if (!utils_default.isUndefined(b)) {
+        return getMergedValue(a, b, prop, caseless);
+      } else if (!utils_default.isUndefined(a)) {
+        return getMergedValue(void 0, a, prop, caseless);
+      }
+    }
+    function valueFromConfig2(a, b) {
+      if (!utils_default.isUndefined(b)) {
+        return getMergedValue(void 0, b);
+      }
+    }
+    function defaultToConfig2(a, b) {
+      if (!utils_default.isUndefined(b)) {
+        return getMergedValue(void 0, b);
+      } else if (!utils_default.isUndefined(a)) {
+        return getMergedValue(void 0, a);
+      }
+    }
+    function mergeDirectKeys(a, b, prop) {
+      if (prop in config2) {
+        return getMergedValue(a, b);
+      } else if (prop in config1) {
+        return getMergedValue(void 0, a);
+      }
+    }
+    const mergeMap = {
+      url: valueFromConfig2,
+      method: valueFromConfig2,
+      data: valueFromConfig2,
+      baseURL: defaultToConfig2,
+      transformRequest: defaultToConfig2,
+      transformResponse: defaultToConfig2,
+      paramsSerializer: defaultToConfig2,
+      timeout: defaultToConfig2,
+      timeoutMessage: defaultToConfig2,
+      withCredentials: defaultToConfig2,
+      withXSRFToken: defaultToConfig2,
+      adapter: defaultToConfig2,
+      responseType: defaultToConfig2,
+      xsrfCookieName: defaultToConfig2,
+      xsrfHeaderName: defaultToConfig2,
+      onUploadProgress: defaultToConfig2,
+      onDownloadProgress: defaultToConfig2,
+      decompress: defaultToConfig2,
+      maxContentLength: defaultToConfig2,
+      maxBodyLength: defaultToConfig2,
+      beforeRedirect: defaultToConfig2,
+      transport: defaultToConfig2,
+      httpAgent: defaultToConfig2,
+      httpsAgent: defaultToConfig2,
+      cancelToken: defaultToConfig2,
+      socketPath: defaultToConfig2,
+      responseEncoding: defaultToConfig2,
+      validateStatus: mergeDirectKeys,
+      headers: (a, b, prop) => mergeDeepProperties(headersToObject(a), headersToObject(b), prop, true)
+    };
+    utils_default.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
+      const merge2 = mergeMap[prop] || mergeDeepProperties;
+      const configValue = merge2(config1[prop], config2[prop], prop);
+      utils_default.isUndefined(configValue) && merge2 !== mergeDirectKeys || (config[prop] = configValue);
+    });
+    return config;
+  }
+  var headersToObject;
+  var init_mergeConfig = __esm({
+    "node_modules/axios/lib/core/mergeConfig.js"() {
+      "use strict";
+      init_utils3();
+      init_AxiosHeaders();
+      headersToObject = (thing) => thing instanceof AxiosHeaders_default ? { ...thing } : thing;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/resolveConfig.js
+  var resolveConfig_default;
+  var init_resolveConfig = __esm({
+    "node_modules/axios/lib/helpers/resolveConfig.js"() {
+      init_platform();
+      init_utils3();
+      init_isURLSameOrigin();
+      init_cookies();
+      init_buildFullPath();
+      init_mergeConfig();
+      init_AxiosHeaders();
+      init_buildURL();
+      resolveConfig_default = (config) => {
+        const newConfig = mergeConfig({}, config);
+        let { data, withXSRFToken, xsrfHeaderName, xsrfCookieName, headers, auth } = newConfig;
+        newConfig.headers = headers = AxiosHeaders_default.from(headers);
+        newConfig.url = buildURL(buildFullPath(newConfig.baseURL, newConfig.url, newConfig.allowAbsoluteUrls), config.params, config.paramsSerializer);
+        if (auth) {
+          headers.set(
+            "Authorization",
+            "Basic " + btoa((auth.username || "") + ":" + (auth.password ? unescape(encodeURIComponent(auth.password)) : ""))
+          );
+        }
+        let contentType;
+        if (utils_default.isFormData(data)) {
+          if (platform_default.hasStandardBrowserEnv || platform_default.hasStandardBrowserWebWorkerEnv) {
+            headers.setContentType(void 0);
+          } else if ((contentType = headers.getContentType()) !== false) {
+            const [type, ...tokens2] = contentType ? contentType.split(";").map((token2) => token2.trim()).filter(Boolean) : [];
+            headers.setContentType([type || "multipart/form-data", ...tokens2].join("; "));
+          }
+        }
+        if (platform_default.hasStandardBrowserEnv) {
+          withXSRFToken && utils_default.isFunction(withXSRFToken) && (withXSRFToken = withXSRFToken(newConfig));
+          if (withXSRFToken || withXSRFToken !== false && isURLSameOrigin_default(newConfig.url)) {
+            const xsrfValue = xsrfHeaderName && xsrfCookieName && cookies_default.read(xsrfCookieName);
+            if (xsrfValue) {
+              headers.set(xsrfHeaderName, xsrfValue);
+            }
+          }
+        }
+        return newConfig;
+      };
+    }
+  });
+
+  // node_modules/axios/lib/adapters/xhr.js
+  var isXHRAdapterSupported, xhr_default;
+  var init_xhr = __esm({
+    "node_modules/axios/lib/adapters/xhr.js"() {
+      init_utils3();
+      init_settle();
+      init_transitional();
+      init_AxiosError();
+      init_CanceledError();
+      init_parseProtocol();
+      init_platform();
+      init_AxiosHeaders();
+      init_progressEventReducer();
+      init_resolveConfig();
+      isXHRAdapterSupported = typeof XMLHttpRequest !== "undefined";
+      xhr_default = isXHRAdapterSupported && function(config) {
+        return new Promise(function dispatchXhrRequest(resolve, reject) {
+          const _config = resolveConfig_default(config);
+          let requestData = _config.data;
+          const requestHeaders = AxiosHeaders_default.from(_config.headers).normalize();
+          let { responseType, onUploadProgress, onDownloadProgress } = _config;
+          let onCanceled;
+          let uploadThrottled, downloadThrottled;
+          let flushUpload, flushDownload;
+          function done() {
+            flushUpload && flushUpload();
+            flushDownload && flushDownload();
+            _config.cancelToken && _config.cancelToken.unsubscribe(onCanceled);
+            _config.signal && _config.signal.removeEventListener("abort", onCanceled);
+          }
+          let request = new XMLHttpRequest();
+          request.open(_config.method.toUpperCase(), _config.url, true);
+          request.timeout = _config.timeout;
+          function onloadend() {
+            if (!request) {
+              return;
+            }
+            const responseHeaders = AxiosHeaders_default.from(
+              "getAllResponseHeaders" in request && request.getAllResponseHeaders()
+            );
+            const responseData = !responseType || responseType === "text" || responseType === "json" ? request.responseText : request.response;
+            const response = {
+              data: responseData,
+              status: request.status,
+              statusText: request.statusText,
+              headers: responseHeaders,
+              config,
+              request
+            };
+            settle(function _resolve(value) {
+              resolve(value);
+              done();
+            }, function _reject(err) {
+              reject(err);
+              done();
+            }, response);
+            request = null;
+          }
+          if ("onloadend" in request) {
+            request.onloadend = onloadend;
+          } else {
+            request.onreadystatechange = function handleLoad() {
+              if (!request || request.readyState !== 4) {
+                return;
+              }
+              if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf("file:") === 0)) {
+                return;
+              }
+              setTimeout(onloadend);
+            };
+          }
+          request.onabort = function handleAbort() {
+            if (!request) {
+              return;
+            }
+            reject(new AxiosError_default("Request aborted", AxiosError_default.ECONNABORTED, config, request));
+            request = null;
+          };
+          request.onerror = function handleError() {
+            reject(new AxiosError_default("Network Error", AxiosError_default.ERR_NETWORK, config, request));
+            request = null;
+          };
+          request.ontimeout = function handleTimeout() {
+            let timeoutErrorMessage = _config.timeout ? "timeout of " + _config.timeout + "ms exceeded" : "timeout exceeded";
+            const transitional2 = _config.transitional || transitional_default;
+            if (_config.timeoutErrorMessage) {
+              timeoutErrorMessage = _config.timeoutErrorMessage;
+            }
+            reject(new AxiosError_default(
+              timeoutErrorMessage,
+              transitional2.clarifyTimeoutError ? AxiosError_default.ETIMEDOUT : AxiosError_default.ECONNABORTED,
+              config,
+              request
+            ));
+            request = null;
+          };
+          requestData === void 0 && requestHeaders.setContentType(null);
+          if ("setRequestHeader" in request) {
+            utils_default.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
+              request.setRequestHeader(key, val);
+            });
+          }
+          if (!utils_default.isUndefined(_config.withCredentials)) {
+            request.withCredentials = !!_config.withCredentials;
+          }
+          if (responseType && responseType !== "json") {
+            request.responseType = _config.responseType;
+          }
+          if (onDownloadProgress) {
+            [downloadThrottled, flushDownload] = progressEventReducer(onDownloadProgress, true);
+            request.addEventListener("progress", downloadThrottled);
+          }
+          if (onUploadProgress && request.upload) {
+            [uploadThrottled, flushUpload] = progressEventReducer(onUploadProgress);
+            request.upload.addEventListener("progress", uploadThrottled);
+            request.upload.addEventListener("loadend", flushUpload);
+          }
+          if (_config.cancelToken || _config.signal) {
+            onCanceled = (cancel) => {
+              if (!request) {
+                return;
+              }
+              reject(!cancel || cancel.type ? new CanceledError_default(null, config, request) : cancel);
+              request.abort();
+              request = null;
+            };
+            _config.cancelToken && _config.cancelToken.subscribe(onCanceled);
+            if (_config.signal) {
+              _config.signal.aborted ? onCanceled() : _config.signal.addEventListener("abort", onCanceled);
+            }
+          }
+          const protocol = parseProtocol(_config.url);
+          if (protocol && platform_default.protocols.indexOf(protocol) === -1) {
+            reject(new AxiosError_default("Unsupported protocol " + protocol + ":", AxiosError_default.ERR_BAD_REQUEST, config));
+            return;
+          }
+          request.send(requestData || null);
+        });
+      };
+    }
+  });
+
+  // node_modules/axios/lib/helpers/composeSignals.js
+  var composeSignals, composeSignals_default;
+  var init_composeSignals = __esm({
+    "node_modules/axios/lib/helpers/composeSignals.js"() {
+      init_CanceledError();
+      init_AxiosError();
+      init_utils3();
+      composeSignals = (signals, timeout2) => {
+        const { length: length2 } = signals = signals ? signals.filter(Boolean) : [];
+        if (timeout2 || length2) {
+          let controller = new AbortController();
+          let aborted;
+          const onabort = function(reason) {
+            if (!aborted) {
+              aborted = true;
+              unsubscribe();
+              const err = reason instanceof Error ? reason : this.reason;
+              controller.abort(err instanceof AxiosError_default ? err : new CanceledError_default(err instanceof Error ? err.message : err));
+            }
+          };
+          let timer = timeout2 && setTimeout(() => {
+            timer = null;
+            onabort(new AxiosError_default(`timeout ${timeout2} of ms exceeded`, AxiosError_default.ETIMEDOUT));
+          }, timeout2);
+          const unsubscribe = () => {
+            if (signals) {
+              timer && clearTimeout(timer);
+              timer = null;
+              signals.forEach((signal2) => {
+                signal2.unsubscribe ? signal2.unsubscribe(onabort) : signal2.removeEventListener("abort", onabort);
+              });
+              signals = null;
+            }
+          };
+          signals.forEach((signal2) => signal2.addEventListener("abort", onabort));
+          const { signal } = controller;
+          signal.unsubscribe = () => utils_default.asap(unsubscribe);
+          return signal;
+        }
+      };
+      composeSignals_default = composeSignals;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/trackStream.js
+  var streamChunk, readBytes, readStream, trackStream;
+  var init_trackStream = __esm({
+    "node_modules/axios/lib/helpers/trackStream.js"() {
+      streamChunk = function* (chunk, chunkSize) {
+        let len = chunk.byteLength;
+        if (!chunkSize || len < chunkSize) {
+          yield chunk;
+          return;
+        }
+        let pos = 0;
+        let end;
+        while (pos < len) {
+          end = pos + chunkSize;
+          yield chunk.slice(pos, end);
+          pos = end;
+        }
+      };
+      readBytes = async function* (iterable, chunkSize) {
+        for await (const chunk of readStream(iterable)) {
+          yield* streamChunk(chunk, chunkSize);
+        }
+      };
+      readStream = async function* (stream) {
+        if (stream[Symbol.asyncIterator]) {
+          yield* stream;
+          return;
+        }
+        const reader = stream.getReader();
+        try {
+          for (; ; ) {
+            const { done, value } = await reader.read();
+            if (done) {
+              break;
+            }
+            yield value;
+          }
+        } finally {
+          await reader.cancel();
+        }
+      };
+      trackStream = (stream, chunkSize, onProgress, onFinish) => {
+        const iterator = readBytes(stream, chunkSize);
+        let bytes = 0;
+        let done;
+        let _onFinish = (e) => {
+          if (!done) {
+            done = true;
+            onFinish && onFinish(e);
+          }
+        };
+        return new ReadableStream({
+          async pull(controller) {
+            try {
+              const { done: done2, value } = await iterator.next();
+              if (done2) {
+                _onFinish();
+                controller.close();
+                return;
+              }
+              let len = value.byteLength;
+              if (onProgress) {
+                let loadedBytes = bytes += len;
+                onProgress(loadedBytes);
+              }
+              controller.enqueue(new Uint8Array(value));
+            } catch (err) {
+              _onFinish(err);
+              throw err;
+            }
+          },
+          cancel(reason) {
+            _onFinish(reason);
+            return iterator.return();
+          }
+        }, {
+          highWaterMark: 2
+        });
+      };
+    }
+  });
+
+  // node_modules/axios/lib/adapters/fetch.js
+  var isFetchSupported, isReadableStreamSupported, encodeText, test, supportsRequestStream, DEFAULT_CHUNK_SIZE, supportsResponseStream, resolvers, getBodyLength, resolveBodyLength, fetch_default;
+  var init_fetch = __esm({
+    "node_modules/axios/lib/adapters/fetch.js"() {
+      init_platform();
+      init_utils3();
+      init_AxiosError();
+      init_composeSignals();
+      init_trackStream();
+      init_AxiosHeaders();
+      init_progressEventReducer();
+      init_resolveConfig();
+      init_settle();
+      isFetchSupported = typeof fetch === "function" && typeof Request === "function" && typeof Response === "function";
+      isReadableStreamSupported = isFetchSupported && typeof ReadableStream === "function";
+      encodeText = isFetchSupported && (typeof TextEncoder === "function" ? /* @__PURE__ */ ((encoder) => (str) => encoder.encode(str))(new TextEncoder()) : async (str) => new Uint8Array(await new Response(str).arrayBuffer()));
+      test = (fn, ...args) => {
+        try {
+          return !!fn(...args);
+        } catch (e) {
+          return false;
+        }
+      };
+      supportsRequestStream = isReadableStreamSupported && test(() => {
+        let duplexAccessed = false;
+        const hasContentType = new Request(platform_default.origin, {
+          body: new ReadableStream(),
+          method: "POST",
+          get duplex() {
+            duplexAccessed = true;
+            return "half";
+          }
+        }).headers.has("Content-Type");
+        return duplexAccessed && !hasContentType;
+      });
+      DEFAULT_CHUNK_SIZE = 64 * 1024;
+      supportsResponseStream = isReadableStreamSupported && test(() => utils_default.isReadableStream(new Response("").body));
+      resolvers = {
+        stream: supportsResponseStream && ((res) => res.body)
+      };
+      isFetchSupported && ((res) => {
+        ["text", "arrayBuffer", "blob", "formData", "stream"].forEach((type) => {
+          !resolvers[type] && (resolvers[type] = utils_default.isFunction(res[type]) ? (res2) => res2[type]() : (_, config) => {
+            throw new AxiosError_default(`Response type '${type}' is not supported`, AxiosError_default.ERR_NOT_SUPPORT, config);
+          });
+        });
+      })(new Response());
+      getBodyLength = async (body) => {
+        if (body == null) {
+          return 0;
+        }
+        if (utils_default.isBlob(body)) {
+          return body.size;
+        }
+        if (utils_default.isSpecCompliantForm(body)) {
+          const _request = new Request(platform_default.origin, {
+            method: "POST",
+            body
+          });
+          return (await _request.arrayBuffer()).byteLength;
+        }
+        if (utils_default.isArrayBufferView(body) || utils_default.isArrayBuffer(body)) {
+          return body.byteLength;
+        }
+        if (utils_default.isURLSearchParams(body)) {
+          body = body + "";
+        }
+        if (utils_default.isString(body)) {
+          return (await encodeText(body)).byteLength;
+        }
+      };
+      resolveBodyLength = async (headers, body) => {
+        const length2 = utils_default.toFiniteNumber(headers.getContentLength());
+        return length2 == null ? getBodyLength(body) : length2;
+      };
+      fetch_default = isFetchSupported && (async (config) => {
+        let {
+          url,
+          method,
+          data,
+          signal,
+          cancelToken,
+          timeout: timeout2,
+          onDownloadProgress,
+          onUploadProgress,
+          responseType,
+          headers,
+          withCredentials = "same-origin",
+          fetchOptions
+        } = resolveConfig_default(config);
+        responseType = responseType ? (responseType + "").toLowerCase() : "text";
+        let composedSignal = composeSignals_default([signal, cancelToken && cancelToken.toAbortSignal()], timeout2);
+        let request;
+        const unsubscribe = composedSignal && composedSignal.unsubscribe && (() => {
+          composedSignal.unsubscribe();
+        });
+        let requestContentLength;
+        try {
+          if (onUploadProgress && supportsRequestStream && method !== "get" && method !== "head" && (requestContentLength = await resolveBodyLength(headers, data)) !== 0) {
+            let _request = new Request(url, {
+              method: "POST",
+              body: data,
+              duplex: "half"
+            });
+            let contentTypeHeader;
+            if (utils_default.isFormData(data) && (contentTypeHeader = _request.headers.get("content-type"))) {
+              headers.setContentType(contentTypeHeader);
+            }
+            if (_request.body) {
+              const [onProgress, flush] = progressEventDecorator(
+                requestContentLength,
+                progressEventReducer(asyncDecorator(onUploadProgress))
+              );
+              data = trackStream(_request.body, DEFAULT_CHUNK_SIZE, onProgress, flush);
+            }
+          }
+          if (!utils_default.isString(withCredentials)) {
+            withCredentials = withCredentials ? "include" : "omit";
+          }
+          const isCredentialsSupported = "credentials" in Request.prototype;
+          request = new Request(url, {
+            ...fetchOptions,
+            signal: composedSignal,
+            method: method.toUpperCase(),
+            headers: headers.normalize().toJSON(),
+            body: data,
+            duplex: "half",
+            credentials: isCredentialsSupported ? withCredentials : void 0
+          });
+          let response = await fetch(request);
+          const isStreamResponse = supportsResponseStream && (responseType === "stream" || responseType === "response");
+          if (supportsResponseStream && (onDownloadProgress || isStreamResponse && unsubscribe)) {
+            const options = {};
+            ["status", "statusText", "headers"].forEach((prop) => {
+              options[prop] = response[prop];
+            });
+            const responseContentLength = utils_default.toFiniteNumber(response.headers.get("content-length"));
+            const [onProgress, flush] = onDownloadProgress && progressEventDecorator(
+              responseContentLength,
+              progressEventReducer(asyncDecorator(onDownloadProgress), true)
+            ) || [];
+            response = new Response(
+              trackStream(response.body, DEFAULT_CHUNK_SIZE, onProgress, () => {
+                flush && flush();
+                unsubscribe && unsubscribe();
+              }),
+              options
+            );
+          }
+          responseType = responseType || "text";
+          let responseData = await resolvers[utils_default.findKey(resolvers, responseType) || "text"](response, config);
+          !isStreamResponse && unsubscribe && unsubscribe();
+          return await new Promise((resolve, reject) => {
+            settle(resolve, reject, {
+              data: responseData,
+              headers: AxiosHeaders_default.from(response.headers),
+              status: response.status,
+              statusText: response.statusText,
+              config,
+              request
+            });
+          });
+        } catch (err) {
+          unsubscribe && unsubscribe();
+          if (err && err.name === "TypeError" && /fetch/i.test(err.message)) {
+            throw Object.assign(
+              new AxiosError_default("Network Error", AxiosError_default.ERR_NETWORK, config, request),
+              {
+                cause: err.cause || err
+              }
+            );
+          }
+          throw AxiosError_default.from(err, err && err.code, config, request);
+        }
+      });
+    }
+  });
+
+  // node_modules/axios/lib/adapters/adapters.js
+  var knownAdapters, renderReason, isResolvedHandle, adapters_default;
+  var init_adapters = __esm({
+    "node_modules/axios/lib/adapters/adapters.js"() {
+      init_utils3();
+      init_null();
+      init_xhr();
+      init_fetch();
+      init_AxiosError();
+      knownAdapters = {
+        http: null_default,
+        xhr: xhr_default,
+        fetch: fetch_default
+      };
+      utils_default.forEach(knownAdapters, (fn, value) => {
+        if (fn) {
+          try {
+            Object.defineProperty(fn, "name", { value });
+          } catch (e) {
+          }
+          Object.defineProperty(fn, "adapterName", { value });
+        }
+      });
+      renderReason = (reason) => `- ${reason}`;
+      isResolvedHandle = (adapter) => utils_default.isFunction(adapter) || adapter === null || adapter === false;
+      adapters_default = {
+        getAdapter: (adapters) => {
+          adapters = utils_default.isArray(adapters) ? adapters : [adapters];
+          const { length: length2 } = adapters;
+          let nameOrAdapter;
+          let adapter;
+          const rejectedReasons = {};
+          for (let i = 0; i < length2; i++) {
+            nameOrAdapter = adapters[i];
+            let id;
+            adapter = nameOrAdapter;
+            if (!isResolvedHandle(nameOrAdapter)) {
+              adapter = knownAdapters[(id = String(nameOrAdapter)).toLowerCase()];
+              if (adapter === void 0) {
+                throw new AxiosError_default(`Unknown adapter '${id}'`);
+              }
+            }
+            if (adapter) {
+              break;
+            }
+            rejectedReasons[id || "#" + i] = adapter;
+          }
+          if (!adapter) {
+            const reasons = Object.entries(rejectedReasons).map(
+              ([id, state]) => `adapter ${id} ` + (state === false ? "is not supported by the environment" : "is not available in the build")
+            );
+            let s = length2 ? reasons.length > 1 ? "since :\n" + reasons.map(renderReason).join("\n") : " " + renderReason(reasons[0]) : "as no adapter specified";
+            throw new AxiosError_default(
+              `There is no suitable adapter to dispatch the request ` + s,
+              "ERR_NOT_SUPPORT"
+            );
+          }
+          return adapter;
+        },
+        adapters: knownAdapters
+      };
+    }
+  });
+
+  // node_modules/axios/lib/core/dispatchRequest.js
+  function throwIfCancellationRequested(config) {
+    if (config.cancelToken) {
+      config.cancelToken.throwIfRequested();
+    }
+    if (config.signal && config.signal.aborted) {
+      throw new CanceledError_default(null, config);
+    }
+  }
+  function dispatchRequest(config) {
+    throwIfCancellationRequested(config);
+    config.headers = AxiosHeaders_default.from(config.headers);
+    config.data = transformData.call(
+      config,
+      config.transformRequest
+    );
+    if (["post", "put", "patch"].indexOf(config.method) !== -1) {
+      config.headers.setContentType("application/x-www-form-urlencoded", false);
+    }
+    const adapter = adapters_default.getAdapter(config.adapter || defaults_default.adapter);
+    return adapter(config).then(function onAdapterResolution(response) {
+      throwIfCancellationRequested(config);
+      response.data = transformData.call(
+        config,
+        config.transformResponse,
+        response
+      );
+      response.headers = AxiosHeaders_default.from(response.headers);
+      return response;
+    }, function onAdapterRejection(reason) {
+      if (!isCancel(reason)) {
+        throwIfCancellationRequested(config);
+        if (reason && reason.response) {
+          reason.response.data = transformData.call(
+            config,
+            config.transformResponse,
+            reason.response
+          );
+          reason.response.headers = AxiosHeaders_default.from(reason.response.headers);
+        }
+      }
+      return Promise.reject(reason);
+    });
+  }
+  var init_dispatchRequest = __esm({
+    "node_modules/axios/lib/core/dispatchRequest.js"() {
+      "use strict";
+      init_transformData();
+      init_isCancel();
+      init_defaults();
+      init_CanceledError();
+      init_AxiosHeaders();
+      init_adapters();
+    }
+  });
+
+  // node_modules/axios/lib/env/data.js
+  var VERSION;
+  var init_data = __esm({
+    "node_modules/axios/lib/env/data.js"() {
+      VERSION = "1.8.4";
+    }
+  });
+
+  // node_modules/axios/lib/helpers/validator.js
+  function assertOptions(options, schema, allowUnknown) {
+    if (typeof options !== "object") {
+      throw new AxiosError_default("options must be an object", AxiosError_default.ERR_BAD_OPTION_VALUE);
+    }
+    const keys = Object.keys(options);
+    let i = keys.length;
+    while (i-- > 0) {
+      const opt = keys[i];
+      const validator = schema[opt];
+      if (validator) {
+        const value = options[opt];
+        const result = value === void 0 || validator(value, opt, options);
+        if (result !== true) {
+          throw new AxiosError_default("option " + opt + " must be " + result, AxiosError_default.ERR_BAD_OPTION_VALUE);
+        }
+        continue;
+      }
+      if (allowUnknown !== true) {
+        throw new AxiosError_default("Unknown option " + opt, AxiosError_default.ERR_BAD_OPTION);
+      }
+    }
+  }
+  var validators, deprecatedWarnings, validator_default;
+  var init_validator = __esm({
+    "node_modules/axios/lib/helpers/validator.js"() {
+      "use strict";
+      init_data();
+      init_AxiosError();
+      validators = {};
+      ["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
+        validators[type] = function validator(thing) {
+          return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
+        };
+      });
+      deprecatedWarnings = {};
+      validators.transitional = function transitional(validator, version, message) {
+        function formatMessage(opt, desc) {
+          return "[Axios v" + VERSION + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
+        }
+        return (value, opt, opts) => {
+          if (validator === false) {
+            throw new AxiosError_default(
+              formatMessage(opt, " has been removed" + (version ? " in " + version : "")),
+              AxiosError_default.ERR_DEPRECATED
+            );
+          }
+          if (version && !deprecatedWarnings[opt]) {
+            deprecatedWarnings[opt] = true;
+            console.warn(
+              formatMessage(
+                opt,
+                " has been deprecated since v" + version + " and will be removed in the near future"
+              )
+            );
+          }
+          return validator ? validator(value, opt, opts) : true;
+        };
+      };
+      validators.spelling = function spelling(correctSpelling) {
+        return (value, opt) => {
+          console.warn(`${opt} is likely a misspelling of ${correctSpelling}`);
+          return true;
+        };
+      };
+      validator_default = {
+        assertOptions,
+        validators
+      };
+    }
+  });
+
+  // node_modules/axios/lib/core/Axios.js
+  var validators2, Axios, Axios_default;
+  var init_Axios = __esm({
+    "node_modules/axios/lib/core/Axios.js"() {
+      "use strict";
+      init_utils3();
+      init_buildURL();
+      init_InterceptorManager();
+      init_dispatchRequest();
+      init_mergeConfig();
+      init_buildFullPath();
+      init_validator();
+      init_AxiosHeaders();
+      validators2 = validator_default.validators;
+      Axios = class {
+        constructor(instanceConfig) {
+          this.defaults = instanceConfig;
+          this.interceptors = {
+            request: new InterceptorManager_default(),
+            response: new InterceptorManager_default()
+          };
+        }
+        /**
+         * Dispatch a request
+         *
+         * @param {String|Object} configOrUrl The config specific for this request (merged with this.defaults)
+         * @param {?Object} config
+         *
+         * @returns {Promise} The Promise to be fulfilled
+         */
+        async request(configOrUrl, config) {
+          try {
+            return await this._request(configOrUrl, config);
+          } catch (err) {
+            if (err instanceof Error) {
+              let dummy = {};
+              Error.captureStackTrace ? Error.captureStackTrace(dummy) : dummy = new Error();
+              const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, "") : "";
+              try {
+                if (!err.stack) {
+                  err.stack = stack;
+                } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))) {
+                  err.stack += "\n" + stack;
+                }
+              } catch (e) {
+              }
+            }
+            throw err;
+          }
+        }
+        _request(configOrUrl, config) {
+          if (typeof configOrUrl === "string") {
+            config = config || {};
+            config.url = configOrUrl;
+          } else {
+            config = configOrUrl || {};
+          }
+          config = mergeConfig(this.defaults, config);
+          const { transitional: transitional2, paramsSerializer, headers } = config;
+          if (transitional2 !== void 0) {
+            validator_default.assertOptions(transitional2, {
+              silentJSONParsing: validators2.transitional(validators2.boolean),
+              forcedJSONParsing: validators2.transitional(validators2.boolean),
+              clarifyTimeoutError: validators2.transitional(validators2.boolean)
+            }, false);
+          }
+          if (paramsSerializer != null) {
+            if (utils_default.isFunction(paramsSerializer)) {
+              config.paramsSerializer = {
+                serialize: paramsSerializer
+              };
+            } else {
+              validator_default.assertOptions(paramsSerializer, {
+                encode: validators2.function,
+                serialize: validators2.function
+              }, true);
+            }
+          }
+          if (config.allowAbsoluteUrls !== void 0) {
+          } else if (this.defaults.allowAbsoluteUrls !== void 0) {
+            config.allowAbsoluteUrls = this.defaults.allowAbsoluteUrls;
+          } else {
+            config.allowAbsoluteUrls = true;
+          }
+          validator_default.assertOptions(config, {
+            baseUrl: validators2.spelling("baseURL"),
+            withXsrfToken: validators2.spelling("withXSRFToken")
+          }, true);
+          config.method = (config.method || this.defaults.method || "get").toLowerCase();
+          let contextHeaders = headers && utils_default.merge(
+            headers.common,
+            headers[config.method]
+          );
+          headers && utils_default.forEach(
+            ["delete", "get", "head", "post", "put", "patch", "common"],
+            (method) => {
+              delete headers[method];
+            }
+          );
+          config.headers = AxiosHeaders_default.concat(contextHeaders, headers);
+          const requestInterceptorChain = [];
+          let synchronousRequestInterceptors = true;
+          this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
+            if (typeof interceptor.runWhen === "function" && interceptor.runWhen(config) === false) {
+              return;
+            }
+            synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
+            requestInterceptorChain.unshift(interceptor.fulfilled, interceptor.rejected);
+          });
+          const responseInterceptorChain = [];
+          this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
+            responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
+          });
+          let promise;
+          let i = 0;
+          let len;
+          if (!synchronousRequestInterceptors) {
+            const chain = [dispatchRequest.bind(this), void 0];
+            chain.unshift.apply(chain, requestInterceptorChain);
+            chain.push.apply(chain, responseInterceptorChain);
+            len = chain.length;
+            promise = Promise.resolve(config);
+            while (i < len) {
+              promise = promise.then(chain[i++], chain[i++]);
+            }
+            return promise;
+          }
+          len = requestInterceptorChain.length;
+          let newConfig = config;
+          i = 0;
+          while (i < len) {
+            const onFulfilled = requestInterceptorChain[i++];
+            const onRejected = requestInterceptorChain[i++];
+            try {
+              newConfig = onFulfilled(newConfig);
+            } catch (error) {
+              onRejected.call(this, error);
+              break;
+            }
+          }
+          try {
+            promise = dispatchRequest.call(this, newConfig);
+          } catch (error) {
+            return Promise.reject(error);
+          }
+          i = 0;
+          len = responseInterceptorChain.length;
+          while (i < len) {
+            promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
+          }
+          return promise;
+        }
+        getUri(config) {
+          config = mergeConfig(this.defaults, config);
+          const fullPath = buildFullPath(config.baseURL, config.url, config.allowAbsoluteUrls);
+          return buildURL(fullPath, config.params, config.paramsSerializer);
+        }
+      };
+      utils_default.forEach(["delete", "get", "head", "options"], function forEachMethodNoData(method) {
+        Axios.prototype[method] = function(url, config) {
+          return this.request(mergeConfig(config || {}, {
+            method,
+            url,
+            data: (config || {}).data
+          }));
+        };
+      });
+      utils_default.forEach(["post", "put", "patch"], function forEachMethodWithData(method) {
+        function generateHTTPMethod(isForm) {
+          return function httpMethod(url, data, config) {
+            return this.request(mergeConfig(config || {}, {
+              method,
+              headers: isForm ? {
+                "Content-Type": "multipart/form-data"
+              } : {},
+              url,
+              data
+            }));
+          };
+        }
+        Axios.prototype[method] = generateHTTPMethod();
+        Axios.prototype[method + "Form"] = generateHTTPMethod(true);
+      });
+      Axios_default = Axios;
+    }
+  });
+
+  // node_modules/axios/lib/cancel/CancelToken.js
+  var CancelToken, CancelToken_default;
+  var init_CancelToken = __esm({
+    "node_modules/axios/lib/cancel/CancelToken.js"() {
+      "use strict";
+      init_CanceledError();
+      CancelToken = class _CancelToken {
+        constructor(executor) {
+          if (typeof executor !== "function") {
+            throw new TypeError("executor must be a function.");
+          }
+          let resolvePromise;
+          this.promise = new Promise(function promiseExecutor(resolve) {
+            resolvePromise = resolve;
+          });
+          const token2 = this;
+          this.promise.then((cancel) => {
+            if (!token2._listeners) return;
+            let i = token2._listeners.length;
+            while (i-- > 0) {
+              token2._listeners[i](cancel);
+            }
+            token2._listeners = null;
+          });
+          this.promise.then = (onfulfilled) => {
+            let _resolve;
+            const promise = new Promise((resolve) => {
+              token2.subscribe(resolve);
+              _resolve = resolve;
+            }).then(onfulfilled);
+            promise.cancel = function reject() {
+              token2.unsubscribe(_resolve);
+            };
+            return promise;
+          };
+          executor(function cancel(message, config, request) {
+            if (token2.reason) {
+              return;
+            }
+            token2.reason = new CanceledError_default(message, config, request);
+            resolvePromise(token2.reason);
+          });
+        }
+        /**
+         * Throws a `CanceledError` if cancellation has been requested.
+         */
+        throwIfRequested() {
+          if (this.reason) {
+            throw this.reason;
+          }
+        }
+        /**
+         * Subscribe to the cancel signal
+         */
+        subscribe(listener) {
+          if (this.reason) {
+            listener(this.reason);
+            return;
+          }
+          if (this._listeners) {
+            this._listeners.push(listener);
+          } else {
+            this._listeners = [listener];
+          }
+        }
+        /**
+         * Unsubscribe from the cancel signal
+         */
+        unsubscribe(listener) {
+          if (!this._listeners) {
+            return;
+          }
+          const index = this._listeners.indexOf(listener);
+          if (index !== -1) {
+            this._listeners.splice(index, 1);
+          }
+        }
+        toAbortSignal() {
+          const controller = new AbortController();
+          const abort = (err) => {
+            controller.abort(err);
+          };
+          this.subscribe(abort);
+          controller.signal.unsubscribe = () => this.unsubscribe(abort);
+          return controller.signal;
+        }
+        /**
+         * Returns an object that contains a new `CancelToken` and a function that, when called,
+         * cancels the `CancelToken`.
+         */
+        static source() {
+          let cancel;
+          const token2 = new _CancelToken(function executor(c) {
+            cancel = c;
+          });
+          return {
+            token: token2,
+            cancel
+          };
+        }
+      };
+      CancelToken_default = CancelToken;
+    }
+  });
+
+  // node_modules/axios/lib/helpers/spread.js
+  function spread(callback) {
+    return function wrap(arr) {
+      return callback.apply(null, arr);
+    };
+  }
+  var init_spread = __esm({
+    "node_modules/axios/lib/helpers/spread.js"() {
+      "use strict";
+    }
+  });
+
+  // node_modules/axios/lib/helpers/isAxiosError.js
+  function isAxiosError(payload) {
+    return utils_default.isObject(payload) && payload.isAxiosError === true;
+  }
+  var init_isAxiosError = __esm({
+    "node_modules/axios/lib/helpers/isAxiosError.js"() {
+      "use strict";
+      init_utils3();
+    }
+  });
+
+  // node_modules/axios/lib/helpers/HttpStatusCode.js
+  var HttpStatusCode, HttpStatusCode_default;
+  var init_HttpStatusCode = __esm({
+    "node_modules/axios/lib/helpers/HttpStatusCode.js"() {
+      HttpStatusCode = {
+        Continue: 100,
+        SwitchingProtocols: 101,
+        Processing: 102,
+        EarlyHints: 103,
+        Ok: 200,
+        Created: 201,
+        Accepted: 202,
+        NonAuthoritativeInformation: 203,
+        NoContent: 204,
+        ResetContent: 205,
+        PartialContent: 206,
+        MultiStatus: 207,
+        AlreadyReported: 208,
+        ImUsed: 226,
+        MultipleChoices: 300,
+        MovedPermanently: 301,
+        Found: 302,
+        SeeOther: 303,
+        NotModified: 304,
+        UseProxy: 305,
+        Unused: 306,
+        TemporaryRedirect: 307,
+        PermanentRedirect: 308,
+        BadRequest: 400,
+        Unauthorized: 401,
+        PaymentRequired: 402,
+        Forbidden: 403,
+        NotFound: 404,
+        MethodNotAllowed: 405,
+        NotAcceptable: 406,
+        ProxyAuthenticationRequired: 407,
+        RequestTimeout: 408,
+        Conflict: 409,
+        Gone: 410,
+        LengthRequired: 411,
+        PreconditionFailed: 412,
+        PayloadTooLarge: 413,
+        UriTooLong: 414,
+        UnsupportedMediaType: 415,
+        RangeNotSatisfiable: 416,
+        ExpectationFailed: 417,
+        ImATeapot: 418,
+        MisdirectedRequest: 421,
+        UnprocessableEntity: 422,
+        Locked: 423,
+        FailedDependency: 424,
+        TooEarly: 425,
+        UpgradeRequired: 426,
+        PreconditionRequired: 428,
+        TooManyRequests: 429,
+        RequestHeaderFieldsTooLarge: 431,
+        UnavailableForLegalReasons: 451,
+        InternalServerError: 500,
+        NotImplemented: 501,
+        BadGateway: 502,
+        ServiceUnavailable: 503,
+        GatewayTimeout: 504,
+        HttpVersionNotSupported: 505,
+        VariantAlsoNegotiates: 506,
+        InsufficientStorage: 507,
+        LoopDetected: 508,
+        NotExtended: 510,
+        NetworkAuthenticationRequired: 511
+      };
+      Object.entries(HttpStatusCode).forEach(([key, value]) => {
+        HttpStatusCode[value] = key;
+      });
+      HttpStatusCode_default = HttpStatusCode;
+    }
+  });
+
+  // node_modules/axios/lib/axios.js
+  function createInstance(defaultConfig) {
+    const context = new Axios_default(defaultConfig);
+    const instance = bind(Axios_default.prototype.request, context);
+    utils_default.extend(instance, Axios_default.prototype, context, { allOwnKeys: true });
+    utils_default.extend(instance, context, null, { allOwnKeys: true });
+    instance.create = function create(instanceConfig) {
+      return createInstance(mergeConfig(defaultConfig, instanceConfig));
+    };
+    return instance;
+  }
+  var axios, axios_default;
+  var init_axios = __esm({
+    "node_modules/axios/lib/axios.js"() {
+      "use strict";
+      init_utils3();
+      init_bind();
+      init_Axios();
+      init_mergeConfig();
+      init_defaults();
+      init_formDataToJSON();
+      init_CanceledError();
+      init_CancelToken();
+      init_isCancel();
+      init_data();
+      init_toFormData();
+      init_AxiosError();
+      init_spread();
+      init_isAxiosError();
+      init_AxiosHeaders();
+      init_adapters();
+      init_HttpStatusCode();
+      axios = createInstance(defaults_default);
+      axios.Axios = Axios_default;
+      axios.CanceledError = CanceledError_default;
+      axios.CancelToken = CancelToken_default;
+      axios.isCancel = isCancel;
+      axios.VERSION = VERSION;
+      axios.toFormData = toFormData_default;
+      axios.AxiosError = AxiosError_default;
+      axios.Cancel = axios.CanceledError;
+      axios.all = function all(promises) {
+        return Promise.all(promises);
+      };
+      axios.spread = spread;
+      axios.isAxiosError = isAxiosError;
+      axios.mergeConfig = mergeConfig;
+      axios.AxiosHeaders = AxiosHeaders_default;
+      axios.formToJSON = (thing) => formDataToJSON_default(utils_default.isHTMLForm(thing) ? new FormData(thing) : thing);
+      axios.getAdapter = adapters_default.getAdapter;
+      axios.HttpStatusCode = HttpStatusCode_default;
+      axios.default = axios;
+      axios_default = axios;
+    }
+  });
+
+  // node_modules/axios/index.js
+  var Axios2, AxiosError2, CanceledError2, isCancel2, CancelToken2, VERSION2, all2, Cancel2, isAxiosError2, spread2, toFormData2, AxiosHeaders2, HttpStatusCode2, formToJSON, getAdapter, mergeConfig2;
+  var init_axios2 = __esm({
+    "node_modules/axios/index.js"() {
+      init_axios();
+      ({
+        Axios: Axios2,
+        AxiosError: AxiosError2,
+        CanceledError: CanceledError2,
+        isCancel: isCancel2,
+        CancelToken: CancelToken2,
+        VERSION: VERSION2,
+        all: all2,
+        Cancel: Cancel2,
+        isAxiosError: isAxiosError2,
+        spread: spread2,
+        toFormData: toFormData2,
+        AxiosHeaders: AxiosHeaders2,
+        HttpStatusCode: HttpStatusCode2,
+        formToJSON,
+        getAdapter,
+        mergeConfig: mergeConfig2
+      } = axios_default);
+    }
+  });
+
+  // node_modules/is-retry-allowed/index.js
+  var require_is_retry_allowed = __commonJS({
+    "node_modules/is-retry-allowed/index.js"(exports, module) {
+      "use strict";
+      var denyList = /* @__PURE__ */ new Set([
+        "ENOTFOUND",
+        "ENETUNREACH",
+        // SSL errors from https://github.com/nodejs/node/blob/fc8e3e2cdc521978351de257030db0076d79e0ab/src/crypto/crypto_common.cc#L301-L328
+        "UNABLE_TO_GET_ISSUER_CERT",
+        "UNABLE_TO_GET_CRL",
+        "UNABLE_TO_DECRYPT_CERT_SIGNATURE",
+        "UNABLE_TO_DECRYPT_CRL_SIGNATURE",
+        "UNABLE_TO_DECODE_ISSUER_PUBLIC_KEY",
+        "CERT_SIGNATURE_FAILURE",
+        "CRL_SIGNATURE_FAILURE",
+        "CERT_NOT_YET_VALID",
+        "CERT_HAS_EXPIRED",
+        "CRL_NOT_YET_VALID",
+        "CRL_HAS_EXPIRED",
+        "ERROR_IN_CERT_NOT_BEFORE_FIELD",
+        "ERROR_IN_CERT_NOT_AFTER_FIELD",
+        "ERROR_IN_CRL_LAST_UPDATE_FIELD",
+        "ERROR_IN_CRL_NEXT_UPDATE_FIELD",
+        "OUT_OF_MEM",
+        "DEPTH_ZERO_SELF_SIGNED_CERT",
+        "SELF_SIGNED_CERT_IN_CHAIN",
+        "UNABLE_TO_GET_ISSUER_CERT_LOCALLY",
+        "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
+        "CERT_CHAIN_TOO_LONG",
+        "CERT_REVOKED",
+        "INVALID_CA",
+        "PATH_LENGTH_EXCEEDED",
+        "INVALID_PURPOSE",
+        "CERT_UNTRUSTED",
+        "CERT_REJECTED",
+        "HOSTNAME_MISMATCH"
+      ]);
+      module.exports = (error) => !denyList.has(error && error.code);
+    }
+  });
+
+  // node_modules/axios-retry/dist/esm/index.js
+  function isNetworkError(error) {
+    const CODE_EXCLUDE_LIST = ["ERR_CANCELED", "ECONNABORTED"];
+    if (error.response) {
+      return false;
+    }
+    if (!error.code) {
+      return false;
+    }
+    if (CODE_EXCLUDE_LIST.includes(error.code)) {
+      return false;
+    }
+    return (0, import_is_retry_allowed.default)(error);
+  }
+  function isRetryableError(error) {
+    return error.code !== "ECONNABORTED" && (!error.response || error.response.status === 429 || error.response.status >= 500 && error.response.status <= 599);
+  }
+  function isSafeRequestError(error) {
+    if (!error.config?.method) {
+      return false;
+    }
+    return isRetryableError(error) && SAFE_HTTP_METHODS.indexOf(error.config.method) !== -1;
+  }
+  function isIdempotentRequestError(error) {
+    if (!error.config?.method) {
+      return false;
+    }
+    return isRetryableError(error) && IDEMPOTENT_HTTP_METHODS.indexOf(error.config.method) !== -1;
+  }
+  function isNetworkOrIdempotentRequestError(error) {
+    return isNetworkError(error) || isIdempotentRequestError(error);
+  }
+  function retryAfter(error = void 0) {
+    const retryAfterHeader = error?.response?.headers["retry-after"];
+    if (!retryAfterHeader) {
+      return 0;
+    }
+    let retryAfterMs = (Number(retryAfterHeader) || 0) * 1e3;
+    if (retryAfterMs === 0) {
+      retryAfterMs = (new Date(retryAfterHeader).valueOf() || 0) - Date.now();
+    }
+    return Math.max(0, retryAfterMs);
+  }
+  function noDelay(_retryNumber = 0, error = void 0) {
+    return Math.max(0, retryAfter(error));
+  }
+  function exponentialDelay(retryNumber = 0, error = void 0, delayFactor = 100) {
+    const calculatedDelay = 2 ** retryNumber * delayFactor;
+    const delay = Math.max(calculatedDelay, retryAfter(error));
+    const randomSum = delay * 0.2 * Math.random();
+    return delay + randomSum;
+  }
+  function linearDelay(delayFactor = 100) {
+    return (retryNumber = 0, error = void 0) => {
+      const delay = retryNumber * delayFactor;
+      return Math.max(delay, retryAfter(error));
+    };
+  }
+  function getRequestOptions(config, defaultOptions) {
+    return { ...DEFAULT_OPTIONS, ...defaultOptions, ...config[namespace] };
+  }
+  function setCurrentState(config, defaultOptions, resetLastRequestTime = false) {
+    const currentState = getRequestOptions(config, defaultOptions || {});
+    currentState.retryCount = currentState.retryCount || 0;
+    if (!currentState.lastRequestTime || resetLastRequestTime) {
+      currentState.lastRequestTime = Date.now();
+    }
+    config[namespace] = currentState;
+    return currentState;
+  }
+  function fixConfig(axiosInstance, config) {
+    if (axiosInstance.defaults.agent === config.agent) {
+      delete config.agent;
+    }
+    if (axiosInstance.defaults.httpAgent === config.httpAgent) {
+      delete config.httpAgent;
+    }
+    if (axiosInstance.defaults.httpsAgent === config.httpsAgent) {
+      delete config.httpsAgent;
+    }
+  }
+  async function shouldRetry(currentState, error) {
+    const { retries, retryCondition } = currentState;
+    const shouldRetryOrPromise = (currentState.retryCount || 0) < retries && retryCondition(error);
+    if (typeof shouldRetryOrPromise === "object") {
+      try {
+        const shouldRetryPromiseResult = await shouldRetryOrPromise;
+        return shouldRetryPromiseResult !== false;
+      } catch (_err) {
+        return false;
+      }
+    }
+    return shouldRetryOrPromise;
+  }
+  async function handleRetry(axiosInstance, currentState, error, config) {
+    currentState.retryCount += 1;
+    const { retryDelay, shouldResetTimeout, onRetry } = currentState;
+    const delay = retryDelay(currentState.retryCount, error);
+    fixConfig(axiosInstance, config);
+    if (!shouldResetTimeout && config.timeout && currentState.lastRequestTime) {
+      const lastRequestDuration = Date.now() - currentState.lastRequestTime;
+      const timeout2 = config.timeout - lastRequestDuration - delay;
+      if (timeout2 <= 0) {
+        return Promise.reject(error);
+      }
+      config.timeout = timeout2;
+    }
+    config.transformRequest = [(data) => data];
+    await onRetry(currentState.retryCount, error, config);
+    if (config.signal?.aborted) {
+      return Promise.resolve(axiosInstance(config));
+    }
+    return new Promise((resolve) => {
+      const abortListener = () => {
+        clearTimeout(timeout2);
+        resolve(axiosInstance(config));
+      };
+      const timeout2 = setTimeout(() => {
+        resolve(axiosInstance(config));
+        if (config.signal?.removeEventListener) {
+          config.signal.removeEventListener("abort", abortListener);
+        }
+      }, delay);
+      if (config.signal?.addEventListener) {
+        config.signal.addEventListener("abort", abortListener, { once: true });
+      }
+    });
+  }
+  async function handleMaxRetryTimesExceeded(currentState, error) {
+    if (currentState.retryCount >= currentState.retries)
+      await currentState.onMaxRetryTimesExceeded(error, currentState.retryCount);
+  }
+  var import_is_retry_allowed, namespace, SAFE_HTTP_METHODS, IDEMPOTENT_HTTP_METHODS, DEFAULT_OPTIONS, axiosRetry, esm_default;
+  var init_esm3 = __esm({
+    "node_modules/axios-retry/dist/esm/index.js"() {
+      import_is_retry_allowed = __toESM(require_is_retry_allowed(), 1);
+      namespace = "axios-retry";
+      SAFE_HTTP_METHODS = ["get", "head", "options"];
+      IDEMPOTENT_HTTP_METHODS = SAFE_HTTP_METHODS.concat(["put", "delete"]);
+      DEFAULT_OPTIONS = {
+        retries: 3,
+        retryCondition: isNetworkOrIdempotentRequestError,
+        retryDelay: noDelay,
+        shouldResetTimeout: false,
+        onRetry: () => {
+        },
+        onMaxRetryTimesExceeded: () => {
+        },
+        validateResponse: null
+      };
+      axiosRetry = (axiosInstance, defaultOptions) => {
+        const requestInterceptorId = axiosInstance.interceptors.request.use((config) => {
+          setCurrentState(config, defaultOptions, true);
+          if (config[namespace]?.validateResponse) {
+            config.validateStatus = () => false;
+          }
+          return config;
+        });
+        const responseInterceptorId = axiosInstance.interceptors.response.use(null, async (error) => {
+          const { config } = error;
+          if (!config) {
+            return Promise.reject(error);
+          }
+          const currentState = setCurrentState(config, defaultOptions);
+          if (error.response && currentState.validateResponse?.(error.response)) {
+            return error.response;
+          }
+          if (await shouldRetry(currentState, error)) {
+            return handleRetry(axiosInstance, currentState, error, config);
+          }
+          await handleMaxRetryTimesExceeded(currentState, error);
+          return Promise.reject(error);
+        });
+        return { requestInterceptorId, responseInterceptorId };
+      };
+      axiosRetry.isNetworkError = isNetworkError;
+      axiosRetry.isSafeRequestError = isSafeRequestError;
+      axiosRetry.isIdempotentRequestError = isIdempotentRequestError;
+      axiosRetry.isNetworkOrIdempotentRequestError = isNetworkOrIdempotentRequestError;
+      axiosRetry.exponentialDelay = exponentialDelay;
+      axiosRetry.linearDelay = linearDelay;
+      axiosRetry.isRetryableError = isRetryableError;
+      esm_default = axiosRetry;
+    }
+  });
+
+  // src/ChatCallUtils.ts
+  function createRetryableAxiosClient() {
+    const client = axios_default.create({
+      timeout: 3e4,
+      // 30 second timeout
+      headers: {
+        "Content-Type": "application/json"
+      },
+      withCredentials: false
+    });
+    esm_default(client, {
+      retries: 3,
+      retryDelay: (retryCount) => {
+        return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
+      },
+      retryCondition: (error) => {
+        return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
+      },
+      shouldResetTimeout: true
+    });
+    return client;
+  }
+  var init_ChatCallUtils = __esm({
+    "src/ChatCallUtils.ts"() {
+      "use strict";
+      init_axios2();
+      init_esm3();
+    }
+  });
+
+  // src/LocalStorage.ts
+  var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, USER_FACILITY_PERSONALITY_KEY, USER_ROLE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
+  var init_LocalStorage = __esm({
+    "src/LocalStorage.ts"() {
+      "use strict";
+      SESSION_STORAGE_KEY = "strong_session_id";
+      USER_ID_STORAGE_KEY = "strong_user_id";
+      USER_NAME_STORAGE_KEY = "strong_user_name";
+      USER_FACILITY_PERSONALITY_KEY = "strong_user_facility_personality";
+      USER_ROLE_KEY = "strong_user_role";
+      isAppInLocalhost = () => {
+        if (typeof window !== "undefined") {
+          return window.location.hostname === "localhost";
+        }
+        return false;
+      };
+      isAppInBrowser = () => {
+        return typeof window !== "undefined" && typeof window.document !== "undefined";
+      };
+      browserSessionStorage = {
+        get: (key) => {
+          if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+            return sessionStorage.getItem(key) || void 0;
+          }
+          return void 0;
+        },
+        set: (key, value) => {
+          if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+            sessionStorage.setItem(key, value);
+          }
+        },
+        remove: (key) => {
+          if (typeof window !== "undefined" && typeof sessionStorage !== "undefined") {
+            sessionStorage.removeItem(key);
+          }
+        }
+      };
+    }
+  });
+
+  // src/ConfigStrings.ts
+  function getConfigStrings() {
+    return {
+      ...CommonConfigStrings,
+      ...isAppInLocalhost() ? LocalEnvironmentStrings : RemoteEnvironmentStrings
+    };
+  }
+  var CommonConfigStrings, LocalEnvironmentStrings, RemoteEnvironmentStrings;
+  var init_ConfigStrings = __esm({
+    "src/ConfigStrings.ts"() {
+      "use strict";
+      init_LocalStorage();
+      CommonConfigStrings = {
+        googleCaptchaClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
+        loginAction: "login",
+        chatAction: "chat",
+        termsAction: "terms",
+        privacyAction: "privacy",
+        homeAction: "home",
+        aboutAction: "about",
+        contactAction: "contact",
+        reCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3"
+      };
+      LocalEnvironmentStrings = {
+        screenUrl: "http://localhost:7071/api/ScreenInput",
+        chatUrl: "http://localhost:7071/api/StreamChat",
+        messagesApiUrl: "http://localhost:7071/api/GetMessages",
+        archiveApiUrl: "http://localhost:7071/api/ArchiveMessages",
+        summariseApiUrl: "http://localhost:7071/api/SummariseMessages",
+        captchaApiUrl: "http://localhost:7071/api/Captcha",
+        sessionApiUrl: "http://localhost:7071/api/Session"
+      };
+      RemoteEnvironmentStrings = {
+        screenUrl: "https://motifassistantapi.azurewebsites.net/api/ScreenInput",
+        chatUrl: "https://motifassistantapi.azurewebsites.net/api/StreamChat",
+        messagesApiUrl: "https://motifassistantapi.azurewebsites.net/api/GetMessages",
+        archiveApiUrl: "https://motifassistantapi.azurewebsites.net/api/ArchiveMessages",
+        summariseApiUrl: "https://motifassistantapi.azurewebsites.net/api/SummariseMessages",
+        captchaApiUrl: "https://motifassistantapi.azurewebsites.net/api/Captcha",
+        sessionApiUrl: "https://motifassistantapi.azurewebsites.net/api/Session"
+      };
+    }
+  });
+
+  // src/captcha.ts
+  async function executeReCaptcha(captchaUrl, action, apiClient) {
+    try {
+      if (isAppInLocalhost()) {
+        return {
+          success: true,
+          score: 1
+        };
+      }
+      if (!window.grecaptcha) {
+        return {
+          success: false,
+          error: "reCAPTCHA not loaded"
+        };
+      }
+      if (!apiClient) {
+        apiClient = createRetryableAxiosClient();
+      }
+      const config = getConfigStrings();
+      const token2 = await window.grecaptcha.execute(config.reCaptchaSiteKey, { action });
+      const request = {
+        token: token2,
+        action
+      };
+      const response = await apiClient.post(
+        captchaUrl,
+        request
+      );
+      return {
+        success: response.data.isValid,
+        score: response.data.score
+      };
+    } catch (error) {
+      console.error("reCAPTCHA execution failed:", error);
+      return {
+        success: false,
+        error: "Failed to execute reCAPTCHA"
+      };
+    }
+  }
+  function handleLowScore(score) {
+    const securitySteps = [];
+    if (score < RECAPTCHA_THRESHOLD) {
+      if (score < RECAPTCHA_BLOCK_THRESHOLD) {
+        securitySteps.push(SECURITY_STEP_BLOCK_REQUEST);
+        securitySteps.push(SECURITY_STEP_LOG_SUSPICIOUS);
+      } else if (score < RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD) {
+        securitySteps.push(SECURITY_STEP_ADDITIONAL_VERIFICATION);
+        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      } else {
+        securitySteps.push(SECURITY_STEP_RATE_LIMIT);
+      }
+    }
+    return securitySteps;
+  }
+  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
+  var init_captcha = __esm({
+    "src/captcha.ts"() {
+      "use strict";
+      init_ChatCallUtils();
+      init_LocalStorage();
+      init_ConfigStrings();
+      RECAPTCHA_THRESHOLD = 0.5;
+      RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
+      RECAPTCHA_BLOCK_THRESHOLD = 0.3;
+      SECURITY_STEP_BLOCK_REQUEST = "block_request";
+      SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
+      SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
+      SECURITY_STEP_RATE_LIMIT = "rate_limit";
+    }
+  });
+
+  // src/UserContext.tsx
+  function UserProvider({ children, storage }) {
+    const [userId, setUserId] = (0, import_react28.useState)(() => {
+      return storage.get(USER_ID_STORAGE_KEY) || void 0;
+    });
+    const [userName, setUserName] = (0, import_react28.useState)(() => {
+      return storage.get(USER_NAME_STORAGE_KEY) || void 0;
+    });
+    const [sessionId, setSessionId] = (0, import_react28.useState)(() => {
+      return storage.get(SESSION_STORAGE_KEY) || void 0;
+    });
+    const [facilityPersonality, setFacilityPersonality] = (0, import_react28.useState)(() => {
+      return storage.get(USER_FACILITY_PERSONALITY_KEY) || void 0;
+    });
+    const [userRole, setUserRole] = (0, import_react28.useState)(() => {
+      const storedRole = storage.get(USER_ROLE_KEY);
+      return storedRole ? storedRole : void 0;
+    });
+    const [personality, setPersonality] = (0, import_react28.useState)(
+      void 0
+    );
+    (0, import_react28.useEffect)(() => {
+      if (userId) {
+        storage.set(USER_ID_STORAGE_KEY, userId);
+      } else {
+        storage.remove(USER_ID_STORAGE_KEY);
+      }
+    }, [userId, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (userName) {
+        storage.set(USER_NAME_STORAGE_KEY, userName);
+      } else {
+        storage.remove(USER_NAME_STORAGE_KEY);
+      }
+    }, [userName, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (sessionId) {
+        storage.set(SESSION_STORAGE_KEY, sessionId);
+      } else {
+        storage.remove(SESSION_STORAGE_KEY);
+      }
+    }, [sessionId, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (facilityPersonality) {
+        storage.set(USER_FACILITY_PERSONALITY_KEY, facilityPersonality);
+      } else {
+        storage.remove(USER_FACILITY_PERSONALITY_KEY);
+      }
+    }, [facilityPersonality, storage]);
+    (0, import_react28.useEffect)(() => {
+      if (userRole) {
+        storage.set(USER_ROLE_KEY, userRole);
+      } else {
+        storage.remove(USER_ROLE_KEY);
+      }
+    }, [userRole, storage]);
+    const handleLogin = (facilityPersonality2, userId2, userName2, sessionId2, userRole2) => {
+      setUserId(userId2);
+      setUserName(userName2);
+      setSessionId(sessionId2);
+      setFacilityPersonality(facilityPersonality2);
+      setUserRole(userRole2);
+    };
+    const handleLogout = () => {
+      setUserId(void 0);
+      setUserName(void 0);
+      setSessionId(void 0);
+      setFacilityPersonality(void 0);
+      setUserRole(void 0);
+      setPersonality(void 0);
+      storage.remove(USER_ID_STORAGE_KEY);
+      storage.remove(USER_NAME_STORAGE_KEY);
+      storage.remove(SESSION_STORAGE_KEY);
+      storage.remove(USER_FACILITY_PERSONALITY_KEY);
+      storage.remove(USER_ROLE_KEY);
+    };
+    const handleSetPersonality = (newPersonality) => {
+      setPersonality(newPersonality);
+    };
+    return /* @__PURE__ */ import_react28.default.createElement(
+      UserContext.Provider,
+      {
+        value: {
+          userId,
+          userName,
+          sessionId,
+          facilityPersonality,
+          userRole,
+          personality,
+          onLogin: handleLogin,
+          onLogout: handleLogout,
+          setPersonality: handleSetPersonality
+        }
+      },
+      children
+    );
+  }
+  function useUser() {
+    const context = (0, import_react28.useContext)(UserContext);
+    if (context === void 0) {
+      throw new Error("useUser must be used within a UserProvider");
+    }
+    return context;
+  }
+  var import_react28, UserContext;
+  var init_UserContext = __esm({
+    "src/UserContext.tsx"() {
+      "use strict";
+      import_react28 = __toESM(require_react());
+      init_LocalStorage();
+      UserContext = (0, import_react28.createContext)(void 0);
+    }
+  });
+
+  // src/SiteUtilities.tsx
+  var import_react29, MOBILE_BREAKPOINT, useFooterStyles, Header, Spacer, Footer;
+  var init_SiteUtilities = __esm({
+    "src/SiteUtilities.tsx"() {
+      "use strict";
+      import_react29 = __toESM(require_react());
+      init_dist2();
+      init_CommonStyles();
+      init_UIStrings();
+      init_lib23();
+      init_captcha();
+      init_ConfigStrings();
+      init_UserContext();
+      MOBILE_BREAKPOINT = 512;
+      useFooterStyles = makeStyles2({
+        footerContainer: {
+          backgroundColor: "var(--colorNeutralBackground1)",
+          ...shorthands2.padding("12px"),
+          ...shorthands2.borderTop("1px", "solid", "var(--colorNeutralStroke1)"),
+          width: "100%",
+          marginTop: "auto"
+        },
+        footerContent: {
+          display: "flex",
+          justifyContent: "center",
+          gap: "24px",
+          [`@media (max-width: ${MOBILE_BREAKPOINT}px)`]: {
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "12px"
+          }
+        },
+        disabledLink: {
+          opacity: 0.5,
+          pointerEvents: "none",
+          cursor: "not-allowed"
+        }
+      });
+      Header = ({ title }) => {
+        const textClasses = standardTextStyles();
+        const lifterIcon = "assets/img/lifter-w.png";
+        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { position: "relative", width: "100%", textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(
+          Image,
+          {
+            src: lifterIcon,
+            alt: "Menu Icon",
+            style: {
+              width: "32px",
+              height: "32px",
+              cursor: "pointer",
+              position: "absolute",
+              left: 0,
+              top: "50%",
+              transform: "translateY(-50%)"
+            }
+          }
+        ), /* @__PURE__ */ import_react29.default.createElement("div", { style: { display: "inline-block" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.heading }, title)));
+      };
+      Spacer = (props) => {
+        const size = props.size ?? 14 /* kMedium */;
+        return /* @__PURE__ */ import_react29.default.createElement("div", { style: { height: `${size}px` } });
+      };
+      Footer = (props) => {
+        const user = useUser();
+        const personality = user?.personality;
+        const uiStrings = getCommonUIStrings();
+        const linkClasses = standardLinkStyles();
+        const styles = useFooterStyles();
+        const footerRef = (0, import_react29.useRef)(null);
+        const config = getConfigStrings();
+        const textClasses = standardTextStyles();
+        const navigate = useNavigate();
+        const handleLinkClick = async (action, path) => {
+          const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
+          navigate(path);
+        };
+        (0, import_react29.useEffect)(() => {
+          const updateFooterHeight = () => {
+            if (footerRef.current) {
+              const height = footerRef.current.offsetHeight;
+              document.documentElement.style.setProperty("--footer-height", `${height}px`);
+            }
+          };
+          updateFooterHeight();
+          window.addEventListener("resize", updateFooterHeight);
+          return () => window.removeEventListener("resize", updateFooterHeight);
+        }, []);
+        return /* @__PURE__ */ import_react29.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react29.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/",
+            className: linkClasses.centred,
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.homeAction, "/");
+            }
+          },
+          uiStrings.kHome
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/chat",
+            className: `${linkClasses.centred} ${!personality ? styles.disabledLink : ""}`,
+            onClick: (e) => {
+              e.preventDefault();
+              if (personality) {
+                handleLinkClick(config.chatAction, "/chat");
+              }
+            }
+          },
+          uiStrings.kChat
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/privacy",
+            className: linkClasses.centred,
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.privacyAction, "/privacy");
+            }
+          },
+          uiStrings.kPrivacy
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/terms",
+            className: linkClasses.centred,
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.termsAction, "/terms");
+            }
+          },
+          uiStrings.kTerms
+        ), /* @__PURE__ */ import_react29.default.createElement(
+          Link,
+          {
+            to: "/about",
+            className: linkClasses.centred,
+            onClick: (e) => {
+              e.preventDefault();
+              handleLinkClick(config.aboutAction, "/about");
+            }
+          },
+          uiStrings.kAbout
+        )), /* @__PURE__ */ import_react29.default.createElement("div", { style: { textAlign: "center" } }, /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.footer }, "\xA9 2025 Strong AI Technologies Ltd")));
+      };
     }
   });
 
@@ -53358,160 +57306,250 @@ ${str(snapshot)}`);
   var require_Chat = __commonJS({
     "../PromptRepository/dist/src/Chat.js"(exports) {
       "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.OpenAIModelChatDriver = void 0;
+      var entry_1 = require_entry();
+      var MAX_RETRIES = 5;
+      var INITIAL_RETRY_DELAY = 1e3;
+      async function exponentialBackoff(retryCount) {
+        const delay = INITIAL_RETRY_DELAY * Math.pow(2, retryCount);
+        await new Promise((resolve) => setTimeout(resolve, delay));
+      }
+      async function retryWithExponentialBackoff(operation, maxRetries = MAX_RETRIES) {
+        let retryCount = 0;
+        while (true) {
+          try {
+            return await operation();
+          } catch (error) {
+            if (error?.status === 429 && retryCount < maxRetries) {
+              await exponentialBackoff(retryCount);
+              retryCount++;
+              continue;
+            }
+            throw error;
+          }
+        }
+      }
+      var OpenAIModelChatDriver = class {
+        modelType;
+        openai;
+        constructor(modelType) {
+          this.modelType = modelType;
+        }
+        async getModelResponse(systemPrompt, userPrompt, messageHistory) {
+          const messages = [
+            ...messageHistory || [],
+            {
+              role: entry_1.EChatRole.kUser,
+              content: userPrompt,
+              timestamp: /* @__PURE__ */ new Date(),
+              id: `user-${Date.now()}`,
+              className: "user-message"
+            }
+          ];
+          try {
+            const config = this.createCompletionConfig(systemPrompt, messages);
+            const response = await retryWithExponentialBackoff(() => this.openai.responses.create(config));
+            if (!response.output_text) {
+              throw new Error("No response content received from OpenAI");
+            }
+            return response.output_text;
+          } catch (error) {
+            if (error instanceof Error) {
+              throw new Error(`OpenAI API error: ${error.message}`);
+            }
+            throw new Error("Unknown error occurred while calling OpenAI API");
+          }
+        }
+        getStreamedModelResponse(systemPrompt, userPrompt, messageHistory) {
+          const messages = [
+            ...messageHistory || [],
+            {
+              role: entry_1.EChatRole.kUser,
+              content: userPrompt,
+              timestamp: /* @__PURE__ */ new Date(),
+              id: `user-${Date.now()}`,
+              className: "user-message"
+            }
+          ];
+          const config = this.createCompletionConfig(systemPrompt, messages);
+          config.stream = true;
+          let streamPromise = retryWithExponentialBackoff(() => this.openai.responses.create(config));
+          let streamIterator = null;
+          return {
+            async next() {
+              try {
+                if (!streamIterator) {
+                  const stream = await streamPromise;
+                  if (Symbol.asyncIterator in stream) {
+                    streamIterator = stream[Symbol.asyncIterator]();
+                  } else {
+                    throw new Error("Stream does not support async iteration");
+                  }
+                }
+                if (streamIterator) {
+                  let looking = true;
+                  while (looking) {
+                    const chunk = await streamIterator.next();
+                    if (chunk.done) {
+                      streamIterator = null;
+                      return { value: "", done: true };
+                    }
+                    if ("delta" in chunk.value && typeof chunk.value.delta === "string") {
+                      looking = false;
+                      return { value: chunk.value.delta, done: false };
+                    }
+                  }
+                }
+                return { value: "", done: true };
+              } catch (error) {
+                streamIterator = null;
+                if (error instanceof Error) {
+                  throw new Error(`Stream error: ${error.message}`);
+                }
+                throw error;
+              }
+            },
+            return() {
+              streamIterator = null;
+              return Promise.resolve({ value: "", done: true });
+            },
+            throw(error) {
+              streamIterator = null;
+              return Promise.reject(error);
+            }
+          };
+        }
+        async getConstrainedModelResponse(systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory) {
+          const messages = [
+            ...messageHistory || [],
+            {
+              role: entry_1.EChatRole.kUser,
+              content: userPrompt,
+              timestamp: /* @__PURE__ */ new Date(),
+              id: `user-${Date.now()}`,
+              className: "user-message"
+            }
+          ];
+          const config = this.createCompletionConfig(systemPrompt, messages);
+          config.text = { format: { type: "json_schema", strict: true, name: "constrainedOutput", schema: jsonSchema } };
+          const response = await retryWithExponentialBackoff(() => this.openai.responses.parse(config));
+          return response.output_parsed ?? defaultValue;
+        }
+      };
+      exports.OpenAIModelChatDriver = OpenAIModelChatDriver;
+    }
+  });
+
+  // ../PromptRepository/dist/src/Chat.OpenAI.js
+  var require_Chat_OpenAI = __commonJS({
+    "../PromptRepository/dist/src/Chat.OpenAI.js"(exports) {
+      "use strict";
       var __importDefault = exports && exports.__importDefault || function(mod) {
         return mod && mod.__esModule ? mod : { "default": mod };
       };
       Object.defineProperty(exports, "__esModule", { value: true });
-      exports.ChatDriverFactory = void 0;
+      exports.OpenAIChatDriver = void 0;
       var openai_1 = __importDefault(require_openai());
       var entry_1 = require_entry();
       var entry_2 = require_entry();
+      var Chat_1 = require_Chat();
+      var OpenAIChatDriver = class extends Chat_1.OpenAIModelChatDriver {
+        model;
+        constructor(modelType) {
+          super(modelType);
+          this.model = modelType === entry_2.EModel.kLarge ? "gpt-4.1" : "gpt-4.1-mini";
+          if (!process.env.OPENAI_API_KEY) {
+            throw new Error("OPENAI_API_KEY environment variable is not set");
+          }
+          this.openai = new openai_1.default({
+            apiKey: process.env.OPENAI_API_KEY
+          });
+        }
+        createCompletionConfig(systemPrompt, messages) {
+          const formattedMessages = messages.map((msg) => ({
+            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
+            content: msg.content
+          }));
+          return {
+            model: this.model,
+            input: formattedMessages,
+            ...systemPrompt && { instructions: systemPrompt },
+            temperature: 0.25
+          };
+        }
+      };
+      exports.OpenAIChatDriver = OpenAIChatDriver;
+    }
+  });
+
+  // ../PromptRepository/dist/src/Chat.AzureOpenAI.js
+  var require_Chat_AzureOpenAI = __commonJS({
+    "../PromptRepository/dist/src/Chat.AzureOpenAI.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.AzureOpenAIChatDriver = void 0;
+      var openai_1 = require_openai();
+      var entry_1 = require_entry();
+      var entry_2 = require_entry();
+      var Chat_1 = require_Chat();
+      var AZURE_DEPLOYMENTS = {
+        LARGE: "Studio41Large",
+        MINI: "Studio41Small"
+      };
+      var AzureOpenAIChatDriver = class extends Chat_1.OpenAIModelChatDriver {
+        deployment;
+        constructor(modelType) {
+          super(modelType);
+          this.deployment = modelType === entry_2.EModel.kLarge ? AZURE_DEPLOYMENTS.LARGE : AZURE_DEPLOYMENTS.MINI;
+          if (!process.env.AZURE_OPENAI_API_KEY) {
+            throw new Error("AZURE_OPENAI_API_KEY environment variable is not set");
+          }
+          if (!process.env.AZURE_OPENAI_ENDPOINT) {
+            throw new Error("AZURE_OPENAI_ENDPOINT environment variable is not set");
+          }
+          this.openai = new openai_1.AzureOpenAI({
+            apiKey: process.env.AZURE_OPENAI_API_KEY,
+            endpoint: process.env.AZURE_OPENAI_ENDPOINT,
+            deployment: this.deployment,
+            apiVersion: "2025-03-01-preview"
+          });
+        }
+        createCompletionConfig(systemPrompt, messages) {
+          const formattedMessages = messages.map((msg) => ({
+            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
+            content: msg.content
+          }));
+          return {
+            model: this.deployment,
+            input: formattedMessages,
+            ...systemPrompt && { instructions: systemPrompt },
+            temperature: 0.25
+          };
+        }
+      };
+      exports.AzureOpenAIChatDriver = AzureOpenAIChatDriver;
+    }
+  });
+
+  // ../PromptRepository/dist/src/ChatFactory.js
+  var require_ChatFactory = __commonJS({
+    "../PromptRepository/dist/src/ChatFactory.js"(exports) {
+      "use strict";
+      Object.defineProperty(exports, "__esModule", { value: true });
+      exports.ChatDriverFactory = void 0;
+      var entry_1 = require_entry();
+      var Chat_OpenAI_1 = require_Chat_OpenAI();
+      var Chat_AzureOpenAI_1 = require_Chat_AzureOpenAI();
       var ChatDriverFactory = class {
         create(model, provider) {
-          return new OpenAIChatDriver(model);
+          if (provider === entry_1.EModelProvider.kAzureOpenAI) {
+            return new Chat_AzureOpenAI_1.AzureOpenAIChatDriver(model);
+          }
+          return new Chat_OpenAI_1.OpenAIChatDriver(model);
         }
       };
       exports.ChatDriverFactory = ChatDriverFactory;
-      var OpenAIChatDriver = class {
-        model = "gpt-4o";
-        constructor(model) {
-          if (model === entry_2.EModel.kLarge) {
-            this.model = "gpt-4.1";
-          } else if (model === entry_2.EModel.kMini) {
-            this.model = "gpt-4.1-mini";
-          }
-        }
-        getModelResponse(systemPrompt, userPrompt, messageHistory) {
-          return getModelResponse(this.model, systemPrompt, userPrompt, messageHistory);
-        }
-        getStreamedModelResponse(systemPrompt, userPrompt, messageHistory) {
-          return getStreamedModelResponse(this.model, systemPrompt, userPrompt, messageHistory);
-        }
-        getConstrainedModelResponse(systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory) {
-          return getConstrainedModelResponse(this.model, systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory);
-        }
-      };
-      async function getModelResponse(model, systemPrompt, userPrompt, messageHistory) {
-        if (!process.env.OPENAI_API_KEY) {
-          throw new Error("OPENAI_API_KEY environment variable is not set");
-        }
-        const openai = new openai_1.default({
-          apiKey: process.env.OPENAI_API_KEY
-        });
-        const messages = [
-          ...messageHistory || [],
-          {
-            role: entry_1.EChatRole.kUser,
-            content: userPrompt,
-            timestamp: /* @__PURE__ */ new Date()
-          }
-        ];
-        try {
-          const response = await openai.responses.create({
-            ...systemPrompt && { "instructions": systemPrompt },
-            "input": messages.map((msg) => ({
-              role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
-              content: msg.content
-            })),
-            "model": model,
-            "temperature": 0.25
-          });
-          if (!response.output_text) {
-            throw new Error("No response content received from OpenAI");
-          }
-          return response.output_text;
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(`OpenAI API error: ${error.message}`);
-          }
-          throw new Error("Unknown error occurred while calling OpenAI API");
-        }
-      }
-      function getStreamedModelResponse(model, systemPrompt, userPrompt, messageHistory) {
-        const openai = new openai_1.default({
-          apiKey: process.env.OPENAI_API_KEY
-        });
-        const messages = [
-          ...messageHistory || [],
-          {
-            role: entry_1.EChatRole.kUser,
-            content: userPrompt,
-            timestamp: /* @__PURE__ */ new Date()
-          }
-        ];
-        let streamPromise = openai.responses.create({
-          ...systemPrompt && { "instructions": systemPrompt },
-          "input": messages.map((msg) => ({
-            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
-            content: msg.content
-          })),
-          "model": model,
-          "temperature": 0.25,
-          "stream": true
-        });
-        let streamIterator = null;
-        return {
-          async next() {
-            try {
-              if (!streamIterator) {
-                const stream = await streamPromise;
-                streamIterator = stream[Symbol.asyncIterator]();
-              }
-              let looking = true;
-              while (looking) {
-                const chunk = await streamIterator.next();
-                if (chunk.done) {
-                  streamIterator = null;
-                  return { value: "", done: true };
-                }
-                if ("delta" in chunk.value && typeof chunk.value.delta === "string") {
-                  looking = false;
-                  return { value: chunk.value.delta, done: false };
-                }
-              }
-              return { value: "", done: true };
-            } catch (error) {
-              streamIterator = null;
-              if (error instanceof Error) {
-                throw new Error(`Stream error: ${error.message}`);
-              }
-              throw error;
-            }
-          },
-          return() {
-            streamIterator = null;
-            return Promise.resolve({ value: "", done: true });
-          },
-          throw(error) {
-            streamIterator = null;
-            return Promise.reject(error);
-          }
-        };
-      }
-      async function getConstrainedModelResponse(model, systemPrompt, userPrompt, jsonSchema, defaultValue, messageHistory) {
-        const openai = new openai_1.default({
-          apiKey: process.env.OPENAI_API_KEY
-        });
-        const messages = [
-          ...messageHistory || [],
-          {
-            role: entry_1.EChatRole.kUser,
-            content: userPrompt,
-            timestamp: /* @__PURE__ */ new Date()
-          }
-        ];
-        const response = await openai.responses.parse({
-          ...systemPrompt && { "instructions": systemPrompt },
-          "input": messages.map((msg) => ({
-            role: msg.role === entry_1.EChatRole.kUser ? "user" : "assistant",
-            content: msg.content
-          })),
-          "model": model,
-          "temperature": 0.25,
-          "text": { "format": { type: "json_schema", "strict": true, "name": "constrainedOutput", "schema": jsonSchema } }
-        });
-        return response.output_parsed ?? defaultValue;
-      }
     }
   });
 
@@ -53608,9 +57646,9 @@ ${message.content}
       Object.defineProperty(exports, "PromptInMemoryRepository", { enumerable: true, get: function() {
         return PromptRepository_1.PromptInMemoryRepository;
       } });
-      var Chat_1 = require_Chat();
+      var ChatFactory_1 = require_ChatFactory();
       Object.defineProperty(exports, "ChatDriverFactory", { enumerable: true, get: function() {
-        return Chat_1.ChatDriverFactory;
+        return ChatFactory_1.ChatDriverFactory;
       } });
       var Asserts_1 = require_Asserts();
       Object.defineProperty(exports, "throwIfUndefined", { enumerable: true, get: function() {
@@ -53643,133 +57681,17 @@ ${message.content}
         EModel2["kLarge"] = "kLarge";
         EModel2["kMini"] = "kMini";
       })(EModel || (exports.EModel = EModel = {}));
-      var EModelProvider;
-      (function(EModelProvider2) {
-        EModelProvider2["kOpenAI"] = "kOpenAI";
-      })(EModelProvider || (exports.EModelProvider = EModelProvider = {}));
+      var EModelProvider2;
+      (function(EModelProvider3) {
+        EModelProvider3["kOpenAI"] = "kOpenAI";
+        EModelProvider3["kAzureOpenAI"] = "kAzureOpenAI";
+      })(EModelProvider2 || (exports.EModelProvider = EModelProvider2 = {}));
       var EChatRole5;
       (function(EChatRole6) {
         EChatRole6["kUser"] = "user";
         EChatRole6["kAssistant"] = "assistant";
       })(EChatRole5 || (exports.EChatRole = EChatRole5 = {}));
       exports.ChatMessageClassName = "IChatMessage";
-    }
-  });
-
-  // import/AssistantChatApiTypes.ts
-  var init_AssistantChatApiTypes = __esm({
-    "import/AssistantChatApiTypes.ts"() {
-      "use strict";
-    }
-  });
-
-  // src/CommonStyles.ts
-  var standardColumnElementStyles, standardRowElementStyles, standardCenteredRowElementStyles, standardJustifiedRowElementStyles, mobileRowElementStyles, standardTextStyles, standardLinkStyles;
-  var init_CommonStyles = __esm({
-    "src/CommonStyles.ts"() {
-      "use strict";
-      init_lib22();
-      standardColumnElementStyles = makeStyles2({
-        root: {
-          width: "100%"
-        }
-      });
-      standardRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%"
-        }
-      });
-      standardCenteredRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "center",
-          padding: "6px 6px",
-          alignItems: "center",
-          alignContent: "center",
-          alignSelf: "center"
-        }
-      });
-      standardJustifiedRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "row",
-          width: "100%",
-          justifyContent: "space-between",
-          padding: "6px 6px",
-          alignItems: "center",
-          alignSelf: "center"
-        }
-      });
-      mobileRowElementStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "column",
-          width: "100%",
-          justifyContent: "center",
-          padding: "6px 6px",
-          alignItems: "center",
-          alignSelf: "center"
-        }
-      });
-      standardTextStyles = makeStyles2({
-        root: {
-          display: "flex",
-          flexDirection: "column"
-        },
-        heading: {
-          textAlign: "center",
-          fontSize: "16pt",
-          fontWeight: "bold",
-          marginBottom: "12px"
-        },
-        subHeadingLeft: {
-          textAlign: "left",
-          alignSelf: "flex-start",
-          fontSize: "12pt",
-          fontWeight: "bold",
-          marginTop: "12px",
-          marginBottom: "12px"
-        },
-        normal: {
-          textAlign: "left",
-          alignSelf: "flex-start",
-          fontSize: "10pt",
-          marginBottom: "10px"
-        },
-        normalGrey: {
-          textAlign: "left",
-          alignSelf: "flex-start",
-          fontSize: "10pt",
-          color: "grey",
-          marginBottom: "10px"
-        },
-        textarea: {
-          width: "100%",
-          height: "100%",
-          textAlign: "left",
-          verticalAlign: "top"
-        },
-        centredHint: {
-          textAlign: "center",
-          fontSize: "8pt",
-          color: "grey",
-          marginTop: "8px",
-          marginBottom: "8px"
-        }
-      });
-      standardLinkStyles = makeStyles2({
-        left: {
-          textAlign: "left",
-          alignSelf: "flex-start"
-        },
-        centred: {
-          textAlign: "center"
-        }
-      });
     }
   });
 
@@ -53866,30 +57788,34 @@ ${message.content}
     offscreenContext = null;
     return Math.max(dyMin, Math.min(dyMax, dyNeeded));
   }
-  var import_react26, MultilineEdit;
+  var import_react30, MultilineEdit;
   var init_MultilineEdit = __esm({
     "src/MultilineEdit.tsx"() {
       "use strict";
-      import_react26 = __toESM(require_react());
-      init_lib22();
+      import_react30 = __toESM(require_react());
+      init_lib23();
       init_lib10();
       init_CommonStyles();
       init_MultilineEditUIStrings();
       MultilineEdit = (props) => {
         const textFieldClasses = standardTextStyles();
         const columnClasses = standardCenteredRowElementStyles();
-        const [width, setWidth] = (0, import_react26.useState)(0);
-        const textareaRef = (0, import_react26.useRef)(null);
+        const [width, setWidth] = (0, import_react30.useState)(0);
+        const textareaRef = (0, import_react30.useRef)(null);
         const fontSize = parseInt(props.fontNameForTextWrapCalculation.match(/\d+/)?.[0] || "12");
         const kMessagePrompt2VBorder = fontSize * 2;
         const kMessagePrompt2HBorder = fontSize * 2;
         const kMessagePromptLineSpace = Math.floor(fontSize * 9 / 16);
-        (0, import_react26.useEffect)(() => {
+        (0, import_react30.useEffect)(() => {
           if (props.enabled && textareaRef.current) {
-            textareaRef.current.focus();
+            try {
+              textareaRef.current.focus();
+            } catch (e) {
+              console.warn("Focus error in test environment:", e);
+            }
           }
         }, [props.enabled, props.message]);
-        (0, import_react26.useLayoutEffect)(() => {
+        (0, import_react30.useLayoutEffect)(() => {
           if (textareaRef.current) {
             let dx = textareaRef.current.offsetWidth;
             if (width !== dx) {
@@ -53940,7 +57866,7 @@ ${message.content}
             kMessagePromptLineSpace,
             props.defaultHeightLines
           ) + bump;
-        return /* @__PURE__ */ import_react26.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react26.default.createElement(
+        return /* @__PURE__ */ import_react30.default.createElement("div", { style: { width: "100%", maxWidth: "100%" } }, /* @__PURE__ */ import_react30.default.createElement(
           Text,
           {
             className: textFieldClasses.normal,
@@ -53953,7 +57879,7 @@ ${message.content}
             }
           },
           props.caption
-        ), /* @__PURE__ */ import_react26.default.createElement(
+        ), /* @__PURE__ */ import_react30.default.createElement(
           Textarea,
           {
             ref: textareaRef,
@@ -53973,50 +57899,16 @@ ${message.content}
             },
             onKeyDown: (e) => onSend(e, props.message)
           }
-        ), /* @__PURE__ */ import_react26.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react26.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react26.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react26.default.createElement(
+        ), /* @__PURE__ */ import_react30.default.createElement("div", { className: columnClasses.root }, /* @__PURE__ */ import_react30.default.createElement(Text, { className: textFieldClasses.centredHint }, "Ctrl+Enter to confirm or Esc to cancel." /* kMessageTextPrompt */), /* @__PURE__ */ import_react30.default.createElement(Toolbar, { "aria-label": "Default" }, /* @__PURE__ */ import_react30.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Send",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react26.default.createElement(SendRegular, null),
+            icon: /* @__PURE__ */ import_react30.default.createElement(SendRegular, null),
             onClick,
             disabled: !props.enabled || props.message.length === 0
           }
         ))));
-      };
-    }
-  });
-
-  // src/Message.tsx
-  var import_react27, Message;
-  var init_Message = __esm({
-    "src/Message.tsx"() {
-      "use strict";
-      import_react27 = __toESM(require_react());
-      init_lib22();
-      init_lib10();
-      init_CommonStyles();
-      Message = (props) => {
-        const messageClasses = standardColumnElementStyles();
-        const [isDismissed, setIsDismissed] = (0, import_react27.useState)(false);
-        const onDismiss = () => {
-          setIsDismissed(true);
-          props.onDismiss?.();
-        };
-        return !isDismissed && /* @__PURE__ */ import_react27.default.createElement(MessageBarGroup, { className: messageClasses.root }, /* @__PURE__ */ import_react27.default.createElement(MessageBar, { intent: props.intent }, /* @__PURE__ */ import_react27.default.createElement(MessageBarBody, null, /* @__PURE__ */ import_react27.default.createElement(MessageBarTitle, null, props.title), props.body), props.dismissable && /* @__PURE__ */ import_react27.default.createElement(
-          MessageBarActions,
-          {
-            containerAction: /* @__PURE__ */ import_react27.default.createElement(
-              Button,
-              {
-                "aria-label": "dismiss",
-                appearance: "transparent",
-                icon: /* @__PURE__ */ import_react27.default.createElement(DismissRegular, null),
-                onClick: onDismiss
-              }
-            )
-          }
-        )));
       };
     }
   });
@@ -54098,6 +57990,8 @@ ${message.content}
                 this.state = "Waiting" /* kWaiting */;
               } else if (event === "Error" /* kError */) {
                 this.state = "Error" /* kError */;
+              } else if (event === "Reset" /* kReset */) {
+                this.state = "Waiting" /* kWaiting */;
               } else {
                 throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);
               }
@@ -54113,3149 +58007,19 @@ ${message.content}
     }
   });
 
-  // node_modules/axios/lib/helpers/bind.js
-  function bind(fn, thisArg) {
-    return function wrap() {
-      return fn.apply(thisArg, arguments);
-    };
-  }
-  var init_bind = __esm({
-    "node_modules/axios/lib/helpers/bind.js"() {
-      "use strict";
-    }
-  });
-
-  // node_modules/axios/lib/utils.js
-  function isBuffer(val) {
-    return val !== null && !isUndefined(val) && val.constructor !== null && !isUndefined(val.constructor) && isFunction2(val.constructor.isBuffer) && val.constructor.isBuffer(val);
-  }
-  function isArrayBufferView(val) {
-    let result;
-    if (typeof ArrayBuffer !== "undefined" && ArrayBuffer.isView) {
-      result = ArrayBuffer.isView(val);
-    } else {
-      result = val && val.buffer && isArrayBuffer(val.buffer);
-    }
-    return result;
-  }
-  function forEach(obj, fn, { allOwnKeys = false } = {}) {
-    if (obj === null || typeof obj === "undefined") {
-      return;
-    }
-    let i;
-    let l;
-    if (typeof obj !== "object") {
-      obj = [obj];
-    }
-    if (isArray(obj)) {
-      for (i = 0, l = obj.length; i < l; i++) {
-        fn.call(null, obj[i], i, obj);
-      }
-    } else {
-      const keys = allOwnKeys ? Object.getOwnPropertyNames(obj) : Object.keys(obj);
-      const len = keys.length;
-      let key;
-      for (i = 0; i < len; i++) {
-        key = keys[i];
-        fn.call(null, obj[key], key, obj);
-      }
-    }
-  }
-  function findKey(obj, key) {
-    key = key.toLowerCase();
-    const keys = Object.keys(obj);
-    let i = keys.length;
-    let _key;
-    while (i-- > 0) {
-      _key = keys[i];
-      if (key === _key.toLowerCase()) {
-        return _key;
-      }
-    }
-    return null;
-  }
-  function merge() {
-    const { caseless } = isContextDefined(this) && this || {};
-    const result = {};
-    const assignValue = (val, key) => {
-      const targetKey = caseless && findKey(result, key) || key;
-      if (isPlainObject(result[targetKey]) && isPlainObject(val)) {
-        result[targetKey] = merge(result[targetKey], val);
-      } else if (isPlainObject(val)) {
-        result[targetKey] = merge({}, val);
-      } else if (isArray(val)) {
-        result[targetKey] = val.slice();
-      } else {
-        result[targetKey] = val;
-      }
-    };
-    for (let i = 0, l = arguments.length; i < l; i++) {
-      arguments[i] && forEach(arguments[i], assignValue);
-    }
-    return result;
-  }
-  function isSpecCompliantForm(thing) {
-    return !!(thing && isFunction2(thing.append) && thing[Symbol.toStringTag] === "FormData" && thing[Symbol.iterator]);
-  }
-  var toString, getPrototypeOf, kindOf, kindOfTest, typeOfTest, isArray, isUndefined, isArrayBuffer, isString2, isFunction2, isNumber2, isObject3, isBoolean2, isPlainObject, isDate, isFile, isBlob, isFileList, isStream, isFormData, isURLSearchParams, isReadableStream, isRequest, isResponse, isHeaders, trim2, _global, isContextDefined, extend, stripBOM, inherits, toFlatObject, endsWith, toArray, isTypedArray, forEachEntry, matchAll, isHTMLForm, toCamelCase, hasOwnProperty, isRegExp, reduceDescriptors, freezeMethods, toObjectSet, noop4, toFiniteNumber, toJSONObject, isAsyncFn, isThenable, _setImmediate, asap, utils_default;
-  var init_utils3 = __esm({
-    "node_modules/axios/lib/utils.js"() {
-      "use strict";
-      init_bind();
-      ({ toString } = Object.prototype);
-      ({ getPrototypeOf } = Object);
-      kindOf = /* @__PURE__ */ ((cache2) => (thing) => {
-        const str = toString.call(thing);
-        return cache2[str] || (cache2[str] = str.slice(8, -1).toLowerCase());
-      })(/* @__PURE__ */ Object.create(null));
-      kindOfTest = (type) => {
-        type = type.toLowerCase();
-        return (thing) => kindOf(thing) === type;
-      };
-      typeOfTest = (type) => (thing) => typeof thing === type;
-      ({ isArray } = Array);
-      isUndefined = typeOfTest("undefined");
-      isArrayBuffer = kindOfTest("ArrayBuffer");
-      isString2 = typeOfTest("string");
-      isFunction2 = typeOfTest("function");
-      isNumber2 = typeOfTest("number");
-      isObject3 = (thing) => thing !== null && typeof thing === "object";
-      isBoolean2 = (thing) => thing === true || thing === false;
-      isPlainObject = (val) => {
-        if (kindOf(val) !== "object") {
-          return false;
-        }
-        const prototype3 = getPrototypeOf(val);
-        return (prototype3 === null || prototype3 === Object.prototype || Object.getPrototypeOf(prototype3) === null) && !(Symbol.toStringTag in val) && !(Symbol.iterator in val);
-      };
-      isDate = kindOfTest("Date");
-      isFile = kindOfTest("File");
-      isBlob = kindOfTest("Blob");
-      isFileList = kindOfTest("FileList");
-      isStream = (val) => isObject3(val) && isFunction2(val.pipe);
-      isFormData = (thing) => {
-        let kind;
-        return thing && (typeof FormData === "function" && thing instanceof FormData || isFunction2(thing.append) && ((kind = kindOf(thing)) === "formdata" || // detect form-data instance
-        kind === "object" && isFunction2(thing.toString) && thing.toString() === "[object FormData]"));
-      };
-      isURLSearchParams = kindOfTest("URLSearchParams");
-      [isReadableStream, isRequest, isResponse, isHeaders] = ["ReadableStream", "Request", "Response", "Headers"].map(kindOfTest);
-      trim2 = (str) => str.trim ? str.trim() : str.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");
-      _global = (() => {
-        if (typeof globalThis !== "undefined") return globalThis;
-        return typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : global;
-      })();
-      isContextDefined = (context) => !isUndefined(context) && context !== _global;
-      extend = (a, b, thisArg, { allOwnKeys } = {}) => {
-        forEach(b, (val, key) => {
-          if (thisArg && isFunction2(val)) {
-            a[key] = bind(val, thisArg);
-          } else {
-            a[key] = val;
-          }
-        }, { allOwnKeys });
-        return a;
-      };
-      stripBOM = (content) => {
-        if (content.charCodeAt(0) === 65279) {
-          content = content.slice(1);
-        }
-        return content;
-      };
-      inherits = (constructor, superConstructor, props, descriptors2) => {
-        constructor.prototype = Object.create(superConstructor.prototype, descriptors2);
-        constructor.prototype.constructor = constructor;
-        Object.defineProperty(constructor, "super", {
-          value: superConstructor.prototype
-        });
-        props && Object.assign(constructor.prototype, props);
-      };
-      toFlatObject = (sourceObj, destObj, filter3, propFilter) => {
-        let props;
-        let i;
-        let prop;
-        const merged = {};
-        destObj = destObj || {};
-        if (sourceObj == null) return destObj;
-        do {
-          props = Object.getOwnPropertyNames(sourceObj);
-          i = props.length;
-          while (i-- > 0) {
-            prop = props[i];
-            if ((!propFilter || propFilter(prop, sourceObj, destObj)) && !merged[prop]) {
-              destObj[prop] = sourceObj[prop];
-              merged[prop] = true;
-            }
-          }
-          sourceObj = filter3 !== false && getPrototypeOf(sourceObj);
-        } while (sourceObj && (!filter3 || filter3(sourceObj, destObj)) && sourceObj !== Object.prototype);
-        return destObj;
-      };
-      endsWith = (str, searchString, position2) => {
-        str = String(str);
-        if (position2 === void 0 || position2 > str.length) {
-          position2 = str.length;
-        }
-        position2 -= searchString.length;
-        const lastIndex2 = str.indexOf(searchString, position2);
-        return lastIndex2 !== -1 && lastIndex2 === position2;
-      };
-      toArray = (thing) => {
-        if (!thing) return null;
-        if (isArray(thing)) return thing;
-        let i = thing.length;
-        if (!isNumber2(i)) return null;
-        const arr = new Array(i);
-        while (i-- > 0) {
-          arr[i] = thing[i];
-        }
-        return arr;
-      };
-      isTypedArray = /* @__PURE__ */ ((TypedArray) => {
-        return (thing) => {
-          return TypedArray && thing instanceof TypedArray;
-        };
-      })(typeof Uint8Array !== "undefined" && getPrototypeOf(Uint8Array));
-      forEachEntry = (obj, fn) => {
-        const generator = obj && obj[Symbol.iterator];
-        const iterator = generator.call(obj);
-        let result;
-        while ((result = iterator.next()) && !result.done) {
-          const pair = result.value;
-          fn.call(obj, pair[0], pair[1]);
-        }
-      };
-      matchAll = (regExp, str) => {
-        let matches;
-        const arr = [];
-        while ((matches = regExp.exec(str)) !== null) {
-          arr.push(matches);
-        }
-        return arr;
-      };
-      isHTMLForm = kindOfTest("HTMLFormElement");
-      toCamelCase = (str) => {
-        return str.toLowerCase().replace(
-          /[-_\s]([a-z\d])(\w*)/g,
-          function replacer(m, p1, p2) {
-            return p1.toUpperCase() + p2;
-          }
-        );
-      };
-      hasOwnProperty = (({ hasOwnProperty: hasOwnProperty2 }) => (obj, prop) => hasOwnProperty2.call(obj, prop))(Object.prototype);
-      isRegExp = kindOfTest("RegExp");
-      reduceDescriptors = (obj, reducer) => {
-        const descriptors2 = Object.getOwnPropertyDescriptors(obj);
-        const reducedDescriptors = {};
-        forEach(descriptors2, (descriptor, name) => {
-          let ret;
-          if ((ret = reducer(descriptor, name, obj)) !== false) {
-            reducedDescriptors[name] = ret || descriptor;
-          }
-        });
-        Object.defineProperties(obj, reducedDescriptors);
-      };
-      freezeMethods = (obj) => {
-        reduceDescriptors(obj, (descriptor, name) => {
-          if (isFunction2(obj) && ["arguments", "caller", "callee"].indexOf(name) !== -1) {
-            return false;
-          }
-          const value = obj[name];
-          if (!isFunction2(value)) return;
-          descriptor.enumerable = false;
-          if ("writable" in descriptor) {
-            descriptor.writable = false;
-            return;
-          }
-          if (!descriptor.set) {
-            descriptor.set = () => {
-              throw Error("Can not rewrite read-only method '" + name + "'");
-            };
-          }
-        });
-      };
-      toObjectSet = (arrayOrString, delimiter2) => {
-        const obj = {};
-        const define = (arr) => {
-          arr.forEach((value) => {
-            obj[value] = true;
-          });
-        };
-        isArray(arrayOrString) ? define(arrayOrString) : define(String(arrayOrString).split(delimiter2));
-        return obj;
-      };
-      noop4 = () => {
-      };
-      toFiniteNumber = (value, defaultValue) => {
-        return value != null && Number.isFinite(value = +value) ? value : defaultValue;
-      };
-      toJSONObject = (obj) => {
-        const stack = new Array(10);
-        const visit = (source, i) => {
-          if (isObject3(source)) {
-            if (stack.indexOf(source) >= 0) {
-              return;
-            }
-            if (!("toJSON" in source)) {
-              stack[i] = source;
-              const target = isArray(source) ? [] : {};
-              forEach(source, (value, key) => {
-                const reducedValue = visit(value, i + 1);
-                !isUndefined(reducedValue) && (target[key] = reducedValue);
-              });
-              stack[i] = void 0;
-              return target;
-            }
-          }
-          return source;
-        };
-        return visit(obj, 0);
-      };
-      isAsyncFn = kindOfTest("AsyncFunction");
-      isThenable = (thing) => thing && (isObject3(thing) || isFunction2(thing)) && isFunction2(thing.then) && isFunction2(thing.catch);
-      _setImmediate = ((setImmediateSupported, postMessageSupported) => {
-        if (setImmediateSupported) {
-          return setImmediate;
-        }
-        return postMessageSupported ? ((token2, callbacks) => {
-          _global.addEventListener("message", ({ source, data }) => {
-            if (source === _global && data === token2) {
-              callbacks.length && callbacks.shift()();
-            }
-          }, false);
-          return (cb) => {
-            callbacks.push(cb);
-            _global.postMessage(token2, "*");
-          };
-        })(`axios@${Math.random()}`, []) : (cb) => setTimeout(cb);
-      })(
-        typeof setImmediate === "function",
-        isFunction2(_global.postMessage)
-      );
-      asap = typeof queueMicrotask !== "undefined" ? queueMicrotask.bind(_global) : typeof process !== "undefined" && process.nextTick || _setImmediate;
-      utils_default = {
-        isArray,
-        isArrayBuffer,
-        isBuffer,
-        isFormData,
-        isArrayBufferView,
-        isString: isString2,
-        isNumber: isNumber2,
-        isBoolean: isBoolean2,
-        isObject: isObject3,
-        isPlainObject,
-        isReadableStream,
-        isRequest,
-        isResponse,
-        isHeaders,
-        isUndefined,
-        isDate,
-        isFile,
-        isBlob,
-        isRegExp,
-        isFunction: isFunction2,
-        isStream,
-        isURLSearchParams,
-        isTypedArray,
-        isFileList,
-        forEach,
-        merge,
-        extend,
-        trim: trim2,
-        stripBOM,
-        inherits,
-        toFlatObject,
-        kindOf,
-        kindOfTest,
-        endsWith,
-        toArray,
-        forEachEntry,
-        matchAll,
-        isHTMLForm,
-        hasOwnProperty,
-        hasOwnProp: hasOwnProperty,
-        // an alias to avoid ESLint no-prototype-builtins detection
-        reduceDescriptors,
-        freezeMethods,
-        toObjectSet,
-        toCamelCase,
-        noop: noop4,
-        toFiniteNumber,
-        findKey,
-        global: _global,
-        isContextDefined,
-        isSpecCompliantForm,
-        toJSONObject,
-        isAsyncFn,
-        isThenable,
-        setImmediate: _setImmediate,
-        asap
-      };
-    }
-  });
-
-  // node_modules/axios/lib/core/AxiosError.js
-  function AxiosError(message, code, config, request, response) {
-    Error.call(this);
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
-    } else {
-      this.stack = new Error().stack;
-    }
-    this.message = message;
-    this.name = "AxiosError";
-    code && (this.code = code);
-    config && (this.config = config);
-    request && (this.request = request);
-    if (response) {
-      this.response = response;
-      this.status = response.status ? response.status : null;
-    }
-  }
-  var prototype, descriptors, AxiosError_default;
-  var init_AxiosError = __esm({
-    "node_modules/axios/lib/core/AxiosError.js"() {
-      "use strict";
-      init_utils3();
-      utils_default.inherits(AxiosError, Error, {
-        toJSON: function toJSON() {
-          return {
-            // Standard
-            message: this.message,
-            name: this.name,
-            // Microsoft
-            description: this.description,
-            number: this.number,
-            // Mozilla
-            fileName: this.fileName,
-            lineNumber: this.lineNumber,
-            columnNumber: this.columnNumber,
-            stack: this.stack,
-            // Axios
-            config: utils_default.toJSONObject(this.config),
-            code: this.code,
-            status: this.status
-          };
-        }
-      });
-      prototype = AxiosError.prototype;
-      descriptors = {};
-      [
-        "ERR_BAD_OPTION_VALUE",
-        "ERR_BAD_OPTION",
-        "ECONNABORTED",
-        "ETIMEDOUT",
-        "ERR_NETWORK",
-        "ERR_FR_TOO_MANY_REDIRECTS",
-        "ERR_DEPRECATED",
-        "ERR_BAD_RESPONSE",
-        "ERR_BAD_REQUEST",
-        "ERR_CANCELED",
-        "ERR_NOT_SUPPORT",
-        "ERR_INVALID_URL"
-        // eslint-disable-next-line func-names
-      ].forEach((code) => {
-        descriptors[code] = { value: code };
-      });
-      Object.defineProperties(AxiosError, descriptors);
-      Object.defineProperty(prototype, "isAxiosError", { value: true });
-      AxiosError.from = (error, code, config, request, response, customProps) => {
-        const axiosError = Object.create(prototype);
-        utils_default.toFlatObject(error, axiosError, function filter3(obj) {
-          return obj !== Error.prototype;
-        }, (prop) => {
-          return prop !== "isAxiosError";
-        });
-        AxiosError.call(axiosError, error.message, code, config, request, response);
-        axiosError.cause = error;
-        axiosError.name = error.name;
-        customProps && Object.assign(axiosError, customProps);
-        return axiosError;
-      };
-      AxiosError_default = AxiosError;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/null.js
-  var null_default;
-  var init_null = __esm({
-    "node_modules/axios/lib/helpers/null.js"() {
-      null_default = null;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/toFormData.js
-  function isVisitable(thing) {
-    return utils_default.isPlainObject(thing) || utils_default.isArray(thing);
-  }
-  function removeBrackets(key) {
-    return utils_default.endsWith(key, "[]") ? key.slice(0, -2) : key;
-  }
-  function renderKey(path, key, dots) {
-    if (!path) return key;
-    return path.concat(key).map(function each(token2, i) {
-      token2 = removeBrackets(token2);
-      return !dots && i ? "[" + token2 + "]" : token2;
-    }).join(dots ? "." : "");
-  }
-  function isFlatArray(arr) {
-    return utils_default.isArray(arr) && !arr.some(isVisitable);
-  }
-  function toFormData(obj, formData, options) {
-    if (!utils_default.isObject(obj)) {
-      throw new TypeError("target must be an object");
-    }
-    formData = formData || new (null_default || FormData)();
-    options = utils_default.toFlatObject(options, {
-      metaTokens: true,
-      dots: false,
-      indexes: false
-    }, false, function defined(option, source) {
-      return !utils_default.isUndefined(source[option]);
-    });
-    const metaTokens = options.metaTokens;
-    const visitor = options.visitor || defaultVisitor;
-    const dots = options.dots;
-    const indexes = options.indexes;
-    const _Blob = options.Blob || typeof Blob !== "undefined" && Blob;
-    const useBlob = _Blob && utils_default.isSpecCompliantForm(formData);
-    if (!utils_default.isFunction(visitor)) {
-      throw new TypeError("visitor must be a function");
-    }
-    function convertValue(value) {
-      if (value === null) return "";
-      if (utils_default.isDate(value)) {
-        return value.toISOString();
-      }
-      if (!useBlob && utils_default.isBlob(value)) {
-        throw new AxiosError_default("Blob is not supported. Use a Buffer instead.");
-      }
-      if (utils_default.isArrayBuffer(value) || utils_default.isTypedArray(value)) {
-        return useBlob && typeof Blob === "function" ? new Blob([value]) : Buffer.from(value);
-      }
-      return value;
-    }
-    function defaultVisitor(value, key, path) {
-      let arr = value;
-      if (value && !path && typeof value === "object") {
-        if (utils_default.endsWith(key, "{}")) {
-          key = metaTokens ? key : key.slice(0, -2);
-          value = JSON.stringify(value);
-        } else if (utils_default.isArray(value) && isFlatArray(value) || (utils_default.isFileList(value) || utils_default.endsWith(key, "[]")) && (arr = utils_default.toArray(value))) {
-          key = removeBrackets(key);
-          arr.forEach(function each(el, index) {
-            !(utils_default.isUndefined(el) || el === null) && formData.append(
-              // eslint-disable-next-line no-nested-ternary
-              indexes === true ? renderKey([key], index, dots) : indexes === null ? key : key + "[]",
-              convertValue(el)
-            );
-          });
-          return false;
-        }
-      }
-      if (isVisitable(value)) {
-        return true;
-      }
-      formData.append(renderKey(path, key, dots), convertValue(value));
-      return false;
-    }
-    const stack = [];
-    const exposedHelpers = Object.assign(predicates, {
-      defaultVisitor,
-      convertValue,
-      isVisitable
-    });
-    function build(value, path) {
-      if (utils_default.isUndefined(value)) return;
-      if (stack.indexOf(value) !== -1) {
-        throw Error("Circular reference detected in " + path.join("."));
-      }
-      stack.push(value);
-      utils_default.forEach(value, function each(el, key) {
-        const result = !(utils_default.isUndefined(el) || el === null) && visitor.call(
-          formData,
-          el,
-          utils_default.isString(key) ? key.trim() : key,
-          path,
-          exposedHelpers
-        );
-        if (result === true) {
-          build(el, path ? path.concat(key) : [key]);
-        }
-      });
-      stack.pop();
-    }
-    if (!utils_default.isObject(obj)) {
-      throw new TypeError("data must be an object");
-    }
-    build(obj);
-    return formData;
-  }
-  var predicates, toFormData_default;
-  var init_toFormData = __esm({
-    "node_modules/axios/lib/helpers/toFormData.js"() {
-      "use strict";
-      init_utils3();
-      init_AxiosError();
-      init_null();
-      predicates = utils_default.toFlatObject(utils_default, {}, null, function filter2(prop) {
-        return /^is[A-Z]/.test(prop);
-      });
-      toFormData_default = toFormData;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/AxiosURLSearchParams.js
-  function encode(str) {
-    const charMap = {
-      "!": "%21",
-      "'": "%27",
-      "(": "%28",
-      ")": "%29",
-      "~": "%7E",
-      "%20": "+",
-      "%00": "\0"
-    };
-    return encodeURIComponent(str).replace(/[!'()~]|%20|%00/g, function replacer(match2) {
-      return charMap[match2];
-    });
-  }
-  function AxiosURLSearchParams(params, options) {
-    this._pairs = [];
-    params && toFormData_default(params, this, options);
-  }
-  var prototype2, AxiosURLSearchParams_default;
-  var init_AxiosURLSearchParams = __esm({
-    "node_modules/axios/lib/helpers/AxiosURLSearchParams.js"() {
-      "use strict";
-      init_toFormData();
-      prototype2 = AxiosURLSearchParams.prototype;
-      prototype2.append = function append2(name, value) {
-        this._pairs.push([name, value]);
-      };
-      prototype2.toString = function toString2(encoder) {
-        const _encode = encoder ? function(value) {
-          return encoder.call(this, value, encode);
-        } : encode;
-        return this._pairs.map(function each(pair) {
-          return _encode(pair[0]) + "=" + _encode(pair[1]);
-        }, "").join("&");
-      };
-      AxiosURLSearchParams_default = AxiosURLSearchParams;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/buildURL.js
-  function encode2(val) {
-    return encodeURIComponent(val).replace(/%3A/gi, ":").replace(/%24/g, "$").replace(/%2C/gi, ",").replace(/%20/g, "+").replace(/%5B/gi, "[").replace(/%5D/gi, "]");
-  }
-  function buildURL(url, params, options) {
-    if (!params) {
-      return url;
-    }
-    const _encode = options && options.encode || encode2;
-    if (utils_default.isFunction(options)) {
-      options = {
-        serialize: options
-      };
-    }
-    const serializeFn = options && options.serialize;
-    let serializedParams;
-    if (serializeFn) {
-      serializedParams = serializeFn(params, options);
-    } else {
-      serializedParams = utils_default.isURLSearchParams(params) ? params.toString() : new AxiosURLSearchParams_default(params, options).toString(_encode);
-    }
-    if (serializedParams) {
-      const hashmarkIndex = url.indexOf("#");
-      if (hashmarkIndex !== -1) {
-        url = url.slice(0, hashmarkIndex);
-      }
-      url += (url.indexOf("?") === -1 ? "?" : "&") + serializedParams;
-    }
-    return url;
-  }
-  var init_buildURL = __esm({
-    "node_modules/axios/lib/helpers/buildURL.js"() {
-      "use strict";
-      init_utils3();
-      init_AxiosURLSearchParams();
-    }
-  });
-
-  // node_modules/axios/lib/core/InterceptorManager.js
-  var InterceptorManager, InterceptorManager_default;
-  var init_InterceptorManager = __esm({
-    "node_modules/axios/lib/core/InterceptorManager.js"() {
-      "use strict";
-      init_utils3();
-      InterceptorManager = class {
-        constructor() {
-          this.handlers = [];
-        }
-        /**
-         * Add a new interceptor to the stack
-         *
-         * @param {Function} fulfilled The function to handle `then` for a `Promise`
-         * @param {Function} rejected The function to handle `reject` for a `Promise`
-         *
-         * @return {Number} An ID used to remove interceptor later
-         */
-        use(fulfilled, rejected, options) {
-          this.handlers.push({
-            fulfilled,
-            rejected,
-            synchronous: options ? options.synchronous : false,
-            runWhen: options ? options.runWhen : null
-          });
-          return this.handlers.length - 1;
-        }
-        /**
-         * Remove an interceptor from the stack
-         *
-         * @param {Number} id The ID that was returned by `use`
-         *
-         * @returns {Boolean} `true` if the interceptor was removed, `false` otherwise
-         */
-        eject(id) {
-          if (this.handlers[id]) {
-            this.handlers[id] = null;
-          }
-        }
-        /**
-         * Clear all interceptors from the stack
-         *
-         * @returns {void}
-         */
-        clear() {
-          if (this.handlers) {
-            this.handlers = [];
-          }
-        }
-        /**
-         * Iterate over all the registered interceptors
-         *
-         * This method is particularly useful for skipping over any
-         * interceptors that may have become `null` calling `eject`.
-         *
-         * @param {Function} fn The function to call for each interceptor
-         *
-         * @returns {void}
-         */
-        forEach(fn) {
-          utils_default.forEach(this.handlers, function forEachHandler(h) {
-            if (h !== null) {
-              fn(h);
-            }
-          });
-        }
-      };
-      InterceptorManager_default = InterceptorManager;
-    }
-  });
-
-  // node_modules/axios/lib/defaults/transitional.js
-  var transitional_default;
-  var init_transitional = __esm({
-    "node_modules/axios/lib/defaults/transitional.js"() {
-      "use strict";
-      transitional_default = {
-        silentJSONParsing: true,
-        forcedJSONParsing: true,
-        clarifyTimeoutError: false
-      };
-    }
-  });
-
-  // node_modules/axios/lib/platform/browser/classes/URLSearchParams.js
-  var URLSearchParams_default;
-  var init_URLSearchParams = __esm({
-    "node_modules/axios/lib/platform/browser/classes/URLSearchParams.js"() {
-      "use strict";
-      init_AxiosURLSearchParams();
-      URLSearchParams_default = typeof URLSearchParams !== "undefined" ? URLSearchParams : AxiosURLSearchParams_default;
-    }
-  });
-
-  // node_modules/axios/lib/platform/browser/classes/FormData.js
-  var FormData_default;
-  var init_FormData = __esm({
-    "node_modules/axios/lib/platform/browser/classes/FormData.js"() {
-      "use strict";
-      FormData_default = typeof FormData !== "undefined" ? FormData : null;
-    }
-  });
-
-  // node_modules/axios/lib/platform/browser/classes/Blob.js
-  var Blob_default;
-  var init_Blob = __esm({
-    "node_modules/axios/lib/platform/browser/classes/Blob.js"() {
-      "use strict";
-      Blob_default = typeof Blob !== "undefined" ? Blob : null;
-    }
-  });
-
-  // node_modules/axios/lib/platform/browser/index.js
-  var browser_default;
-  var init_browser = __esm({
-    "node_modules/axios/lib/platform/browser/index.js"() {
-      init_URLSearchParams();
-      init_FormData();
-      init_Blob();
-      browser_default = {
-        isBrowser: true,
-        classes: {
-          URLSearchParams: URLSearchParams_default,
-          FormData: FormData_default,
-          Blob: Blob_default
-        },
-        protocols: ["http", "https", "file", "blob", "url", "data"]
-      };
-    }
-  });
-
-  // node_modules/axios/lib/platform/common/utils.js
-  var utils_exports = {};
-  __export(utils_exports, {
-    hasBrowserEnv: () => hasBrowserEnv,
-    hasStandardBrowserEnv: () => hasStandardBrowserEnv,
-    hasStandardBrowserWebWorkerEnv: () => hasStandardBrowserWebWorkerEnv,
-    navigator: () => _navigator,
-    origin: () => origin
-  });
-  var hasBrowserEnv, _navigator, hasStandardBrowserEnv, hasStandardBrowserWebWorkerEnv, origin;
-  var init_utils4 = __esm({
-    "node_modules/axios/lib/platform/common/utils.js"() {
-      hasBrowserEnv = typeof window !== "undefined" && typeof document !== "undefined";
-      _navigator = typeof navigator === "object" && navigator || void 0;
-      hasStandardBrowserEnv = hasBrowserEnv && (!_navigator || ["ReactNative", "NativeScript", "NS"].indexOf(_navigator.product) < 0);
-      hasStandardBrowserWebWorkerEnv = (() => {
-        return typeof WorkerGlobalScope !== "undefined" && // eslint-disable-next-line no-undef
-        self instanceof WorkerGlobalScope && typeof self.importScripts === "function";
-      })();
-      origin = hasBrowserEnv && window.location.href || "http://localhost";
-    }
-  });
-
-  // node_modules/axios/lib/platform/index.js
-  var platform_default;
-  var init_platform = __esm({
-    "node_modules/axios/lib/platform/index.js"() {
-      init_browser();
-      init_utils4();
-      platform_default = {
-        ...utils_exports,
-        ...browser_default
-      };
-    }
-  });
-
-  // node_modules/axios/lib/helpers/toURLEncodedForm.js
-  function toURLEncodedForm(data, options) {
-    return toFormData_default(data, new platform_default.classes.URLSearchParams(), Object.assign({
-      visitor: function(value, key, path, helpers) {
-        if (platform_default.isNode && utils_default.isBuffer(value)) {
-          this.append(key, value.toString("base64"));
-          return false;
-        }
-        return helpers.defaultVisitor.apply(this, arguments);
-      }
-    }, options));
-  }
-  var init_toURLEncodedForm = __esm({
-    "node_modules/axios/lib/helpers/toURLEncodedForm.js"() {
-      "use strict";
-      init_utils3();
-      init_toFormData();
-      init_platform();
-    }
-  });
-
-  // node_modules/axios/lib/helpers/formDataToJSON.js
-  function parsePropPath(name) {
-    return utils_default.matchAll(/\w+|\[(\w*)]/g, name).map((match2) => {
-      return match2[0] === "[]" ? "" : match2[1] || match2[0];
-    });
-  }
-  function arrayToObject2(arr) {
-    const obj = {};
-    const keys = Object.keys(arr);
-    let i;
-    const len = keys.length;
-    let key;
-    for (i = 0; i < len; i++) {
-      key = keys[i];
-      obj[key] = arr[key];
-    }
-    return obj;
-  }
-  function formDataToJSON(formData) {
-    function buildPath(path, value, target, index) {
-      let name = path[index++];
-      if (name === "__proto__") return true;
-      const isNumericKey = Number.isFinite(+name);
-      const isLast = index >= path.length;
-      name = !name && utils_default.isArray(target) ? target.length : name;
-      if (isLast) {
-        if (utils_default.hasOwnProp(target, name)) {
-          target[name] = [target[name], value];
-        } else {
-          target[name] = value;
-        }
-        return !isNumericKey;
-      }
-      if (!target[name] || !utils_default.isObject(target[name])) {
-        target[name] = [];
-      }
-      const result = buildPath(path, value, target[name], index);
-      if (result && utils_default.isArray(target[name])) {
-        target[name] = arrayToObject2(target[name]);
-      }
-      return !isNumericKey;
-    }
-    if (utils_default.isFormData(formData) && utils_default.isFunction(formData.entries)) {
-      const obj = {};
-      utils_default.forEachEntry(formData, (name, value) => {
-        buildPath(parsePropPath(name), value, obj, 0);
-      });
-      return obj;
-    }
-    return null;
-  }
-  var formDataToJSON_default;
-  var init_formDataToJSON = __esm({
-    "node_modules/axios/lib/helpers/formDataToJSON.js"() {
-      "use strict";
-      init_utils3();
-      formDataToJSON_default = formDataToJSON;
-    }
-  });
-
-  // node_modules/axios/lib/defaults/index.js
-  function stringifySafely(rawValue, parser, encoder) {
-    if (utils_default.isString(rawValue)) {
-      try {
-        (parser || JSON.parse)(rawValue);
-        return utils_default.trim(rawValue);
-      } catch (e) {
-        if (e.name !== "SyntaxError") {
-          throw e;
-        }
-      }
-    }
-    return (encoder || JSON.stringify)(rawValue);
-  }
-  var defaults, defaults_default;
-  var init_defaults = __esm({
-    "node_modules/axios/lib/defaults/index.js"() {
-      "use strict";
-      init_utils3();
-      init_AxiosError();
-      init_transitional();
-      init_toFormData();
-      init_toURLEncodedForm();
-      init_platform();
-      init_formDataToJSON();
-      defaults = {
-        transitional: transitional_default,
-        adapter: ["xhr", "http", "fetch"],
-        transformRequest: [function transformRequest(data, headers) {
-          const contentType = headers.getContentType() || "";
-          const hasJSONContentType = contentType.indexOf("application/json") > -1;
-          const isObjectPayload = utils_default.isObject(data);
-          if (isObjectPayload && utils_default.isHTMLForm(data)) {
-            data = new FormData(data);
-          }
-          const isFormData2 = utils_default.isFormData(data);
-          if (isFormData2) {
-            return hasJSONContentType ? JSON.stringify(formDataToJSON_default(data)) : data;
-          }
-          if (utils_default.isArrayBuffer(data) || utils_default.isBuffer(data) || utils_default.isStream(data) || utils_default.isFile(data) || utils_default.isBlob(data) || utils_default.isReadableStream(data)) {
-            return data;
-          }
-          if (utils_default.isArrayBufferView(data)) {
-            return data.buffer;
-          }
-          if (utils_default.isURLSearchParams(data)) {
-            headers.setContentType("application/x-www-form-urlencoded;charset=utf-8", false);
-            return data.toString();
-          }
-          let isFileList2;
-          if (isObjectPayload) {
-            if (contentType.indexOf("application/x-www-form-urlencoded") > -1) {
-              return toURLEncodedForm(data, this.formSerializer).toString();
-            }
-            if ((isFileList2 = utils_default.isFileList(data)) || contentType.indexOf("multipart/form-data") > -1) {
-              const _FormData = this.env && this.env.FormData;
-              return toFormData_default(
-                isFileList2 ? { "files[]": data } : data,
-                _FormData && new _FormData(),
-                this.formSerializer
-              );
-            }
-          }
-          if (isObjectPayload || hasJSONContentType) {
-            headers.setContentType("application/json", false);
-            return stringifySafely(data);
-          }
-          return data;
-        }],
-        transformResponse: [function transformResponse(data) {
-          const transitional2 = this.transitional || defaults.transitional;
-          const forcedJSONParsing = transitional2 && transitional2.forcedJSONParsing;
-          const JSONRequested = this.responseType === "json";
-          if (utils_default.isResponse(data) || utils_default.isReadableStream(data)) {
-            return data;
-          }
-          if (data && utils_default.isString(data) && (forcedJSONParsing && !this.responseType || JSONRequested)) {
-            const silentJSONParsing = transitional2 && transitional2.silentJSONParsing;
-            const strictJSONParsing = !silentJSONParsing && JSONRequested;
-            try {
-              return JSON.parse(data);
-            } catch (e) {
-              if (strictJSONParsing) {
-                if (e.name === "SyntaxError") {
-                  throw AxiosError_default.from(e, AxiosError_default.ERR_BAD_RESPONSE, this, null, this.response);
-                }
-                throw e;
-              }
-            }
-          }
-          return data;
-        }],
-        /**
-         * A timeout in milliseconds to abort a request. If set to 0 (default) a
-         * timeout is not created.
-         */
-        timeout: 0,
-        xsrfCookieName: "XSRF-TOKEN",
-        xsrfHeaderName: "X-XSRF-TOKEN",
-        maxContentLength: -1,
-        maxBodyLength: -1,
-        env: {
-          FormData: platform_default.classes.FormData,
-          Blob: platform_default.classes.Blob
-        },
-        validateStatus: function validateStatus(status) {
-          return status >= 200 && status < 300;
-        },
-        headers: {
-          common: {
-            "Accept": "application/json, text/plain, */*",
-            "Content-Type": void 0
-          }
-        }
-      };
-      utils_default.forEach(["delete", "get", "head", "post", "put", "patch"], (method) => {
-        defaults.headers[method] = {};
-      });
-      defaults_default = defaults;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/parseHeaders.js
-  var ignoreDuplicateOf, parseHeaders_default;
-  var init_parseHeaders = __esm({
-    "node_modules/axios/lib/helpers/parseHeaders.js"() {
-      "use strict";
-      init_utils3();
-      ignoreDuplicateOf = utils_default.toObjectSet([
-        "age",
-        "authorization",
-        "content-length",
-        "content-type",
-        "etag",
-        "expires",
-        "from",
-        "host",
-        "if-modified-since",
-        "if-unmodified-since",
-        "last-modified",
-        "location",
-        "max-forwards",
-        "proxy-authorization",
-        "referer",
-        "retry-after",
-        "user-agent"
-      ]);
-      parseHeaders_default = (rawHeaders) => {
-        const parsed = {};
-        let key;
-        let val;
-        let i;
-        rawHeaders && rawHeaders.split("\n").forEach(function parser(line2) {
-          i = line2.indexOf(":");
-          key = line2.substring(0, i).trim().toLowerCase();
-          val = line2.substring(i + 1).trim();
-          if (!key || parsed[key] && ignoreDuplicateOf[key]) {
-            return;
-          }
-          if (key === "set-cookie") {
-            if (parsed[key]) {
-              parsed[key].push(val);
-            } else {
-              parsed[key] = [val];
-            }
-          } else {
-            parsed[key] = parsed[key] ? parsed[key] + ", " + val : val;
-          }
-        });
-        return parsed;
-      };
-    }
-  });
-
-  // node_modules/axios/lib/core/AxiosHeaders.js
-  function normalizeHeader(header) {
-    return header && String(header).trim().toLowerCase();
-  }
-  function normalizeValue(value) {
-    if (value === false || value == null) {
-      return value;
-    }
-    return utils_default.isArray(value) ? value.map(normalizeValue) : String(value);
-  }
-  function parseTokens(str) {
-    const tokens2 = /* @__PURE__ */ Object.create(null);
-    const tokensRE = /([^\s,;=]+)\s*(?:=\s*([^,;]+))?/g;
-    let match2;
-    while (match2 = tokensRE.exec(str)) {
-      tokens2[match2[1]] = match2[2];
-    }
-    return tokens2;
-  }
-  function matchHeaderValue(context, value, header, filter3, isHeaderNameFilter) {
-    if (utils_default.isFunction(filter3)) {
-      return filter3.call(this, value, header);
-    }
-    if (isHeaderNameFilter) {
-      value = header;
-    }
-    if (!utils_default.isString(value)) return;
-    if (utils_default.isString(filter3)) {
-      return value.indexOf(filter3) !== -1;
-    }
-    if (utils_default.isRegExp(filter3)) {
-      return filter3.test(value);
-    }
-  }
-  function formatHeader(header) {
-    return header.trim().toLowerCase().replace(/([a-z\d])(\w*)/g, (w, char2, str) => {
-      return char2.toUpperCase() + str;
-    });
-  }
-  function buildAccessors(obj, header) {
-    const accessorName = utils_default.toCamelCase(" " + header);
-    ["get", "set", "has"].forEach((methodName) => {
-      Object.defineProperty(obj, methodName + accessorName, {
-        value: function(arg1, arg2, arg3) {
-          return this[methodName].call(this, header, arg1, arg2, arg3);
-        },
-        configurable: true
-      });
-    });
-  }
-  var $internals, isValidHeaderName, AxiosHeaders, AxiosHeaders_default;
-  var init_AxiosHeaders = __esm({
-    "node_modules/axios/lib/core/AxiosHeaders.js"() {
-      "use strict";
-      init_utils3();
-      init_parseHeaders();
-      $internals = Symbol("internals");
-      isValidHeaderName = (str) => /^[-_a-zA-Z0-9^`|~,!#$%&'*+.]+$/.test(str.trim());
-      AxiosHeaders = class {
-        constructor(headers) {
-          headers && this.set(headers);
-        }
-        set(header, valueOrRewrite, rewrite) {
-          const self2 = this;
-          function setHeader(_value, _header, _rewrite) {
-            const lHeader = normalizeHeader(_header);
-            if (!lHeader) {
-              throw new Error("header name must be a non-empty string");
-            }
-            const key = utils_default.findKey(self2, lHeader);
-            if (!key || self2[key] === void 0 || _rewrite === true || _rewrite === void 0 && self2[key] !== false) {
-              self2[key || _header] = normalizeValue(_value);
-            }
-          }
-          const setHeaders = (headers, _rewrite) => utils_default.forEach(headers, (_value, _header) => setHeader(_value, _header, _rewrite));
-          if (utils_default.isPlainObject(header) || header instanceof this.constructor) {
-            setHeaders(header, valueOrRewrite);
-          } else if (utils_default.isString(header) && (header = header.trim()) && !isValidHeaderName(header)) {
-            setHeaders(parseHeaders_default(header), valueOrRewrite);
-          } else if (utils_default.isHeaders(header)) {
-            for (const [key, value] of header.entries()) {
-              setHeader(value, key, rewrite);
-            }
-          } else {
-            header != null && setHeader(valueOrRewrite, header, rewrite);
-          }
-          return this;
-        }
-        get(header, parser) {
-          header = normalizeHeader(header);
-          if (header) {
-            const key = utils_default.findKey(this, header);
-            if (key) {
-              const value = this[key];
-              if (!parser) {
-                return value;
-              }
-              if (parser === true) {
-                return parseTokens(value);
-              }
-              if (utils_default.isFunction(parser)) {
-                return parser.call(this, value, key);
-              }
-              if (utils_default.isRegExp(parser)) {
-                return parser.exec(value);
-              }
-              throw new TypeError("parser must be boolean|regexp|function");
-            }
-          }
-        }
-        has(header, matcher) {
-          header = normalizeHeader(header);
-          if (header) {
-            const key = utils_default.findKey(this, header);
-            return !!(key && this[key] !== void 0 && (!matcher || matchHeaderValue(this, this[key], key, matcher)));
-          }
-          return false;
-        }
-        delete(header, matcher) {
-          const self2 = this;
-          let deleted = false;
-          function deleteHeader(_header) {
-            _header = normalizeHeader(_header);
-            if (_header) {
-              const key = utils_default.findKey(self2, _header);
-              if (key && (!matcher || matchHeaderValue(self2, self2[key], key, matcher))) {
-                delete self2[key];
-                deleted = true;
-              }
-            }
-          }
-          if (utils_default.isArray(header)) {
-            header.forEach(deleteHeader);
-          } else {
-            deleteHeader(header);
-          }
-          return deleted;
-        }
-        clear(matcher) {
-          const keys = Object.keys(this);
-          let i = keys.length;
-          let deleted = false;
-          while (i--) {
-            const key = keys[i];
-            if (!matcher || matchHeaderValue(this, this[key], key, matcher, true)) {
-              delete this[key];
-              deleted = true;
-            }
-          }
-          return deleted;
-        }
-        normalize(format) {
-          const self2 = this;
-          const headers = {};
-          utils_default.forEach(this, (value, header) => {
-            const key = utils_default.findKey(headers, header);
-            if (key) {
-              self2[key] = normalizeValue(value);
-              delete self2[header];
-              return;
-            }
-            const normalized = format ? formatHeader(header) : String(header).trim();
-            if (normalized !== header) {
-              delete self2[header];
-            }
-            self2[normalized] = normalizeValue(value);
-            headers[normalized] = true;
-          });
-          return this;
-        }
-        concat(...targets) {
-          return this.constructor.concat(this, ...targets);
-        }
-        toJSON(asStrings) {
-          const obj = /* @__PURE__ */ Object.create(null);
-          utils_default.forEach(this, (value, header) => {
-            value != null && value !== false && (obj[header] = asStrings && utils_default.isArray(value) ? value.join(", ") : value);
-          });
-          return obj;
-        }
-        [Symbol.iterator]() {
-          return Object.entries(this.toJSON())[Symbol.iterator]();
-        }
-        toString() {
-          return Object.entries(this.toJSON()).map(([header, value]) => header + ": " + value).join("\n");
-        }
-        get [Symbol.toStringTag]() {
-          return "AxiosHeaders";
-        }
-        static from(thing) {
-          return thing instanceof this ? thing : new this(thing);
-        }
-        static concat(first, ...targets) {
-          const computed = new this(first);
-          targets.forEach((target) => computed.set(target));
-          return computed;
-        }
-        static accessor(header) {
-          const internals = this[$internals] = this[$internals] = {
-            accessors: {}
-          };
-          const accessors = internals.accessors;
-          const prototype3 = this.prototype;
-          function defineAccessor(_header) {
-            const lHeader = normalizeHeader(_header);
-            if (!accessors[lHeader]) {
-              buildAccessors(prototype3, _header);
-              accessors[lHeader] = true;
-            }
-          }
-          utils_default.isArray(header) ? header.forEach(defineAccessor) : defineAccessor(header);
-          return this;
-        }
-      };
-      AxiosHeaders.accessor(["Content-Type", "Content-Length", "Accept", "Accept-Encoding", "User-Agent", "Authorization"]);
-      utils_default.reduceDescriptors(AxiosHeaders.prototype, ({ value }, key) => {
-        let mapped = key[0].toUpperCase() + key.slice(1);
-        return {
-          get: () => value,
-          set(headerValue) {
-            this[mapped] = headerValue;
-          }
-        };
-      });
-      utils_default.freezeMethods(AxiosHeaders);
-      AxiosHeaders_default = AxiosHeaders;
-    }
-  });
-
-  // node_modules/axios/lib/core/transformData.js
-  function transformData(fns, response) {
-    const config = this || defaults_default;
-    const context = response || config;
-    const headers = AxiosHeaders_default.from(context.headers);
-    let data = context.data;
-    utils_default.forEach(fns, function transform2(fn) {
-      data = fn.call(config, data, headers.normalize(), response ? response.status : void 0);
-    });
-    headers.normalize();
-    return data;
-  }
-  var init_transformData = __esm({
-    "node_modules/axios/lib/core/transformData.js"() {
-      "use strict";
-      init_utils3();
-      init_defaults();
-      init_AxiosHeaders();
-    }
-  });
-
-  // node_modules/axios/lib/cancel/isCancel.js
-  function isCancel(value) {
-    return !!(value && value.__CANCEL__);
-  }
-  var init_isCancel = __esm({
-    "node_modules/axios/lib/cancel/isCancel.js"() {
-      "use strict";
-    }
-  });
-
-  // node_modules/axios/lib/cancel/CanceledError.js
-  function CanceledError(message, config, request) {
-    AxiosError_default.call(this, message == null ? "canceled" : message, AxiosError_default.ERR_CANCELED, config, request);
-    this.name = "CanceledError";
-  }
-  var CanceledError_default;
-  var init_CanceledError = __esm({
-    "node_modules/axios/lib/cancel/CanceledError.js"() {
-      "use strict";
-      init_AxiosError();
-      init_utils3();
-      utils_default.inherits(CanceledError, AxiosError_default, {
-        __CANCEL__: true
-      });
-      CanceledError_default = CanceledError;
-    }
-  });
-
-  // node_modules/axios/lib/core/settle.js
-  function settle(resolve, reject, response) {
-    const validateStatus2 = response.config.validateStatus;
-    if (!response.status || !validateStatus2 || validateStatus2(response.status)) {
-      resolve(response);
-    } else {
-      reject(new AxiosError_default(
-        "Request failed with status code " + response.status,
-        [AxiosError_default.ERR_BAD_REQUEST, AxiosError_default.ERR_BAD_RESPONSE][Math.floor(response.status / 100) - 4],
-        response.config,
-        response.request,
-        response
-      ));
-    }
-  }
-  var init_settle = __esm({
-    "node_modules/axios/lib/core/settle.js"() {
-      "use strict";
-      init_AxiosError();
-    }
-  });
-
-  // node_modules/axios/lib/helpers/parseProtocol.js
-  function parseProtocol(url) {
-    const match2 = /^([-+\w]{1,25})(:?\/\/|:)/.exec(url);
-    return match2 && match2[1] || "";
-  }
-  var init_parseProtocol = __esm({
-    "node_modules/axios/lib/helpers/parseProtocol.js"() {
-      "use strict";
-    }
-  });
-
-  // node_modules/axios/lib/helpers/speedometer.js
-  function speedometer(samplesCount, min) {
-    samplesCount = samplesCount || 10;
-    const bytes = new Array(samplesCount);
-    const timestamps = new Array(samplesCount);
-    let head = 0;
-    let tail = 0;
-    let firstSampleTS;
-    min = min !== void 0 ? min : 1e3;
-    return function push(chunkLength) {
-      const now = Date.now();
-      const startedAt = timestamps[tail];
-      if (!firstSampleTS) {
-        firstSampleTS = now;
-      }
-      bytes[head] = chunkLength;
-      timestamps[head] = now;
-      let i = tail;
-      let bytesCount = 0;
-      while (i !== head) {
-        bytesCount += bytes[i++];
-        i = i % samplesCount;
-      }
-      head = (head + 1) % samplesCount;
-      if (head === tail) {
-        tail = (tail + 1) % samplesCount;
-      }
-      if (now - firstSampleTS < min) {
-        return;
-      }
-      const passed = startedAt && now - startedAt;
-      return passed ? Math.round(bytesCount * 1e3 / passed) : void 0;
-    };
-  }
-  var speedometer_default;
-  var init_speedometer = __esm({
-    "node_modules/axios/lib/helpers/speedometer.js"() {
-      "use strict";
-      speedometer_default = speedometer;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/throttle.js
-  function throttle(fn, freq) {
-    let timestamp = 0;
-    let threshold = 1e3 / freq;
-    let lastArgs;
-    let timer;
-    const invoke = (args, now = Date.now()) => {
-      timestamp = now;
-      lastArgs = null;
-      if (timer) {
-        clearTimeout(timer);
-        timer = null;
-      }
-      fn.apply(null, args);
-    };
-    const throttled = (...args) => {
-      const now = Date.now();
-      const passed = now - timestamp;
-      if (passed >= threshold) {
-        invoke(args, now);
-      } else {
-        lastArgs = args;
-        if (!timer) {
-          timer = setTimeout(() => {
-            timer = null;
-            invoke(lastArgs);
-          }, threshold - passed);
-        }
-      }
-    };
-    const flush = () => lastArgs && invoke(lastArgs);
-    return [throttled, flush];
-  }
-  var throttle_default;
-  var init_throttle = __esm({
-    "node_modules/axios/lib/helpers/throttle.js"() {
-      throttle_default = throttle;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/progressEventReducer.js
-  var progressEventReducer, progressEventDecorator, asyncDecorator;
-  var init_progressEventReducer = __esm({
-    "node_modules/axios/lib/helpers/progressEventReducer.js"() {
-      init_speedometer();
-      init_throttle();
-      init_utils3();
-      progressEventReducer = (listener, isDownloadStream, freq = 3) => {
-        let bytesNotified = 0;
-        const _speedometer = speedometer_default(50, 250);
-        return throttle_default((e) => {
-          const loaded = e.loaded;
-          const total = e.lengthComputable ? e.total : void 0;
-          const progressBytes = loaded - bytesNotified;
-          const rate = _speedometer(progressBytes);
-          const inRange = loaded <= total;
-          bytesNotified = loaded;
-          const data = {
-            loaded,
-            total,
-            progress: total ? loaded / total : void 0,
-            bytes: progressBytes,
-            rate: rate ? rate : void 0,
-            estimated: rate && total && inRange ? (total - loaded) / rate : void 0,
-            event: e,
-            lengthComputable: total != null,
-            [isDownloadStream ? "download" : "upload"]: true
-          };
-          listener(data);
-        }, freq);
-      };
-      progressEventDecorator = (total, throttled) => {
-        const lengthComputable = total != null;
-        return [(loaded) => throttled[0]({
-          lengthComputable,
-          total,
-          loaded
-        }), throttled[1]];
-      };
-      asyncDecorator = (fn) => (...args) => utils_default.asap(() => fn(...args));
-    }
-  });
-
-  // node_modules/axios/lib/helpers/isURLSameOrigin.js
-  var isURLSameOrigin_default;
-  var init_isURLSameOrigin = __esm({
-    "node_modules/axios/lib/helpers/isURLSameOrigin.js"() {
-      init_platform();
-      isURLSameOrigin_default = platform_default.hasStandardBrowserEnv ? /* @__PURE__ */ ((origin2, isMSIE) => (url) => {
-        url = new URL(url, platform_default.origin);
-        return origin2.protocol === url.protocol && origin2.host === url.host && (isMSIE || origin2.port === url.port);
-      })(
-        new URL(platform_default.origin),
-        platform_default.navigator && /(msie|trident)/i.test(platform_default.navigator.userAgent)
-      ) : () => true;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/cookies.js
-  var cookies_default;
-  var init_cookies = __esm({
-    "node_modules/axios/lib/helpers/cookies.js"() {
-      init_utils3();
-      init_platform();
-      cookies_default = platform_default.hasStandardBrowserEnv ? (
-        // Standard browser envs support document.cookie
-        {
-          write(name, value, expires, path, domain, secure) {
-            const cookie = [name + "=" + encodeURIComponent(value)];
-            utils_default.isNumber(expires) && cookie.push("expires=" + new Date(expires).toGMTString());
-            utils_default.isString(path) && cookie.push("path=" + path);
-            utils_default.isString(domain) && cookie.push("domain=" + domain);
-            secure === true && cookie.push("secure");
-            document.cookie = cookie.join("; ");
-          },
-          read(name) {
-            const match2 = document.cookie.match(new RegExp("(^|;\\s*)(" + name + ")=([^;]*)"));
-            return match2 ? decodeURIComponent(match2[3]) : null;
-          },
-          remove(name) {
-            this.write(name, "", Date.now() - 864e5);
-          }
-        }
-      ) : (
-        // Non-standard browser env (web workers, react-native) lack needed support.
-        {
-          write() {
-          },
-          read() {
-            return null;
-          },
-          remove() {
-          }
-        }
-      );
-    }
-  });
-
-  // node_modules/axios/lib/helpers/isAbsoluteURL.js
-  function isAbsoluteURL(url) {
-    return /^([a-z][a-z\d+\-.]*:)?\/\//i.test(url);
-  }
-  var init_isAbsoluteURL = __esm({
-    "node_modules/axios/lib/helpers/isAbsoluteURL.js"() {
-      "use strict";
-    }
-  });
-
-  // node_modules/axios/lib/helpers/combineURLs.js
-  function combineURLs(baseURL, relativeURL) {
-    return relativeURL ? baseURL.replace(/\/?\/$/, "") + "/" + relativeURL.replace(/^\/+/, "") : baseURL;
-  }
-  var init_combineURLs = __esm({
-    "node_modules/axios/lib/helpers/combineURLs.js"() {
-      "use strict";
-    }
-  });
-
-  // node_modules/axios/lib/core/buildFullPath.js
-  function buildFullPath(baseURL, requestedURL, allowAbsoluteUrls) {
-    let isRelativeUrl = !isAbsoluteURL(requestedURL);
-    if (baseURL && (isRelativeUrl || allowAbsoluteUrls == false)) {
-      return combineURLs(baseURL, requestedURL);
-    }
-    return requestedURL;
-  }
-  var init_buildFullPath = __esm({
-    "node_modules/axios/lib/core/buildFullPath.js"() {
-      "use strict";
-      init_isAbsoluteURL();
-      init_combineURLs();
-    }
-  });
-
-  // node_modules/axios/lib/core/mergeConfig.js
-  function mergeConfig(config1, config2) {
-    config2 = config2 || {};
-    const config = {};
-    function getMergedValue(target, source, prop, caseless) {
-      if (utils_default.isPlainObject(target) && utils_default.isPlainObject(source)) {
-        return utils_default.merge.call({ caseless }, target, source);
-      } else if (utils_default.isPlainObject(source)) {
-        return utils_default.merge({}, source);
-      } else if (utils_default.isArray(source)) {
-        return source.slice();
-      }
-      return source;
-    }
-    function mergeDeepProperties(a, b, prop, caseless) {
-      if (!utils_default.isUndefined(b)) {
-        return getMergedValue(a, b, prop, caseless);
-      } else if (!utils_default.isUndefined(a)) {
-        return getMergedValue(void 0, a, prop, caseless);
-      }
-    }
-    function valueFromConfig2(a, b) {
-      if (!utils_default.isUndefined(b)) {
-        return getMergedValue(void 0, b);
-      }
-    }
-    function defaultToConfig2(a, b) {
-      if (!utils_default.isUndefined(b)) {
-        return getMergedValue(void 0, b);
-      } else if (!utils_default.isUndefined(a)) {
-        return getMergedValue(void 0, a);
-      }
-    }
-    function mergeDirectKeys(a, b, prop) {
-      if (prop in config2) {
-        return getMergedValue(a, b);
-      } else if (prop in config1) {
-        return getMergedValue(void 0, a);
-      }
-    }
-    const mergeMap = {
-      url: valueFromConfig2,
-      method: valueFromConfig2,
-      data: valueFromConfig2,
-      baseURL: defaultToConfig2,
-      transformRequest: defaultToConfig2,
-      transformResponse: defaultToConfig2,
-      paramsSerializer: defaultToConfig2,
-      timeout: defaultToConfig2,
-      timeoutMessage: defaultToConfig2,
-      withCredentials: defaultToConfig2,
-      withXSRFToken: defaultToConfig2,
-      adapter: defaultToConfig2,
-      responseType: defaultToConfig2,
-      xsrfCookieName: defaultToConfig2,
-      xsrfHeaderName: defaultToConfig2,
-      onUploadProgress: defaultToConfig2,
-      onDownloadProgress: defaultToConfig2,
-      decompress: defaultToConfig2,
-      maxContentLength: defaultToConfig2,
-      maxBodyLength: defaultToConfig2,
-      beforeRedirect: defaultToConfig2,
-      transport: defaultToConfig2,
-      httpAgent: defaultToConfig2,
-      httpsAgent: defaultToConfig2,
-      cancelToken: defaultToConfig2,
-      socketPath: defaultToConfig2,
-      responseEncoding: defaultToConfig2,
-      validateStatus: mergeDirectKeys,
-      headers: (a, b, prop) => mergeDeepProperties(headersToObject(a), headersToObject(b), prop, true)
-    };
-    utils_default.forEach(Object.keys(Object.assign({}, config1, config2)), function computeConfigValue(prop) {
-      const merge2 = mergeMap[prop] || mergeDeepProperties;
-      const configValue = merge2(config1[prop], config2[prop], prop);
-      utils_default.isUndefined(configValue) && merge2 !== mergeDirectKeys || (config[prop] = configValue);
-    });
-    return config;
-  }
-  var headersToObject;
-  var init_mergeConfig = __esm({
-    "node_modules/axios/lib/core/mergeConfig.js"() {
-      "use strict";
-      init_utils3();
-      init_AxiosHeaders();
-      headersToObject = (thing) => thing instanceof AxiosHeaders_default ? { ...thing } : thing;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/resolveConfig.js
-  var resolveConfig_default;
-  var init_resolveConfig = __esm({
-    "node_modules/axios/lib/helpers/resolveConfig.js"() {
-      init_platform();
-      init_utils3();
-      init_isURLSameOrigin();
-      init_cookies();
-      init_buildFullPath();
-      init_mergeConfig();
-      init_AxiosHeaders();
-      init_buildURL();
-      resolveConfig_default = (config) => {
-        const newConfig = mergeConfig({}, config);
-        let { data, withXSRFToken, xsrfHeaderName, xsrfCookieName, headers, auth } = newConfig;
-        newConfig.headers = headers = AxiosHeaders_default.from(headers);
-        newConfig.url = buildURL(buildFullPath(newConfig.baseURL, newConfig.url, newConfig.allowAbsoluteUrls), config.params, config.paramsSerializer);
-        if (auth) {
-          headers.set(
-            "Authorization",
-            "Basic " + btoa((auth.username || "") + ":" + (auth.password ? unescape(encodeURIComponent(auth.password)) : ""))
-          );
-        }
-        let contentType;
-        if (utils_default.isFormData(data)) {
-          if (platform_default.hasStandardBrowserEnv || platform_default.hasStandardBrowserWebWorkerEnv) {
-            headers.setContentType(void 0);
-          } else if ((contentType = headers.getContentType()) !== false) {
-            const [type, ...tokens2] = contentType ? contentType.split(";").map((token2) => token2.trim()).filter(Boolean) : [];
-            headers.setContentType([type || "multipart/form-data", ...tokens2].join("; "));
-          }
-        }
-        if (platform_default.hasStandardBrowserEnv) {
-          withXSRFToken && utils_default.isFunction(withXSRFToken) && (withXSRFToken = withXSRFToken(newConfig));
-          if (withXSRFToken || withXSRFToken !== false && isURLSameOrigin_default(newConfig.url)) {
-            const xsrfValue = xsrfHeaderName && xsrfCookieName && cookies_default.read(xsrfCookieName);
-            if (xsrfValue) {
-              headers.set(xsrfHeaderName, xsrfValue);
-            }
-          }
-        }
-        return newConfig;
-      };
-    }
-  });
-
-  // node_modules/axios/lib/adapters/xhr.js
-  var isXHRAdapterSupported, xhr_default;
-  var init_xhr = __esm({
-    "node_modules/axios/lib/adapters/xhr.js"() {
-      init_utils3();
-      init_settle();
-      init_transitional();
-      init_AxiosError();
-      init_CanceledError();
-      init_parseProtocol();
-      init_platform();
-      init_AxiosHeaders();
-      init_progressEventReducer();
-      init_resolveConfig();
-      isXHRAdapterSupported = typeof XMLHttpRequest !== "undefined";
-      xhr_default = isXHRAdapterSupported && function(config) {
-        return new Promise(function dispatchXhrRequest(resolve, reject) {
-          const _config = resolveConfig_default(config);
-          let requestData = _config.data;
-          const requestHeaders = AxiosHeaders_default.from(_config.headers).normalize();
-          let { responseType, onUploadProgress, onDownloadProgress } = _config;
-          let onCanceled;
-          let uploadThrottled, downloadThrottled;
-          let flushUpload, flushDownload;
-          function done() {
-            flushUpload && flushUpload();
-            flushDownload && flushDownload();
-            _config.cancelToken && _config.cancelToken.unsubscribe(onCanceled);
-            _config.signal && _config.signal.removeEventListener("abort", onCanceled);
-          }
-          let request = new XMLHttpRequest();
-          request.open(_config.method.toUpperCase(), _config.url, true);
-          request.timeout = _config.timeout;
-          function onloadend() {
-            if (!request) {
-              return;
-            }
-            const responseHeaders = AxiosHeaders_default.from(
-              "getAllResponseHeaders" in request && request.getAllResponseHeaders()
-            );
-            const responseData = !responseType || responseType === "text" || responseType === "json" ? request.responseText : request.response;
-            const response = {
-              data: responseData,
-              status: request.status,
-              statusText: request.statusText,
-              headers: responseHeaders,
-              config,
-              request
-            };
-            settle(function _resolve(value) {
-              resolve(value);
-              done();
-            }, function _reject(err) {
-              reject(err);
-              done();
-            }, response);
-            request = null;
-          }
-          if ("onloadend" in request) {
-            request.onloadend = onloadend;
-          } else {
-            request.onreadystatechange = function handleLoad() {
-              if (!request || request.readyState !== 4) {
-                return;
-              }
-              if (request.status === 0 && !(request.responseURL && request.responseURL.indexOf("file:") === 0)) {
-                return;
-              }
-              setTimeout(onloadend);
-            };
-          }
-          request.onabort = function handleAbort() {
-            if (!request) {
-              return;
-            }
-            reject(new AxiosError_default("Request aborted", AxiosError_default.ECONNABORTED, config, request));
-            request = null;
-          };
-          request.onerror = function handleError() {
-            reject(new AxiosError_default("Network Error", AxiosError_default.ERR_NETWORK, config, request));
-            request = null;
-          };
-          request.ontimeout = function handleTimeout() {
-            let timeoutErrorMessage = _config.timeout ? "timeout of " + _config.timeout + "ms exceeded" : "timeout exceeded";
-            const transitional2 = _config.transitional || transitional_default;
-            if (_config.timeoutErrorMessage) {
-              timeoutErrorMessage = _config.timeoutErrorMessage;
-            }
-            reject(new AxiosError_default(
-              timeoutErrorMessage,
-              transitional2.clarifyTimeoutError ? AxiosError_default.ETIMEDOUT : AxiosError_default.ECONNABORTED,
-              config,
-              request
-            ));
-            request = null;
-          };
-          requestData === void 0 && requestHeaders.setContentType(null);
-          if ("setRequestHeader" in request) {
-            utils_default.forEach(requestHeaders.toJSON(), function setRequestHeader(val, key) {
-              request.setRequestHeader(key, val);
-            });
-          }
-          if (!utils_default.isUndefined(_config.withCredentials)) {
-            request.withCredentials = !!_config.withCredentials;
-          }
-          if (responseType && responseType !== "json") {
-            request.responseType = _config.responseType;
-          }
-          if (onDownloadProgress) {
-            [downloadThrottled, flushDownload] = progressEventReducer(onDownloadProgress, true);
-            request.addEventListener("progress", downloadThrottled);
-          }
-          if (onUploadProgress && request.upload) {
-            [uploadThrottled, flushUpload] = progressEventReducer(onUploadProgress);
-            request.upload.addEventListener("progress", uploadThrottled);
-            request.upload.addEventListener("loadend", flushUpload);
-          }
-          if (_config.cancelToken || _config.signal) {
-            onCanceled = (cancel) => {
-              if (!request) {
-                return;
-              }
-              reject(!cancel || cancel.type ? new CanceledError_default(null, config, request) : cancel);
-              request.abort();
-              request = null;
-            };
-            _config.cancelToken && _config.cancelToken.subscribe(onCanceled);
-            if (_config.signal) {
-              _config.signal.aborted ? onCanceled() : _config.signal.addEventListener("abort", onCanceled);
-            }
-          }
-          const protocol = parseProtocol(_config.url);
-          if (protocol && platform_default.protocols.indexOf(protocol) === -1) {
-            reject(new AxiosError_default("Unsupported protocol " + protocol + ":", AxiosError_default.ERR_BAD_REQUEST, config));
-            return;
-          }
-          request.send(requestData || null);
-        });
-      };
-    }
-  });
-
-  // node_modules/axios/lib/helpers/composeSignals.js
-  var composeSignals, composeSignals_default;
-  var init_composeSignals = __esm({
-    "node_modules/axios/lib/helpers/composeSignals.js"() {
-      init_CanceledError();
-      init_AxiosError();
-      init_utils3();
-      composeSignals = (signals, timeout2) => {
-        const { length: length2 } = signals = signals ? signals.filter(Boolean) : [];
-        if (timeout2 || length2) {
-          let controller = new AbortController();
-          let aborted;
-          const onabort = function(reason) {
-            if (!aborted) {
-              aborted = true;
-              unsubscribe();
-              const err = reason instanceof Error ? reason : this.reason;
-              controller.abort(err instanceof AxiosError_default ? err : new CanceledError_default(err instanceof Error ? err.message : err));
-            }
-          };
-          let timer = timeout2 && setTimeout(() => {
-            timer = null;
-            onabort(new AxiosError_default(`timeout ${timeout2} of ms exceeded`, AxiosError_default.ETIMEDOUT));
-          }, timeout2);
-          const unsubscribe = () => {
-            if (signals) {
-              timer && clearTimeout(timer);
-              timer = null;
-              signals.forEach((signal2) => {
-                signal2.unsubscribe ? signal2.unsubscribe(onabort) : signal2.removeEventListener("abort", onabort);
-              });
-              signals = null;
-            }
-          };
-          signals.forEach((signal2) => signal2.addEventListener("abort", onabort));
-          const { signal } = controller;
-          signal.unsubscribe = () => utils_default.asap(unsubscribe);
-          return signal;
-        }
-      };
-      composeSignals_default = composeSignals;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/trackStream.js
-  var streamChunk, readBytes, readStream, trackStream;
-  var init_trackStream = __esm({
-    "node_modules/axios/lib/helpers/trackStream.js"() {
-      streamChunk = function* (chunk, chunkSize) {
-        let len = chunk.byteLength;
-        if (!chunkSize || len < chunkSize) {
-          yield chunk;
-          return;
-        }
-        let pos = 0;
-        let end;
-        while (pos < len) {
-          end = pos + chunkSize;
-          yield chunk.slice(pos, end);
-          pos = end;
-        }
-      };
-      readBytes = async function* (iterable, chunkSize) {
-        for await (const chunk of readStream(iterable)) {
-          yield* streamChunk(chunk, chunkSize);
-        }
-      };
-      readStream = async function* (stream) {
-        if (stream[Symbol.asyncIterator]) {
-          yield* stream;
-          return;
-        }
-        const reader = stream.getReader();
-        try {
-          for (; ; ) {
-            const { done, value } = await reader.read();
-            if (done) {
-              break;
-            }
-            yield value;
-          }
-        } finally {
-          await reader.cancel();
-        }
-      };
-      trackStream = (stream, chunkSize, onProgress, onFinish) => {
-        const iterator = readBytes(stream, chunkSize);
-        let bytes = 0;
-        let done;
-        let _onFinish = (e) => {
-          if (!done) {
-            done = true;
-            onFinish && onFinish(e);
-          }
-        };
-        return new ReadableStream({
-          async pull(controller) {
-            try {
-              const { done: done2, value } = await iterator.next();
-              if (done2) {
-                _onFinish();
-                controller.close();
-                return;
-              }
-              let len = value.byteLength;
-              if (onProgress) {
-                let loadedBytes = bytes += len;
-                onProgress(loadedBytes);
-              }
-              controller.enqueue(new Uint8Array(value));
-            } catch (err) {
-              _onFinish(err);
-              throw err;
-            }
-          },
-          cancel(reason) {
-            _onFinish(reason);
-            return iterator.return();
-          }
-        }, {
-          highWaterMark: 2
-        });
-      };
-    }
-  });
-
-  // node_modules/axios/lib/adapters/fetch.js
-  var isFetchSupported, isReadableStreamSupported, encodeText, test, supportsRequestStream, DEFAULT_CHUNK_SIZE, supportsResponseStream, resolvers, getBodyLength, resolveBodyLength, fetch_default;
-  var init_fetch = __esm({
-    "node_modules/axios/lib/adapters/fetch.js"() {
-      init_platform();
-      init_utils3();
-      init_AxiosError();
-      init_composeSignals();
-      init_trackStream();
-      init_AxiosHeaders();
-      init_progressEventReducer();
-      init_resolveConfig();
-      init_settle();
-      isFetchSupported = typeof fetch === "function" && typeof Request === "function" && typeof Response === "function";
-      isReadableStreamSupported = isFetchSupported && typeof ReadableStream === "function";
-      encodeText = isFetchSupported && (typeof TextEncoder === "function" ? /* @__PURE__ */ ((encoder) => (str) => encoder.encode(str))(new TextEncoder()) : async (str) => new Uint8Array(await new Response(str).arrayBuffer()));
-      test = (fn, ...args) => {
-        try {
-          return !!fn(...args);
-        } catch (e) {
-          return false;
-        }
-      };
-      supportsRequestStream = isReadableStreamSupported && test(() => {
-        let duplexAccessed = false;
-        const hasContentType = new Request(platform_default.origin, {
-          body: new ReadableStream(),
-          method: "POST",
-          get duplex() {
-            duplexAccessed = true;
-            return "half";
-          }
-        }).headers.has("Content-Type");
-        return duplexAccessed && !hasContentType;
-      });
-      DEFAULT_CHUNK_SIZE = 64 * 1024;
-      supportsResponseStream = isReadableStreamSupported && test(() => utils_default.isReadableStream(new Response("").body));
-      resolvers = {
-        stream: supportsResponseStream && ((res) => res.body)
-      };
-      isFetchSupported && ((res) => {
-        ["text", "arrayBuffer", "blob", "formData", "stream"].forEach((type) => {
-          !resolvers[type] && (resolvers[type] = utils_default.isFunction(res[type]) ? (res2) => res2[type]() : (_, config) => {
-            throw new AxiosError_default(`Response type '${type}' is not supported`, AxiosError_default.ERR_NOT_SUPPORT, config);
-          });
-        });
-      })(new Response());
-      getBodyLength = async (body) => {
-        if (body == null) {
-          return 0;
-        }
-        if (utils_default.isBlob(body)) {
-          return body.size;
-        }
-        if (utils_default.isSpecCompliantForm(body)) {
-          const _request = new Request(platform_default.origin, {
-            method: "POST",
-            body
-          });
-          return (await _request.arrayBuffer()).byteLength;
-        }
-        if (utils_default.isArrayBufferView(body) || utils_default.isArrayBuffer(body)) {
-          return body.byteLength;
-        }
-        if (utils_default.isURLSearchParams(body)) {
-          body = body + "";
-        }
-        if (utils_default.isString(body)) {
-          return (await encodeText(body)).byteLength;
-        }
-      };
-      resolveBodyLength = async (headers, body) => {
-        const length2 = utils_default.toFiniteNumber(headers.getContentLength());
-        return length2 == null ? getBodyLength(body) : length2;
-      };
-      fetch_default = isFetchSupported && (async (config) => {
-        let {
-          url,
-          method,
-          data,
-          signal,
-          cancelToken,
-          timeout: timeout2,
-          onDownloadProgress,
-          onUploadProgress,
-          responseType,
-          headers,
-          withCredentials = "same-origin",
-          fetchOptions
-        } = resolveConfig_default(config);
-        responseType = responseType ? (responseType + "").toLowerCase() : "text";
-        let composedSignal = composeSignals_default([signal, cancelToken && cancelToken.toAbortSignal()], timeout2);
-        let request;
-        const unsubscribe = composedSignal && composedSignal.unsubscribe && (() => {
-          composedSignal.unsubscribe();
-        });
-        let requestContentLength;
-        try {
-          if (onUploadProgress && supportsRequestStream && method !== "get" && method !== "head" && (requestContentLength = await resolveBodyLength(headers, data)) !== 0) {
-            let _request = new Request(url, {
-              method: "POST",
-              body: data,
-              duplex: "half"
-            });
-            let contentTypeHeader;
-            if (utils_default.isFormData(data) && (contentTypeHeader = _request.headers.get("content-type"))) {
-              headers.setContentType(contentTypeHeader);
-            }
-            if (_request.body) {
-              const [onProgress, flush] = progressEventDecorator(
-                requestContentLength,
-                progressEventReducer(asyncDecorator(onUploadProgress))
-              );
-              data = trackStream(_request.body, DEFAULT_CHUNK_SIZE, onProgress, flush);
-            }
-          }
-          if (!utils_default.isString(withCredentials)) {
-            withCredentials = withCredentials ? "include" : "omit";
-          }
-          const isCredentialsSupported = "credentials" in Request.prototype;
-          request = new Request(url, {
-            ...fetchOptions,
-            signal: composedSignal,
-            method: method.toUpperCase(),
-            headers: headers.normalize().toJSON(),
-            body: data,
-            duplex: "half",
-            credentials: isCredentialsSupported ? withCredentials : void 0
-          });
-          let response = await fetch(request);
-          const isStreamResponse = supportsResponseStream && (responseType === "stream" || responseType === "response");
-          if (supportsResponseStream && (onDownloadProgress || isStreamResponse && unsubscribe)) {
-            const options = {};
-            ["status", "statusText", "headers"].forEach((prop) => {
-              options[prop] = response[prop];
-            });
-            const responseContentLength = utils_default.toFiniteNumber(response.headers.get("content-length"));
-            const [onProgress, flush] = onDownloadProgress && progressEventDecorator(
-              responseContentLength,
-              progressEventReducer(asyncDecorator(onDownloadProgress), true)
-            ) || [];
-            response = new Response(
-              trackStream(response.body, DEFAULT_CHUNK_SIZE, onProgress, () => {
-                flush && flush();
-                unsubscribe && unsubscribe();
-              }),
-              options
-            );
-          }
-          responseType = responseType || "text";
-          let responseData = await resolvers[utils_default.findKey(resolvers, responseType) || "text"](response, config);
-          !isStreamResponse && unsubscribe && unsubscribe();
-          return await new Promise((resolve, reject) => {
-            settle(resolve, reject, {
-              data: responseData,
-              headers: AxiosHeaders_default.from(response.headers),
-              status: response.status,
-              statusText: response.statusText,
-              config,
-              request
-            });
-          });
-        } catch (err) {
-          unsubscribe && unsubscribe();
-          if (err && err.name === "TypeError" && /fetch/i.test(err.message)) {
-            throw Object.assign(
-              new AxiosError_default("Network Error", AxiosError_default.ERR_NETWORK, config, request),
-              {
-                cause: err.cause || err
-              }
-            );
-          }
-          throw AxiosError_default.from(err, err && err.code, config, request);
-        }
-      });
-    }
-  });
-
-  // node_modules/axios/lib/adapters/adapters.js
-  var knownAdapters, renderReason, isResolvedHandle, adapters_default;
-  var init_adapters = __esm({
-    "node_modules/axios/lib/adapters/adapters.js"() {
-      init_utils3();
-      init_null();
-      init_xhr();
-      init_fetch();
-      init_AxiosError();
-      knownAdapters = {
-        http: null_default,
-        xhr: xhr_default,
-        fetch: fetch_default
-      };
-      utils_default.forEach(knownAdapters, (fn, value) => {
-        if (fn) {
-          try {
-            Object.defineProperty(fn, "name", { value });
-          } catch (e) {
-          }
-          Object.defineProperty(fn, "adapterName", { value });
-        }
-      });
-      renderReason = (reason) => `- ${reason}`;
-      isResolvedHandle = (adapter) => utils_default.isFunction(adapter) || adapter === null || adapter === false;
-      adapters_default = {
-        getAdapter: (adapters) => {
-          adapters = utils_default.isArray(adapters) ? adapters : [adapters];
-          const { length: length2 } = adapters;
-          let nameOrAdapter;
-          let adapter;
-          const rejectedReasons = {};
-          for (let i = 0; i < length2; i++) {
-            nameOrAdapter = adapters[i];
-            let id;
-            adapter = nameOrAdapter;
-            if (!isResolvedHandle(nameOrAdapter)) {
-              adapter = knownAdapters[(id = String(nameOrAdapter)).toLowerCase()];
-              if (adapter === void 0) {
-                throw new AxiosError_default(`Unknown adapter '${id}'`);
-              }
-            }
-            if (adapter) {
-              break;
-            }
-            rejectedReasons[id || "#" + i] = adapter;
-          }
-          if (!adapter) {
-            const reasons = Object.entries(rejectedReasons).map(
-              ([id, state]) => `adapter ${id} ` + (state === false ? "is not supported by the environment" : "is not available in the build")
-            );
-            let s = length2 ? reasons.length > 1 ? "since :\n" + reasons.map(renderReason).join("\n") : " " + renderReason(reasons[0]) : "as no adapter specified";
-            throw new AxiosError_default(
-              `There is no suitable adapter to dispatch the request ` + s,
-              "ERR_NOT_SUPPORT"
-            );
-          }
-          return adapter;
-        },
-        adapters: knownAdapters
-      };
-    }
-  });
-
-  // node_modules/axios/lib/core/dispatchRequest.js
-  function throwIfCancellationRequested(config) {
-    if (config.cancelToken) {
-      config.cancelToken.throwIfRequested();
-    }
-    if (config.signal && config.signal.aborted) {
-      throw new CanceledError_default(null, config);
-    }
-  }
-  function dispatchRequest(config) {
-    throwIfCancellationRequested(config);
-    config.headers = AxiosHeaders_default.from(config.headers);
-    config.data = transformData.call(
-      config,
-      config.transformRequest
-    );
-    if (["post", "put", "patch"].indexOf(config.method) !== -1) {
-      config.headers.setContentType("application/x-www-form-urlencoded", false);
-    }
-    const adapter = adapters_default.getAdapter(config.adapter || defaults_default.adapter);
-    return adapter(config).then(function onAdapterResolution(response) {
-      throwIfCancellationRequested(config);
-      response.data = transformData.call(
-        config,
-        config.transformResponse,
-        response
-      );
-      response.headers = AxiosHeaders_default.from(response.headers);
-      return response;
-    }, function onAdapterRejection(reason) {
-      if (!isCancel(reason)) {
-        throwIfCancellationRequested(config);
-        if (reason && reason.response) {
-          reason.response.data = transformData.call(
-            config,
-            config.transformResponse,
-            reason.response
-          );
-          reason.response.headers = AxiosHeaders_default.from(reason.response.headers);
-        }
-      }
-      return Promise.reject(reason);
-    });
-  }
-  var init_dispatchRequest = __esm({
-    "node_modules/axios/lib/core/dispatchRequest.js"() {
-      "use strict";
-      init_transformData();
-      init_isCancel();
-      init_defaults();
-      init_CanceledError();
-      init_AxiosHeaders();
-      init_adapters();
-    }
-  });
-
-  // node_modules/axios/lib/env/data.js
-  var VERSION;
-  var init_data = __esm({
-    "node_modules/axios/lib/env/data.js"() {
-      VERSION = "1.8.4";
-    }
-  });
-
-  // node_modules/axios/lib/helpers/validator.js
-  function assertOptions(options, schema, allowUnknown) {
-    if (typeof options !== "object") {
-      throw new AxiosError_default("options must be an object", AxiosError_default.ERR_BAD_OPTION_VALUE);
-    }
-    const keys = Object.keys(options);
-    let i = keys.length;
-    while (i-- > 0) {
-      const opt = keys[i];
-      const validator = schema[opt];
-      if (validator) {
-        const value = options[opt];
-        const result = value === void 0 || validator(value, opt, options);
-        if (result !== true) {
-          throw new AxiosError_default("option " + opt + " must be " + result, AxiosError_default.ERR_BAD_OPTION_VALUE);
-        }
-        continue;
-      }
-      if (allowUnknown !== true) {
-        throw new AxiosError_default("Unknown option " + opt, AxiosError_default.ERR_BAD_OPTION);
-      }
-    }
-  }
-  var validators, deprecatedWarnings, validator_default;
-  var init_validator = __esm({
-    "node_modules/axios/lib/helpers/validator.js"() {
-      "use strict";
-      init_data();
-      init_AxiosError();
-      validators = {};
-      ["object", "boolean", "number", "function", "string", "symbol"].forEach((type, i) => {
-        validators[type] = function validator(thing) {
-          return typeof thing === type || "a" + (i < 1 ? "n " : " ") + type;
-        };
-      });
-      deprecatedWarnings = {};
-      validators.transitional = function transitional(validator, version, message) {
-        function formatMessage(opt, desc) {
-          return "[Axios v" + VERSION + "] Transitional option '" + opt + "'" + desc + (message ? ". " + message : "");
-        }
-        return (value, opt, opts) => {
-          if (validator === false) {
-            throw new AxiosError_default(
-              formatMessage(opt, " has been removed" + (version ? " in " + version : "")),
-              AxiosError_default.ERR_DEPRECATED
-            );
-          }
-          if (version && !deprecatedWarnings[opt]) {
-            deprecatedWarnings[opt] = true;
-            console.warn(
-              formatMessage(
-                opt,
-                " has been deprecated since v" + version + " and will be removed in the near future"
-              )
-            );
-          }
-          return validator ? validator(value, opt, opts) : true;
-        };
-      };
-      validators.spelling = function spelling(correctSpelling) {
-        return (value, opt) => {
-          console.warn(`${opt} is likely a misspelling of ${correctSpelling}`);
-          return true;
-        };
-      };
-      validator_default = {
-        assertOptions,
-        validators
-      };
-    }
-  });
-
-  // node_modules/axios/lib/core/Axios.js
-  var validators2, Axios, Axios_default;
-  var init_Axios = __esm({
-    "node_modules/axios/lib/core/Axios.js"() {
-      "use strict";
-      init_utils3();
-      init_buildURL();
-      init_InterceptorManager();
-      init_dispatchRequest();
-      init_mergeConfig();
-      init_buildFullPath();
-      init_validator();
-      init_AxiosHeaders();
-      validators2 = validator_default.validators;
-      Axios = class {
-        constructor(instanceConfig) {
-          this.defaults = instanceConfig;
-          this.interceptors = {
-            request: new InterceptorManager_default(),
-            response: new InterceptorManager_default()
-          };
-        }
-        /**
-         * Dispatch a request
-         *
-         * @param {String|Object} configOrUrl The config specific for this request (merged with this.defaults)
-         * @param {?Object} config
-         *
-         * @returns {Promise} The Promise to be fulfilled
-         */
-        async request(configOrUrl, config) {
-          try {
-            return await this._request(configOrUrl, config);
-          } catch (err) {
-            if (err instanceof Error) {
-              let dummy = {};
-              Error.captureStackTrace ? Error.captureStackTrace(dummy) : dummy = new Error();
-              const stack = dummy.stack ? dummy.stack.replace(/^.+\n/, "") : "";
-              try {
-                if (!err.stack) {
-                  err.stack = stack;
-                } else if (stack && !String(err.stack).endsWith(stack.replace(/^.+\n.+\n/, ""))) {
-                  err.stack += "\n" + stack;
-                }
-              } catch (e) {
-              }
-            }
-            throw err;
-          }
-        }
-        _request(configOrUrl, config) {
-          if (typeof configOrUrl === "string") {
-            config = config || {};
-            config.url = configOrUrl;
-          } else {
-            config = configOrUrl || {};
-          }
-          config = mergeConfig(this.defaults, config);
-          const { transitional: transitional2, paramsSerializer, headers } = config;
-          if (transitional2 !== void 0) {
-            validator_default.assertOptions(transitional2, {
-              silentJSONParsing: validators2.transitional(validators2.boolean),
-              forcedJSONParsing: validators2.transitional(validators2.boolean),
-              clarifyTimeoutError: validators2.transitional(validators2.boolean)
-            }, false);
-          }
-          if (paramsSerializer != null) {
-            if (utils_default.isFunction(paramsSerializer)) {
-              config.paramsSerializer = {
-                serialize: paramsSerializer
-              };
-            } else {
-              validator_default.assertOptions(paramsSerializer, {
-                encode: validators2.function,
-                serialize: validators2.function
-              }, true);
-            }
-          }
-          if (config.allowAbsoluteUrls !== void 0) {
-          } else if (this.defaults.allowAbsoluteUrls !== void 0) {
-            config.allowAbsoluteUrls = this.defaults.allowAbsoluteUrls;
-          } else {
-            config.allowAbsoluteUrls = true;
-          }
-          validator_default.assertOptions(config, {
-            baseUrl: validators2.spelling("baseURL"),
-            withXsrfToken: validators2.spelling("withXSRFToken")
-          }, true);
-          config.method = (config.method || this.defaults.method || "get").toLowerCase();
-          let contextHeaders = headers && utils_default.merge(
-            headers.common,
-            headers[config.method]
-          );
-          headers && utils_default.forEach(
-            ["delete", "get", "head", "post", "put", "patch", "common"],
-            (method) => {
-              delete headers[method];
-            }
-          );
-          config.headers = AxiosHeaders_default.concat(contextHeaders, headers);
-          const requestInterceptorChain = [];
-          let synchronousRequestInterceptors = true;
-          this.interceptors.request.forEach(function unshiftRequestInterceptors(interceptor) {
-            if (typeof interceptor.runWhen === "function" && interceptor.runWhen(config) === false) {
-              return;
-            }
-            synchronousRequestInterceptors = synchronousRequestInterceptors && interceptor.synchronous;
-            requestInterceptorChain.unshift(interceptor.fulfilled, interceptor.rejected);
-          });
-          const responseInterceptorChain = [];
-          this.interceptors.response.forEach(function pushResponseInterceptors(interceptor) {
-            responseInterceptorChain.push(interceptor.fulfilled, interceptor.rejected);
-          });
-          let promise;
-          let i = 0;
-          let len;
-          if (!synchronousRequestInterceptors) {
-            const chain = [dispatchRequest.bind(this), void 0];
-            chain.unshift.apply(chain, requestInterceptorChain);
-            chain.push.apply(chain, responseInterceptorChain);
-            len = chain.length;
-            promise = Promise.resolve(config);
-            while (i < len) {
-              promise = promise.then(chain[i++], chain[i++]);
-            }
-            return promise;
-          }
-          len = requestInterceptorChain.length;
-          let newConfig = config;
-          i = 0;
-          while (i < len) {
-            const onFulfilled = requestInterceptorChain[i++];
-            const onRejected = requestInterceptorChain[i++];
-            try {
-              newConfig = onFulfilled(newConfig);
-            } catch (error) {
-              onRejected.call(this, error);
-              break;
-            }
-          }
-          try {
-            promise = dispatchRequest.call(this, newConfig);
-          } catch (error) {
-            return Promise.reject(error);
-          }
-          i = 0;
-          len = responseInterceptorChain.length;
-          while (i < len) {
-            promise = promise.then(responseInterceptorChain[i++], responseInterceptorChain[i++]);
-          }
-          return promise;
-        }
-        getUri(config) {
-          config = mergeConfig(this.defaults, config);
-          const fullPath = buildFullPath(config.baseURL, config.url, config.allowAbsoluteUrls);
-          return buildURL(fullPath, config.params, config.paramsSerializer);
-        }
-      };
-      utils_default.forEach(["delete", "get", "head", "options"], function forEachMethodNoData(method) {
-        Axios.prototype[method] = function(url, config) {
-          return this.request(mergeConfig(config || {}, {
-            method,
-            url,
-            data: (config || {}).data
-          }));
-        };
-      });
-      utils_default.forEach(["post", "put", "patch"], function forEachMethodWithData(method) {
-        function generateHTTPMethod(isForm) {
-          return function httpMethod(url, data, config) {
-            return this.request(mergeConfig(config || {}, {
-              method,
-              headers: isForm ? {
-                "Content-Type": "multipart/form-data"
-              } : {},
-              url,
-              data
-            }));
-          };
-        }
-        Axios.prototype[method] = generateHTTPMethod();
-        Axios.prototype[method + "Form"] = generateHTTPMethod(true);
-      });
-      Axios_default = Axios;
-    }
-  });
-
-  // node_modules/axios/lib/cancel/CancelToken.js
-  var CancelToken, CancelToken_default;
-  var init_CancelToken = __esm({
-    "node_modules/axios/lib/cancel/CancelToken.js"() {
-      "use strict";
-      init_CanceledError();
-      CancelToken = class _CancelToken {
-        constructor(executor) {
-          if (typeof executor !== "function") {
-            throw new TypeError("executor must be a function.");
-          }
-          let resolvePromise;
-          this.promise = new Promise(function promiseExecutor(resolve) {
-            resolvePromise = resolve;
-          });
-          const token2 = this;
-          this.promise.then((cancel) => {
-            if (!token2._listeners) return;
-            let i = token2._listeners.length;
-            while (i-- > 0) {
-              token2._listeners[i](cancel);
-            }
-            token2._listeners = null;
-          });
-          this.promise.then = (onfulfilled) => {
-            let _resolve;
-            const promise = new Promise((resolve) => {
-              token2.subscribe(resolve);
-              _resolve = resolve;
-            }).then(onfulfilled);
-            promise.cancel = function reject() {
-              token2.unsubscribe(_resolve);
-            };
-            return promise;
-          };
-          executor(function cancel(message, config, request) {
-            if (token2.reason) {
-              return;
-            }
-            token2.reason = new CanceledError_default(message, config, request);
-            resolvePromise(token2.reason);
-          });
-        }
-        /**
-         * Throws a `CanceledError` if cancellation has been requested.
-         */
-        throwIfRequested() {
-          if (this.reason) {
-            throw this.reason;
-          }
-        }
-        /**
-         * Subscribe to the cancel signal
-         */
-        subscribe(listener) {
-          if (this.reason) {
-            listener(this.reason);
-            return;
-          }
-          if (this._listeners) {
-            this._listeners.push(listener);
-          } else {
-            this._listeners = [listener];
-          }
-        }
-        /**
-         * Unsubscribe from the cancel signal
-         */
-        unsubscribe(listener) {
-          if (!this._listeners) {
-            return;
-          }
-          const index = this._listeners.indexOf(listener);
-          if (index !== -1) {
-            this._listeners.splice(index, 1);
-          }
-        }
-        toAbortSignal() {
-          const controller = new AbortController();
-          const abort = (err) => {
-            controller.abort(err);
-          };
-          this.subscribe(abort);
-          controller.signal.unsubscribe = () => this.unsubscribe(abort);
-          return controller.signal;
-        }
-        /**
-         * Returns an object that contains a new `CancelToken` and a function that, when called,
-         * cancels the `CancelToken`.
-         */
-        static source() {
-          let cancel;
-          const token2 = new _CancelToken(function executor(c) {
-            cancel = c;
-          });
-          return {
-            token: token2,
-            cancel
-          };
-        }
-      };
-      CancelToken_default = CancelToken;
-    }
-  });
-
-  // node_modules/axios/lib/helpers/spread.js
-  function spread(callback) {
-    return function wrap(arr) {
-      return callback.apply(null, arr);
-    };
-  }
-  var init_spread = __esm({
-    "node_modules/axios/lib/helpers/spread.js"() {
-      "use strict";
-    }
-  });
-
-  // node_modules/axios/lib/helpers/isAxiosError.js
-  function isAxiosError(payload) {
-    return utils_default.isObject(payload) && payload.isAxiosError === true;
-  }
-  var init_isAxiosError = __esm({
-    "node_modules/axios/lib/helpers/isAxiosError.js"() {
-      "use strict";
-      init_utils3();
-    }
-  });
-
-  // node_modules/axios/lib/helpers/HttpStatusCode.js
-  var HttpStatusCode, HttpStatusCode_default;
-  var init_HttpStatusCode = __esm({
-    "node_modules/axios/lib/helpers/HttpStatusCode.js"() {
-      HttpStatusCode = {
-        Continue: 100,
-        SwitchingProtocols: 101,
-        Processing: 102,
-        EarlyHints: 103,
-        Ok: 200,
-        Created: 201,
-        Accepted: 202,
-        NonAuthoritativeInformation: 203,
-        NoContent: 204,
-        ResetContent: 205,
-        PartialContent: 206,
-        MultiStatus: 207,
-        AlreadyReported: 208,
-        ImUsed: 226,
-        MultipleChoices: 300,
-        MovedPermanently: 301,
-        Found: 302,
-        SeeOther: 303,
-        NotModified: 304,
-        UseProxy: 305,
-        Unused: 306,
-        TemporaryRedirect: 307,
-        PermanentRedirect: 308,
-        BadRequest: 400,
-        Unauthorized: 401,
-        PaymentRequired: 402,
-        Forbidden: 403,
-        NotFound: 404,
-        MethodNotAllowed: 405,
-        NotAcceptable: 406,
-        ProxyAuthenticationRequired: 407,
-        RequestTimeout: 408,
-        Conflict: 409,
-        Gone: 410,
-        LengthRequired: 411,
-        PreconditionFailed: 412,
-        PayloadTooLarge: 413,
-        UriTooLong: 414,
-        UnsupportedMediaType: 415,
-        RangeNotSatisfiable: 416,
-        ExpectationFailed: 417,
-        ImATeapot: 418,
-        MisdirectedRequest: 421,
-        UnprocessableEntity: 422,
-        Locked: 423,
-        FailedDependency: 424,
-        TooEarly: 425,
-        UpgradeRequired: 426,
-        PreconditionRequired: 428,
-        TooManyRequests: 429,
-        RequestHeaderFieldsTooLarge: 431,
-        UnavailableForLegalReasons: 451,
-        InternalServerError: 500,
-        NotImplemented: 501,
-        BadGateway: 502,
-        ServiceUnavailable: 503,
-        GatewayTimeout: 504,
-        HttpVersionNotSupported: 505,
-        VariantAlsoNegotiates: 506,
-        InsufficientStorage: 507,
-        LoopDetected: 508,
-        NotExtended: 510,
-        NetworkAuthenticationRequired: 511
-      };
-      Object.entries(HttpStatusCode).forEach(([key, value]) => {
-        HttpStatusCode[value] = key;
-      });
-      HttpStatusCode_default = HttpStatusCode;
-    }
-  });
-
-  // node_modules/axios/lib/axios.js
-  function createInstance(defaultConfig) {
-    const context = new Axios_default(defaultConfig);
-    const instance = bind(Axios_default.prototype.request, context);
-    utils_default.extend(instance, Axios_default.prototype, context, { allOwnKeys: true });
-    utils_default.extend(instance, context, null, { allOwnKeys: true });
-    instance.create = function create(instanceConfig) {
-      return createInstance(mergeConfig(defaultConfig, instanceConfig));
-    };
-    return instance;
-  }
-  var axios, axios_default;
-  var init_axios = __esm({
-    "node_modules/axios/lib/axios.js"() {
-      "use strict";
-      init_utils3();
-      init_bind();
-      init_Axios();
-      init_mergeConfig();
-      init_defaults();
-      init_formDataToJSON();
-      init_CanceledError();
-      init_CancelToken();
-      init_isCancel();
-      init_data();
-      init_toFormData();
-      init_AxiosError();
-      init_spread();
-      init_isAxiosError();
-      init_AxiosHeaders();
-      init_adapters();
-      init_HttpStatusCode();
-      axios = createInstance(defaults_default);
-      axios.Axios = Axios_default;
-      axios.CanceledError = CanceledError_default;
-      axios.CancelToken = CancelToken_default;
-      axios.isCancel = isCancel;
-      axios.VERSION = VERSION;
-      axios.toFormData = toFormData_default;
-      axios.AxiosError = AxiosError_default;
-      axios.Cancel = axios.CanceledError;
-      axios.all = function all(promises) {
-        return Promise.all(promises);
-      };
-      axios.spread = spread;
-      axios.isAxiosError = isAxiosError;
-      axios.mergeConfig = mergeConfig;
-      axios.AxiosHeaders = AxiosHeaders_default;
-      axios.formToJSON = (thing) => formDataToJSON_default(utils_default.isHTMLForm(thing) ? new FormData(thing) : thing);
-      axios.getAdapter = adapters_default.getAdapter;
-      axios.HttpStatusCode = HttpStatusCode_default;
-      axios.default = axios;
-      axios_default = axios;
-    }
-  });
-
-  // node_modules/axios/index.js
-  var Axios2, AxiosError2, CanceledError2, isCancel2, CancelToken2, VERSION2, all2, Cancel2, isAxiosError2, spread2, toFormData2, AxiosHeaders2, HttpStatusCode2, formToJSON, getAdapter, mergeConfig2;
-  var init_axios2 = __esm({
-    "node_modules/axios/index.js"() {
-      init_axios();
-      ({
-        Axios: Axios2,
-        AxiosError: AxiosError2,
-        CanceledError: CanceledError2,
-        isCancel: isCancel2,
-        CancelToken: CancelToken2,
-        VERSION: VERSION2,
-        all: all2,
-        Cancel: Cancel2,
-        isAxiosError: isAxiosError2,
-        spread: spread2,
-        toFormData: toFormData2,
-        AxiosHeaders: AxiosHeaders2,
-        HttpStatusCode: HttpStatusCode2,
-        formToJSON,
-        getAdapter,
-        mergeConfig: mergeConfig2
-      } = axios_default);
-    }
-  });
-
-  // node_modules/is-retry-allowed/index.js
-  var require_is_retry_allowed = __commonJS({
-    "node_modules/is-retry-allowed/index.js"(exports, module) {
-      "use strict";
-      var denyList = /* @__PURE__ */ new Set([
-        "ENOTFOUND",
-        "ENETUNREACH",
-        // SSL errors from https://github.com/nodejs/node/blob/fc8e3e2cdc521978351de257030db0076d79e0ab/src/crypto/crypto_common.cc#L301-L328
-        "UNABLE_TO_GET_ISSUER_CERT",
-        "UNABLE_TO_GET_CRL",
-        "UNABLE_TO_DECRYPT_CERT_SIGNATURE",
-        "UNABLE_TO_DECRYPT_CRL_SIGNATURE",
-        "UNABLE_TO_DECODE_ISSUER_PUBLIC_KEY",
-        "CERT_SIGNATURE_FAILURE",
-        "CRL_SIGNATURE_FAILURE",
-        "CERT_NOT_YET_VALID",
-        "CERT_HAS_EXPIRED",
-        "CRL_NOT_YET_VALID",
-        "CRL_HAS_EXPIRED",
-        "ERROR_IN_CERT_NOT_BEFORE_FIELD",
-        "ERROR_IN_CERT_NOT_AFTER_FIELD",
-        "ERROR_IN_CRL_LAST_UPDATE_FIELD",
-        "ERROR_IN_CRL_NEXT_UPDATE_FIELD",
-        "OUT_OF_MEM",
-        "DEPTH_ZERO_SELF_SIGNED_CERT",
-        "SELF_SIGNED_CERT_IN_CHAIN",
-        "UNABLE_TO_GET_ISSUER_CERT_LOCALLY",
-        "UNABLE_TO_VERIFY_LEAF_SIGNATURE",
-        "CERT_CHAIN_TOO_LONG",
-        "CERT_REVOKED",
-        "INVALID_CA",
-        "PATH_LENGTH_EXCEEDED",
-        "INVALID_PURPOSE",
-        "CERT_UNTRUSTED",
-        "CERT_REJECTED",
-        "HOSTNAME_MISMATCH"
-      ]);
-      module.exports = (error) => !denyList.has(error && error.code);
-    }
-  });
-
-  // node_modules/axios-retry/dist/esm/index.js
-  function isNetworkError(error) {
-    const CODE_EXCLUDE_LIST = ["ERR_CANCELED", "ECONNABORTED"];
-    if (error.response) {
-      return false;
-    }
-    if (!error.code) {
-      return false;
-    }
-    if (CODE_EXCLUDE_LIST.includes(error.code)) {
-      return false;
-    }
-    return (0, import_is_retry_allowed.default)(error);
-  }
-  function isRetryableError(error) {
-    return error.code !== "ECONNABORTED" && (!error.response || error.response.status === 429 || error.response.status >= 500 && error.response.status <= 599);
-  }
-  function isSafeRequestError(error) {
-    if (!error.config?.method) {
-      return false;
-    }
-    return isRetryableError(error) && SAFE_HTTP_METHODS.indexOf(error.config.method) !== -1;
-  }
-  function isIdempotentRequestError(error) {
-    if (!error.config?.method) {
-      return false;
-    }
-    return isRetryableError(error) && IDEMPOTENT_HTTP_METHODS.indexOf(error.config.method) !== -1;
-  }
-  function isNetworkOrIdempotentRequestError(error) {
-    return isNetworkError(error) || isIdempotentRequestError(error);
-  }
-  function retryAfter(error = void 0) {
-    const retryAfterHeader = error?.response?.headers["retry-after"];
-    if (!retryAfterHeader) {
-      return 0;
-    }
-    let retryAfterMs = (Number(retryAfterHeader) || 0) * 1e3;
-    if (retryAfterMs === 0) {
-      retryAfterMs = (new Date(retryAfterHeader).valueOf() || 0) - Date.now();
-    }
-    return Math.max(0, retryAfterMs);
-  }
-  function noDelay(_retryNumber = 0, error = void 0) {
-    return Math.max(0, retryAfter(error));
-  }
-  function exponentialDelay(retryNumber = 0, error = void 0, delayFactor = 100) {
-    const calculatedDelay = 2 ** retryNumber * delayFactor;
-    const delay = Math.max(calculatedDelay, retryAfter(error));
-    const randomSum = delay * 0.2 * Math.random();
-    return delay + randomSum;
-  }
-  function linearDelay(delayFactor = 100) {
-    return (retryNumber = 0, error = void 0) => {
-      const delay = retryNumber * delayFactor;
-      return Math.max(delay, retryAfter(error));
-    };
-  }
-  function getRequestOptions(config, defaultOptions) {
-    return { ...DEFAULT_OPTIONS, ...defaultOptions, ...config[namespace] };
-  }
-  function setCurrentState(config, defaultOptions, resetLastRequestTime = false) {
-    const currentState = getRequestOptions(config, defaultOptions || {});
-    currentState.retryCount = currentState.retryCount || 0;
-    if (!currentState.lastRequestTime || resetLastRequestTime) {
-      currentState.lastRequestTime = Date.now();
-    }
-    config[namespace] = currentState;
-    return currentState;
-  }
-  function fixConfig(axiosInstance, config) {
-    if (axiosInstance.defaults.agent === config.agent) {
-      delete config.agent;
-    }
-    if (axiosInstance.defaults.httpAgent === config.httpAgent) {
-      delete config.httpAgent;
-    }
-    if (axiosInstance.defaults.httpsAgent === config.httpsAgent) {
-      delete config.httpsAgent;
-    }
-  }
-  async function shouldRetry(currentState, error) {
-    const { retries, retryCondition } = currentState;
-    const shouldRetryOrPromise = (currentState.retryCount || 0) < retries && retryCondition(error);
-    if (typeof shouldRetryOrPromise === "object") {
-      try {
-        const shouldRetryPromiseResult = await shouldRetryOrPromise;
-        return shouldRetryPromiseResult !== false;
-      } catch (_err) {
-        return false;
-      }
-    }
-    return shouldRetryOrPromise;
-  }
-  async function handleRetry(axiosInstance, currentState, error, config) {
-    currentState.retryCount += 1;
-    const { retryDelay, shouldResetTimeout, onRetry } = currentState;
-    const delay = retryDelay(currentState.retryCount, error);
-    fixConfig(axiosInstance, config);
-    if (!shouldResetTimeout && config.timeout && currentState.lastRequestTime) {
-      const lastRequestDuration = Date.now() - currentState.lastRequestTime;
-      const timeout2 = config.timeout - lastRequestDuration - delay;
-      if (timeout2 <= 0) {
-        return Promise.reject(error);
-      }
-      config.timeout = timeout2;
-    }
-    config.transformRequest = [(data) => data];
-    await onRetry(currentState.retryCount, error, config);
-    if (config.signal?.aborted) {
-      return Promise.resolve(axiosInstance(config));
-    }
-    return new Promise((resolve) => {
-      const abortListener = () => {
-        clearTimeout(timeout2);
-        resolve(axiosInstance(config));
-      };
-      const timeout2 = setTimeout(() => {
-        resolve(axiosInstance(config));
-        if (config.signal?.removeEventListener) {
-          config.signal.removeEventListener("abort", abortListener);
-        }
-      }, delay);
-      if (config.signal?.addEventListener) {
-        config.signal.addEventListener("abort", abortListener, { once: true });
-      }
-    });
-  }
-  async function handleMaxRetryTimesExceeded(currentState, error) {
-    if (currentState.retryCount >= currentState.retries)
-      await currentState.onMaxRetryTimesExceeded(error, currentState.retryCount);
-  }
-  var import_is_retry_allowed, namespace, SAFE_HTTP_METHODS, IDEMPOTENT_HTTP_METHODS, DEFAULT_OPTIONS, axiosRetry, esm_default;
-  var init_esm3 = __esm({
-    "node_modules/axios-retry/dist/esm/index.js"() {
-      import_is_retry_allowed = __toESM(require_is_retry_allowed(), 1);
-      namespace = "axios-retry";
-      SAFE_HTTP_METHODS = ["get", "head", "options"];
-      IDEMPOTENT_HTTP_METHODS = SAFE_HTTP_METHODS.concat(["put", "delete"]);
-      DEFAULT_OPTIONS = {
-        retries: 3,
-        retryCondition: isNetworkOrIdempotentRequestError,
-        retryDelay: noDelay,
-        shouldResetTimeout: false,
-        onRetry: () => {
-        },
-        onMaxRetryTimesExceeded: () => {
-        },
-        validateResponse: null
-      };
-      axiosRetry = (axiosInstance, defaultOptions) => {
-        const requestInterceptorId = axiosInstance.interceptors.request.use((config) => {
-          setCurrentState(config, defaultOptions, true);
-          if (config[namespace]?.validateResponse) {
-            config.validateStatus = () => false;
-          }
-          return config;
-        });
-        const responseInterceptorId = axiosInstance.interceptors.response.use(null, async (error) => {
-          const { config } = error;
-          if (!config) {
-            return Promise.reject(error);
-          }
-          const currentState = setCurrentState(config, defaultOptions);
-          if (error.response && currentState.validateResponse?.(error.response)) {
-            return error.response;
-          }
-          if (await shouldRetry(currentState, error)) {
-            return handleRetry(axiosInstance, currentState, error, config);
-          }
-          await handleMaxRetryTimesExceeded(currentState, error);
-          return Promise.reject(error);
-        });
-        return { requestInterceptorId, responseInterceptorId };
-      };
-      axiosRetry.isNetworkError = isNetworkError;
-      axiosRetry.isSafeRequestError = isSafeRequestError;
-      axiosRetry.isIdempotentRequestError = isIdempotentRequestError;
-      axiosRetry.isNetworkOrIdempotentRequestError = isNetworkOrIdempotentRequestError;
-      axiosRetry.exponentialDelay = exponentialDelay;
-      axiosRetry.linearDelay = linearDelay;
-      axiosRetry.isRetryableError = isRetryableError;
-      esm_default = axiosRetry;
-    }
-  });
-
-  // src/ChatCallUtils.ts
-  function createRetryableAxiosClient() {
-    const client = axios_default.create({
-      timeout: 3e4,
-      // 30 second timeout
-      headers: {
-        "Content-Type": "application/json"
-      },
-      withCredentials: false
-    });
-    esm_default(client, {
-      retries: 3,
-      retryDelay: (retryCount) => {
-        return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
-      },
-      retryCondition: (error) => {
-        return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
-      },
-      shouldResetTimeout: true
-    });
-    return client;
-  }
-  var init_ChatCallUtils = __esm({
-    "src/ChatCallUtils.ts"() {
-      "use strict";
-      init_axios2();
-      init_esm3();
-    }
-  });
-
   // src/ChatCall.ts
   async function processChat({
     screeningApiUrl,
     chatApiUrl,
     input,
     history,
-    sessionId,
+    sessionSummary,
     personality,
     updateState,
     apiClient,
     benefitOfDoubt,
     onChunk,
-    onComplete,
-    forceNode
+    onComplete
   }) {
     if (!apiClient) {
       apiClient = createRetryableAxiosClient();
@@ -57263,7 +58027,7 @@ ${message.content}
     try {
       const chatRequest = {
         personality,
-        sessionId,
+        sessionSummary,
         input,
         benefitOfDoubt,
         history
@@ -57299,7 +58063,7 @@ ${message.content}
               decompress: true,
               maxRedirects: 5
             };
-            if (forceNode) {
+            if (!isAppInBrowser()) {
               config.responseType = "stream";
               const response = await apiClient.post(chatApiUrl, chatRequest, config);
               const stream = response.data;
@@ -57394,6 +58158,7 @@ ${message.content}
       init_AssistantChatApiTypes();
       init_UIStateMachine();
       init_ChatCallUtils();
+      init_LocalStorage();
     }
   });
 
@@ -57402,7 +58167,7 @@ ${message.content}
   var init_OuterStyles = __esm({
     "src/OuterStyles.ts"() {
       "use strict";
-      init_lib22();
+      init_lib23();
       pageOuterStyles = makeStyles2({
         root: {
           display: "flex",
@@ -57442,121 +58207,13 @@ ${message.content}
     }
   });
 
-  // src/SiteUtilities.tsx
-  var import_react28, MOBILE_BREAKPOINT, useFooterStyles, Spacer, Footer;
-  var init_SiteUtilities = __esm({
-    "src/SiteUtilities.tsx"() {
-      "use strict";
-      import_react28 = __toESM(require_react());
-      init_dist2();
-      init_CommonStyles();
-      init_UIStrings();
-      init_lib22();
-      MOBILE_BREAKPOINT = 512;
-      useFooterStyles = makeStyles2({
-        footerContainer: {
-          position: "fixed",
-          bottom: 0,
-          left: 0,
-          right: 0,
-          backgroundColor: "var(--colorNeutralBackground1)",
-          ...shorthands2.padding("12px"),
-          ...shorthands2.borderTop("1px", "solid", "var(--colorNeutralStroke1)"),
-          zIndex: 100,
-          "&::after": {
-            content: '""',
-            height: "var(--footer-height)"
-          }
-        },
-        footerContent: {
-          display: "flex",
-          justifyContent: "center",
-          gap: "24px",
-          [`@media (max-width: ${MOBILE_BREAKPOINT}px)`]: {
-            flexDirection: "column",
-            alignItems: "center",
-            gap: "12px"
-          }
-        }
-      });
-      Spacer = (props) => {
-        return /* @__PURE__ */ import_react28.default.createElement("div", null, "\xA0\xA0\xA0");
-      };
-      Footer = (props) => {
-        const uiStrings = getUIStrings("yardtalk" /* kYardTalk */);
-        const linkClasses = standardLinkStyles();
-        const styles = useFooterStyles();
-        const footerRef = (0, import_react28.useRef)(null);
-        (0, import_react28.useEffect)(() => {
-          const updateFooterHeight = () => {
-            if (footerRef.current) {
-              const height = footerRef.current.offsetHeight;
-              document.documentElement.style.setProperty("--footer-height", `${height}px`);
-            }
-          };
-          updateFooterHeight();
-          window.addEventListener("resize", updateFooterHeight);
-          return () => window.removeEventListener("resize", updateFooterHeight);
-        }, []);
-        return /* @__PURE__ */ import_react28.default.createElement("div", { ref: footerRef, className: styles.footerContainer }, /* @__PURE__ */ import_react28.default.createElement("div", { className: styles.footerContent }, /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/index", className: linkClasses.centred }, uiStrings.kHome), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/privacy", className: linkClasses.centred }, uiStrings.kPrivacy), /* @__PURE__ */ import_react28.default.createElement(Link, { to: "/terms", className: linkClasses.centred }, uiStrings.kTerms)));
-      };
-    }
-  });
-
-  // src/SessionCall.ts
-  async function getSessionUuid(cookieApiUrl, storage = browserStorage) {
-    try {
-      const existingSessionId = storage.get(SESSION_STORAGE_KEY);
-      const request = {
-        sessionId: existingSessionId || void 0
-      };
-      const response = await axios_default.post(cookieApiUrl, request, {
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        }
-      });
-      const sessionId = response?.data?.sessionId || void 0;
-      if (!sessionId) {
-        console.error("No sessionId in response");
-        return void 0;
-      }
-      storage.set(SESSION_STORAGE_KEY, sessionId);
-      return sessionId;
-    } catch (error) {
-      console.error("Error getting session UUID:", error);
-      return void 0;
-    }
-  }
-  var SESSION_STORAGE_KEY, browserStorage;
-  var init_SessionCall = __esm({
-    "src/SessionCall.ts"() {
-      "use strict";
-      init_axios2();
-      SESSION_STORAGE_KEY = "motif_session_id";
-      browserStorage = {
-        get: (key) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            return localStorage.getItem(key) || void 0;
-          }
-          return void 0;
-        },
-        set: (key, value) => {
-          if (typeof window !== "undefined" && typeof localStorage !== "undefined") {
-            localStorage.setItem(key, value);
-          }
-        }
-      };
-    }
-  });
-
   // src/CopyableText.tsx
-  var import_react29, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
+  var import_react31, copyableTextStyles, copyableTextButtonRowStyles, CopyableText;
   var init_CopyableText = __esm({
     "src/CopyableText.tsx"() {
       "use strict";
-      import_react29 = __toESM(require_react());
-      init_lib22();
+      import_react31 = __toESM(require_react());
+      init_lib23();
       init_lib10();
       init_CommonStyles();
       copyableTextStyles = makeStyles2({
@@ -57593,33 +58250,33 @@ ${message.content}
           }).catch((err) => {
           });
         };
-        return /* @__PURE__ */ import_react29.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react29.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react29.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react29.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react29.default.createElement(
+        return /* @__PURE__ */ import_react31.default.createElement("div", { className: textClasses.root }, props.text.length > 0 ? /* @__PURE__ */ import_react31.default.createElement("div", { className: copyableTextClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: copyableTextButtonRowClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Toolbar, { "aria-label": "Default", ...props }, /* @__PURE__ */ import_react31.default.createElement(
           ToolbarButton,
           {
             "aria-label": "Copy",
             appearance: "subtle",
-            icon: /* @__PURE__ */ import_react29.default.createElement(CopyRegular, null),
+            icon: /* @__PURE__ */ import_react31.default.createElement(CopyRegular, null),
             onClick: copyToClipboard
           }
         ))), props.text.split("\n").map((line2, index) => {
           const myId = props.id + "-" + index;
-          return /* @__PURE__ */ import_react29.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
-        })) : /* @__PURE__ */ import_react29.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
+          return /* @__PURE__ */ import_react31.default.createElement(Text, { key: index, className: textClasses.normal, id: myId, "data-testid": myId }, line2);
+        })) : /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.normalGrey, id: props.id, "data-testid": props.id }, props.placeholder));
       };
     }
   });
 
   // src/ChatHistory.tsx
-  var import_react30, import_prompt_repository2, useStyles10, ChatMessage, ChatHistory;
+  var import_react32, import_prompt_repository2, useStyles11, ChatMessage, ChatHistory;
   var init_ChatHistory = __esm({
     "src/ChatHistory.tsx"() {
       "use strict";
-      import_react30 = __toESM(require_react());
-      init_lib22();
+      import_react32 = __toESM(require_react());
+      init_lib23();
       init_lib10();
       import_prompt_repository2 = __toESM(require_entry());
       init_CopyableText();
-      useStyles10 = makeStyles2({
+      useStyles11 = makeStyles2({
         root: {
           display: "flex",
           flexDirection: "column",
@@ -57655,15 +58312,15 @@ ${message.content}
         }
       });
       ChatMessage = ({ message }) => {
-        const styles = useStyles10();
-        return /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react30.default.createElement(
+        const styles = useStyles11();
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.messageContainer }, /* @__PURE__ */ import_react32.default.createElement(
           Avatar,
           {
             className: styles.avatar,
-            icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react30.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react30.default.createElement(BotRegular, null),
+            icon: message.role === import_prompt_repository2.EChatRole.kUser ? /* @__PURE__ */ import_react32.default.createElement(PersonRegular, null) : /* @__PURE__ */ import_react32.default.createElement(BotRegular, null),
             color: message.role === import_prompt_repository2.EChatRole.kUser ? "brand" : "neutral"
           }
-        ), /* @__PURE__ */ import_react30.default.createElement(
+        ), /* @__PURE__ */ import_react32.default.createElement(
           "div",
           {
             className: mergeClasses(
@@ -57672,7 +58329,7 @@ ${message.content}
             ),
             "data-testid": "message-content"
           },
-          /* @__PURE__ */ import_react30.default.createElement(
+          /* @__PURE__ */ import_react32.default.createElement(
             CopyableText,
             {
               text: message.content,
@@ -57680,12 +58337,12 @@ ${message.content}
               id: `message-${new Date(message.timestamp).getTime()}`
             }
           ),
-          /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
+          /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.timestamp }, (0, import_prompt_repository2.formatChatMessageTimestamp)(message.timestamp))
         ));
       };
       ChatHistory = ({ messages }) => {
-        const styles = useStyles10();
-        return /* @__PURE__ */ import_react30.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react30.default.createElement(ChatMessage, { key: index, message })));
+        const styles = useStyles11();
+        return /* @__PURE__ */ import_react32.default.createElement("div", { className: styles.root }, messages.map((message, index) => /* @__PURE__ */ import_react32.default.createElement(ChatMessage, { key: index, message })));
       };
     }
   });
@@ -57693,7 +58350,7 @@ ${message.content}
   // src/ChatHistoryCall.ts
   async function processChatHistory({
     messagesApiUrl,
-    sessionId,
+    sessionSummary,
     limit,
     onPage,
     apiClient
@@ -57706,7 +58363,7 @@ ${message.content}
     try {
       do {
         const request = {
-          sessionId,
+          sessionSummary,
           limit,
           continuation
         };
@@ -59602,7 +60259,7 @@ ${message.content}
   async function archive({
     archiveApiUrl,
     summarizeApiUrl,
-    sessionId,
+    sessionSummary,
     messages,
     wordCount,
     apiClient,
@@ -59630,7 +60287,8 @@ ${message.content}
     const olderMessages = messages.slice(0, midPointIndex);
     try {
       const summarizeRequest = {
-        sessionId,
+        modelProvider: import_prompt_repository3.EModelProvider.kAzureOpenAI,
+        sessionId: sessionSummary.sessionId,
         messages: olderMessages,
         // Summarize the older messages instead of recent ones
         wordCount
@@ -59650,7 +60308,7 @@ ${message.content}
       let continuation;
       do {
         const archiveRequest = {
-          sessionId,
+          sessionSummary,
           createdAfter: firstMessageTime,
           createdBefore: midPointTime,
           limit: kArchivePageSize,
@@ -59690,19 +60348,26 @@ ${message.content}
     }
   });
 
-  // src/App.tsx
+  // src/uuid.ts
   function uuidv4() {
     return "10000000-1000-4000-8000-100000000000".replace(
       /[018]/g,
       (c) => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
     );
   }
-  var import_react31, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, newSessionUuid, activeFieldId, local, kMinArchivingDisplayMs, App;
+  var init_uuid = __esm({
+    "src/uuid.ts"() {
+      "use strict";
+    }
+  });
+
+  // src/App.tsx
+  var import_react33, import_prompt_repository4, kFontNameForTextWrapCalculation, kRequirementMaxLength, kChatHistoryPageSize, kIdleTimeoutMs, kSummaryLength, kIdleCheckIntervalMs, scrollableContentStyles, multilineEditContainerStyles, kMinArchivingDisplayMs, AppView, App;
   var init_App = __esm({
     "src/App.tsx"() {
       "use strict";
-      import_react31 = __toESM(require_react());
-      init_lib22();
+      import_react33 = __toESM(require_react());
+      init_lib23();
       import_prompt_repository4 = __toESM(require_entry());
       init_AssistantChatApiTypes();
       init_MultilineEdit();
@@ -59713,10 +60378,12 @@ ${message.content}
       init_ChatCall();
       init_OuterStyles();
       init_SiteUtilities();
-      init_SessionCall();
       init_ChatHistory();
       init_ChatHistoryCall();
       init_ArchiveCall();
+      init_uuid();
+      init_ConfigStrings();
+      init_UserContext();
       kFontNameForTextWrapCalculation = "12pt Segoe UI";
       kRequirementMaxLength = 4096;
       kChatHistoryPageSize = 50;
@@ -59732,8 +60399,7 @@ ${message.content}
           overflowY: "auto",
           width: "100%",
           position: "relative",
-          height: "100%",
-          paddingBottom: "var(--footer-height)"
+          height: "100%"
         }
       });
       multilineEditContainerStyles = makeStyles2({
@@ -59746,11 +60412,21 @@ ${message.content}
           zIndex: 1
         }
       });
-      newSessionUuid = uuidv4();
-      activeFieldId = uuidv4();
-      local = window.location.hostname === "localhost";
       kMinArchivingDisplayMs = 2e3;
-      App = (props) => {
+      AppView = ({
+        uiStrings,
+        state,
+        chatHistory,
+        streamedResponse,
+        streamedResponseId,
+        message,
+        onSend,
+        onChange,
+        onDismiss,
+        sessionId
+      }) => {
+        const { userRole } = useUser();
+        const bottomRef = (0, import_react33.useRef)(null);
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const columnElementClasses = standardColumnElementStyles();
@@ -59758,48 +60434,139 @@ ${message.content}
         const linkClasses = standardLinkStyles();
         const scrollableContentClasses = scrollableContentStyles();
         const multilineEditContainerClasses = multilineEditContainerStyles();
-        const bottomRef = (0, import_react31.useRef)(null);
-        const screenUrl = local ? "http://localhost:7071/api/ScreenInput" : "https://motifassistantapi.azurewebsites.net/api/ScreenInput";
-        const chatUrl = local ? "http://localhost:7071/api/StreamChat" : "https://motifassistantapi.azurewebsites.net/api/StreamChat";
-        const sessionApiUrl = local ? "http://localhost:7071/api/Session" : "https://motifassistantapi.azurewebsites.net/api/Session";
-        const messagesApiUrl = local ? "http://localhost:7071/api/GetMessages" : "https://motifassistantapi.azurewebsites.net/api/GetMessages";
-        const archiveApiUrl = local ? "http://localhost:7071/api/ArchiveMessages" : "https://motifassistantapi.azurewebsites.net/api/ArchiveMessages";
-        const summariseApiUrl = local ? "http://localhost:7071/api/SummariseMessages" : "https://motifassistantapi.azurewebsites.net/api/SummariseMessages";
-        const uiStrings = getUIStrings(props.appMode);
-        let [state, setState] = (0, import_react31.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
-        let [sessionUuid, setSessionUuid] = (0, import_react31.useState)(newSessionUuid);
-        const [chatHistory, setChatHistory] = (0, import_react31.useState)([]);
-        const [message, setMessage] = (0, import_react31.useState)(void 0);
-        const [streamedResponse, setStreamedResponse] = (0, import_react31.useState)(void 0);
-        const [streamedResponseId, setStreamedResponseId] = (0, import_react31.useState)(void 0);
-        const [idleSince, setIdleSince] = (0, import_react31.useState)(/* @__PURE__ */ new Date());
-        (0, import_react31.useEffect)(() => {
-          const getSession = async () => {
-            state.transition("StartedLoading" /* kStartedLoading */);
-            setState(new AssistantUIStateMachine(state.getState()));
-            const existingSession = await getSessionUuid(sessionApiUrl);
-            if (existingSession) {
-              setSessionUuid(existingSession);
-              try {
-                await processChatHistory({
-                  messagesApiUrl,
-                  sessionId: existingSession,
-                  limit: kChatHistoryPageSize,
-                  onPage: (messages) => {
-                    setChatHistory((prev2) => [...prev2, ...messages]);
-                  }
-                });
-                state.transition("FinishedLoading" /* kFinishedLoading */);
-                setState(new AssistantUIStateMachine(state.getState()));
-              } catch (error2) {
-                state.transition("Error" /* kError */);
-                setState(new AssistantUIStateMachine(state.getState()));
+        (0, import_react33.useEffect)(() => {
+          if (streamedResponse) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, [streamedResponse]);
+        (0, import_react33.useEffect)(() => {
+          if (chatHistory.length > 0) {
+            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+          }
+        }, [chatHistory]);
+        let blank = /* @__PURE__ */ import_react33.default.createElement("div", null);
+        let offTopic = blank;
+        let error = blank;
+        let archiving = blank;
+        let streaming = blank;
+        let guestLoginNotice = blank;
+        if (state.getState() === "OffTopic" /* kOffTopic */) {
+          offTopic = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+            Message,
+            {
+              intent: "warning" /* kWarning */,
+              title: uiStrings.kWarning,
+              body: uiStrings.kLooksOffTopic,
+              dismissable: true,
+              onDismiss
+            }
+          ));
+        }
+        if (state.getState() === "Error" /* kError */) {
+          error = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+            Message,
+            {
+              intent: "error" /* kError */,
+              title: uiStrings.kError,
+              body: uiStrings.kServerErrorDescription,
+              dismissable: true,
+              onDismiss
+            }
+          ));
+        }
+        if (userRole === "guest" /* kGuest */) {
+          guestLoginNotice = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+            Message,
+            {
+              intent: "info" /* kInfo */,
+              title: uiStrings.kInfo,
+              body: uiStrings.kGuestLoginNotice,
+              dismissable: false
+            }
+          ));
+        }
+        if (state.getState() === "Archiving" /* kArchiving */) {
+          archiving = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react33.default.createElement(
+            Message,
+            {
+              intent: "info" /* kInfo */,
+              title: uiStrings.kArchivingPleaseWait,
+              body: uiStrings.kArchivingDescription,
+              dismissable: false
+            }
+          ));
+        }
+        if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
+          streaming = /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react33.default.createElement(
+            ChatMessage,
+            {
+              message: {
+                id: streamedResponseId,
+                className: import_prompt_repository4.ChatMessageClassName,
+                role: import_prompt_repository4.EChatRole.kAssistant,
+                content: streamedResponse,
+                timestamp: /* @__PURE__ */ new Date()
               }
             }
+          ));
+        }
+        const multilineEditProps = {
+          caption: uiStrings.kChatPreamble,
+          placeholder: uiStrings.kChatPlaceholder,
+          maxLength: kRequirementMaxLength,
+          message: message || "",
+          enabled: state.getState() === "Waiting" /* kWaiting */,
+          fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
+          defaultHeightLines: 10,
+          onSend,
+          onChange
+        };
+        return /* @__PURE__ */ import_react33.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId }, /* @__PURE__ */ import_react33.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react33.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
+          return markdownLinks.split(",").map((link, index) => {
+            const matches = link.match(/\[(.*?)\]\((.*?)\)/);
+            if (matches) {
+              const [_, text, url] = matches;
+              return /* @__PURE__ */ import_react33.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+            }
+            return null;
+          });
+        }), /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react33.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react33.default.createElement(Spacer, null), /* @__PURE__ */ import_react33.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react33.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, guestLoginNotice, archiving, /* @__PURE__ */ import_react33.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react33.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react33.default.createElement(MultilineEdit, { ...multilineEditProps })))));
+      };
+      App = (props) => {
+        const config = getConfigStrings();
+        const uiStrings = getUIStrings(props.personality);
+        let [state, setState] = (0, import_react33.useState)(new AssistantUIStateMachine("Waiting" /* kWaiting */));
+        const [chatHistory, setChatHistory] = (0, import_react33.useState)([]);
+        const [message, setMessage] = (0, import_react33.useState)(void 0);
+        const [streamedResponse, setStreamedResponse] = (0, import_react33.useState)(void 0);
+        const [streamedResponseId, setStreamedResponseId] = (0, import_react33.useState)(void 0);
+        const [idleSince, setIdleSince] = (0, import_react33.useState)(/* @__PURE__ */ new Date());
+        (0, import_react33.useEffect)(() => {
+          const loadChatHistory = async () => {
+            state.transition("StartedLoading" /* kStartedLoading */);
+            setState(new AssistantUIStateMachine(state.getState()));
+            try {
+              await processChatHistory({
+                messagesApiUrl: config.messagesApiUrl,
+                sessionSummary: {
+                  sessionId: props.sessionId,
+                  email: props.email
+                },
+                limit: kChatHistoryPageSize,
+                onPage: (messages) => {
+                  setChatHistory((prev2) => [...prev2, ...messages]);
+                }
+              });
+              state.transition("FinishedLoading" /* kFinishedLoading */);
+              setState(new AssistantUIStateMachine(state.getState()));
+            } catch (error) {
+              state.transition("Error" /* kError */);
+              setState(new AssistantUIStateMachine(state.getState()));
+            }
           };
-          getSession();
-        }, []);
-        (0, import_react31.useEffect)(() => {
+          loadChatHistory();
+        }, [props.sessionId]);
+        (0, import_react33.useEffect)(() => {
           const timer = setInterval(async () => {
             const idleTime = Date.now() - idleSince.getTime();
             if (idleTime >= kIdleTimeoutMs && state.getState() === "Waiting" /* kWaiting */) {
@@ -59808,9 +60575,12 @@ ${message.content}
                 setState(new AssistantUIStateMachine("Archiving" /* kArchiving */));
                 setTimeout(async () => {
                   const newHistory = await archive({
-                    archiveApiUrl,
-                    summarizeApiUrl: summariseApiUrl,
-                    sessionId: sessionUuid,
+                    archiveApiUrl: config.archiveApiUrl,
+                    summarizeApiUrl: config.summariseApiUrl,
+                    sessionSummary: {
+                      sessionId: props.sessionId,
+                      email: props.email
+                    },
                     messages: chatHistory,
                     wordCount: kSummaryLength,
                     updateState: handleStateUpdate
@@ -59823,7 +60593,7 @@ ${message.content}
             }
           }, kIdleCheckIntervalMs);
           return () => clearInterval(timer);
-        }, [idleSince, chatHistory, sessionUuid, state]);
+        }, [idleSince, chatHistory, props.sessionId, state]);
         const handleStateUpdate = (event) => {
           state.transition(event);
           setState(new AssistantUIStateMachine(state.getState()));
@@ -59836,12 +60606,15 @@ ${message.content}
           setStreamedResponseId(uuidv4);
           let completeResponse = "";
           const result = await processChat({
-            screeningApiUrl: screenUrl,
-            chatApiUrl: chatUrl,
+            screeningApiUrl: config.screenUrl,
+            chatApiUrl: config.chatUrl,
             input: localMessage,
             history: chatHistory,
             updateState: handleStateUpdate,
-            sessionId: sessionUuid,
+            sessionSummary: {
+              sessionId: props.sessionId,
+              email: props.email
+            },
             personality: "TheYardAssistant" /* kTheYardAssistant */,
             onChunk: (chunk) => {
               if (chunk) {
@@ -59861,8 +60634,7 @@ ${message.content}
                 setStreamedResponse(void 0);
                 setStreamedResponseId(void 0);
               }
-            },
-            forceNode: props.forceNode
+            }
           });
         }
         ;
@@ -59889,121 +60661,441 @@ ${message.content}
           state.transition("Reset" /* kReset */);
           setState(new AssistantUIStateMachine(state.getState()));
         };
-        const multilineEditProps = {
-          caption: uiStrings.kChatPreamble,
-          placeholder: uiStrings.kChatPlaceholder,
-          maxLength: kRequirementMaxLength,
-          message: message || "",
-          enabled: state.getState() === "Waiting" /* kWaiting */,
-          fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
-          defaultHeightLines: 10,
-          onSend,
-          onChange
-        };
-        let blank = /* @__PURE__ */ import_react31.default.createElement("div", null);
-        let offTopic = blank;
-        let error = blank;
-        let archiving = blank;
-        let streaming = blank;
-        if (state.getState() === "OffTopic" /* kOffTopic */) {
-          offTopic = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
-            Message,
-            {
-              intent: "warning" /* kWarning */,
-              title: uiStrings.kWarning,
-              body: uiStrings.kLooksOffTopic,
-              dismissable: true,
-              onDismiss
-            }
-          ));
+        return /* @__PURE__ */ import_react33.default.createElement(
+          AppView,
+          {
+            uiStrings,
+            state,
+            chatHistory,
+            streamedResponse,
+            streamedResponseId,
+            message: message || "",
+            onSend,
+            onChange,
+            onDismiss,
+            sessionId: props.sessionId
+          }
+        );
+      };
+    }
+  });
+
+  // src/SessionCall.ts
+  async function getSessionData(sessionApiUrl, userDetails, personality) {
+    try {
+      const request = {
+        userDetails,
+        personality
+      };
+      const response = await axios_default.post(sessionApiUrl, request, {
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json"
         }
-        if (state.getState() === "Error" /* kError */) {
-          error = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
-            Message,
-            {
-              intent: "error" /* kError */,
-              title: uiStrings.kError,
-              body: uiStrings.kServerErrorDescription,
-              dismissable: true,
-              onDismiss
-            }
-          ));
-        }
-        if (state.getState() === "Archiving" /* kArchiving */) {
-          archiving = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, "\xA0\xA0\xA0", /* @__PURE__ */ import_react31.default.createElement(
-            Message,
-            {
-              intent: "info" /* kInfo */,
-              title: uiStrings.kArchivingPleaseWait,
-              body: uiStrings.kArchivingDescription,
-              dismissable: false
-            }
-          ));
-        }
-        if ((state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Waiting" /* kWaiting */) && streamedResponse) {
-          streaming = /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root, "data-testid": "message-content" }, /* @__PURE__ */ import_react31.default.createElement(
-            ChatMessage,
-            {
-              message: {
-                id: streamedResponseId,
-                className: import_prompt_repository4.ChatMessageClassName,
-                role: import_prompt_repository4.EChatRole.kAssistant,
-                content: streamedResponse,
-                timestamp: /* @__PURE__ */ new Date()
+      });
+      const newSessionId = response?.data?.sessionId || void 0;
+      const userRole = response?.data?.role || "guest" /* kGuest */;
+      const showInterstitialPrompt = response?.data?.showInterstitialPrompt || "none" /* kNone */;
+      if (!newSessionId) {
+        console.error("No sessionId in response");
+        return void 0;
+      }
+      return { sessionId: newSessionId, role: userRole, showInterstitialPrompt };
+    } catch (error) {
+      console.error("Error getting session UUID:", error);
+      return void 0;
+    }
+  }
+  var init_SessionCall = __esm({
+    "src/SessionCall.ts"() {
+      "use strict";
+      init_axios2();
+      init_AssistantChatApiTypes();
+    }
+  });
+
+  // src/Login.tsx
+  var import_react34, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
+  var init_Login = __esm({
+    "src/Login.tsx"() {
+      "use strict";
+      import_react34 = __toESM(require_react());
+      init_AssistantChatApiTypes();
+      init_lib23();
+      init_Message();
+      init_SiteUtilities();
+      init_App();
+      init_SessionCall();
+      init_SiteUtilities();
+      init_OuterStyles();
+      init_CommonStyles();
+      init_UIStrings();
+      init_uuid();
+      init_captcha();
+      init_ConfigStrings();
+      init_LocalStorage();
+      init_UserContext();
+      containerStyles = {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        padding: "20px"
+      };
+      innerStyles = {
+        width: "100%",
+        maxWidth: "600px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        gap: "20px"
+      };
+      RATE_LIMIT_INITIAL_DELAY = 2e3;
+      RATE_LIMIT_MAX_DELAY = 3e4;
+      RATE_LIMIT_RESET_TIME = 6e4;
+      Login = (props) => {
+        const config = getConfigStrings();
+        const uiStrings = getUIStrings(props.personality);
+        const user = useUser();
+        const { userId, userName, sessionId, onLogin, onLogout } = user;
+        const [error, setError] = (0, import_react34.useState)();
+        const [googleCredential, setGoogleCredential] = (0, import_react34.useState)();
+        const [rateLimitAttempts, setRateLimitAttempts] = (0, import_react34.useState)(0);
+        const [lastAttemptTime, setLastAttemptTime] = (0, import_react34.useState)(0);
+        const [isWaiting, setIsWaiting] = (0, import_react34.useState)(false);
+        const googleButtonRef = (0, import_react34.useRef)(null);
+        const handleLogout = async () => {
+          try {
+            if (window.google?.accounts?.id) {
+              window.google.accounts.id.disableAutoSelect();
+              if (googleCredential) {
+                const response = await fetch(`https://oauth2.googleapis.com/revoke?token=${googleCredential}`, {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded"
+                  }
+                });
+                if (!response.ok) {
+                  console.warn("Failed to revoke Google token:", response.statusText);
+                }
               }
             }
-          ));
-        }
-        (0, import_react31.useEffect)(() => {
-          if (streamedResponse) {
-            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-          }
-        }, [streamedResponse]);
-        (0, import_react31.useEffect)(() => {
-          if (chatHistory.length > 0) {
-            bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-          }
-        }, [chatHistory]);
-        return /* @__PURE__ */ import_react31.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.heading }, uiStrings.kAppPageCaption), /* @__PURE__ */ import_react31.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), [uiStrings.kLinks].map((markdownLinks) => {
-          return markdownLinks.split(",").map((link, index) => {
-            const matches = link.match(/\[(.*?)\]\((.*?)\)/);
-            if (matches) {
-              const [_, text, url] = matches;
-              return /* @__PURE__ */ import_react31.default.createElement(Link3, { key: index, href: url, className: linkClasses.left, target: "_blank" }, text);
+            setGoogleCredential(void 0);
+            onLogout();
+            if (window.google?.accounts?.id && window.onGoogleLogin) {
+              window.google.accounts.id.initialize({
+                client_id: config.googleCaptchaClientId,
+                callback: window.onGoogleLogin,
+                auto_select: true,
+                cancel_on_tap_outside: false
+              });
             }
-            return null;
-          });
-        }), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement("div", { className: scrollableContentClasses.root }, /* @__PURE__ */ import_react31.default.createElement("div", { style: { flex: 1, minHeight: 0, overflow: "auto", display: "flex", flexDirection: "column" } }, chatHistory.length > 0 && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(ChatHistory, { messages: chatHistory })), (state.getState() === "Screening" /* kScreening */ || state.getState() === "Chatting" /* kChatting */ || state.getState() === "Loading" /* kLoading */) && !streamedResponse && /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Spinner, { label: uiStrings.kProcessingPleaseWait })), /* @__PURE__ */ import_react31.default.createElement("div", { className: columnElementClasses.root }, streaming), offTopic, error, archiving, /* @__PURE__ */ import_react31.default.createElement("div", { ref: bottomRef })), /* @__PURE__ */ import_react31.default.createElement("div", { className: multilineEditContainerClasses.root }, /* @__PURE__ */ import_react31.default.createElement(MultilineEdit, { ...multilineEditProps }))), /* @__PURE__ */ import_react31.default.createElement(Spacer, null), /* @__PURE__ */ import_react31.default.createElement(Footer, null)));
+          } catch (error2) {
+            console.error("Error during logout:", error2);
+            setError(uiStrings.kLogoutFailed);
+          }
+        };
+        const handleLogin = async (credential) => {
+          try {
+            const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
+            if (!recaptchaResult.success) {
+              const securitySteps = handleLowScore(recaptchaResult.score || 0);
+              if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
+                setError(uiStrings.kLoginBlocked);
+                return;
+              }
+              if (securitySteps.includes(SECURITY_STEP_ADDITIONAL_VERIFICATION)) {
+                setError(uiStrings.kAdditionalVerification);
+                return;
+              }
+              if (securitySteps.includes(SECURITY_STEP_RATE_LIMIT)) {
+                setRateLimitAttempts((prev2) => prev2 + 1);
+                setLastAttemptTime(Date.now());
+                const delay = calculateRateLimitDelay();
+                setError(uiStrings.kTooManyAttempts);
+                setIsWaiting(true);
+                setTimeout(() => {
+                  setIsWaiting(false);
+                }, delay);
+                return;
+              }
+            }
+            const decodedToken = JSON.parse(atob(credential.split(".")[1]));
+            const userId2 = decodedToken.sub;
+            const userName2 = decodedToken.name || void 0;
+            const userEmail = decodedToken.email || void 0;
+            let sessionResponse;
+            try {
+              let userDetails = {
+                userID: userId2,
+                name: userName2,
+                email: userEmail,
+                loginProvider: "google" /* kGoogle */
+              };
+              sessionResponse = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
+            } catch (error2) {
+              console.error("Error getting session ID:", error2);
+            }
+            if (!sessionResponse) {
+              sessionResponse = { sessionId: uuidv4(), role: "guest" /* kGuest */, showInterstitialPrompt: "none" /* kNone */ };
+              console.warn("Using temporary session ID");
+            }
+            if (user) {
+              user.onLogin(
+                props.personality,
+                userId2,
+                userEmail || "",
+                sessionResponse.sessionId,
+                sessionResponse.role
+              );
+            }
+          } catch (error2) {
+            console.error("Error during login:", error2);
+            setError(uiStrings.kLoginFailed);
+          }
+        };
+        const calculateRateLimitDelay = () => {
+          const timeSinceLastAttempt = Date.now() - lastAttemptTime;
+          if (timeSinceLastAttempt > RATE_LIMIT_RESET_TIME) {
+            setRateLimitAttempts(0);
+            return 0;
+          }
+          const delay = Math.min(
+            RATE_LIMIT_INITIAL_DELAY * Math.pow(2, rateLimitAttempts),
+            RATE_LIMIT_MAX_DELAY
+          );
+          return delay;
+        };
+        (0, import_react34.useEffect)(() => {
+          window.onGoogleLogin = (response) => {
+            if (response.credential) {
+              handleLogin(response.credential);
+            }
+          };
+          const googleApi = window.google?.accounts?.id;
+          if (googleApi) {
+            googleApi.initialize({
+              client_id: config.googleCaptchaClientId,
+              callback: window.onGoogleLogin,
+              auto_select: true,
+              cancel_on_tap_outside: false
+            });
+            if (!userName && !userId && !sessionId && !isAppInLocalhost()) {
+              const attemptAutoLogin = async () => {
+                try {
+                  googleApi.prompt();
+                } catch (error2) {
+                  console.error("Error prompting for auto-login:", error2);
+                }
+              };
+              const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
+              return () => clearTimeout(promptTimeout);
+            }
+          }
+        }, [userName, userId, sessionId, config.googleCaptchaClientId]);
+        (0, import_react34.useEffect)(() => {
+          if (googleButtonRef.current && window.google?.accounts?.id) {
+            window.google.accounts.id.renderButton(googleButtonRef.current, {
+              theme: "outline",
+              size: "large",
+              width: 250
+            });
+          }
+        }, [googleButtonRef.current]);
+        return /* @__PURE__ */ import_react34.default.createElement("div", { style: containerStyles, "data-testid": "login-container", "data-session-id": sessionId }, /* @__PURE__ */ import_react34.default.createElement("div", { style: innerStyles }, !userName || !sessionId ? /* @__PURE__ */ import_react34.default.createElement(
+          LoginView,
+          {
+            personality: props.personality,
+            userName,
+            sessionId,
+            googleButtonRef,
+            error,
+            setError,
+            isWaiting
+          }
+        ) : /* @__PURE__ */ import_react34.default.createElement(
+          App,
+          {
+            personality: props.personality,
+            sessionId,
+            email: userName,
+            onLogout: handleLogout
+          }
+        )), /* @__PURE__ */ import_react34.default.createElement(Footer, null));
+      };
+      LoginView = (props) => {
+        const pageOuterClasses = pageOuterStyles();
+        const innerColumnClasses = innerColumnStyles();
+        const textClasses = standardTextStyles();
+        const uiStrings = getUIStrings(props.personality);
+        const handleErrorDismiss = () => {
+          props.setError(void 0);
+        };
+        return /* @__PURE__ */ import_react34.default.createElement("div", { className: pageOuterClasses.root, "data-testid": "login-view" }, /* @__PURE__ */ import_react34.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react34.default.createElement(Header, { title: uiStrings.kAppPageCaption }), /* @__PURE__ */ import_react34.default.createElement(Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kOverview), /* @__PURE__ */ import_react34.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react34.default.createElement(Text, null, uiStrings.kLoginPlease), props.error && /* @__PURE__ */ import_react34.default.createElement(import_react34.default.Fragment, null, /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
+          Message,
+          {
+            intent: "error" /* kError */,
+            title: uiStrings.kError,
+            body: props.error,
+            dismissable: true,
+            onDismiss: handleErrorDismiss
+          }
+        )), /* @__PURE__ */ import_react34.default.createElement(Spacer, null), /* @__PURE__ */ import_react34.default.createElement(
+          "div",
+          {
+            ref: props.googleButtonRef,
+            className: "google-login-button",
+            style: { display: props.isWaiting ? "none" : "block" }
+          }
+        )));
+      };
+    }
+  });
+
+  // src/PlainTextParagraphs.tsx
+  var import_react35, PlainTextParagraphs;
+  var init_PlainTextParagraphs = __esm({
+    "src/PlainTextParagraphs.tsx"() {
+      "use strict";
+      import_react35 = __toESM(require_react());
+      init_lib23();
+      init_CommonStyles();
+      init_SiteUtilities();
+      PlainTextParagraphs = (props) => {
+        const textClasses = standardTextStyles();
+        const alignment = props.alignment || "left" /* kLeft */;
+        const getTextStyle = (baseClassName) => ({
+          className: baseClassName,
+          style: {
+            textAlign: alignment,
+            width: "100%",
+            display: "block"
+          }
+        });
+        return /* @__PURE__ */ import_react35.default.createElement("div", { style: { width: "100%", textAlign: alignment } }, props.content.split("\n").map((line2, index) => {
+          if (/^\d+\.\s/.test(line2)) {
+            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.subHeadingLeft) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
+          }
+          if (line2.match(/https?:\/\/\S+/)) {
+            const parts = line2.split(/(https?:\/\/\S+)/);
+            return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, parts.map(
+              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react35.default.createElement(Link3, { key: i, href: part, style: { textAlign: "inherit" } }, part) : part
+            )), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
+          }
+          return /* @__PURE__ */ import_react35.default.createElement(import_react35.default.Fragment, { key: index }, /* @__PURE__ */ import_react35.default.createElement(Text, { ...getTextStyle(textClasses.normal) }, line2), /* @__PURE__ */ import_react35.default.createElement(Spacer, { size: 8 /* kSmall */ }));
+        }));
       };
     }
   });
 
   // src/PlainText.tsx
-  var import_react32, PlainText;
+  var import_react36, PlainText;
   var init_PlainText = __esm({
     "src/PlainText.tsx"() {
       "use strict";
-      import_react32 = __toESM(require_react());
+      import_react36 = __toESM(require_react());
       init_OuterStyles();
-      init_lib22();
-      init_CommonStyles();
       init_SiteUtilities();
+      init_PlainTextParagraphs();
       PlainText = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
-        const textClasses = standardTextStyles();
-        return /* @__PURE__ */ import_react32.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react32.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react32.default.createElement(Text, { className: textClasses.heading }, props.title), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), props.content.split("\n").map((line2, index) => {
-          if (/^\d+\.\s/.test(line2)) {
-            return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.subHeadingLeft }, line2);
+        return /* @__PURE__ */ import_react36.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react36.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react36.default.createElement(Header, { title: props.title }), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react36.default.createElement(PlainTextParagraphs, { content: props.content }), /* @__PURE__ */ import_react36.default.createElement(Spacer, { size: 32 /* kXLarge */ }), /* @__PURE__ */ import_react36.default.createElement(Footer, null)));
+      };
+    }
+  });
+
+  // src/Home.tsx
+  var import_react37, Home2;
+  var init_Home = __esm({
+    "src/Home.tsx"() {
+      "use strict";
+      import_react37 = __toESM(require_react());
+      init_dist2();
+      init_OuterStyles();
+      init_lib23();
+      init_SiteUtilities();
+      init_PlainTextParagraphs();
+      init_captcha();
+      init_ConfigStrings();
+      Home2 = (props) => {
+        const pageOuterClasses = pageOuterStyles();
+        const innerColumnClasses = innerColumnStyles();
+        const navigate = useNavigate();
+        const [isButtonDisabled, setIsButtonDisabled] = (0, import_react37.useState)(false);
+        (0, import_react37.useEffect)(() => {
+          const checkCaptcha = async () => {
+            const config = getConfigStrings();
+            const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
+            if (result.score && result.score < RECAPTCHA_THRESHOLD) {
+              setIsButtonDisabled(true);
+            }
+          };
+          checkCaptcha();
+        }, []);
+        return /* @__PURE__ */ import_react37.default.createElement("div", { className: pageOuterClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { className: innerColumnClasses.root }, /* @__PURE__ */ import_react37.default.createElement("div", { style: { display: "flex", flexDirection: "column", alignItems: "center", width: "100%" } }, /* @__PURE__ */ import_react37.default.createElement(
+          Image,
+          {
+            src: "assets/img/hero.jpg",
+            style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
+            alt: "Strong AI Bold Image"
           }
-          if (line2.match(/https?:\/\/\S+/)) {
-            const parts = line2.split(/(https?:\/\/\S+)/);
-            return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.normal }, parts.map(
-              (part, i) => part.match(/^https?:\/\//) ? /* @__PURE__ */ import_react32.default.createElement(Link3, { key: i, href: part }, part) : part
-            ));
-          }
-          return /* @__PURE__ */ import_react32.default.createElement(Text, { key: index, className: textClasses.normal }, line2);
-        }), /* @__PURE__ */ import_react32.default.createElement(Spacer, null), /* @__PURE__ */ import_react32.default.createElement(Footer, null)));
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react37.default.createElement(
+          Text,
+          {
+            as: "h1",
+            style: {
+              fontSize: "2.5rem",
+              fontWeight: "bold",
+              textAlign: "center"
+            }
+          },
+          props.title
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(
+          Button,
+          {
+            appearance: "primary",
+            size: "large",
+            style: {
+              fontSize: "1.2rem",
+              padding: "16px 32px"
+            },
+            onClick: () => navigate("/theyard"),
+            disabled: isButtonDisabled
+          },
+          "The Yard, Peckham ..."
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react37.default.createElement(import_react37.default.Fragment, null, /* @__PURE__ */ import_react37.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react37.default.createElement(
+          Button,
+          {
+            appearance: "primary",
+            size: "large",
+            style: {
+              fontSize: "1.2rem",
+              padding: "16px 32px"
+            },
+            onClick: () => window.open("mailto:infostrongai@gmail.com", "_blank"),
+            disabled: isButtonDisabled
+          },
+          "Contact us ..."
+        ), /* @__PURE__ */ import_react37.default.createElement(Spacer, { size: 20 /* kLarge */ }))), /* @__PURE__ */ import_react37.default.createElement(Footer, null)));
+      };
+    }
+  });
+
+  // src/ScrollToTop.tsx
+  var import_react38, ScrollToTop;
+  var init_ScrollToTop = __esm({
+    "src/ScrollToTop.tsx"() {
+      "use strict";
+      import_react38 = __toESM(require_react());
+      init_dist2();
+      ScrollToTop = () => {
+        const { pathname } = useLocation();
+        (0, import_react38.useEffect)(() => {
+          window.scrollTo(0, 0);
+        }, [pathname]);
+        return null;
       };
     }
   });
@@ -60013,12 +61105,12 @@ ${message.content}
   var init_TermsContent = __esm({
     "src/TermsContent.ts"() {
       "use strict";
-      kTermsContent = `We help businesses create useful and engaging customer experiences using AI-enabled tools. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
+      kTermsContent = `Strong AI Technologies Ltd (we, us) helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. We protect your data and privacy. You observe applicable laws and conventions to facilitate an enjoyable experience for all our customers, and protect their data and privacy.
 1.	Introduction
 1.1	This document (the "Terms of Service") sets out the rules governing:
 (a)	the use of our websites (the "Services").
 (b)	the transmission, storage and processing of content by you, or by any person on your behalf, using the Services ("Content").
-1.2	References in these Terms of Service to "you" are to any customer for the Services and any individual user of the Services (and "your" should be construed accordingly); and references to "us" are to Verrier Technology Services Ltd (and "we" and "our" should be construed accordingly).
+1.2	References in these Terms of Service to "you" are to any customer for the Services and any individual user of the Services (and "your" should be construed accordingly); and references to "us" are to Strong AI Technologies Ltd (and "we" and "our" should be construed accordingly).
 1.3	By using the Services, you agree to the rules set out in these Terms of Service.
 1.5	You must be at least 18 years of age to use the Services; and by using the Services, you warrant and represent to us that you are at least 18 years of age.
 2.	General usage rules
@@ -60052,17 +61144,15 @@ ${message.content}
 6.	Negligent advice
 6.1	Content must not consist of or contain any legal, financial, investment, taxation, accountancy, medical or other professional advice, and you must not use the Services to provide any legal, financial, investment, taxation, accountancy, medical or other professional advisory services.
 6.2	Content must not consist of or contain any advice, instructions or other information that may be acted upon and could, if acted upon, cause death, illness or personal injury, damage to property, or any other loss or damage.
-7.	Etiquette
-7.1	Content must be appropriate, civil and tasteful, and accord with generally accepted standards of etiquette and behaviour on the internet.
-7.2	Content must not be offensive, deceptive, threatening, abusive, harassing, menacing, hateful, discriminatory or inflammatory.
-7.3	Content must not be liable to cause annoyance, inconvenience or needless anxiety.
-7.4	You must not use the Services to send any hostile communication or any communication intended to insult, including such communications directed at a particular person or group of people.
-7.5	You must not use the Services for the purpose of deliberately upsetting or offending others.
-7.6	You must not unnecessarily flood the Services with material relating to a particular subject or subject area, whether alone or in conjunction with others.
-7.7	You must ensure that Content does not duplicate other content available through the Services.
-7.8	You must ensure that Content is appropriately categorised.
-7.9	You should use appropriate and informative titles for all Content.
-7.10	You must be courteous and polite to other users of the Services.
+7.	AI System Usage
+7.1	Your interactions with our AI systems must be appropriate, civil, and professional.
+7.2	You must not attempt to:
+(a) Generate outputs that are offensive, deceptive, threatening, abusive, harassing, menacing, hateful, discriminatory or inflammatory
+(b) Use the AI system to cause harm to others or generate harmful content
+(c) Manipulate the AI system to bypass safety measures or generate prohibited content
+(d) Use the AI system for automated or systematic querying beyond normal usage patterns
+7.3	You must not use the Services to deliberately generate outputs that could upset or offend others.
+7.4	You must be courteous and professional when interacting with our support team and AI systems.
 8.	Marketing and spam
 8.1	You must not without our written permission use the Services for any purpose relating to the marketing, advertising, promotion, sale or supply of any product, service, or commercial offering.
 8.2	Content must not constitute or contain spam, and you must not use the Services to store or transmit spam - which for these purposes shall include all unlawful marketing communications and unsolicited commercial communications.
@@ -60085,9 +61175,22 @@ ${message.content}
 14. Security & Privacy
 14.1	You must take all reasonable steps to keep your personalized security features of your Account (including your password) safe, for example keep them secret and do not share them with anyone, other than appropriately authorized personnel within your business. You must notify us by emailing support without undue delay if you discover that any of your personalized security features have been lost or stolen or that someone else has used or attempted to use your Account without your authority.
 14.2  You must protect the data of other users as you would reasonably expect your own data to be used, and in keeping with the letter and the spirit of our data privacy policy. 
+14.2 You acknowledge that while we implement strong security measures, you are responsible for ensuring that sensitive or confidential information is not included in User Input unless specifically required for the service and protected by appropriate data processing agreements.
+14.3 You must not attempt to extract information about other users or our AI models through systematic querying or prompt engineering.
+14.4 We implement various safety measures and content filters in our AI systems. You must not attempt to circumvent these safety measures.
 15. Ownership
 15.1	The Services are protected by copyright, trade secret and other intellectual or industrial property laws. We own the title, copyright, and other worldwide Intellectual Property Rights for the Services. This Agreement does not grant you any rights to our trademarks or service marks.
 15.1	You may choose to, or we may invite you to submit comments or ideas about the Services, including without limitation about how to improve the Services or our products (\u201CIdeas\u201D). By submitting any Idea, you agree that your disclosure is gratuitous, unsolicited and without restriction and will not place the us under any fiduciary or other obligation, and that we are free to use the Idea without any additional compensation to you, and/or to disclose the Idea on a non-confidential basis or otherwise to anyone. You further acknowledge that, by acceptance of your submission, we do not waive any rights to use similar or related ideas previously known to us or obtained from sources other than you.
+15. AI Output and Liability
+15.1 You acknowledge that our AI systems generate outputs based on patterns in training data and may occasionally produce inaccurate, incomplete, or inappropriate responses.
+15.2 You are responsible for reviewing and validating any AI Output before using it in any decision-making process.
+15.3 We do not guarantee that AI Output will be error-free, complete, or suitable for your intended purpose.
+15.4 You agree not to rely solely on AI Output for critical decisions involving legal, financial, health, safety, or other significant matters without appropriate human review and professional consultation.
+16. Training and Improvement
+16.1 You acknowledge that we may use anonymized User Input to improve our AI systems and Services.
+16.2 We will not use your confidential information or personally identifiable data for training purposes without your explicit consent.
+16.3 You retain ownership of your User Input while granting us a license to use it for providing and improving the Services as described in our Privacy Policy.
+Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
 `;
     }
   });
@@ -60098,7 +61201,7 @@ ${message.content}
     "src/PrivacyContent.ts"() {
       "use strict";
       kPrivacyContent = `1. Introduction
-1.1	We help businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	Strong AI Technologies (we, us) helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
@@ -60171,63 +61274,151 @@ ${message.content}
 12.	Amendments
 12.1	We may update this policy from time to time by publishing a new version on our website.
 12.2	You should check this page occasionally to ensure you are happy with any changes to this policy.
+
+Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
+`;
+    }
+  });
+
+  // src/AboutContent.ts
+  var kAboutContent;
+  var init_AboutContent = __esm({
+    "src/AboutContent.ts"() {
+      "use strict";
+      kAboutContent = `CrossFit works. Community works. Real coaching works. And the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. Noise, not substance, and hard for the real thing to stand out.
+Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI solutions to help with onboarding new members, providing value-added tips outside the box to more experienced members, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: building stronger humans.
+Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
 `;
     }
   });
 
   // src/Site.tsx
-  var import_react33, RoutedSite, Site;
+  var import_react39, RoutedSite, PersonalityRedirect, Site;
   var init_Site = __esm({
     "src/Site.tsx"() {
       "use strict";
-      import_react33 = __toESM(require_react());
+      import_react39 = __toESM(require_react());
       init_dist2();
-      init_App();
+      init_Login();
       init_PlainText();
-      init_lib22();
+      init_Home();
+      init_lib23();
       init_UIStrings();
+      init_UserContext();
+      init_LocalStorage();
+      init_ScrollToTop();
       init_TermsContent();
       init_PrivacyContent();
+      init_AboutContent();
+      init_AssistantChatApiTypes();
       RoutedSite = (props) => {
-        return /* @__PURE__ */ import_react33.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react33.default.createElement(BrowserRouter, { future: {
+        return /* @__PURE__ */ import_react39.default.createElement(FluentProvider, { theme: teamsDarkTheme }, /* @__PURE__ */ import_react39.default.createElement(UserProvider, { storage: browserSessionStorage }, /* @__PURE__ */ import_react39.default.createElement(BrowserRouter, { future: {
           v7_startTransition: true,
           v7_relativeSplatPath: true
-        } }, /* @__PURE__ */ import_react33.default.createElement(Site, { appMode: props.appMode })));
+        } }, /* @__PURE__ */ import_react39.default.createElement(ScrollToTop, null), /* @__PURE__ */ import_react39.default.createElement(Site, null))));
+      };
+      PersonalityRedirect = ({
+        personality,
+        to
+      }) => {
+        const { setPersonality } = useUser();
+        (0, import_react39.useEffect)(() => {
+          setPersonality(personality);
+        }, [personality, setPersonality]);
+        return /* @__PURE__ */ import_react39.default.createElement(Navigate, { to, replace: true });
       };
       Site = (props) => {
-        const uiStrings = getUIStrings(props.appMode);
+        const { personality, setPersonality } = useUser();
+        const uiStrings = getCommonUIStrings();
+        (0, import_react39.useEffect)(() => {
+          const script = document.createElement("script");
+          script.src = "https://accounts.google.com/gsi/client";
+          script.async = true;
+          script.defer = true;
+          document.head.appendChild(script);
+          return () => {
+            const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+            if (scriptElement && scriptElement.parentNode) {
+              scriptElement.parentNode.removeChild(scriptElement);
+            }
+          };
+        }, []);
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: void 0, launchButton: true })
           },
           {
-            path: "/index",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            path: "/about",
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
           },
           {
-            path: "/index.html",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            path: "/about.html",
+            element: /* @__PURE__ */ import_react39.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
+          },
+          {
+            path: "/theyard",
+            element: /* @__PURE__ */ import_react39.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "TheYardAssistant" /* kTheYardAssistant */,
+                to: "/chat"
+              }
+            )
+          },
+          {
+            path: "/theyard.html",
+            element: /* @__PURE__ */ import_react39.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "TheYardAssistant" /* kTheYardAssistant */,
+                to: "/chat"
+              }
+            )
+          },
+          {
+            path: "/demo",
+            element: /* @__PURE__ */ import_react39.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "DemoAssistant" /* kDemoAssistant */,
+                to: "/chat"
+              }
+            )
+          },
+          {
+            path: "/demo.html",
+            element: /* @__PURE__ */ import_react39.default.createElement(
+              PersonalityRedirect,
+              {
+                personality: "DemoAssistant" /* kDemoAssistant */,
+                to: "/chat"
+              }
+            )
+          },
+          {
+            path: "/chat",
+            element: personality ? /* @__PURE__ */ import_react39.default.createElement(Login, { personality }) : /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
           },
           {
             path: "/privacy",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/privacy.html",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kPrivacyTitle, content: kPrivacyContent })
           },
           {
             path: "/terms",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "/terms.html",
-            element: /* @__PURE__ */ import_react33.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
+            element: /* @__PURE__ */ import_react39.default.createElement(PlainText, { title: uiStrings.kTermsTitle, content: kTermsContent })
           },
           {
             path: "*",
-            element: /* @__PURE__ */ import_react33.default.createElement(App, { appMode: props.appMode, forceNode: false })
+            element: /* @__PURE__ */ import_react39.default.createElement(Navigate, { to: "/", replace: true })
           }
         ]);
         return routes;
@@ -60238,14 +61429,13 @@ ${message.content}
   // src/index.tsx
   var require_index = __commonJS({
     "src/index.tsx"() {
-      var import_react34 = __toESM(require_react());
+      var import_react40 = __toESM(require_react());
       var import_client = __toESM(require_client());
-      init_UIStrings();
       init_Site();
       if (document !== void 0 && document.getElementById !== void 0) {
         const root = (0, import_client.createRoot)(document.getElementById("reactRoot"));
         root.render(
-          /* @__PURE__ */ import_react34.default.createElement(RoutedSite, { appMode: "yardtalk" /* kYardTalk */ })
+          /* @__PURE__ */ import_react40.default.createElement(RoutedSite, null)
         );
       }
     }
