@@ -45991,7 +45991,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       TheYardBrandStrings = {
         kAppPageCaption: "Yard Talk",
         kAppPageStrapline: "Where sweat meets sass.",
-        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping Engines. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
+        kOverview: "We're trialling something new \u2013 and no, it's not more burpees. Meet our 'Yard Talk' chatbot; your online training assistant here to answer fitness-related questions, chat about CrossFit, and maybe even stop you from skipping WODs with running. For the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.",
         kLinks: "",
         kChatPreamble: "Chat to the Yard Talk AI by typing your question in the box below. Don't share private information.",
         kChatPlaceholder: "Let's talk about fitness...",
@@ -61151,7 +61151,7 @@ ${message.content}
             onClick: () => navigate("/theyard"),
             disabled: isButtonDisabled
           },
-          "The Yard ..."
+          "The Yard..."
         ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
@@ -61164,7 +61164,7 @@ ${message.content}
             onClick: () => navigate("/crank"),
             disabled: isButtonDisabled
           },
-          "Crank ..."
+          "Crank..."
         ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
