@@ -49161,9 +49161,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         };
       }
       if (!window.grecaptcha) {
+        let errorMessage = "reCAPTCHA not loaded.";
+        console.error(errorMessage);
         return {
           success: false,
-          error: "reCAPTCHA not loaded"
+          error: errorMessage
         };
       }
       if (!apiClient) {
@@ -49184,10 +49186,11 @@ You can check this by searching up for matching entries in a lockfile produced b
         score: response.data.score
       };
     } catch (error) {
-      console.error("reCAPTCHA execution failed:", error);
+      let errorMessage = "Failed to execute reCAPTCHA";
+      console.error(errorMessage + ": " + error);
       return {
         success: false,
-        error: "Failed to execute reCAPTCHA"
+        error: errorMessage
       };
     }
   }
@@ -60871,6 +60874,8 @@ ${message.content}
           window.onGoogleLogin = (response) => {
             if (response.credential) {
               handleLogin(response.credential);
+            } else {
+              console.error("Google login callback received no credential:", response);
             }
           };
           const googleApi = window.google?.accounts?.id;

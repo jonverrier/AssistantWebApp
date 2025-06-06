@@ -44,9 +44,11 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
       }
 
       if (!window.grecaptcha) {
+         let errorMessage = 'reCAPTCHA not loaded.';
+         console.error(errorMessage);
          return {
             success: false,
-            error: 'reCAPTCHA not loaded'
+            error: errorMessage
          };
       }
 
@@ -73,10 +75,11 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
       };
 
    } catch (error) {
-      console.error('reCAPTCHA execution failed:', error);
+      let errorMessage = 'Failed to execute reCAPTCHA';
+      console.error(errorMessage + ': ' + error);
       return {
          success: false,
-         error: 'Failed to execute reCAPTCHA'
+         error: errorMessage
       };
    }
 }

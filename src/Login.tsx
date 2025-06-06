@@ -264,6 +264,9 @@ export const Login = (props: ILoginProps) => {
          if (response.credential) {
             handleLogin(response.credential);
          }
+         else {
+            console.error('Google login callback received no credential:', response);
+         }
       };
       
       const googleApi = window.google?.accounts?.id;
