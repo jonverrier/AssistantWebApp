@@ -6,78 +6,49 @@
 /*! Copyright Jon Verrier 2025 */
 
 import axios from 'axios';
-import { ISessionRequest, ISessionResponse } from '../import/AssistantChatApiTypes';
-
-const SESSION_STORAGE_KEY = 'motif_session_id';
+import { ISessionRequest, ISessionResponse, EUserRole, IUserDetails, EAssistantPersonality, EShowInterstitialPrompt } from '../import/AssistantChatApiTypes';
 
 /**
- * Interface for storage operations.
- * Works in both environments - in Node.js it won't persist session ID locally
- */
-export interface IStorage {
-    get(key: string): string | undefined;
-    set(key: string, value: string): void;
-}
-
-// Default browser storage implementation
-const browserStorage: IStorage = {
-    get: (key: string): string | undefined => {
-        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            return localStorage.getItem(key) || undefined;
-        }
-        return undefined;
-    },
-    set: (key: string, value: string): void => {
-        if (typeof window !== 'undefined' && typeof localStorage !== 'undefined') {
-            localStorage.setItem(key, value);
-        }
-    }
-};
-
-/**
- * Calls the cookie API to get a session UUID.
+ * Calls the session API to get a session UUID and user role.
  * 
- * This function first checks storage for an existing session ID.
- * If found, it sends that to the server. If not, it requests a new session.
- * The server's response is stored and returned.
+ * This function sends the provided user details to the server.
+ * The server's response containing the session ID and user role is returned.
  * 
- * @param cookieApiUrl - The URL of the cookie API
- * @param storage - Storage implementation to use (defaults to browser storage)
- * @returns The session UUID if successful, undefined if there's an error
+ * @param sessionApiUrl - The URL of the session API
+ * @param userDetails - The user's details including email, ID, name and login provider
+ * @returns The session response containing session ID and user role if successful, undefined if there's an error
  */
-export async function getSessionUuid(
-    cookieApiUrl: string, 
-    storage: IStorage = browserStorage
-): Promise<string | undefined> {
+export async function getSessionData(
+    sessionApiUrl: string,
+    userDetails: IUserDetails,
+    personality: EAssistantPersonality
+): Promise<ISessionResponse | undefined> {
     try {
-        // Check storage first
-        const existingSessionId = storage.get(SESSION_STORAGE_KEY);
-        
         // Prepare the request
         const request: ISessionRequest = {
-            sessionId: existingSessionId || undefined
+            userDetails,
+            personality
         };
 
         // Make the API call
-        const response = await axios.post<ISessionResponse>(cookieApiUrl, request, {
+        const response = await axios.post<ISessionResponse>(sessionApiUrl, request, {
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
             }
         });
 
-        // Get the session ID from the response
-        const sessionId = response?.data?.sessionId || undefined;
+        // Get the session ID and user rolefrom the response
+        const newSessionId = response?.data?.sessionId || undefined;
+        const userRole = response?.data?.role || EUserRole.kGuest;
+        const showInterstitialPrompt = response?.data?.showInterstitialPrompt || EShowInterstitialPrompt.kNone;
         
-        if (!sessionId) {
+        if (!newSessionId) {
             console.error('No sessionId in response');
             return undefined;
         }
-
-        // Store the session ID
-        storage.set(SESSION_STORAGE_KEY, sessionId);
         
-        return sessionId;
+        return { sessionId: newSessionId, role: userRole, showInterstitialPrompt: showInterstitialPrompt };
 
     } catch (error) {
         console.error('Error getting session UUID:', error);

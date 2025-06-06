@@ -7,25 +7,28 @@ import { expect } from 'expect';
 import sinon from 'sinon';
 import { sandbox } from './setup';
 
-import { IChatMessage, EChatRole } from 'prompt-repository';
+import { IChatMessage, EChatRole, IUserSessionSummary } from 'prompt-repository';
 
 import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 import { processChatHistory } from '../src/ChatHistoryCall';
 import { createRetryableAxiosClient } from '../src/ChatCallUtils';
-
-const sessionId = '1234567890';
 
 describe('ChatHistory', function() {
     // Increase timeout to 10000ms
     this.timeout(10000);
 
     let mockApi: { post: sinon.SinonStub };
+    let testSessionSummary: IUserSessionSummary;
 
     beforeEach(() => {
         // Reset the stubs before each test
         sandbox.reset();
         mockApi = {
             post: sandbox.stub()
+        };
+        testSessionSummary = {
+            sessionId: '1234567890',
+            email: 'test@example.com'
         };
     });
 
@@ -85,7 +88,7 @@ describe('ChatHistory', function() {
 
         const result = await processChatHistory({
             messagesApiUrl: 'http://chat-history-api-endpoint',
-            sessionId: sessionId,
+            sessionSummary: testSessionSummary,
             limit: 2,
             apiClient: mockApi,
             onPage: (records) => {
@@ -98,13 +101,13 @@ describe('ChatHistory', function() {
         
         // Verify first request
         const firstRequest = mockApi.post.firstCall.args[1];
-        expect(firstRequest.sessionId).toBe(sessionId);
+        expect(firstRequest.sessionSummary.sessionId).toBe(testSessionSummary.sessionId);
         expect(firstRequest.limit).toBe(2);
         expect(firstRequest.continuation).toBeUndefined();
 
         // Verify second request
         const secondRequest = mockApi.post.secondCall.args[1];
-        expect(secondRequest.sessionId).toBe(sessionId);
+        expect(secondRequest.sessionSummary.sessionId).toBe(testSessionSummary.sessionId);
         expect(secondRequest.limit).toBe(2);
         expect(secondRequest.continuation).toBe('page2');
 
@@ -128,7 +131,7 @@ describe('ChatHistory', function() {
 
         await expect(processChatHistory({
             messagesApiUrl: 'http://chat-history-api-endpoint',
-            sessionId: sessionId,
+            sessionSummary: testSessionSummary,
             limit: 2,
             apiClient: mockApi
         })).rejects.toThrow(error);
@@ -147,7 +150,7 @@ describe('ChatHistory', function() {
 
         const result = await processChatHistory({
             messagesApiUrl: 'http://chat-history-api-endpoint',
-            sessionId: sessionId,
+            sessionSummary: testSessionSummary,
             limit: 2,
             apiClient: mockApi
         });

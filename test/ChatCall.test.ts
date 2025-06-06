@@ -16,8 +16,7 @@ import {
     EScreeningClassification 
 } from '../import/AssistantChatApiTypes';
 import { processChat } from '../src/ChatCall';
-
-const sessionId = '1234567890';
+import { IUserSessionSummary } from 'prompt-repository';
 
 interface MockResponse {
     status: number;
@@ -33,6 +32,7 @@ describe('processChat', function() {
 
     let mockUpdateState: sinon.SinonSpy;
     let mockApi: { post: sinon.SinonStub };
+    let testSessionSummary: IUserSessionSummary;
 
     beforeEach(() => {
         // Reset the stubs before each test
@@ -40,6 +40,10 @@ describe('processChat', function() {
         mockUpdateState = sandbox.spy();
         mockApi = {
             post: sandbox.stub()
+        };
+        testSessionSummary = {
+            sessionId: '1234567890',
+            email: 'test@example.com'
         };
     });
 
@@ -121,8 +125,8 @@ describe('processChat', function() {
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'What is the best way to improve my CrossFit performance?',
             history: [],
-            personality: EAssistantPersonality.kGeneralAdvisor,
-            sessionId: sessionId,
+            personality: EAssistantPersonality.kTheYardAssistant,
+            sessionSummary: testSessionSummary,
             updateState: mockUpdateState,
             apiClient: mockApi,
             onChunk: (chunk) => {
@@ -131,8 +135,7 @@ describe('processChat', function() {
             },
             onComplete: () => {
                 // Do nothing
-            },
-            forceNode: false
+            }
         });
 
         // Wait for all chunks to be processed
@@ -141,9 +144,9 @@ describe('processChat', function() {
         expect(mockApi.post.firstCall.args[0]).toBe('http://screening-api-endpoint');
         
         const sentRequest = mockApi.post.firstCall.args[1] as IAssistantFullChatRequest;
-        expect(sentRequest.personality).toBe(EAssistantPersonality.kGeneralAdvisor);
+        expect(sentRequest.personality).toBe(EAssistantPersonality.kTheYardAssistant);
         expect(sentRequest.input).toBe('What is the best way to improve my CrossFit performance?');
-        expect(sentRequest.sessionId).toBe(sessionId);
+        expect(sentRequest.sessionSummary).toEqual(testSessionSummary);
         
         // Verify chunks were received
         expect(receivedChunks.length).toBe(3); // 3 content chunks (excluding [DONE])
@@ -172,8 +175,8 @@ describe('processChat', function() {
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'What is the best way to improve my CrossFit performance?',
             history: [],
-            personality: EAssistantPersonality.kGeneralAdvisor,
-            sessionId: sessionId,
+            personality: EAssistantPersonality.kTheYardAssistant,
+            sessionSummary: testSessionSummary,
             updateState: mockUpdateState,
             apiClient: mockApi,
             onChunk: () => {
@@ -181,8 +184,7 @@ describe('processChat', function() {
             },
             onComplete: () => {
                 // Do nothing
-            },
-            forceNode: false
+            }
         });
 
         expect(result).toBeUndefined();
@@ -207,8 +209,8 @@ describe('processChat', function() {
             chatApiUrl: 'http://chat-api-endpoint',
             input: 'Tell me about cake recipes',
             history: [],
-            personality: EAssistantPersonality.kGeneralAdvisor,
-            sessionId: sessionId,
+            personality: EAssistantPersonality.kTheYardAssistant,
+            sessionSummary: testSessionSummary,
             updateState: mockUpdateState,
             apiClient: mockApi,
             onChunk: () => {
@@ -216,8 +218,7 @@ describe('processChat', function() {
             },
             onComplete: () => {
                 // Do nothing
-            },
-            forceNode: false
+            }
         });
 
         expect(mockApi.post.firstCall.args[0]).toBe('http://screening-api-endpoint');

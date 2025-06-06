@@ -58,12 +58,10 @@ export class AssistantUIStateMachine {
             if (event === EApiEvent.kPassedScreening) {
                this.state = EUIState.kChatting;
             }
-            else
-            if (event === EApiEvent.kRejectedFromScreening) {
+            else if (event === EApiEvent.kRejectedFromScreening) {
                this.state = EUIState.kOffTopic;
             }
-            else
-            if (event === EApiEvent.kError) {
+            else if (event === EApiEvent.kError) {
                this.state = EUIState.kError;
             }
             else {
@@ -74,12 +72,10 @@ export class AssistantUIStateMachine {
             if (event === EApiEvent.kFinishedChat) {
                this.state = EUIState.kWaiting;
             }
-            else
-            if (event === EApiEvent.kError) {
+            else if (event === EApiEvent.kError) {
                this.state = EUIState.kError;
             }
-            else
-            if (event === EApiEvent.kStartedChat) {
+            else if (event === EApiEvent.kStartedChat) {
                // This is a no-op - we actually go to Linting after PassedCheck
                this.state = EUIState.kChatting;
             }
@@ -91,8 +87,7 @@ export class AssistantUIStateMachine {
             if (event === EApiEvent.kReset) {
                this.state = EUIState.kWaiting;
             }
-            else
-            if (event === EApiEvent.kError) {
+            else if (event === EApiEvent.kError) {
                this.state = EUIState.kError;
             }
             else {
@@ -124,6 +119,9 @@ export class AssistantUIStateMachine {
             }
             else if (event === EApiEvent.kError) {
                this.state = EUIState.kError;
+            }
+            else if (event === EApiEvent.kReset) {
+               this.state = EUIState.kWaiting;
             }
             else {
                throw new Error(`Invalid state change: Cannot transition from ${this.state} with event ${event}`);

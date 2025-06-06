@@ -8,54 +8,164 @@
 
 // Copyright (c) Jon Verrier, 2025
 
-import React from 'react';
-import { BrowserRouter, useRoutes } from "react-router-dom";
-import { App } from "./App";
+import React, { useEffect } from 'react';
+import { BrowserRouter, useRoutes, Navigate } from "react-router-dom";
+import { Login } from "./Login";
 import { PlainText } from './PlainText';
-import { FluentProvider , teamsDarkTheme } from '@fluentui/react-components';
-import { EAppMode, getUIStrings } from './UIStrings';
+import { Home } from './Home';
+import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
+import { getCommonUIStrings } from './UIStrings';
+import { UserProvider, useUser } from './UserContext';
+import { browserSessionStorage } from './LocalStorage';
+import { ScrollToTop } from './ScrollToTop';
 
 import { kTermsContent } from './TermsContent';
 import { kPrivacyContent } from './PrivacyContent';
+import { kAboutContent } from './AboutContent';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
-export interface IRoutedSiteProps {
-   appMode: EAppMode;
+// Type definitions for Google Sign-In
+interface GoogleAccountsId {
+   initialize: (config: {
+      client_id: string;
+      callback: (response: any) => void;
+      auto_select: boolean;
+      cancel_on_tap_outside: boolean;
+   }) => void;
+   renderButton: (
+      element: HTMLElement,
+      config: {
+         theme: string;
+         size: string;
+         width: number;
+      }
+   ) => void;
+   prompt: () => void;
+   disableAutoSelect: () => void;
 }
 
-export const RoutedSite = (props: IRoutedSiteProps) => {
+interface GoogleAccounts {
+   id: GoogleAccountsId;
+}
 
+interface GoogleType {
+   accounts: GoogleAccounts;
+}
+
+// Extend Window interface
+export {};
+declare global {
+   var onGoogleLogin: undefined | ((response: any) => void);
+   var google: undefined | GoogleType;
+}
+
+// Routed site component props
+export interface IRoutedSiteProps {
+}
+
+// Routed site component
+export const RoutedSite = (props: IRoutedSiteProps) => {
    return (
       <FluentProvider theme={teamsDarkTheme}>
+         <UserProvider storage={browserSessionStorage}>
             <BrowserRouter future={{
                v7_startTransition: true,
                v7_relativeSplatPath: true
-               }}>
-               <Site appMode={props.appMode} />
+            }}>
+               <ScrollToTop />
+               <Site />
             </BrowserRouter>
+         </UserProvider>
       </FluentProvider>
    );
 }
 
+// Site component props
 export interface ISiteProps {
-   appMode: EAppMode;
 }
 
+const PersonalityRedirect = ({ 
+   personality,
+   to 
+}: { 
+   personality: EAssistantPersonality,
+   to: string 
+}) => {
+   const { setPersonality } = useUser();
+   
+   useEffect(() => {
+      setPersonality(personality);
+   }, [personality, setPersonality]);
+
+   return <Navigate to={to} replace />;
+};
+
+// Site component
 export const Site = (props: ISiteProps) => {
-   
-   const uiStrings = getUIStrings(props.appMode);
-   
+   const { personality, setPersonality } = useUser();
+   const uiStrings = getCommonUIStrings();
+
+   // Initialize Google Sign-In
+   useEffect(() => {
+      // Load Google Sign-In script
+      const script = document.createElement('script');
+      script.src = 'https://accounts.google.com/gsi/client';
+      script.async = true;
+      script.defer = true;
+      document.head.appendChild(script);
+
+      return () => {
+         const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
+         if (scriptElement && scriptElement.parentNode) {
+            scriptElement.parentNode.removeChild(scriptElement);
+         }
+      };
+   }, []);
+
    const routes = useRoutes([
       {
          path: '/',
-         element: <App appMode={props.appMode} forceNode={false} />
+         element: <Home title={uiStrings.kHomeTitle} content={undefined} launchButton={true} />
       },
       {
-         path: '/index',
-         element: <App appMode={props.appMode} forceNode={false} />
+         path: '/about',
+         element: <Home title={uiStrings.kAboutTitle} content={kAboutContent} launchButton={false} />
       },
       {
-         path: '/index.html',
-         element: <App appMode={props.appMode} forceNode={false} />
+         path: '/about.html',
+         element: <Home title={uiStrings.kAboutTitle} content={kAboutContent} launchButton={false} />
+      },
+      {
+         path: '/theyard',
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kTheYardAssistant} 
+            to="/chat" 
+         />
+      },
+      {
+         path: '/theyard.html',
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kTheYardAssistant} 
+            to="/chat" 
+         />
+      },
+      {
+         path: '/demo',
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kDemoAssistant} 
+            to="/chat" 
+         />
+      },
+      {
+         path: '/demo.html',
+         element: <PersonalityRedirect 
+            personality={EAssistantPersonality.kDemoAssistant} 
+            to="/chat" 
+         />
+      },
+      {
+         path: '/chat',
+         element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
       },
       {
          path: '/privacy',
@@ -75,12 +185,11 @@ export const Site = (props: ISiteProps) => {
       },
       {
          path: '*',
-         element: <App appMode={props.appMode} forceNode={false} />
+         element: <Navigate to="/" replace />
       }
    ]);
 
    return routes;
 }
-
 
 

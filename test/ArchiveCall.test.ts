@@ -9,7 +9,8 @@ import { sandbox } from './setup';
 
 import { EApiEvent } from '../src/UIStateMachine';
 import { shouldArchive, archive } from '../src/ArchiveCall';
-import { IChatMessage, EChatRole, ChatMessageClassName } from 'prompt-repository';
+import { IChatMessage, EChatRole, ChatMessageClassName, IUserSessionSummary } from 'prompt-repository';
+import { ELoginProvider, EUserRole } from '../import/AssistantChatApiTypes';
 
 // Simple pseudo-UUID generator for testing
 let uuidCounter = 0;
@@ -18,6 +19,7 @@ const generateTestId = () => `test-message-${++uuidCounter}`;
 describe('ArchiveCall', () => {
     let mockApi: { post: sinon.SinonStub };
     let mockUpdateState: sinon.SinonStub;
+    let testSessionSummary: IUserSessionSummary;
 
     beforeEach(() => {
         sandbox.reset();
@@ -26,6 +28,10 @@ describe('ArchiveCall', () => {
         };
         mockUpdateState = sandbox.stub();
         uuidCounter = 0; // Reset counter before each test
+        testSessionSummary = {
+            sessionId: '1234567890',
+            email: 'test@example.com'
+        };
     });
 
     afterEach(() => {
@@ -74,7 +80,6 @@ describe('ArchiveCall', () => {
     });
 
     describe('archive', () => {
-        const sessionId = '1234567890';
         const baseTimestamp = new Date('2024-01-01T00:00:00Z');
         const wordCount = 100;
 
@@ -92,7 +97,7 @@ describe('ArchiveCall', () => {
             const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
-                sessionId,
+                sessionSummary: testSessionSummary,
                 messages: [],
                 wordCount,
                 apiClient: mockApi,
@@ -132,7 +137,7 @@ describe('ArchiveCall', () => {
             const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
-                sessionId,
+                sessionSummary: testSessionSummary,
                 messages,
                 wordCount,
                 apiClient: mockApi,
@@ -183,7 +188,7 @@ describe('ArchiveCall', () => {
             const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
-                sessionId,
+                sessionSummary: testSessionSummary,
                 messages,
                 wordCount,
                 apiClient: mockApi,
@@ -213,7 +218,7 @@ describe('ArchiveCall', () => {
             const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
-                sessionId,
+                sessionSummary: testSessionSummary,
                 messages,
                 wordCount,
                 apiClient: mockApi,
@@ -253,7 +258,7 @@ describe('ArchiveCall', () => {
             const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
-                sessionId,
+                sessionSummary: testSessionSummary,
                 messages,
                 wordCount,
                 apiClient: mockApi,
@@ -290,7 +295,7 @@ describe('ArchiveCall', () => {
             const result = await archive({
                 archiveApiUrl: 'http://archive-api-endpoint',
                 summarizeApiUrl: 'http://summarize-api-endpoint',
-                sessionId,
+                sessionSummary: testSessionSummary,
                 messages,
                 wordCount,
                 apiClient: mockApi,

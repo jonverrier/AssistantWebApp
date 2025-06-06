@@ -12,41 +12,59 @@ import { render } from '@testing-library/react';
 import { PlainText } from '../src/PlainText';
 import { expect } from 'expect';
 import { BrowserRouter } from 'react-router-dom';
+import { UserProvider } from '../src/UserContext';
+import { MockStorage } from './MockStorage';
 
 describe('Plain Component', () => {
+    let mockStorage: MockStorage;
+
+    beforeEach(() => {
+        mockStorage = new MockStorage();
+    });
+
+    afterEach(() => {
+        mockStorage.clear();
+    });
+
     it('renders title correctly', () => {
         const { getByText } = render(
-         <BrowserRouter>         
-            <PlainText 
-                title="Test Title" 
-                content="Test content" 
-            />
-         </BrowserRouter>
+         <UserProvider storage={mockStorage}>
+            <BrowserRouter>         
+                <PlainText 
+                    title="Test Title" 
+                    content="Test content" 
+                />
+            </BrowserRouter>
+         </UserProvider>
         );
         expect(getByText('Test Title')).toBeTruthy();
     });
 
     it('renders normal text content correctly', () => {
         const { getByText } = render(
-         <BrowserRouter>            
-            <PlainText 
-                title="Test" 
-                content="This is a test line" 
-            />
-         </BrowserRouter>
+         <UserProvider storage={mockStorage}>
+            <BrowserRouter>            
+                <PlainText 
+                    title="Test" 
+                    content="This is a test line" 
+                />
+            </BrowserRouter>
+         </UserProvider>
         );
         expect(getByText('This is a test line')).toBeTruthy();
     });
 
     it('renders numbered headings correctly', () => {
         const { getByText } = render(
-         <BrowserRouter>
-            <PlainText 
-                title="Test" 
-                content="1. First heading
-                2. Second heading" 
-            />
-         </BrowserRouter>
+         <UserProvider storage={mockStorage}>
+            <BrowserRouter>
+                <PlainText 
+                    title="Test" 
+                    content="1. First heading
+                    2. Second heading" 
+                />
+            </BrowserRouter>
+         </UserProvider>
         );
         expect(getByText('1. First heading')).toBeTruthy();
         expect(getByText('2. Second heading')).toBeTruthy();
@@ -54,12 +72,14 @@ describe('Plain Component', () => {
 
     it('renders URLs as links', () => {
         const { getByText } = render(
-         <BrowserRouter>
-            <PlainText 
-                title="Test" 
-                content="Visit https://example.com for more info" 
-            />
-         </BrowserRouter>
+         <UserProvider storage={mockStorage}>
+            <BrowserRouter>
+                <PlainText 
+                    title="Test" 
+                    content="Visit https://example.com for more info" 
+                />
+            </BrowserRouter>
+         </UserProvider>
         );
         const link = getByText('https://example.com');
         expect(link).toBeTruthy();
@@ -74,12 +94,14 @@ Visit https://example.com
 Another normal line`;
         
         const { getByText } = render(
-         <BrowserRouter>
-            <PlainText 
-                title="Test" 
-                content={content} 
-            />
-         </BrowserRouter>
+         <UserProvider storage={mockStorage}>
+            <BrowserRouter>
+                <PlainText 
+                    title="Test" 
+                    content={content} 
+                />
+            </BrowserRouter>
+         </UserProvider>
         );
         
         expect(getByText('1. First point')).toBeTruthy();
@@ -91,12 +113,14 @@ Another normal line`;
 
     it('renders empty content gracefully', () => {
         const { container } = render(
-         <BrowserRouter>
-           <PlainText 
-                title="Test" 
-                content="" 
-            />
-         </BrowserRouter>
+         <UserProvider storage={mockStorage}>
+            <BrowserRouter>
+                <PlainText 
+                    title="Test" 
+                    content="" 
+                />
+            </BrowserRouter>
+         </UserProvider>
         );
         expect(container).toBeTruthy();
     });

@@ -41,7 +41,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.App = exports.activeFieldId = void 0;
+exports.App = void 0;
 // React
 const react_1 = __importStar(require("react"));
 // Fluent
@@ -58,10 +58,12 @@ const UIStateMachine_1 = require("./UIStateMachine");
 const ChatCall_1 = require("./ChatCall");
 const OuterStyles_1 = require("./OuterStyles");
 const SiteUtilities_1 = require("./SiteUtilities");
-const SessionCall_1 = require("./SessionCall");
 const ChatHistory_1 = require("./ChatHistory");
 const ChatHistoryCall_1 = require("./ChatHistoryCall");
 const ArchiveCall_1 = require("./ArchiveCall");
+const uuid_1 = require("./uuid");
+const ConfigStrings_1 = require("./ConfigStrings");
+const UserContext_1 = require("./UserContext");
 const kFontNameForTextWrapCalculation = "12pt Segoe UI";
 const kRequirementMaxLength = 4096;
 const kChatHistoryPageSize = 50;
@@ -77,8 +79,7 @@ const scrollableContentStyles = (0, react_components_1.makeStyles)({
         overflowY: 'auto',
         width: '100%',
         position: 'relative',
-        height: '100%',
-        paddingBottom: 'var(--footer-height)'
+        height: '100%'
     }
 });
 const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
@@ -91,19 +92,13 @@ const multilineEditContainerStyles = (0, react_components_1.makeStyles)({
         zIndex: 1
     }
 });
-// Loca version that works in browser
-//https://stackoverflow.com/questions/105034/how-do-i-create-a-guid-uuid
-function uuidv4() {
-    return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c => (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16));
-}
-// This is used to identify the session in the case where we dont get a value 
-// back from the server which tells us our local cookie value
-const newSessionUuid = uuidv4();
-// This is used to identify the field into which the response is streamed.
-exports.activeFieldId = uuidv4();
-const local = window.location.hostname === 'localhost';
 const kMinArchivingDisplayMs = 2000;
-const App = (props) => {
+// App view component
+// This component is responsible for rendering the main UI of the application.
+// It includes the chat history, message input, and other UI elements.
+const AppView = ({ uiStrings, state, chatHistory, streamedResponse, streamedResponseId, message, onSend, onChange, onDismiss, sessionId }) => {
+    const { userRole } = (0, UserContext_1.useUser)();
+    const bottomRef = (0, react_1.useRef)(null);
     const pageOuterClasses = (0, OuterStyles_1.pageOuterStyles)();
     const innerColumnClasses = (0, OuterStyles_1.innerColumnStyles)();
     const columnElementClasses = (0, CommonStyles_1.standardColumnElementStyles)();
@@ -111,164 +106,24 @@ const App = (props) => {
     const linkClasses = (0, CommonStyles_1.standardLinkStyles)();
     const scrollableContentClasses = scrollableContentStyles();
     const multilineEditContainerClasses = multilineEditContainerStyles();
-    const bottomRef = (0, react_1.useRef)(null);
-    const screenUrl = local ? 'http://localhost:7071/api/ScreenInput' : 'https://motifassistantapi.azurewebsites.net/api/ScreenInput';
-    const chatUrl = local ? 'http://localhost:7071/api/StreamChat' : 'https://motifassistantapi.azurewebsites.net/api/StreamChat';
-    const sessionApiUrl = local ? 'http://localhost:7071/api/Session' : 'https://motifassistantapi.azurewebsites.net/api/Session';
-    const messagesApiUrl = local ? 'http://localhost:7071/api/GetMessages' : 'https://motifassistantapi.azurewebsites.net/api/GetMessages';
-    const archiveApiUrl = local ? 'http://localhost:7071/api/ArchiveMessages' : 'https://motifassistantapi.azurewebsites.net/api/ArchiveMessages';
-    const summariseApiUrl = local ? 'http://localhost:7071/api/SummariseMessages' : 'https://motifassistantapi.azurewebsites.net/api/SummariseMessages';
-    const uiStrings = (0, UIStrings_1.getUIStrings)(props.appMode);
-    let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
-    let [sessionUuid, setSessionUuid] = (0, react_1.useState)(newSessionUuid);
-    const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
-    const [message, setMessage] = (0, react_1.useState)(undefined);
-    const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
-    const [streamedResponseId, setStreamedResponseId] = (0, react_1.useState)(undefined);
-    const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
+    // Scroll to the bottom of the chat history when a response is received
     (0, react_1.useEffect)(() => {
-        const getSession = async () => {
-            // Show loading state while fetching session and history
-            state.transition(UIStateMachine_1.EApiEvent.kStartedLoading);
-            setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-            const existingSession = await (0, SessionCall_1.getSessionUuid)(sessionApiUrl);
-            if (existingSession) {
-                setSessionUuid(existingSession);
-                // Fetch chat history when we get a session ID
-                try {
-                    await (0, ChatHistoryCall_1.processChatHistory)({
-                        messagesApiUrl,
-                        sessionId: existingSession,
-                        limit: kChatHistoryPageSize,
-                        onPage: (messages) => {
-                            setChatHistory(prev => [...prev, ...messages]);
-                        }
-                    });
-                    state.transition(UIStateMachine_1.EApiEvent.kFinishedLoading);
-                    setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-                }
-                catch (error) {
-                    state.transition(UIStateMachine_1.EApiEvent.kError);
-                    setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-                }
-            }
-        };
-        getSession();
-    }, []);
-    // Check for idle timeout
+        if (streamedResponse) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [streamedResponse]);
+    // Scroll to the bottom when new chat history pages are loaded
     (0, react_1.useEffect)(() => {
-        const timer = setInterval(async () => {
-            const idleTime = Date.now() - idleSince.getTime();
-            if (idleTime >= kIdleTimeoutMs && state.getState() === UIStateMachine_1.EUIState.kWaiting) {
-                if ((0, ArchiveCall_1.shouldArchive)(chatHistory)) {
-                    setIdleSince(new Date());
-                    setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kArchiving));
-                    // Add minimum duration for archiving state
-                    setTimeout(async () => {
-                        const newHistory = await (0, ArchiveCall_1.archive)({
-                            archiveApiUrl: archiveApiUrl,
-                            summarizeApiUrl: summariseApiUrl,
-                            sessionId: sessionUuid,
-                            messages: chatHistory,
-                            wordCount: kSummaryLength,
-                            updateState: handleStateUpdate
-                        });
-                        setIdleSince(new Date());
-                        setChatHistory(newHistory);
-                        setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
-                    }, kMinArchivingDisplayMs); // Minimum display time for archiving state
-                }
-            }
-        }, kIdleCheckIntervalMs);
-        return () => clearInterval(timer);
-    }, [idleSince, chatHistory, sessionUuid, state]);
-    const handleStateUpdate = (event) => {
-        state.transition(event);
-        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-    };
-    async function callChatServer() {
-        if (!message)
-            return;
-        let localMessage = message;
-        setMessage(undefined); // Clear message once we go to get the response      
-        // Reset streamed response
-        setStreamedResponse("");
-        setStreamedResponseId(uuidv4);
-        // Keep track of the complete response
-        let completeResponse = "";
-        const result = await (0, ChatCall_1.processChat)({
-            screeningApiUrl: screenUrl,
-            chatApiUrl: chatUrl,
-            input: localMessage,
-            history: chatHistory,
-            updateState: handleStateUpdate,
-            sessionId: sessionUuid,
-            personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant,
-            onChunk: (chunk) => {
-                if (chunk) {
-                    completeResponse += chunk;
-                    setStreamedResponse(prev => prev + chunk);
-                }
-            },
-            onComplete: () => {
-                // Add the assistant message to the chat history when complete
-                if (completeResponse) {
-                    setChatHistory(prev => [...prev, {
-                            id: uuidv4(),
-                            className: prompt_repository_1.ChatMessageClassName,
-                            role: prompt_repository_1.EChatRole.kAssistant,
-                            content: completeResponse,
-                            timestamp: new Date()
-                        }]);
-                    setStreamedResponse(undefined);
-                    setStreamedResponseId(undefined);
-                }
-            },
-            forceNode: props.forceNode
-        });
-    }
-    ;
-    const onDismiss = () => {
-        setStreamedResponse(undefined);
-        setStreamedResponseId(undefined);
-        state.transition(UIStateMachine_1.EApiEvent.kReset);
-        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-    };
-    const onSend = (message_) => {
-        // Add the user message to the chat history
-        setMessage(message_);
-        setChatHistory(prev => [...prev, {
-                id: uuidv4(),
-                className: prompt_repository_1.ChatMessageClassName,
-                role: prompt_repository_1.EChatRole.kUser,
-                content: message_,
-                timestamp: new Date()
-            }]);
-        // Call the chat server - message will be cleared after processing
-        callChatServer();
-    };
-    const onChange = (message_) => {
-        setMessage(message_);
-        setIdleSince(new Date()); // Reset idle timer on input change
-        state.transition(UIStateMachine_1.EApiEvent.kReset);
-        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
-    };
-    const multilineEditProps = {
-        caption: uiStrings.kChatPreamble,
-        placeholder: uiStrings.kChatPlaceholder,
-        maxLength: kRequirementMaxLength,
-        message: message || "",
-        enabled: state.getState() === UIStateMachine_1.EUIState.kWaiting,
-        fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
-        defaultHeightLines: 10,
-        onSend: onSend,
-        onChange: onChange,
-    };
+        if (chatHistory.length > 0) {
+            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+        }
+    }, [chatHistory]);
     let blank = react_1.default.createElement("div", null);
     let offTopic = blank;
     let error = blank;
     let archiving = blank;
     let streaming = blank;
+    let guestLoginNotice = blank;
     if (state.getState() === UIStateMachine_1.EUIState.kOffTopic) {
         offTopic = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
@@ -278,6 +133,11 @@ const App = (props) => {
         error = (react_1.default.createElement("div", { className: columnElementClasses.root },
             "\u00A0\u00A0\u00A0",
             react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kError, title: uiStrings.kError, body: uiStrings.kServerErrorDescription, dismissable: true, onDismiss: onDismiss })));
+    }
+    if (userRole === AssistantChatApiTypes_1.EUserRole.kGuest) {
+        guestLoginNotice = (react_1.default.createElement("div", { className: columnElementClasses.root },
+            "\u00A0\u00A0\u00A0",
+            react_1.default.createElement(Message_1.Message, { intent: Message_1.MessageIntent.kInfo, title: uiStrings.kInfo, body: uiStrings.kGuestLoginNotice, dismissable: false })));
     }
     if (state.getState() === UIStateMachine_1.EUIState.kArchiving) {
         archiving = (react_1.default.createElement("div", { className: columnElementClasses.root },
@@ -297,21 +157,20 @@ const App = (props) => {
                     timestamp: new Date()
                 } })));
     }
-    // Scroll to the bottom of the chat history when a response is received
-    (0, react_1.useEffect)(() => {
-        if (streamedResponse) {
-            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [streamedResponse]);
-    // Scroll to the bottom when new chat history pages are loaded
-    (0, react_1.useEffect)(() => {
-        if (chatHistory.length > 0) {
-            bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
-        }
-    }, [chatHistory]);
-    return (react_1.default.createElement("div", { className: pageOuterClasses.root },
+    const multilineEditProps = {
+        caption: uiStrings.kChatPreamble,
+        placeholder: uiStrings.kChatPlaceholder,
+        maxLength: kRequirementMaxLength,
+        message: message || "",
+        enabled: state.getState() === UIStateMachine_1.EUIState.kWaiting,
+        fontNameForTextWrapCalculation: kFontNameForTextWrapCalculation,
+        defaultHeightLines: 10,
+        onSend,
+        onChange,
+    };
+    return (react_1.default.createElement("div", { className: pageOuterClasses.root, "data-session-id": sessionId },
         react_1.default.createElement("div", { className: innerColumnClasses.root },
-            react_1.default.createElement(react_components_1.Text, { className: textClasses.heading }, uiStrings.kAppPageCaption),
+            react_1.default.createElement(SiteUtilities_1.Header, { title: uiStrings.kAppPageCaption }),
             react_1.default.createElement(react_components_1.Text, { className: textClasses.centredHint }, uiStrings.kAppPageStrapline),
             react_1.default.createElement(SiteUtilities_1.Spacer, null),
             react_1.default.createElement(react_components_1.Text, null, uiStrings.kOverview),
@@ -341,11 +200,155 @@ const App = (props) => {
                     react_1.default.createElement("div", { className: columnElementClasses.root }, streaming),
                     offTopic,
                     error,
+                    guestLoginNotice,
                     archiving,
                     react_1.default.createElement("div", { ref: bottomRef })),
                 react_1.default.createElement("div", { className: multilineEditContainerClasses.root },
-                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))),
-            react_1.default.createElement(SiteUtilities_1.Spacer, null),
-            react_1.default.createElement(SiteUtilities_1.Footer, null))));
+                    react_1.default.createElement(MultilineEdit_1.MultilineEdit, { ...multilineEditProps }))))));
+};
+// App component
+// This component is responsible for managing the state of the application.
+// It includes the managing the chat history, message input, streamed response from the server, 
+// and other data elements.
+const App = (props) => {
+    const config = (0, ConfigStrings_1.getConfigStrings)();
+    const uiStrings = (0, UIStrings_1.getUIStrings)(props.personality);
+    let [state, setState] = (0, react_1.useState)(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+    const [chatHistory, setChatHistory] = (0, react_1.useState)([]);
+    const [message, setMessage] = (0, react_1.useState)(undefined);
+    const [streamedResponse, setStreamedResponse] = (0, react_1.useState)(undefined);
+    const [streamedResponseId, setStreamedResponseId] = (0, react_1.useState)(undefined);
+    const [idleSince, setIdleSince] = (0, react_1.useState)(new Date());
+    (0, react_1.useEffect)(() => {
+        const loadChatHistory = async () => {
+            // Show loading state while fetching history
+            state.transition(UIStateMachine_1.EApiEvent.kStartedLoading);
+            setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+            try {
+                await (0, ChatHistoryCall_1.processChatHistory)({
+                    messagesApiUrl: config.messagesApiUrl,
+                    sessionSummary: {
+                        sessionId: props.sessionId,
+                        email: props.email
+                    },
+                    limit: kChatHistoryPageSize,
+                    onPage: (messages) => {
+                        setChatHistory(prev => [...prev, ...messages]);
+                    }
+                });
+                state.transition(UIStateMachine_1.EApiEvent.kFinishedLoading);
+                setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+            }
+            catch (error) {
+                state.transition(UIStateMachine_1.EApiEvent.kError);
+                setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+            }
+        };
+        loadChatHistory();
+    }, [props.sessionId]);
+    // Check for idle timeout
+    (0, react_1.useEffect)(() => {
+        const timer = setInterval(async () => {
+            const idleTime = Date.now() - idleSince.getTime();
+            if (idleTime >= kIdleTimeoutMs && state.getState() === UIStateMachine_1.EUIState.kWaiting) {
+                if ((0, ArchiveCall_1.shouldArchive)(chatHistory)) {
+                    setIdleSince(new Date());
+                    setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kArchiving));
+                    // Add minimum duration for archiving state
+                    setTimeout(async () => {
+                        const newHistory = await (0, ArchiveCall_1.archive)({
+                            archiveApiUrl: config.archiveApiUrl,
+                            summarizeApiUrl: config.summariseApiUrl,
+                            sessionSummary: {
+                                sessionId: props.sessionId,
+                                email: props.email
+                            },
+                            messages: chatHistory,
+                            wordCount: kSummaryLength,
+                            updateState: handleStateUpdate
+                        });
+                        setIdleSince(new Date());
+                        setChatHistory(newHistory);
+                        setState(new UIStateMachine_1.AssistantUIStateMachine(UIStateMachine_1.EUIState.kWaiting));
+                    }, kMinArchivingDisplayMs); // Minimum display time for archiving state
+                }
+            }
+        }, kIdleCheckIntervalMs);
+        return () => clearInterval(timer);
+    }, [idleSince, chatHistory, props.sessionId, state]);
+    const handleStateUpdate = (event) => {
+        state.transition(event);
+        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+    };
+    async function callChatServer() {
+        if (!message)
+            return;
+        let localMessage = message;
+        setMessage(undefined); // Clear message once we go to get the response      
+        // Reset streamed response
+        setStreamedResponse("");
+        setStreamedResponseId(uuid_1.uuidv4);
+        // Keep track of the complete response
+        let completeResponse = "";
+        const result = await (0, ChatCall_1.processChat)({
+            screeningApiUrl: config.screenUrl,
+            chatApiUrl: config.chatUrl,
+            input: localMessage,
+            history: chatHistory,
+            updateState: handleStateUpdate,
+            sessionSummary: {
+                sessionId: props.sessionId,
+                email: props.email
+            },
+            personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant,
+            onChunk: (chunk) => {
+                if (chunk) {
+                    completeResponse += chunk;
+                    setStreamedResponse(prev => prev + chunk);
+                }
+            },
+            onComplete: () => {
+                // Add the assistant message to the chat history when complete
+                if (completeResponse) {
+                    setChatHistory(prev => [...prev, {
+                            id: (0, uuid_1.uuidv4)(),
+                            className: prompt_repository_1.ChatMessageClassName,
+                            role: prompt_repository_1.EChatRole.kAssistant,
+                            content: completeResponse,
+                            timestamp: new Date()
+                        }]);
+                    setStreamedResponse(undefined);
+                    setStreamedResponseId(undefined);
+                }
+            }
+        });
+    }
+    ;
+    const onDismiss = () => {
+        setStreamedResponse(undefined);
+        setStreamedResponseId(undefined);
+        state.transition(UIStateMachine_1.EApiEvent.kReset);
+        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+    };
+    const onSend = (message_) => {
+        // Add the user message to the chat history
+        setMessage(message_);
+        setChatHistory(prev => [...prev, {
+                id: (0, uuid_1.uuidv4)(),
+                className: prompt_repository_1.ChatMessageClassName,
+                role: prompt_repository_1.EChatRole.kUser,
+                content: message_,
+                timestamp: new Date()
+            }]);
+        // Call the chat server - message will be cleared after processing
+        callChatServer();
+    };
+    const onChange = (message_) => {
+        setMessage(message_);
+        setIdleSince(new Date()); // Reset idle timer on input change
+        state.transition(UIStateMachine_1.EApiEvent.kReset);
+        setState(new UIStateMachine_1.AssistantUIStateMachine(state.getState()));
+    };
+    return (react_1.default.createElement(AppView, { uiStrings: uiStrings, state: state, chatHistory: chatHistory, streamedResponse: streamedResponse, streamedResponseId: streamedResponseId, message: message || "", onSend: onSend, onChange: onChange, onDismiss: onDismiss, sessionId: props.sessionId }));
 };
 exports.App = App;

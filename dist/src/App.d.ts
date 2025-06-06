@@ -7,11 +7,12 @@
  */
 /*! Copyright Jon Verrier 2025 */
 import React from 'react';
-import { EAppMode } from './UIStrings';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 export interface IAppProps {
-    appMode: EAppMode;
-    forceNode: boolean;
+    personality: EAssistantPersonality;
+    sessionId: string;
+    email: string;
+    onLogout: () => Promise<void>;
 }
-export declare const activeFieldId: string;
 export declare const App: (props: IAppProps) => React.JSX.Element;
 //# sourceMappingURL=App.d.ts.map

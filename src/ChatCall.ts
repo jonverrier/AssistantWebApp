@@ -11,7 +11,7 @@ import { Stream } from 'stream';
 import { AxiosProgressEvent } from 'axios';
 
 // External project imports
-import { IChatMessage, EChatRole } from 'prompt-repository';
+import { IChatMessage, EChatRole, IUserSessionSummary } from 'prompt-repository';
 
 // Internal project imports
 import { IAssistantFullChatRequest, 
@@ -20,6 +20,7 @@ import { IAssistantFullChatRequest,
    EScreeningClassification } from '../import/AssistantChatApiTypes';
 import { EApiEvent } from './UIStateMachine';
 import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { isAppInBrowser } from './LocalStorage';
 
 
 // Add new interface for streaming response
@@ -40,14 +41,13 @@ interface ProcessChat {
     chatApiUrl: string;
     input: string;
     history: IChatMessage[];  
-    sessionId: string;
+    sessionSummary: IUserSessionSummary;
     personality: EAssistantPersonality;
     benefitOfDoubt?: boolean;     
     updateState: (event: EApiEvent) => void;
     onChunk: (chunk: string) => void;
     onComplete: () => void;
-    apiClient?: ApiClient;    
-    forceNode?: boolean;    
+    apiClient?: ApiClient;        
 }
 
 /**
@@ -65,14 +65,13 @@ export async function processChat({
     chatApiUrl,
     input,
     history,
-    sessionId,
+    sessionSummary,
     personality,
     updateState,
     apiClient,
     benefitOfDoubt,
     onChunk,
-    onComplete,
-    forceNode
+    onComplete
 }: ProcessChat): Promise<string | undefined> {
 
    if (!apiClient) {
@@ -82,7 +81,7 @@ export async function processChat({
     try {
         const chatRequest: IAssistantFullChatRequest = {
             personality,
-            sessionId,
+            sessionSummary,
             input,
             benefitOfDoubt,
             history
@@ -129,7 +128,7 @@ export async function processChat({
                         maxRedirects: 5,
                     };
 
-                    if (forceNode) {
+                    if (!isAppInBrowser()) {
                         // Node.js environment: use response streaming
                         config.responseType = 'stream';
                         const response = await apiClient.post<Stream>(chatApiUrl, chatRequest, config) as StreamResponse;

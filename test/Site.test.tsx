@@ -12,113 +12,157 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { RoutedSite, Site } from '../src/Site';
 import { expect } from 'expect';
-import { EAppMode, getUIStrings } from '../src/UIStrings';
+import { getUIStrings } from '../src/UIStrings';
+import { MockStorage } from './MockStorage';
+import { UserProvider } from '../src/UserContext';
+import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
-let appModes = [EAppMode.kYardTalk];
+describe(`RoutedSite Component`, () => {
+   let mockStorage: MockStorage;
 
-for (let appMode of appModes) {
-   describe(`RoutedSite Component for ${appMode}`, () => {
-      it('renders without crashing', () => {
-         const { container } = render(
-            <RoutedSite appMode={appMode} />
-        );
-         expect(container).toBeTruthy();
-      });
+   beforeEach(() => {
+      mockStorage = new MockStorage();
    });
-}
 
-for (let appMode of appModes) {
-   describe(`Site Component for ${appMode}`, () => {
-      const uiStrings = getUIStrings(appMode);
-      
-    it('renders App component for root path', () => {
-        render(
+   afterEach(() => {
+      mockStorage.clear();
+   });
+
+   it('renders without crashing', () => {
+      const { container } = render(
+         <UserProvider storage={mockStorage}>
+            <RoutedSite />
+         </UserProvider>
+      );
+      expect(container).toBeTruthy();
+   });
+});
+
+
+describe(`Site Component`, () => {
+   const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
+   let mockStorage: MockStorage;
+
+   beforeEach(() => {
+      mockStorage = new MockStorage();
+   });
+
+   afterEach(() => {
+      mockStorage.clear();
+   });
+
+   it('renders Home component with launch button for root path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
             <MemoryRouter initialEntries={['/']}>
-                <Site appMode={appMode} />
+               <Site />
             </MemoryRouter>
-        );
-        
-        // Since App is rendered, we should see its content
-        const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-        expect(privacyTitle).toBeTruthy();
-    });
+         </UserProvider>
+      );
 
-    it('renders App component for /index path', () => {
-        render(
-            <MemoryRouter initialEntries={['/index']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-        
-        const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-        expect(privacyTitle).toBeTruthy();
-    });
-
-    it('renders App component for /index.html path', () => {
-        render(
-            <MemoryRouter initialEntries={['/index.html']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-        
-        const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-        expect(privacyTitle).toBeTruthy();
-    });
-
-    it('renders PlainText component for /privacy path', () => {
-        render(
-            <MemoryRouter initialEntries={['/privacy']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-        
-        const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
-        expect(privacyTitle).toBeTruthy();
-    });
-
-    it('renders PlainText component for /privacy.html path', () => {
-        render(
-            <MemoryRouter initialEntries={['/privacy.html']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-        
-        const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
-        expect(privacyTitle).toBeTruthy();
-    });
-
-    it('renders PlainText component for /terms path', () => {
-        render(
-            <MemoryRouter initialEntries={['/terms']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-        
-        const termsTitle = screen.getByText(uiStrings.kTermsTitle);
-        expect(termsTitle).toBeTruthy();
-    });
-
-    it('renders PlainText component for /terms.html path', () => {
-        render(
-            <MemoryRouter initialEntries={['/terms.html']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-        
-        const termsTitle = screen.getByText(uiStrings.kTermsTitle);
-        expect(termsTitle).toBeTruthy();
-    });
-
-    it('handles unknown routes gracefully', () => {
-        render(
-            <MemoryRouter initialEntries={['/unknown']}>
-                <Site appMode={appMode} />
-            </MemoryRouter>
-        );
-
-         // Should default to App component for unknown routes
-         const privacyTitle = screen.getByText(uiStrings.kAppPageCaption);
-         expect(privacyTitle).toBeTruthy();
-      });
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const launchButton = screen.getByText(/The Yard, Peckham/i);
+      expect(title).toBeTruthy();
+      expect(launchButton).toBeTruthy();
    });
-}
+
+   it('renders About component with content but no launch button', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/about']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const content = screen.getByText(/CrossFit works/i);
+      expect(title).toBeTruthy();
+      expect(content).toBeTruthy();
+      expect(screen.queryByText(/The Yard, Peckham/i)).toBeNull();
+   });
+
+   it('renders About component for /about.html path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/about.html']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const content = screen.getByText(/CrossFit works/i);
+      expect(title).toBeTruthy();
+      expect(content).toBeTruthy();
+      expect(screen.queryByText(/The Yard, Peckham/i)).toBeNull();
+   });
+
+   it('renders PlainText component for /privacy path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/privacy']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /privacy.html path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/privacy.html']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
+      expect(privacyTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /terms path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/terms']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const termsTitle = screen.getByText(uiStrings.kTermsTitle);
+      expect(termsTitle).toBeTruthy();
+   });
+
+   it('renders PlainText component for /terms.html path', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/terms.html']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      const termsTitle = screen.getByText(uiStrings.kTermsTitle);
+      expect(termsTitle).toBeTruthy();
+   });
+
+   it('handles unknown routes gracefully', () => {
+      render(
+         <UserProvider storage={mockStorage}>
+            <MemoryRouter initialEntries={['/unknown']}>
+               <Site />
+            </MemoryRouter>
+         </UserProvider>
+      );
+
+      // Should redirect to home page with launch button
+      const title = screen.getByText(uiStrings.kAboutTitle);
+      const launchButton = screen.getByText(/The Yard, Peckham/i);
+      expect(title).toBeTruthy();
+      expect(launchButton).toBeTruthy();
+   });
+});

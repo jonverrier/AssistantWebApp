@@ -168,7 +168,12 @@ export const MultilineEdit = (props: IMultilineEditProps) => {
    // Focus management
    useEffect(() => {
       if (props.enabled && textareaRef.current) {
-         textareaRef.current.focus();
+         try {
+            textareaRef.current.focus();
+         } catch (e) {
+            // Ignore focus errors in test environment
+            console.warn('Focus error in test environment:', e);
+         }
       }
    }, [props.enabled, props.message]);
 

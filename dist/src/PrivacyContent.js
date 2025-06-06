@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.kPrivacyContent2 = exports.kPrivacyContent = void 0;
+exports.kPrivacyContent = void 0;
 exports.kPrivacyContent = `1. Introduction
-1.1	We help businesses create useful and engaging customer experiences using AI-enabled tools. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
+1.1	Strong AI Technologies (we, us) helps small gym owners thrive by giving them the power of cutting-edge, AI-enabled tools that support their members beyond the gym floor. As well as useful and engaging, we want them to be secure. We are committed to safeguarding the privacy of our website visitors and service users.
 1.2	This policy applies where we are acting as a data controller with respect to the personal data of such persons; in other words, where we determine the purposes and means of the processing of that personal data. 
 2.	The personal data that we collect
 2.1	In this Section 2 we have set out the general categories of personal data that we process and, in the case of personal data that we did not obtain directly from you, information about the source and specific categories of that data.
@@ -75,9 +75,6 @@ exports.kPrivacyContent = `1. Introduction
 12.	Amendments
 12.1	We may update this policy from time to time by publishing a new version on our website.
 12.2	You should check this page occasionally to ensure you are happy with any changes to this policy.
-`;
-exports.kPrivacyContent2 = `13.	Our details
-13.1	This website is owned and operated by Verrier Technology Services Ltd.
-13.2	We are registered in England and Wales under registration number NNNNNNNN, and our registered office is at AAAAAAAAA.
-13.4	You can contact us by email, using the email address published on our website.
+
+Strong AI Technologies Ltd is a company registered in England and Wales with company number 08807163.
 `;
