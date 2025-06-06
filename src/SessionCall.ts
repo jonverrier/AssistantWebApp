@@ -6,7 +6,7 @@
 /*! Copyright Jon Verrier 2025 */
 
 import axios from 'axios';
-import { ISessionRequest, ISessionResponse, EUserRole, IUserDetails, EAssistantPersonality } from '../import/AssistantChatApiTypes';
+import { ISessionRequest, ISessionResponse, EUserRole, IUserDetails, EAssistantPersonality, EShowInterstitialPrompt } from '../import/AssistantChatApiTypes';
 
 /**
  * Calls the session API to get a session UUID and user role.
@@ -41,13 +41,14 @@ export async function getSessionData(
         // Get the session ID and user rolefrom the response
         const newSessionId = response?.data?.sessionId || undefined;
         const userRole = response?.data?.role || EUserRole.kGuest;
+        const showInterstitialPrompt = response?.data?.showInterstitialPrompt || EShowInterstitialPrompt.kNone;
         
         if (!newSessionId) {
             console.error('No sessionId in response');
             return undefined;
         }
         
-        return { sessionId: newSessionId, role: userRole };
+        return { sessionId: newSessionId, role: userRole, showInterstitialPrompt: showInterstitialPrompt };
 
     } catch (error) {
         console.error('Error getting session UUID:', error);

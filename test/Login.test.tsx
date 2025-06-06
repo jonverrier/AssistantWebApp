@@ -11,7 +11,7 @@ import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import expect from 'expect';
 import { Login } from '../src/Login';
-import { EAssistantPersonality, EUserRole } from '../import/AssistantChatApiTypes';
+import { EAssistantPersonality, EUserRole, EShowInterstitialPrompt } from '../import/AssistantChatApiTypes';
 import { FluentProvider, teamsDarkTheme } from '@fluentui/react-components';
 import { BrowserRouter } from 'react-router-dom';
 import * as SessionCall from '../src/SessionCall';
@@ -140,7 +140,7 @@ describe('Login Component', () => {
    it('should update session ID when getSessionUuid returns a value', async () => {
       // Mock getSessionUuid to return a specific session ID
       const mockSessionId = 'test-session-123';
-      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kGuest };
+      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kGuest, showInterstitialPrompt: EShowInterstitialPrompt.kNone };
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(mockSessionData);
 
       // Create a mock JWT token that will decode to our test user
@@ -230,7 +230,7 @@ describe('Login Component', () => {
       
       // Mock getSessionUuid to return a session ID
       const mockSessionId = 'test-session-456';
-      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kGuest };
+      const mockSessionData = { sessionId: mockSessionId, role: EUserRole.kGuest, showInterstitialPrompt: EShowInterstitialPrompt.kNone };
       const getSessionUuidStub = sinon.stub(SessionCall, 'getSessionData').resolves(mockSessionData);
 
       // Mock reCAPTCHA with a high score

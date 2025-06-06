@@ -31,6 +31,15 @@ export declare enum ELoginProvider {
     kGoogle = "google"
 }
 /**
+ * An enumeration of possible interstitial prompts.
+ * Used to specify the prompt for the interstitial prompt when the user logs in e.g. a marketing survey or broadcast message
+ */
+export declare enum EShowInterstitialPrompt {
+    kNone = "none",
+    kFeedbackSurvey = "feedbackSurvey",
+    kBroadcast = "broadcast"
+}
+/**
  * A data structure for user data.
  * Used to specify the user's data for a chat session
  */
@@ -70,6 +79,7 @@ export interface ISessionRequest {
 export interface ISessionResponse {
     sessionId: string;
     role: EUserRole;
+    showInterstitialPrompt: EShowInterstitialPrompt;
 }
 /**
  * A data structure for a user session.

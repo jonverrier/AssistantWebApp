@@ -60694,11 +60694,12 @@ ${message.content}
       });
       const newSessionId = response?.data?.sessionId || void 0;
       const userRole = response?.data?.role || "guest" /* kGuest */;
+      const showInterstitialPrompt = response?.data?.showInterstitialPrompt || "none" /* kNone */;
       if (!newSessionId) {
         console.error("No sessionId in response");
         return void 0;
       }
-      return { sessionId: newSessionId, role: userRole };
+      return { sessionId: newSessionId, role: userRole, showInterstitialPrompt };
     } catch (error) {
       console.error("Error getting session UUID:", error);
       return void 0;
@@ -60823,7 +60824,7 @@ ${message.content}
             const userId2 = decodedToken.sub;
             const userName2 = decodedToken.name || void 0;
             const userEmail = decodedToken.email || void 0;
-            let newSessionId;
+            let sessionResponse;
             try {
               let userDetails = {
                 userID: userId2,
@@ -60831,12 +60832,12 @@ ${message.content}
                 email: userEmail,
                 loginProvider: "google" /* kGoogle */
               };
-              newSessionId = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
+              sessionResponse = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
             } catch (error2) {
               console.error("Error getting session ID:", error2);
             }
-            if (!newSessionId) {
-              newSessionId = { sessionId: uuidv4(), role: "guest" /* kGuest */ };
+            if (!sessionResponse) {
+              sessionResponse = { sessionId: uuidv4(), role: "guest" /* kGuest */, showInterstitialPrompt: "none" /* kNone */ };
               console.warn("Using temporary session ID");
             }
             if (user) {
@@ -60844,8 +60845,8 @@ ${message.content}
                 props.personality,
                 userId2,
                 userEmail || "",
-                newSessionId.sessionId,
-                newSessionId.role
+                sessionResponse.sessionId,
+                sessionResponse.role
               );
             }
           } catch (error2) {
@@ -61257,7 +61258,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
     "src/AboutContent.ts"() {
       "use strict";
       kAboutContent = `CrossFit works. Community works. Real coaching works. And the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. Noise, not substance, and hard for the real thing to stand out.
-Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI that helps with FAQs, onboarding, nutrition tips, accessory programming, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: building stronger humans.
+Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI solutions to help with onboarding new members, providing value-added tips outside the box to more experienced members, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: building stronger humans.
 Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
 `;
     }

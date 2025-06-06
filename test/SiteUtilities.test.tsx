@@ -63,7 +63,7 @@ describe('SiteUtilities', () => {
             const termsLink = screen.getByText(uiStrings.kTerms);
             const aboutLink = screen.getByText(uiStrings.kAbout);
 
-            expect(homeLink.getAttribute('href')).toBe('/');
+            expect(homeLink.getAttribute('href')).toBe('/chat');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
             expect(aboutLink.getAttribute('href')).toBe('/about');
@@ -84,7 +84,7 @@ describe('SiteUtilities', () => {
             const termsLink = screen.getByText(uiStrings.kTerms);
             const aboutLink = screen.getByText(uiStrings.kAbout);
 
-            expect(homeLink.getAttribute('href')).toBe('/');
+            expect(homeLink.getAttribute('href')).toBe('/chat');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
             expect(aboutLink.getAttribute('href')).toBe('/about');
@@ -105,7 +105,7 @@ describe('SiteUtilities', () => {
             const termsLink = screen.getByText(uiStrings.kTerms);
             const aboutLink = screen.getByText(uiStrings.kAbout);
 
-            expect(homeLink.getAttribute('href')).toBe('/');
+            expect(homeLink.getAttribute('href')).toBe('/chat');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
             expect(aboutLink.getAttribute('href')).toBe('/about');

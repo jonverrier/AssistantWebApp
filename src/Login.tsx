@@ -9,7 +9,7 @@
 // Copyright (c) Jon Verrier, 2025
 
 import React, { useState, useEffect, useRef } from 'react';
-import { EAssistantPersonality, ISessionResponse, EUserRole, IUserDetails, ELoginProvider } from '../import/AssistantChatApiTypes';
+import { EAssistantPersonality, ISessionResponse, EUserRole, IUserDetails, ELoginProvider, EShowInterstitialPrompt } from '../import/AssistantChatApiTypes';
 
 import { Text } from '@fluentui/react-components';
 import { Message, MessageIntent } from './Message';
@@ -201,7 +201,7 @@ export const Login = (props: ILoginProps) => {
          const userEmail = decodedToken.email || undefined;
 
          // Get session ID before updating state
-         let newSessionId: ISessionResponse | undefined;
+         let sessionResponse: ISessionResponse | undefined;
          try {
             let userDetails: IUserDetails = {
                userID: userId,
@@ -209,14 +209,14 @@ export const Login = (props: ILoginProps) => {
                email: userEmail,
                loginProvider: ELoginProvider.kGoogle
             };
-            newSessionId = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
+            sessionResponse = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
          } catch (error) {
             console.error('Error getting session ID:', error);
          }
 
          // If no session ID returned, create a temporary one
-         if (!newSessionId) {
-            newSessionId = { sessionId: uuidv4(), role: EUserRole.kGuest };
+         if (!sessionResponse) {
+            sessionResponse = { sessionId: uuidv4(), role: EUserRole.kGuest, showInterstitialPrompt: EShowInterstitialPrompt.kNone };
             console.warn('Using temporary session ID');
          }
 
@@ -226,8 +226,8 @@ export const Login = (props: ILoginProps) => {
                props.personality,
                userId, 
                userEmail || '', 
-               newSessionId.sessionId,                
-               newSessionId.role               
+               sessionResponse.sessionId,                
+               sessionResponse.role               
             );
          }
 

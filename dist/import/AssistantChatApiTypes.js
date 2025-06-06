@@ -7,7 +7,7 @@
  */
 // Copyright (c) 2025 Jon Verrier
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.EScreeningClassification = exports.ELoginProvider = exports.EUserRole = exports.EAssistantPersonality = void 0;
+exports.EScreeningClassification = exports.EShowInterstitialPrompt = exports.ELoginProvider = exports.EUserRole = exports.EAssistantPersonality = void 0;
 /**
  * An enumeration of possible assistant personalities.
  * Used to specify the desired personality type for chat interactions.
@@ -36,6 +36,16 @@ var ELoginProvider;
 (function (ELoginProvider) {
     ELoginProvider["kGoogle"] = "google";
 })(ELoginProvider || (exports.ELoginProvider = ELoginProvider = {}));
+/**
+ * An enumeration of possible interstitial prompts.
+ * Used to specify the prompt for the interstitial prompt when the user logs in e.g. a marketing survey or broadcast message
+ */
+var EShowInterstitialPrompt;
+(function (EShowInterstitialPrompt) {
+    EShowInterstitialPrompt["kNone"] = "none";
+    EShowInterstitialPrompt["kFeedbackSurvey"] = "feedbackSurvey";
+    EShowInterstitialPrompt["kBroadcast"] = "broadcast";
+})(EShowInterstitialPrompt || (exports.EShowInterstitialPrompt = EShowInterstitialPrompt = {}));
 /**
  * A response from the assistant chat API.
  * Contains the assistant's response classificataion for screening checks.
