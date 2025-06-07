@@ -148,7 +148,7 @@ export const Login = (props: ILoginProps) => {
          // Re-initialize Google Sign-In
          if (window.google?.accounts?.id && window.onGoogleLogin) {
             window.google.accounts.id.initialize({
-               client_id: config.googleCaptchaSiteKey,
+               client_id: config.googleClientId,
                callback: window.onGoogleLogin,
                auto_select: true,
                cancel_on_tap_outside: false
@@ -275,7 +275,7 @@ export const Login = (props: ILoginProps) => {
       if (googleApi) {
          // Initialize Google Sign-In if API is available
          googleApi.initialize({
-            client_id: config.googleCaptchaSiteKey,
+            client_id: config.googleClientId,
             callback: window.onGoogleLogin,
             auto_select: true,
             cancel_on_tap_outside: false
@@ -297,7 +297,7 @@ export const Login = (props: ILoginProps) => {
             return () => clearTimeout(promptTimeout);
          }
       }
-   }, [userName, userId, sessionId, config.googleCaptchaSiteKey]);
+   }, [userName, userId, sessionId, config.googleClientId]);
 
    // Render Google Sign-In button
    useEffect(() => {
