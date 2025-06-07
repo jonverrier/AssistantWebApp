@@ -49329,16 +49329,14 @@ You can check this by searching up for matching entries in a lockfile produced b
     const [sessionId, setSessionId] = (0, import_react30.useState)(() => {
       return storage.get(SESSION_STORAGE_KEY) || void 0;
     });
-    const [facilityPersonality, setFacilityPersonality] = (0, import_react30.useState)(() => {
-      return storage.get(USER_FACILITY_PERSONALITY_KEY) || void 0;
+    const [personality, setPersonality] = (0, import_react30.useState)(() => {
+      const storedPersonality = storage.get(USER_FACILITY_PERSONALITY_KEY);
+      return storedPersonality ? storedPersonality : void 0;
     });
     const [userRole, setUserRole] = (0, import_react30.useState)(() => {
       const storedRole = storage.get(USER_ROLE_KEY);
       return storedRole ? storedRole : void 0;
     });
-    const [personality, setPersonality] = (0, import_react30.useState)(
-      void 0
-    );
     (0, import_react30.useEffect)(() => {
       if (userId) {
         storage.set(USER_ID_STORAGE_KEY, userId);
@@ -49361,12 +49359,12 @@ You can check this by searching up for matching entries in a lockfile produced b
       }
     }, [sessionId, storage]);
     (0, import_react30.useEffect)(() => {
-      if (facilityPersonality) {
-        storage.set(USER_FACILITY_PERSONALITY_KEY, facilityPersonality);
+      if (personality) {
+        storage.set(USER_FACILITY_PERSONALITY_KEY, personality);
       } else {
         storage.remove(USER_FACILITY_PERSONALITY_KEY);
       }
-    }, [facilityPersonality, storage]);
+    }, [personality, storage]);
     (0, import_react30.useEffect)(() => {
       if (userRole) {
         storage.set(USER_ROLE_KEY, userRole);
@@ -49374,28 +49372,27 @@ You can check this by searching up for matching entries in a lockfile produced b
         storage.remove(USER_ROLE_KEY);
       }
     }, [userRole, storage]);
-    const handleLogin = (facilityPersonality2, userId2, userName2, sessionId2, userRole2) => {
+    const handleSetPersonality = (newPersonality) => {
+      setPersonality(newPersonality);
+    };
+    const handleLogin = (facilityPersonality, userId2, userName2, sessionId2, userRole2) => {
       setUserId(userId2);
       setUserName(userName2);
       setSessionId(sessionId2);
-      setFacilityPersonality(facilityPersonality2);
+      setPersonality(facilityPersonality);
       setUserRole(userRole2);
     };
     const handleLogout = () => {
       setUserId(void 0);
       setUserName(void 0);
       setSessionId(void 0);
-      setFacilityPersonality(void 0);
-      setUserRole(void 0);
       setPersonality(void 0);
+      setUserRole(void 0);
       storage.remove(USER_ID_STORAGE_KEY);
       storage.remove(USER_NAME_STORAGE_KEY);
       storage.remove(SESSION_STORAGE_KEY);
       storage.remove(USER_FACILITY_PERSONALITY_KEY);
       storage.remove(USER_ROLE_KEY);
-    };
-    const handleSetPersonality = (newPersonality) => {
-      setPersonality(newPersonality);
     };
     return /* @__PURE__ */ import_react30.default.createElement(
       UserContext.Provider,
@@ -49404,12 +49401,12 @@ You can check this by searching up for matching entries in a lockfile produced b
           userId,
           userName,
           sessionId,
-          facilityPersonality,
           userRole,
           personality,
+          setSessionId,
+          setPersonality: handleSetPersonality,
           onLogin: handleLogin,
-          onLogout: handleLogout,
-          setPersonality: handleSetPersonality
+          onLogout: handleLogout
         }
       },
       children
@@ -60710,7 +60707,7 @@ ${message.content}
               sessionId: props.sessionId,
               email: props.email
             },
-            personality: "TheYardAssistant" /* kTheYardAssistant */,
+            personality: props.personality,
             onChunk: (chunk) => {
               if (chunk) {
                 completeResponse += chunk;
@@ -60979,7 +60976,7 @@ ${message.content}
               auto_select: true,
               cancel_on_tap_outside: false
             });
-            if (!userName && !userId && !sessionId && !isAppInLocalhost()) {
+            if ((!userName || !userId || !sessionId) && !isAppInLocalhost()) {
               const attemptAutoLogin = async () => {
                 try {
                   googleApi.prompt();
@@ -61421,14 +61418,15 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
         personality,
         to
       }) => {
-        const { setPersonality } = useUser();
+        const { setPersonality, setSessionId } = useUser();
         (0, import_react41.useEffect)(() => {
           setPersonality(personality);
-        }, [personality, setPersonality]);
+          setSessionId(void 0);
+        }, [personality, setPersonality, setSessionId]);
         return /* @__PURE__ */ import_react41.default.createElement(Navigate, { to, replace: true });
       };
       Site = (props) => {
-        const { personality, setPersonality } = useUser();
+        const { personality } = useUser();
         const uiStrings = getCommonUIStrings();
         (0, import_react41.useEffect)(() => {
           const script = document.createElement("script");
