@@ -300,7 +300,7 @@ const App = (props) => {
                 sessionId: props.sessionId,
                 email: props.email
             },
-            personality: AssistantChatApiTypes_1.EAssistantPersonality.kTheYardAssistant,
+            personality: props.personality,
             onChunk: (chunk) => {
                 if (chunk) {
                     completeResponse += chunk;

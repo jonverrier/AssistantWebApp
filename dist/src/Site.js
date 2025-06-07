@@ -69,15 +69,18 @@ const RoutedSite = (props) => {
 };
 exports.RoutedSite = RoutedSite;
 const PersonalityRedirect = ({ personality, to }) => {
-    const { setPersonality } = (0, UserContext_1.useUser)();
+    const { setPersonality, setSessionId } = (0, UserContext_1.useUser)();
     (0, react_1.useEffect)(() => {
         setPersonality(personality);
-    }, [personality, setPersonality]);
+        // Reset the session ID if the user switches to a new personality
+        // This will force the app to requesta  new session from the server
+        setSessionId(undefined);
+    }, [personality, setPersonality, setSessionId]);
     return react_1.default.createElement(react_router_dom_1.Navigate, { to: to, replace: true });
 };
 // Site component
 const Site = (props) => {
-    const { personality, setPersonality } = (0, UserContext_1.useUser)();
+    const { personality } = (0, UserContext_1.useUser)();
     const uiStrings = (0, UIStrings_1.getCommonUIStrings)();
     // Initialize Google Sign-In
     (0, react_1.useEffect)(() => {

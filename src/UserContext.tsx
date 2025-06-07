@@ -1,3 +1,17 @@
+/**
+ * UserContext module provides React context for managing user authentication state.
+ * 
+ * This module exports a UserContext and UserProvider component that maintains user session information including:
+ * - User ID
+ * - User name 
+ * - Session ID
+ * - User role
+ * - Assistant personality/facility type
+ * 
+ * The provider component handles persisting the user state to storage and provides methods for login/logout.
+ */
+/*! Copyright Jon Verrier 2025 */
+
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, SESSION_STORAGE_KEY, USER_FACILITY_PERSONALITY_KEY, USER_ROLE_KEY, IStorage } from './LocalStorage';
 import { EUserRole, EAssistantPersonality } from '../import/AssistantChatApiTypes';
@@ -6,16 +20,16 @@ interface UserContextType {
    userId: string | undefined;
    userName: string | undefined;
    sessionId: string | undefined;
-   facilityPersonality: string | undefined;
    userRole: EUserRole | undefined;
    personality: EAssistantPersonality | undefined;
+   setPersonality: (personality: EAssistantPersonality) => void;
+   setSessionId: (sessionId: string | undefined) => void;
    onLogin: (userFacility: EAssistantPersonality, 
       userId: string, 
       userName: string, 
       sessionId: string, 
       userRole: EUserRole) => void;
    onLogout: () => void;
-   setPersonality: (personality: EAssistantPersonality) => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -35,16 +49,15 @@ export function UserProvider({ children, storage }: UserProviderProps) {
    const [sessionId, setSessionId] = useState<string | undefined>(() => {
       return storage.get(SESSION_STORAGE_KEY) || undefined;
    });
-   const [facilityPersonality, setFacilityPersonality] = useState<string | undefined>(() => {
-      return storage.get(USER_FACILITY_PERSONALITY_KEY) || undefined;
+   const [personality, setPersonality] = useState<EAssistantPersonality | undefined>(() => {
+      const storedPersonality = storage.get(USER_FACILITY_PERSONALITY_KEY);
+      return storedPersonality ? storedPersonality as EAssistantPersonality : undefined;
    });
    const [userRole, setUserRole] = useState<EUserRole | undefined>(() => {
       const storedRole = storage.get(USER_ROLE_KEY);
       return storedRole ? storedRole as EUserRole : undefined;
    });
-   const [personality, setPersonality] = useState<EAssistantPersonality | undefined>(
-      undefined
-   );
+
 
    // Persist state changes to storage
    useEffect(() => {
@@ -72,12 +85,12 @@ export function UserProvider({ children, storage }: UserProviderProps) {
    }, [sessionId, storage]);
 
    useEffect(() => {
-      if (facilityPersonality) {
-         storage.set(USER_FACILITY_PERSONALITY_KEY, facilityPersonality);
+      if (personality) {
+         storage.set(USER_FACILITY_PERSONALITY_KEY, personality);
       } else {
          storage.remove(USER_FACILITY_PERSONALITY_KEY);
       }
-   }, [facilityPersonality, storage]);
+   }, [personality, storage]);
 
    useEffect(() => {
       if (userRole) {
@@ -87,6 +100,10 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       }
    }, [userRole, storage]);
 
+   const handleSetPersonality = (newPersonality: EAssistantPersonality) => {
+      setPersonality(newPersonality);
+   };
+
    const handleLogin = (facilityPersonality: EAssistantPersonality, 
       userId: string, 
       userName: string, 
@@ -95,7 +112,7 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       setUserId(userId);
       setUserName(userName);
       setSessionId(sessionId);
-      setFacilityPersonality(facilityPersonality);
+      setPersonality(facilityPersonality);
       setUserRole(userRole);
    };
 
@@ -103,18 +120,13 @@ export function UserProvider({ children, storage }: UserProviderProps) {
       setUserId(undefined);
       setUserName(undefined);
       setSessionId(undefined);
-      setFacilityPersonality(undefined);
-      setUserRole(undefined);
       setPersonality(undefined);
+      setUserRole(undefined);
       storage.remove(USER_ID_STORAGE_KEY);
       storage.remove(USER_NAME_STORAGE_KEY);
       storage.remove(SESSION_STORAGE_KEY);
       storage.remove(USER_FACILITY_PERSONALITY_KEY);
       storage.remove(USER_ROLE_KEY);
-   };
-
-   const handleSetPersonality = (newPersonality: EAssistantPersonality) => {
-      setPersonality(newPersonality);
    };
 
    return (
@@ -123,12 +135,12 @@ export function UserProvider({ children, storage }: UserProviderProps) {
             userId,
             userName,
             sessionId,
-            facilityPersonality: facilityPersonality,
             userRole,
             personality,
+            setSessionId,
+            setPersonality: handleSetPersonality,
             onLogin: handleLogin,
             onLogout: handleLogout,
-            setPersonality: handleSetPersonality
          }}
       >
          {children}

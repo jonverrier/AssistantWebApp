@@ -392,7 +392,7 @@ export const App = (props: IAppProps) => {
             sessionId: props.sessionId,
             email: props.email
          },
-         personality: EAssistantPersonality.kTheYardAssistant,
+         personality: props.personality,
          onChunk: (chunk: string) => {
             if (chunk) {
                completeResponse += chunk;

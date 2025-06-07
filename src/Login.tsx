@@ -283,7 +283,7 @@ export const Login = (props: ILoginProps) => {
 
          // Only attempt auto-login if we dont yet have a userName, userId or sessionId
          // and we are not running locally
-         if (!userName && !userId && !sessionId && !isAppInLocalhost()) {
+         if ((!userName || !userId || !sessionId) && !isAppInLocalhost()) {
             const attemptAutoLogin = async () => {
                try {
                   googleApi.prompt();

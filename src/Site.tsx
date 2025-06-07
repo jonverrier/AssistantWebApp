@@ -91,18 +91,21 @@ const PersonalityRedirect = ({
    personality: EAssistantPersonality,
    to: string 
 }) => {
-   const { setPersonality } = useUser();
-   
+   const { setPersonality, setSessionId } = useUser();
+
    useEffect(() => {
       setPersonality(personality);
-   }, [personality, setPersonality]);
+      // Reset the session ID if the user switches to a new personality
+      // This will force the app to requesta  new session from the server
+      setSessionId(undefined);
+   }, [personality, setPersonality, setSessionId]);
 
    return <Navigate to={to} replace />;
 };
 
 // Site component
 export const Site = (props: ISiteProps) => {
-   const { personality, setPersonality } = useUser();
+   const { personality } = useUser();
    const uiStrings = getCommonUIStrings();
 
    // Initialize Google Sign-In
