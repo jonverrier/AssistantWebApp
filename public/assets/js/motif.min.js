@@ -49219,8 +49219,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         privacyAction: "privacy",
         homeAction: "home",
         aboutAction: "about",
-        contactAction: "contact",
-        reCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3"
+        contactAction: "contact"
       };
       LocalEnvironmentStrings = {
         screenUrl: "http://localhost:7071/api/ScreenInput",
@@ -49264,7 +49263,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         apiClient = createRetryableAxiosClient();
       }
       const config = getConfigStrings();
-      const token2 = await window.grecaptcha.execute(config.reCaptchaSiteKey, { action });
+      const token2 = await window.grecaptcha.execute(config.googleCaptchaClientId, { action });
       const request = {
         token: token2,
         action
