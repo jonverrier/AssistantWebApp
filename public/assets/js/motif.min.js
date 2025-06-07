@@ -49212,7 +49212,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       "use strict";
       init_LocalStorage();
       CommonConfigStrings = {
-        googleCaptchaClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
+        googleCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3",
         loginAction: "login",
         chatAction: "chat",
         termsAction: "terms",
@@ -49263,7 +49263,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         apiClient = createRetryableAxiosClient();
       }
       const config = getConfigStrings();
-      const token2 = await window.grecaptcha.execute(config.googleCaptchaClientId, { action });
+      const token2 = await window.grecaptcha.execute(config.googleCaptchaSiteKey, { action });
       const request = {
         token: token2,
         action
@@ -60876,7 +60876,7 @@ ${message.content}
             onLogout();
             if (window.google?.accounts?.id && window.onGoogleLogin) {
               window.google.accounts.id.initialize({
-                client_id: config.googleCaptchaClientId,
+                client_id: config.googleCaptchaSiteKey,
                 callback: window.onGoogleLogin,
                 auto_select: true,
                 cancel_on_tap_outside: false
@@ -60970,7 +60970,7 @@ ${message.content}
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
             googleApi.initialize({
-              client_id: config.googleCaptchaClientId,
+              client_id: config.googleCaptchaSiteKey,
               callback: window.onGoogleLogin,
               auto_select: true,
               cancel_on_tap_outside: false
@@ -60987,7 +60987,7 @@ ${message.content}
               return () => clearTimeout(promptTimeout);
             }
           }
-        }, [userName, userId, sessionId, config.googleCaptchaClientId]);
+        }, [userName, userId, sessionId, config.googleCaptchaSiteKey]);
         (0, import_react36.useEffect)(() => {
           if (googleButtonRef.current && window.google?.accounts?.id) {
             window.google.accounts.id.renderButton(googleButtonRef.current, {
