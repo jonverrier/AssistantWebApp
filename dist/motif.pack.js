@@ -49213,6 +49213,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_LocalStorage();
       CommonConfigStrings = {
         googleCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3",
+        googleClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
         loginAction: "login",
         chatAction: "chat",
         termsAction: "terms",
@@ -60897,7 +60898,7 @@ ${message.content}
             onLogout();
             if (window.google?.accounts?.id && window.onGoogleLogin) {
               window.google.accounts.id.initialize({
-                client_id: config.googleCaptchaSiteKey,
+                client_id: config.googleClientId,
                 callback: window.onGoogleLogin,
                 auto_select: true,
                 cancel_on_tap_outside: false
@@ -60991,7 +60992,7 @@ ${message.content}
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
             googleApi.initialize({
-              client_id: config.googleCaptchaSiteKey,
+              client_id: config.googleClientId,
               callback: window.onGoogleLogin,
               auto_select: true,
               cancel_on_tap_outside: false
@@ -61008,7 +61009,7 @@ ${message.content}
               return () => clearTimeout(promptTimeout);
             }
           }
-        }, [userName, userId, sessionId, config.googleCaptchaSiteKey]);
+        }, [userName, userId, sessionId, config.googleClientId]);
         (0, import_react36.useEffect)(() => {
           if (googleButtonRef.current && window.google?.accounts?.id) {
             window.google.accounts.id.renderButton(googleButtonRef.current, {
