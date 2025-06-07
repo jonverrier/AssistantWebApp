@@ -49259,6 +49259,7 @@ You can check this by searching up for matching entries in a lockfile produced b
           error: errorMessage
         };
       }
+      await new Promise((resolve) => window.grecaptcha.ready(resolve));
       if (!apiClient) {
         apiClient = createRetryableAxiosClient();
       }
