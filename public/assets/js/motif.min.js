@@ -49243,6 +49243,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/captcha.ts
+  async function waitForRecaptcha() {
+    return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(new Error("reCAPTCHA initialization timeout"));
+      }, RECAPTCHA_READY_TIMEOUT);
+      window.grecaptcha.ready(() => {
+        clearTimeout(timeoutId);
+        resolve();
+      });
+    });
+  }
   async function executeReCaptcha(captchaUrl, action, apiClient) {
     try {
       if (isAppInLocalhost()) {
@@ -49259,7 +49270,15 @@ You can check this by searching up for matching entries in a lockfile produced b
           error: errorMessage
         };
       }
-      await new Promise((resolve) => window.grecaptcha.ready(resolve));
+      try {
+        await waitForRecaptcha();
+      } catch (error) {
+        console.error("Failed to initialize reCAPTCHA:", error);
+        return {
+          success: false,
+          error: "Failed to initialize reCAPTCHA"
+        };
+      }
       if (!apiClient) {
         apiClient = createRetryableAxiosClient();
       }
@@ -49301,7 +49320,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
     return securitySteps;
   }
-  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
+  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT, RECAPTCHA_READY_TIMEOUT;
   var init_captcha = __esm({
     "src/captcha.ts"() {
       "use strict";
@@ -49315,6 +49334,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
       SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
       SECURITY_STEP_RATE_LIMIT = "rate_limit";
+      RECAPTCHA_READY_TIMEOUT = 1e4;
     }
   });
 

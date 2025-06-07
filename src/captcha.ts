@@ -38,6 +38,25 @@ declare global {
    }
 }
 
+const RECAPTCHA_READY_TIMEOUT = 10000; // 10 seconds timeout
+
+/**
+ * Waits for reCAPTCHA to be ready with a timeout
+ * @returns Promise that resolves when reCAPTCHA is ready or rejects on timeout
+ */
+async function waitForRecaptcha(): Promise<void> {
+   return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+         reject(new Error('reCAPTCHA initialization timeout'));
+      }, RECAPTCHA_READY_TIMEOUT);
+
+      window.grecaptcha.ready(() => {
+         clearTimeout(timeoutId);
+         resolve();
+      });
+   });
+}
+
 /**
  * Executes reCAPTCHA verification for a specific action
  * @param captchaUrl The URL of the API to validate the reCAPTCHA token
@@ -62,8 +81,15 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
          };
       }
 
-      // Wait for reCAPTCHA to be ready
-      await new Promise<void>((resolve) => window.grecaptcha.ready(resolve));
+      try {
+         await waitForRecaptcha();
+      } catch (error) {
+         console.error('Failed to initialize reCAPTCHA:', error);
+         return {
+            success: false,
+            error: 'Failed to initialize reCAPTCHA'
+         };
+      }
 
       if (!apiClient) {
          apiClient = createRetryableAxiosClient();
