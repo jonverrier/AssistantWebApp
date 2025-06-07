@@ -28,6 +28,16 @@ export interface IReCaptchaExecuteResult {
     error?: string;
 }
 
+// Add type definition for window.grecaptcha
+declare global {
+   interface Window {
+      grecaptcha: {
+         ready: (callback: () => void) => void;
+         execute: (siteKey: string, options: { action: string }) => Promise<string>;
+      };
+   }
+}
+
 /**
  * Executes reCAPTCHA verification for a specific action
  * @param captchaUrl The URL of the API to validate the reCAPTCHA token
@@ -51,6 +61,9 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
             error: errorMessage
          };
       }
+
+      // Wait for reCAPTCHA to be ready
+      await new Promise<void>((resolve) => window.grecaptcha.ready(resolve));
 
       if (!apiClient) {
          apiClient = createRetryableAxiosClient();
@@ -106,13 +119,4 @@ export function handleLowScore(score: number): string[] {
    }
 
    return securitySteps;
-}
-
-// Add type definition for window.grecaptcha
-declare global {
-   interface Window {
-      grecaptcha: {
-         execute: (siteKey: string, options: { action: string }) => Promise<string>;
-      };
-   }
 } 
