@@ -57,7 +57,7 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
       }
 
       const config = getConfigStrings();
-      const token = await window.grecaptcha.execute(config.googleCaptchaClientId, { action });
+      const token = await window.grecaptcha.execute(config.googleCaptchaSiteKey, { action });
 
       const request: IAssistantCaptchaRequest = {
          token,

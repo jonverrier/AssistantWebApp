@@ -10,7 +10,7 @@ import { isAppInLocalhost } from './LocalStorage';
 
 // Common configuration strings that don't vary between environments
 export interface ICommonConfigStrings {
-   googleCaptchaClientId: string;
+   googleCaptchaSiteKey: string;
    loginAction: string;
    chatAction: string;
    termsAction: string;
@@ -36,7 +36,7 @@ export type IConfigStrings = ICommonConfigStrings & IEnvironmentConfigStrings;
 
 // Common configuration strings
 const CommonConfigStrings: ICommonConfigStrings = {
-   googleCaptchaClientId: '603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com',
+   googleCaptchaSiteKey: '6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3', 
    loginAction: 'login',
    chatAction: 'chat',
    termsAction: 'terms',
