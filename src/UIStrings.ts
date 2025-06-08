@@ -29,7 +29,9 @@ export interface ICommonUIStrings {
    kSuccess: string;
    kServerErrorDescription: string;
    kHomeTitle: string;
+   kHomeStrapline: string;
    kAboutTitle: string;
+   kAboutStrapline: string;
    kPrivacyTitle: string;
    kTermsTitle: string;
    kHome: string;   
@@ -71,7 +73,9 @@ export const CommonUIStrings: ICommonUIStrings = {
    kSuccess: "Success.",
    kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
    kHomeTitle: "Welcome to Strong AI",
+   kHomeStrapline: "It is big, and it is clever.",
    kAboutTitle: "Welcome to Strong AI",
+   kAboutStrapline: "It is big, and it is clever.",
    kPrivacyTitle: "Privacy Policy",
    kTermsTitle: "Terms of Service",
    kHome: "Home",

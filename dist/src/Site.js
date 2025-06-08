@@ -85,15 +85,15 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, content: undefined, launchButton: true })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: undefined, launchButton: true })
         },
         {
             path: '/about',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent, launchButton: false })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: AboutContent_1.kAboutContent, launchButton: false })
         },
         {
             path: '/about.html',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, content: AboutContent_1.kAboutContent, launchButton: false })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: AboutContent_1.kAboutContent, launchButton: false })
         },
         {
             path: '/theyard',

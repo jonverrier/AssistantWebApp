@@ -8,14 +8,16 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
-import { LargeTitle, Image, Button } from '@fluentui/react-components';
+import { LargeTitle, Image, Button, Text } from '@fluentui/react-components';
 import { Spacer, Footer, ESpacerSize } from './SiteUtilities';
 import { PlainTextParagraphs, PlainTextAlignment } from './PlainTextParagraphs';
 import { executeReCaptcha, RECAPTCHA_THRESHOLD } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
+import { standardTextStyles } from './CommonStyles';
 
 export interface HomeProps {
    title: string;
+   strapline: string;
    launchButton: boolean;
    content: string | undefined;
 }
@@ -23,6 +25,8 @@ export interface HomeProps {
 export const Home = (props: HomeProps) => {
    const pageOuterClasses = pageOuterStyles();
    const innerColumnClasses = innerColumnStyles();
+   const textClasses = standardTextStyles(); 
+   
    const navigate = useNavigate();
    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
@@ -50,6 +54,7 @@ export const Home = (props: HomeProps) => {
                <LargeTitle> 
                   {props.title}
                </LargeTitle>
+               <Text className={textClasses.centredHintLarge}>{props.strapline}</Text>               
                <Spacer size={ESpacerSize.kLarge} />
                {props.launchButton && (
                   <>

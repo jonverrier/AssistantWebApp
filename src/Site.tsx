@@ -111,15 +111,15 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Home title={uiStrings.kHomeTitle} content={undefined} launchButton={true} />
+         element: <Home title={uiStrings.kHomeTitle} strapline={uiStrings.kHomeStrapline} content={undefined} launchButton={true} />
       },
       {
          path: '/about',
-         element: <Home title={uiStrings.kAboutTitle} content={kAboutContent} launchButton={false} />
+         element: <Home title={uiStrings.kAboutTitle} strapline={uiStrings.kAboutStrapline} content={kAboutContent} launchButton={false} />
       },
       {
          path: '/about.html',
-         element: <Home title={uiStrings.kAboutTitle} content={kAboutContent} launchButton={false} />
+         element: <Home title={uiStrings.kAboutTitle} strapline={uiStrings.kAboutStrapline} content={kAboutContent} launchButton={false} />
       },
       {
          path: '/theyard',

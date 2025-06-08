@@ -100,6 +100,13 @@ exports.standardTextStyles = (0, react_components_1.makeStyles)({
         marginTop: '8px',
         marginBottom: '8px'
     },
+    centredHintLarge: {
+        textAlign: 'center',
+        fontSize: '12pt',
+        color: 'grey',
+        marginTop: '12px',
+        marginBottom: '12px'
+    },
     footer: {
         textAlign: 'center',
         fontSize: '8pt',
