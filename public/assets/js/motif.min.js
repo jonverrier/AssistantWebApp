@@ -60991,6 +60991,8 @@ ${message.content}
           return delay;
         };
         (0, import_react36.useEffect)(() => {
+          console.log("Current origin:", window.location.origin);
+          console.log("Full URL:", window.location.href);
           window.onGoogleLogin = (response) => {
             if (response.credential) {
               handleLogin(response.credential);
@@ -61001,6 +61003,7 @@ ${message.content}
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
             try {
+              console.log("Initializing Google Sign-In with client ID:", config.googleClientId);
               googleApi.initialize({
                 client_id: config.googleClientId,
                 callback: window.onGoogleLogin,
