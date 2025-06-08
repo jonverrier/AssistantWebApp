@@ -85,7 +85,7 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: undefined, launchButton: true })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: AboutContent_1.kAboutContent, launchButton: true })
         },
         {
             path: '/about',

@@ -111,7 +111,7 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Home title={uiStrings.kHomeTitle} strapline={uiStrings.kHomeStrapline} content={undefined} launchButton={true} />
+         element: <Home title={uiStrings.kHomeTitle} strapline={uiStrings.kHomeStrapline} content={kAboutContent} launchButton={true} />
       },
       {
          path: '/about',
