@@ -60991,6 +60991,8 @@ ${message.content}
           return delay;
         };
         (0, import_react36.useEffect)(() => {
+          console.log("Current origin:", window.location.origin);
+          console.log("Full URL:", window.location.href);
           window.onGoogleLogin = (response) => {
             if (response.credential) {
               handleLogin(response.credential);
@@ -61001,6 +61003,7 @@ ${message.content}
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
             try {
+              console.log("Initializing Google Sign-In with client ID:", config.googleClientId);
               googleApi.initialize({
                 client_id: config.googleClientId,
                 callback: window.onGoogleLogin,
@@ -61174,14 +61177,15 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), !props.launchButton && /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
             size: "large",
             style: {
               fontSize: "1.2rem",
-              padding: "16px 32px"
+              padding: "16px 32px",
+              width: "200px"
             },
             onClick: () => navigate("/theyard"),
             disabled: isButtonDisabled
@@ -61194,7 +61198,8 @@ ${message.content}
             size: "large",
             style: {
               fontSize: "1.2rem",
-              padding: "16px 32px"
+              padding: "16px 32px",
+              width: "200px"
             },
             onClick: () => navigate("/crank"),
             disabled: isButtonDisabled
@@ -61422,7 +61427,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
       "use strict";
       kAboutContent = `CrossFit works. Community works. Real coaching works. And the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. Noise, not substance, and hard for the real thing to stand out.
 Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI solutions to help with onboarding new members, providing value-added tips outside the box to more experienced members, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: building stronger humans.
-Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
+Be big, and be clever.
 `;
     }
   });
