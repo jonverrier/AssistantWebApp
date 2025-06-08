@@ -260,6 +260,10 @@ export const Login = (props: ILoginProps) => {
 
    // Handle login 
    useEffect(() => {
+      // Log the current origin for debugging
+      console.log('Current origin:', window.location.origin);
+      console.log('Full URL:', window.location.href);
+      
       // Set up Google Sign-In callback regardless of whether the API is loaded
       // This ensures tests can access the callback even before the API loads
       window.onGoogleLogin = (response: any) => {
@@ -275,6 +279,7 @@ export const Login = (props: ILoginProps) => {
       if (googleApi) {
          // Initialize Google Sign-In if API is available
          try {
+            console.log('Initializing Google Sign-In with client ID:', config.googleClientId);
             googleApi.initialize({
                client_id: config.googleClientId,
                callback: window.onGoogleLogin,
