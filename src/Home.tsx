@@ -51,7 +51,7 @@ export const Home = (props: HomeProps) => {
                   alt="Strong AI Bold Image"
                />
                <Spacer size={ESpacerSize.kLarge} />
-               <LargeTitle> 
+               <LargeTitle style={{ textAlign: 'center', width: '100%' }}> 
                   {props.title}
                </LargeTitle>
                {(!props.launchButton) && (<Text className={textClasses.centredHintLarge}>{props.strapline}</Text>)}
