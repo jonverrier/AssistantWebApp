@@ -82,21 +82,6 @@ const PersonalityRedirect = ({ personality, to }) => {
 const Site = (props) => {
     const { personality } = (0, UserContext_1.useUser)();
     const uiStrings = (0, UIStrings_1.getCommonUIStrings)();
-    // Initialize Google Sign-In
-    (0, react_1.useEffect)(() => {
-        // Load Google Sign-In script
-        const script = document.createElement('script');
-        script.src = 'https://accounts.google.com/gsi/client';
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
-        return () => {
-            const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-            if (scriptElement && scriptElement.parentNode) {
-                scriptElement.parentNode.removeChild(scriptElement);
-            }
-        };
-    }, []);
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',

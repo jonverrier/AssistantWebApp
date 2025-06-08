@@ -49213,6 +49213,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       init_LocalStorage();
       CommonConfigStrings = {
         googleCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3",
+        googleClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
         loginAction: "login",
         chatAction: "chat",
         termsAction: "terms",
@@ -49243,6 +49244,17 @@ You can check this by searching up for matching entries in a lockfile produced b
   });
 
   // src/captcha.ts
+  async function waitForRecaptcha() {
+    return new Promise((resolve, reject) => {
+      const timeoutId = setTimeout(() => {
+        reject(new Error("reCAPTCHA initialization timeout"));
+      }, RECAPTCHA_READY_TIMEOUT);
+      window.grecaptcha.ready(() => {
+        clearTimeout(timeoutId);
+        resolve();
+      });
+    });
+  }
   async function executeReCaptcha(captchaUrl, action, apiClient) {
     try {
       if (isAppInLocalhost()) {
@@ -49257,6 +49269,15 @@ You can check this by searching up for matching entries in a lockfile produced b
         return {
           success: false,
           error: errorMessage
+        };
+      }
+      try {
+        await waitForRecaptcha();
+      } catch (error) {
+        console.error("Failed to initialize reCAPTCHA:", error);
+        return {
+          success: false,
+          error: "Failed to initialize reCAPTCHA"
         };
       }
       if (!apiClient) {
@@ -49300,7 +49321,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
     return securitySteps;
   }
-  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT;
+  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT, RECAPTCHA_READY_TIMEOUT;
   var init_captcha = __esm({
     "src/captcha.ts"() {
       "use strict";
@@ -49314,6 +49335,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       SECURITY_STEP_LOG_SUSPICIOUS = "log_suspicious_activity";
       SECURITY_STEP_ADDITIONAL_VERIFICATION = "require_additional_verification";
       SECURITY_STEP_RATE_LIMIT = "rate_limit";
+      RECAPTCHA_READY_TIMEOUT = 1e4;
     }
   });
 
@@ -60876,7 +60898,7 @@ ${message.content}
             onLogout();
             if (window.google?.accounts?.id && window.onGoogleLogin) {
               window.google.accounts.id.initialize({
-                client_id: config.googleCaptchaSiteKey,
+                client_id: config.googleClientId,
                 callback: window.onGoogleLogin,
                 auto_select: true,
                 cancel_on_tap_outside: false
@@ -60970,7 +60992,7 @@ ${message.content}
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
             googleApi.initialize({
-              client_id: config.googleCaptchaSiteKey,
+              client_id: config.googleClientId,
               callback: window.onGoogleLogin,
               auto_select: true,
               cancel_on_tap_outside: false
@@ -60987,7 +61009,7 @@ ${message.content}
               return () => clearTimeout(promptTimeout);
             }
           }
-        }, [userName, userId, sessionId, config.googleCaptchaSiteKey]);
+        }, [userName, userId, sessionId, config.googleClientId]);
         (0, import_react36.useEffect)(() => {
           if (googleButtonRef.current && window.google?.accounts?.id) {
             window.google.accounts.id.renderButton(googleButtonRef.current, {
@@ -61427,19 +61449,6 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
       Site = (props) => {
         const { personality } = useUser();
         const uiStrings = getCommonUIStrings();
-        (0, import_react41.useEffect)(() => {
-          const script = document.createElement("script");
-          script.src = "https://accounts.google.com/gsi/client";
-          script.async = true;
-          script.defer = true;
-          document.head.appendChild(script);
-          return () => {
-            const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-            if (scriptElement && scriptElement.parentNode) {
-              scriptElement.parentNode.removeChild(scriptElement);
-            }
-          };
-        }, []);
         const routes = useRoutes([
           {
             path: "/",

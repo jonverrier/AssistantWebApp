@@ -108,23 +108,6 @@ export const Site = (props: ISiteProps) => {
    const { personality } = useUser();
    const uiStrings = getCommonUIStrings();
 
-   // Initialize Google Sign-In
-   useEffect(() => {
-      // Load Google Sign-In script
-      const script = document.createElement('script');
-      script.src = 'https://accounts.google.com/gsi/client';
-      script.async = true;
-      script.defer = true;
-      document.head.appendChild(script);
-
-      return () => {
-         const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-         if (scriptElement && scriptElement.parentNode) {
-            scriptElement.parentNode.removeChild(scriptElement);
-         }
-      };
-   }, []);
-
    const routes = useRoutes([
       {
          path: '/',
