@@ -45879,6 +45879,13 @@ You can check this by searching up for matching entries in a lockfile produced b
           marginTop: "8px",
           marginBottom: "8px"
         },
+        centredHintLarge: {
+          textAlign: "center",
+          fontSize: "12pt",
+          color: "grey",
+          marginTop: "12px",
+          marginBottom: "12px"
+        },
         footer: {
           textAlign: "center",
           fontSize: "8pt",
@@ -45968,7 +45975,9 @@ You can check this by searching up for matching entries in a lockfile produced b
         kSuccess: "Success.",
         kServerErrorDescription: "Sorry, we could not get a response from the server, Please try again later.",
         kHomeTitle: "Welcome to Strong AI",
+        kHomeStrapline: "It is big, and it is clever.",
         kAboutTitle: "Welcome to Strong AI",
+        kAboutStrapline: "It is big, and it is clever.",
         kPrivacyTitle: "Privacy Policy",
         kTermsTitle: "Terms of Service",
         kHome: "Home",
@@ -60991,22 +61000,28 @@ ${message.content}
           };
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
-            googleApi.initialize({
-              client_id: config.googleClientId,
-              callback: window.onGoogleLogin,
-              auto_select: true,
-              cancel_on_tap_outside: false
-            });
-            if ((!userName || !userId || !sessionId) && !isAppInLocalhost()) {
-              const attemptAutoLogin = async () => {
-                try {
-                  googleApi.prompt();
-                } catch (error2) {
-                  console.error("Error prompting for auto-login:", error2);
-                }
-              };
-              const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
-              return () => clearTimeout(promptTimeout);
+            try {
+              googleApi.initialize({
+                client_id: config.googleClientId,
+                callback: window.onGoogleLogin,
+                auto_select: true,
+                cancel_on_tap_outside: false
+              });
+              if ((!userName || !userId || !sessionId) && !isAppInLocalhost()) {
+                const attemptAutoLogin = async () => {
+                  try {
+                    googleApi.prompt();
+                  } catch (error2) {
+                    console.error("Error prompting for auto-login:", error2);
+                    setError(uiStrings.kLoginFailed);
+                  }
+                };
+                const promptTimeout = setTimeout(attemptAutoLogin, 1e3);
+                return () => clearTimeout(promptTimeout);
+              }
+            } catch (error2) {
+              console.error("Error initializing Google Sign-In:", error2);
+              setError(uiStrings.kLoginFailed);
             }
           }
         }, [userName, userId, sessionId, config.googleClientId]);
@@ -61135,9 +61150,11 @@ ${message.content}
       init_PlainTextParagraphs();
       init_captcha();
       init_ConfigStrings();
+      init_CommonStyles();
       Home2 = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
+        const textClasses = standardTextStyles();
         const navigate = useNavigate();
         const [isButtonDisabled, setIsButtonDisabled] = (0, import_react39.useState)(false);
         (0, import_react39.useEffect)(() => {
@@ -61157,7 +61174,7 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61405,7 +61422,7 @@ Strong AI Technologies Ltd is a company registered in England and Wales with com
       "use strict";
       kAboutContent = `CrossFit works. Community works. Real coaching works. And the world needs it now more than ever. But out there? Chaos. Influencers selling abs, cookie-cutter workout apps, big-box gyms promising everything but delivering\u2026 not much. Noise, not substance, and hard for the real thing to stand out.
 Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI solutions to help with onboarding new members, providing value-added tips outside the box to more experienced members, and more. Members get quick, tailored support that sounds like you, and you spend more time on what matters most: building stronger humans.
-Be one of the first boxes in London with your own AI assistant. It\u2019s not sci-fi. It\u2019s smart.
+Be big, and be clever.
 `;
     }
   });
@@ -61452,15 +61469,15 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, content: void 0, launchButton: true })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: void 0, launchButton: true })
           },
           {
             path: "/about",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: kAboutContent, launchButton: false })
           },
           {
             path: "/about.html",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, content: kAboutContent, launchButton: false })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: kAboutContent, launchButton: false })
           },
           {
             path: "/theyard",

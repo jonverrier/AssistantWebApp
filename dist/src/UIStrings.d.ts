@@ -22,7 +22,9 @@ export interface ICommonUIStrings {
     kSuccess: string;
     kServerErrorDescription: string;
     kHomeTitle: string;
+    kHomeStrapline: string;
     kAboutTitle: string;
+    kAboutStrapline: string;
     kPrivacyTitle: string;
     kTermsTitle: string;
     kHome: string;

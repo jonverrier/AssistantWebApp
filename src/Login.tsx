@@ -274,27 +274,33 @@ export const Login = (props: ILoginProps) => {
       const googleApi = window.google?.accounts?.id;
       if (googleApi) {
          // Initialize Google Sign-In if API is available
-         googleApi.initialize({
-            client_id: config.googleClientId,
-            callback: window.onGoogleLogin,
-            auto_select: true,
-            cancel_on_tap_outside: false
-         });
+         try {
+            googleApi.initialize({
+               client_id: config.googleClientId,
+               callback: window.onGoogleLogin,
+               auto_select: true,
+               cancel_on_tap_outside: false
+            });
 
-         // Only attempt auto-login if we dont yet have a userName, userId or sessionId
-         // and we are not running locally
-         if ((!userName || !userId || !sessionId) && !isAppInLocalhost()) {
-            const attemptAutoLogin = async () => {
-               try {
-                  googleApi.prompt();
-               } catch (error) {
-                  console.error('Error prompting for auto-login:', error);
-               }
-            };
+            // Only attempt auto-login if we dont yet have a userName, userId or sessionId
+            // and we are not running locally
+            if ((!userName || !userId || !sessionId) && !isAppInLocalhost()) {
+               const attemptAutoLogin = async () => {
+                  try {
+                     googleApi.prompt();
+                  } catch (error) {
+                     console.error('Error prompting for auto-login:', error);
+                     setError(uiStrings.kLoginFailed);
+                  }
+               };
 
-            // Add a small delay before prompting
-            const promptTimeout = setTimeout(attemptAutoLogin, 1000);
-            return () => clearTimeout(promptTimeout);
+               // Add a small delay before prompting
+               const promptTimeout = setTimeout(attemptAutoLogin, 1000);
+               return () => clearTimeout(promptTimeout);
+            }
+         } catch (error) {
+            console.error('Error initializing Google Sign-In:', error);
+            setError(uiStrings.kLoginFailed);
          }
       }
    }, [userName, userId, sessionId, config.googleClientId]);
