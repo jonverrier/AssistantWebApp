@@ -54,7 +54,7 @@ export const Home = (props: HomeProps) => {
                <LargeTitle style={{ textAlign: 'center', width: '100%' }}> 
                   {props.title}
                </LargeTitle>
-               {(!props.launchButton) && (<Text className={textClasses.centredHintLarge}>{props.strapline}</Text>)}
+               <Text className={textClasses.centredHintLarge}>{props.strapline}</Text>
                <Spacer size={ESpacerSize.kLarge} />
                {props.launchButton && (
                   <>

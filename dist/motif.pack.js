@@ -61177,7 +61177,7 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, { style: { textAlign: "center", width: "100%" } }, props.title), !props.launchButton && /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, { style: { textAlign: "center", width: "100%" } }, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61474,7 +61474,7 @@ Be big, and be clever.
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: void 0, launchButton: true })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: kAboutContent, launchButton: true })
           },
           {
             path: "/about",
