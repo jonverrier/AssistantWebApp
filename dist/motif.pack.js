@@ -61449,19 +61449,6 @@ Be one of the first boxes in London with your own AI assistant. It\u2019s not sc
       Site = (props) => {
         const { personality } = useUser();
         const uiStrings = getCommonUIStrings();
-        (0, import_react41.useEffect)(() => {
-          const script = document.createElement("script");
-          script.src = "https://accounts.google.com/gsi/client";
-          script.async = true;
-          script.defer = true;
-          document.head.appendChild(script);
-          return () => {
-            const scriptElement = document.querySelector('script[src="https://accounts.google.com/gsi/client"]');
-            if (scriptElement && scriptElement.parentNode) {
-              scriptElement.parentNode.removeChild(scriptElement);
-            }
-          };
-        }, []);
         const routes = useRoutes([
           {
             path: "/",
