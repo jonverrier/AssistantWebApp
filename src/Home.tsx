@@ -54,7 +54,7 @@ export const Home = (props: HomeProps) => {
                <LargeTitle> 
                   {props.title}
                </LargeTitle>
-               <Text className={textClasses.centredHintLarge}>{props.strapline}</Text>               
+               {(!props.launchButton) && (<Text className={textClasses.centredHintLarge}>{props.strapline}</Text>)}
                <Spacer size={ESpacerSize.kLarge} />
                {props.launchButton && (
                   <>
@@ -63,7 +63,8 @@ export const Home = (props: HomeProps) => {
                         size="large"
                         style={{
                            fontSize: '1.2rem',
-                           padding: '16px 32px'
+                           padding: '16px 32px',
+                           width: '200px'
                         }}
                         onClick={() => navigate('/theyard')}
                         disabled={isButtonDisabled}                        
@@ -76,7 +77,8 @@ export const Home = (props: HomeProps) => {
                         size="large"
                         style={{
                            fontSize: '1.2rem',
-                           padding: '16px 32px'
+                           padding: '16px 32px',
+                           width: '200px'
                         }}
                         onClick={() => navigate('/crank')}
                         disabled={isButtonDisabled}                        

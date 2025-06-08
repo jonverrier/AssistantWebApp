@@ -61177,14 +61177,15 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, null, props.title), !props.launchButton && /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
             size: "large",
             style: {
               fontSize: "1.2rem",
-              padding: "16px 32px"
+              padding: "16px 32px",
+              width: "200px"
             },
             onClick: () => navigate("/theyard"),
             disabled: isButtonDisabled
@@ -61197,7 +61198,8 @@ ${message.content}
             size: "large",
             style: {
               fontSize: "1.2rem",
-              padding: "16px 32px"
+              padding: "16px 32px",
+              width: "200px"
             },
             onClick: () => navigate("/crank"),
             disabled: isButtonDisabled
