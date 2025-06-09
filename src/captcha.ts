@@ -103,6 +103,8 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
          action
       };
 
+      console.log('Executing reCAPTCHA with token:', token);
+      
       const response = await apiClient.post<IAssistantCaptchaResponse>(
          captchaUrl,
          request
