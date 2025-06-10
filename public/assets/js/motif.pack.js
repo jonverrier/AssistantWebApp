@@ -49298,7 +49298,6 @@ You can check this by searching up for matching entries in a lockfile produced b
         token: token2,
         action
       };
-      console.log("Executing reCAPTCHA with token:", token2);
       const response = await apiClient.post(
         captchaUrl,
         request
@@ -60992,8 +60991,6 @@ ${message.content}
           return delay;
         };
         (0, import_react36.useEffect)(() => {
-          console.log("Current origin:", window.location.origin);
-          console.log("Full URL:", window.location.href);
           window.onGoogleLogin = (response) => {
             if (response.credential) {
               handleLogin(response.credential);
@@ -61004,7 +61001,6 @@ ${message.content}
           const googleApi = window.google?.accounts?.id;
           if (googleApi) {
             try {
-              console.log("Initializing Google Sign-In with client ID:", config.googleClientId);
               googleApi.initialize({
                 client_id: config.googleClientId,
                 callback: window.onGoogleLogin,
