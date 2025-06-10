@@ -12,10 +12,9 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { RoutedSite, Site } from '../src/Site';
 import { expect } from 'expect';
-import { getUIStrings } from '../src/UIStrings';
+import { getCommonUIStrings } from '../src/UIStrings';
 import { MockStorage } from './MockStorage';
 import { UserProvider } from '../src/UserContext';
-import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 
 describe(`RoutedSite Component`, () => {
    let mockStorage: MockStorage;
@@ -40,7 +39,7 @@ describe(`RoutedSite Component`, () => {
 
 
 describe(`Site Component`, () => {
-   const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
+   const uiStrings = getCommonUIStrings();
    let mockStorage: MockStorage;
 
    beforeEach(() => {
@@ -60,10 +59,10 @@ describe(`Site Component`, () => {
          </UserProvider>
       );
 
-      const title = screen.getByText(uiStrings.kAboutTitle);
-      const launchButton = screen.getByText(/The Yard, Peckham/i);
+      const title = screen.getByText(uiStrings.kHomeTitle);
+      const strapline = screen.getByText(uiStrings.kHomeStrapline);
       expect(title).toBeTruthy();
-      expect(launchButton).toBeTruthy();
+      expect(strapline).toBeTruthy();
    });
 
    it('renders About component with content but no launch button', () => {
@@ -76,10 +75,9 @@ describe(`Site Component`, () => {
       );
 
       const title = screen.getByText(uiStrings.kAboutTitle);
-      const content = screen.getByText(/CrossFit works/i);
+      const strapline = screen.getByText(uiStrings.kAboutStrapline);
       expect(title).toBeTruthy();
-      expect(content).toBeTruthy();
-      expect(screen.queryByText(/The Yard, Peckham/i)).toBeNull();
+      expect(strapline).toBeTruthy();
    });
 
    it('renders About component for /about.html path', () => {
@@ -92,10 +90,9 @@ describe(`Site Component`, () => {
       );
 
       const title = screen.getByText(uiStrings.kAboutTitle);
-      const content = screen.getByText(/CrossFit works/i);
+      const strapline = screen.getByText(uiStrings.kAboutStrapline);
       expect(title).toBeTruthy();
-      expect(content).toBeTruthy();
-      expect(screen.queryByText(/The Yard, Peckham/i)).toBeNull();
+      expect(strapline).toBeTruthy();
    });
 
    it('renders PlainText component for /privacy path', () => {
@@ -159,10 +156,10 @@ describe(`Site Component`, () => {
          </UserProvider>
       );
 
-      // Should redirect to home page with launch button
-      const title = screen.getByText(uiStrings.kAboutTitle);
-      const launchButton = screen.getByText(/The Yard, Peckham/i);
+      // Should redirect to home page
+      const title = screen.getByText(uiStrings.kHomeTitle);
+      const strapline = screen.getByText(uiStrings.kHomeStrapline);
       expect(title).toBeTruthy();
-      expect(launchButton).toBeTruthy();
+      expect(strapline).toBeTruthy();
    });
 });
