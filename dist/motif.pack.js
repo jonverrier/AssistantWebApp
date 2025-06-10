@@ -49298,6 +49298,7 @@ You can check this by searching up for matching entries in a lockfile produced b
         token: token2,
         action
       };
+      console.log("Executing reCAPTCHA with token:", token2);
       const response = await apiClient.post(
         captchaUrl,
         request
