@@ -25,6 +25,6 @@ const PlainText = (props) => {
             react_1.default.createElement(SiteUtilities_1.Spacer, { size: SiteUtilities_1.ESpacerSize.kLarge }),
             react_1.default.createElement(PlainTextParagraphs_1.PlainTextParagraphs, { content: props.content }),
             react_1.default.createElement(SiteUtilities_1.Spacer, { size: SiteUtilities_1.ESpacerSize.kXLarge }),
-            react_1.default.createElement(SiteUtilities_1.Footer, null))));
+            react_1.default.createElement(SiteUtilities_1.Footer, { siteType: props.siteType }))));
 };
 exports.PlainText = PlainText;

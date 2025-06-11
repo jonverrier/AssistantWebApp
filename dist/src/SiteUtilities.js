@@ -39,7 +39,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Footer = exports.Spacer = exports.ESpacerSize = exports.Header = void 0;
+exports.Footer = exports.ESiteType = exports.Spacer = exports.ESpacerSize = exports.Header = void 0;
 const react_1 = __importStar(require("react"));
 const react_router_dom_1 = require("react-router-dom");
 const CommonStyles_1 = require("./CommonStyles");
@@ -102,6 +102,12 @@ const Spacer = (props) => {
     return (react_1.default.createElement("div", { style: { height: `${size}px` } }));
 };
 exports.Spacer = Spacer;
+var ESiteType;
+(function (ESiteType) {
+    ESiteType["kMain"] = "main";
+    ESiteType["kPrivacy"] = "privacy";
+    ESiteType["kTerms"] = "terms";
+})(ESiteType || (exports.ESiteType = ESiteType = {}));
 const Footer = (props) => {
     const user = (0, UserContext_1.useUser)();
     const personality = user?.personality;
@@ -112,11 +118,20 @@ const Footer = (props) => {
     const config = (0, ConfigStrings_1.getConfigStrings)();
     const textClasses = (0, CommonStyles_1.standardTextStyles)();
     const navigate = (0, react_router_dom_1.useNavigate)();
+    // Determine if we're on a standalone site (privacy or terms)
+    const standaloneSite = props.siteType === ESiteType.kPrivacy || props.siteType === ESiteType.kTerms;
     const handleLinkClick = async (action, path) => {
         // Call reCAPTCHA before navigation
         // We throw away the result - we are recording actions as per the Google guidance     
         const captchaResult = await (0, captcha_1.executeReCaptcha)(config.captchaApiUrl, action);
         navigate(path);
+    };
+    const handleHardLinkClick = async (action, path) => {
+        // Call reCAPTCHA before navigation
+        // We throw away the result - we are recording actions as per the Google guidance     
+        const captchaResult = await (0, captcha_1.executeReCaptcha)(config.captchaApiUrl, action);
+        // Use window.location for hard navigation
+        window.location.href = path;
     };
     (0, react_1.useEffect)(() => {
         const updateFooterHeight = () => {
@@ -133,25 +148,48 @@ const Footer = (props) => {
         react_1.default.createElement("div", { className: styles.footerContent },
             react_1.default.createElement(react_router_dom_1.Link, { to: "/", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
-                    handleLinkClick(config.homeAction, '/');
+                    if (standaloneSite) {
+                        handleHardLinkClick(config.homeAction, '/');
+                    }
+                    else {
+                        handleLinkClick(config.homeAction, '/');
+                    }
                 } }, uiStrings.kHome),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/chat", className: `${linkClasses.centred} ${!personality ? styles.disabledLink : ''}`, onClick: (e) => {
                     e.preventDefault();
                     if (personality) {
-                        handleLinkClick(config.chatAction, '/chat');
+                        if (standaloneSite) {
+                            handleHardLinkClick(config.chatAction, '/chat.html');
+                        }
+                        else {
+                            handleLinkClick(config.chatAction, '/chat');
+                        }
                     }
                 } }, uiStrings.kChat),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/privacy", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
-                    handleLinkClick(config.privacyAction, '/privacy');
+                    if (props.siteType === ESiteType.kPrivacy) {
+                        // Already on privacy page, do nothing
+                        return;
+                    }
+                    handleHardLinkClick(config.privacyAction, '/privacy.html');
                 } }, uiStrings.kPrivacy),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/terms", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
-                    handleLinkClick(config.termsAction, '/terms');
+                    if (props.siteType === ESiteType.kTerms) {
+                        // Already on terms page, do nothing
+                        return;
+                    }
+                    handleHardLinkClick(config.termsAction, '/terms.html');
                 } }, uiStrings.kTerms),
             react_1.default.createElement(react_router_dom_1.Link, { to: "/about", className: linkClasses.centred, onClick: (e) => {
                     e.preventDefault();
-                    handleLinkClick(config.aboutAction, '/about');
+                    if (standaloneSite) {
+                        handleHardLinkClick(config.aboutAction, '/about.html');
+                    }
+                    else {
+                        handleLinkClick(config.aboutAction, '/about');
+                    }
                 } }, uiStrings.kAbout)),
         react_1.default.createElement("div", { style: { textAlign: 'center' } },
             react_1.default.createElement(react_components_1.Text, { className: textClasses.footer }, "\u00A9 2025 Strong AI Technologies Ltd"))));

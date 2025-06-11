@@ -13,7 +13,7 @@ import { EAssistantPersonality, ISessionResponse, EUserRole, IUserDetails, ELogi
 
 import { Text } from '@fluentui/react-components';
 import { Message, MessageIntent } from './Message';
-import { ESpacerSize, Header } from './SiteUtilities';
+import { ESiteType, ESpacerSize, Header } from './SiteUtilities';
 import { App } from './App';
 import { getSessionData } from './SessionCall';
 import { Footer, Spacer } from './SiteUtilities';
@@ -339,7 +339,7 @@ export const Login = (props: ILoginProps) => {
                />
             )}
          </div>
-         <Footer />
+         <Footer siteType={ESiteType.kMain} />
       </div>
    );
 };

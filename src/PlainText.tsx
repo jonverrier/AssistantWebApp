@@ -11,12 +11,13 @@
 
 import React from 'react';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
-import { Spacer, Footer, Header, ESpacerSize } from './SiteUtilities';
+import { Spacer, Footer, Header, ESpacerSize, ESiteType } from './SiteUtilities';
 import { PlainTextParagraphs } from './PlainTextParagraphs';
 
 export interface IPlainTextProps {
    title: string;
    content: string;
+   siteType: ESiteType;
 }
 
 export const PlainText = (props: IPlainTextProps) => {
@@ -30,7 +31,7 @@ export const PlainText = (props: IPlainTextProps) => {
             <Spacer size={ESpacerSize.kLarge} />         
             <PlainTextParagraphs content={props.content} />
             <Spacer size={ESpacerSize.kXLarge} />              
-            <Footer />
+            <Footer siteType={props.siteType} />
          </div>
       </div>
    );

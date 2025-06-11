@@ -118,7 +118,10 @@ describe('Login Component', () => {
       return (
          <FluentProvider theme={teamsDarkTheme}>
             <UserProvider storage={mockStorage}>
-               <BrowserRouter>
+               <BrowserRouter future={{
+                  v7_startTransition: true,
+                  v7_relativeSplatPath: true
+               }}>
                   <Login personality={EAssistantPersonality.kTheYardAssistant} />
                </BrowserRouter>
             </UserProvider>

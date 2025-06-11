@@ -21,6 +21,8 @@ describe(`RoutedSite Component`, () => {
 
    beforeEach(() => {
       mockStorage = new MockStorage();
+      // Mock window.scrollTo
+      window.scrollTo = () => {};
    });
 
    afterEach(() => {
@@ -44,6 +46,8 @@ describe(`Site Component`, () => {
 
    beforeEach(() => {
       mockStorage = new MockStorage();
+      // Mock window.scrollTo
+      window.scrollTo = () => {};
    });
 
    afterEach(() => {
@@ -53,7 +57,10 @@ describe(`Site Component`, () => {
    it('renders Home component with launch button for root path', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/']}>
+            <MemoryRouter initialEntries={['/']} future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                <Site />
             </MemoryRouter>
          </UserProvider>
@@ -68,7 +75,10 @@ describe(`Site Component`, () => {
    it('renders About component with content but no launch button', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/about']}>
+            <MemoryRouter initialEntries={['/about']} future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                <Site />
             </MemoryRouter>
          </UserProvider>
@@ -83,7 +93,10 @@ describe(`Site Component`, () => {
    it('renders About component for /about.html path', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/about.html']}>
+            <MemoryRouter initialEntries={['/about.html']} future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                <Site />
             </MemoryRouter>
          </UserProvider>
@@ -94,37 +107,14 @@ describe(`Site Component`, () => {
       expect(title).toBeTruthy();
       expect(strapline).toBeTruthy();
    });
-
-   it('renders PlainText component for /privacy path', () => {
-      render(
-         <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/privacy']}>
-               <Site />
-            </MemoryRouter>
-         </UserProvider>
-      );
-
-      const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
-      expect(privacyTitle).toBeTruthy();
-   });
-
-   it('renders PlainText component for /privacy.html path', () => {
-      render(
-         <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/privacy.html']}>
-               <Site />
-            </MemoryRouter>
-         </UserProvider>
-      );
-
-      const privacyTitle = screen.getByText(uiStrings.kPrivacyTitle);
-      expect(privacyTitle).toBeTruthy();
-   });
-
+   
    it('renders PlainText component for /terms path', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/terms']}>
+            <MemoryRouter initialEntries={['/terms']} future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                <Site />
             </MemoryRouter>
          </UserProvider>
@@ -137,7 +127,10 @@ describe(`Site Component`, () => {
    it('renders PlainText component for /terms.html path', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/terms.html']}>
+            <MemoryRouter initialEntries={['/terms.html']} future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                <Site />
             </MemoryRouter>
          </UserProvider>
@@ -150,7 +143,10 @@ describe(`Site Component`, () => {
    it('handles unknown routes gracefully', () => {
       render(
          <UserProvider storage={mockStorage}>
-            <MemoryRouter initialEntries={['/unknown']}>
+            <MemoryRouter initialEntries={['/unknown']} future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                <Site />
             </MemoryRouter>
          </UserProvider>
@@ -163,3 +159,4 @@ describe(`Site Component`, () => {
       expect(strapline).toBeTruthy();
    });
 });
+

@@ -19,7 +19,13 @@ export interface ISpacerProps {
     size?: ESpacerSize;
 }
 export declare const Spacer: (props: ISpacerProps) => React.JSX.Element;
+export declare enum ESiteType {
+    kMain = "main",
+    kPrivacy = "privacy",
+    kTerms = "terms"
+}
 export interface IFooterProps {
+    siteType: ESiteType;
 }
 export declare const Footer: (props: IFooterProps) => React.JSX.Element;
 //# sourceMappingURL=SiteUtilities.d.ts.map

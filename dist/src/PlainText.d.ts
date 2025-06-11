@@ -6,9 +6,11 @@
  */
 /*! Copyright Jon Verrier 2025 */
 import React from 'react';
+import { ESiteType } from './SiteUtilities';
 export interface IPlainTextProps {
     title: string;
     content: string;
+    siteType: ESiteType;
 }
 export declare const PlainText: (props: IPlainTextProps) => React.JSX.Element;
 //# sourceMappingURL=PlainText.d.ts.map

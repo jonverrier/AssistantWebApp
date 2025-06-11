@@ -53,9 +53,9 @@ const UserContext_1 = require("./UserContext");
 const LocalStorage_1 = require("./LocalStorage");
 const ScrollToTop_1 = require("./ScrollToTop");
 const TermsContent_1 = require("./TermsContent");
-const PrivacyContent_1 = require("./PrivacyContent");
 const AboutContent_1 = require("./AboutContent");
 const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
+const SiteUtilities_1 = require("./SiteUtilities");
 // Routed site component
 const RoutedSite = (props) => {
     return (react_1.default.createElement(react_components_1.FluentProvider, { theme: react_components_1.teamsDarkTheme },
@@ -124,20 +124,12 @@ const Site = (props) => {
             element: personality ? react_1.default.createElement(Login_1.Login, { personality: personality }) : react_1.default.createElement(react_router_dom_1.Navigate, { to: "/", replace: true })
         },
         {
-            path: '/privacy',
-            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kPrivacyTitle, content: PrivacyContent_1.kPrivacyContent })
-        },
-        {
-            path: '/privacy.html',
-            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kPrivacyTitle, content: PrivacyContent_1.kPrivacyContent })
-        },
-        {
             path: '/terms',
-            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kTermsTitle, content: TermsContent_1.kTermsContent })
+            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kTermsTitle, content: TermsContent_1.kTermsContent, siteType: SiteUtilities_1.ESiteType.kMain })
         },
         {
             path: '/terms.html',
-            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kTermsTitle, content: TermsContent_1.kTermsContent })
+            element: react_1.default.createElement(PlainText_1.PlainText, { title: uiStrings.kTermsTitle, content: TermsContent_1.kTermsContent, siteType: SiteUtilities_1.ESiteType.kMain })
         },
         {
             path: '*',

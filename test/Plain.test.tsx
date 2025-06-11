@@ -14,6 +14,7 @@ import { expect } from 'expect';
 import { BrowserRouter } from 'react-router-dom';
 import { UserProvider } from '../src/UserContext';
 import { MockStorage } from './MockStorage';
+import { ESiteType } from '../src/SiteUtilities';
 
 describe('Plain Component', () => {
     let mockStorage: MockStorage;
@@ -29,10 +30,14 @@ describe('Plain Component', () => {
     it('renders title correctly', () => {
         const { getByText } = render(
          <UserProvider storage={mockStorage}>
-            <BrowserRouter>         
+            <BrowserRouter future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>         
                 <PlainText 
                     title="Test Title" 
                     content="Test content" 
+                    siteType={ESiteType.kMain}
                 />
             </BrowserRouter>
          </UserProvider>
@@ -43,10 +48,14 @@ describe('Plain Component', () => {
     it('renders normal text content correctly', () => {
         const { getByText } = render(
          <UserProvider storage={mockStorage}>
-            <BrowserRouter>            
+            <BrowserRouter future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>            
                 <PlainText 
                     title="Test" 
                     content="This is a test line" 
+                    siteType={ESiteType.kMain}
                 />
             </BrowserRouter>
          </UserProvider>
@@ -57,11 +66,15 @@ describe('Plain Component', () => {
     it('renders numbered headings correctly', () => {
         const { getByText } = render(
          <UserProvider storage={mockStorage}>
-            <BrowserRouter>
+            <BrowserRouter future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                 <PlainText 
                     title="Test" 
                     content="1. First heading
                     2. Second heading" 
+                    siteType={ESiteType.kMain}
                 />
             </BrowserRouter>
          </UserProvider>
@@ -73,10 +86,14 @@ describe('Plain Component', () => {
     it('renders URLs as links', () => {
         const { getByText } = render(
          <UserProvider storage={mockStorage}>
-            <BrowserRouter>
+            <BrowserRouter future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                 <PlainText 
                     title="Test" 
                     content="Visit https://example.com for more info" 
+                    siteType={ESiteType.kMain}
                 />
             </BrowserRouter>
          </UserProvider>
@@ -95,10 +112,14 @@ Another normal line`;
         
         const { getByText } = render(
          <UserProvider storage={mockStorage}>
-            <BrowserRouter>
+            <BrowserRouter future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                 <PlainText 
                     title="Test" 
                     content={content} 
+                    siteType={ESiteType.kMain}
                 />
             </BrowserRouter>
          </UserProvider>
@@ -114,10 +135,14 @@ Another normal line`;
     it('renders empty content gracefully', () => {
         const { container } = render(
          <UserProvider storage={mockStorage}>
-            <BrowserRouter>
+            <BrowserRouter future={{
+               v7_startTransition: true,
+               v7_relativeSplatPath: true
+            }}>
                 <PlainText 
                     title="Test" 
                     content="" 
+                    siteType={ESiteType.kMain}
                 />
             </BrowserRouter>
          </UserProvider>
