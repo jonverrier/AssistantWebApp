@@ -33,7 +33,10 @@ const stubOnLogout = async () => { };
 const renderWithRouter = (component: React.ReactNode) => {
    const mockStorage = new MockStorage();
    return render(
-      <BrowserRouter>
+      <BrowserRouter future={{
+         v7_startTransition: true,
+         v7_relativeSplatPath: true
+      }}>
          <FluentProvider theme={teamsDarkTheme}>
             <UserProvider storage={mockStorage}>
                {component}

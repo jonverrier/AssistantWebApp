@@ -88,7 +88,14 @@ export const Spacer = (props: ISpacerProps) => {
    return (<div style={{ height: `${size}px` }} />);
 }
 
+export enum ESiteType {
+   kMain = 'main',
+   kPrivacy = 'privacy',
+   kTerms = 'terms'
+}
+
 export interface IFooterProps {
+   siteType: ESiteType;
 }
 
 export const Footer = (props: IFooterProps) => {
@@ -102,11 +109,22 @@ export const Footer = (props: IFooterProps) => {
    const textClasses = standardTextStyles();
    const navigate = useNavigate();
 
+   // Determine if we're on a standalone site (privacy or terms)
+   const standaloneSite = props.siteType === ESiteType.kPrivacy || props.siteType === ESiteType.kTerms;
+
    const handleLinkClick = async (action: string, path: string) => {
       // Call reCAPTCHA before navigation
       // We throw away the result - we are recording actions as per the Google guidance     
       const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
       navigate(path);
+   };
+
+   const handleHardLinkClick = async (action: string, path: string) => {
+      // Call reCAPTCHA before navigation
+      // We throw away the result - we are recording actions as per the Google guidance     
+      const captchaResult = await executeReCaptcha(config.captchaApiUrl, action);
+      // Use window.location for hard navigation
+      window.location.href = path;
    };
 
    useEffect(() => {
@@ -122,7 +140,6 @@ export const Footer = (props: IFooterProps) => {
       return () => window.removeEventListener('resize', updateFooterHeight);
    }, []);
 
-
    return (
       <div ref={footerRef} className={styles.footerContainer}>
          <div className={styles.footerContent}>
@@ -131,7 +148,11 @@ export const Footer = (props: IFooterProps) => {
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
-                  handleLinkClick(config.homeAction, '/');
+                  if (standaloneSite) {
+                     handleHardLinkClick(config.homeAction, '/');
+                  } else {
+                     handleLinkClick(config.homeAction, '/');
+                  }
                }}
             >{uiStrings.kHome}</Link>
             <Link
@@ -140,7 +161,11 @@ export const Footer = (props: IFooterProps) => {
                onClick={(e) => {
                   e.preventDefault();
                   if (personality) {
-                     handleLinkClick(config.chatAction, '/chat');
+                     if (standaloneSite) {
+                        handleHardLinkClick(config.chatAction, '/chat.html');
+                     } else {
+                        handleLinkClick(config.chatAction, '/chat');
+                     }
                   }
                }}
             >{uiStrings.kChat}</Link>            
@@ -149,7 +174,11 @@ export const Footer = (props: IFooterProps) => {
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
-                  handleLinkClick(config.privacyAction, '/privacy');
+                  if (props.siteType === ESiteType.kPrivacy) {
+                     // Already on privacy page, do nothing
+                     return;
+                  }
+                  handleHardLinkClick(config.privacyAction, '/privacy.html');
                }}
             >{uiStrings.kPrivacy}</Link>
             <Link
@@ -157,7 +186,11 @@ export const Footer = (props: IFooterProps) => {
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
-                  handleLinkClick(config.termsAction, '/terms');
+                  if (props.siteType === ESiteType.kTerms) {
+                     // Already on terms page, do nothing
+                     return;
+                  }
+                  handleHardLinkClick(config.termsAction, '/terms.html');
                }}
             >{uiStrings.kTerms}</Link>
             <Link
@@ -165,7 +198,11 @@ export const Footer = (props: IFooterProps) => {
                className={linkClasses.centred}
                onClick={(e) => {
                   e.preventDefault();
-                  handleLinkClick(config.aboutAction, '/about');
+                  if (standaloneSite) {
+                     handleHardLinkClick(config.aboutAction, '/about.html');
+                  } else {
+                     handleLinkClick(config.aboutAction, '/about');
+                  }
                }}
             >{uiStrings.kAbout}</Link>            
          </div>

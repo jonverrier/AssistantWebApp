@@ -9,7 +9,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { pageOuterStyles, innerColumnStyles } from './OuterStyles';
 import { LargeTitle, Image, Button, Text } from '@fluentui/react-components';
-import { Spacer, Footer, ESpacerSize } from './SiteUtilities';
+import { Spacer, Footer, ESpacerSize, ESiteType } from './SiteUtilities';
 import { PlainTextParagraphs, PlainTextAlignment } from './PlainTextParagraphs';
 import { executeReCaptcha, RECAPTCHA_THRESHOLD } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
@@ -107,7 +107,7 @@ export const Home = (props: HomeProps) => {
                   </>
                )}
             </div>
-            <Footer />
+            <Footer siteType={ESiteType.kMain} />
          </div>
       </div>
    );

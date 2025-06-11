@@ -1,13 +1,25 @@
 import React from 'react';
 import { describe, it } from 'mocha';
 import { expect } from 'expect';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
-import { Footer, Spacer } from '../src/SiteUtilities';
-import { getUIStrings } from '../src/UIStrings';
+import { Footer, Spacer, ESiteType } from '../src/SiteUtilities';
+import { getCommonUIStrings } from '../src/UIStrings';
 import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 import { UserProvider } from '../src/UserContext';
+import { browserSessionStorage } from '../src/LocalStorage';
 import { MockStorage } from './MockStorage';
+
+const uiStrings = getCommonUIStrings();
+
+// Mock the reCAPTCHA function
+import * as captcha from '../src/captcha';
+const mockExecuteReCaptcha = async () => 'mock-token';
+const originalExecuteReCaptcha = captcha.executeReCaptcha;
+Object.defineProperty(captcha, 'executeReCaptcha', {
+   value: mockExecuteReCaptcha,
+   writable: true
+});
 
 describe('SiteUtilities', () => {
     describe('Spacer', () => {
@@ -20,7 +32,6 @@ describe('SiteUtilities', () => {
     });
 
     describe('Footer', () => {
-        const uiStrings = getUIStrings(EAssistantPersonality.kTheYardAssistant);
         let mockStorage: MockStorage;
 
         beforeEach(() => {
@@ -29,13 +40,18 @@ describe('SiteUtilities', () => {
 
         afterEach(() => {
             mockStorage.clear();
+            // Restore original function
+            Object.defineProperty(captcha, 'executeReCaptcha', {
+                value: originalExecuteReCaptcha,
+                writable: true
+            });
         });
 
-        const renderFooter = () => {
+        const renderFooter = (props = { siteType: ESiteType.kMain }) => {
             return render(
                 <UserProvider storage={mockStorage}>
                     <BrowserRouter>
-                        <Footer />
+                        <Footer {...props} />
                     </BrowserRouter>
                 </UserProvider>
             );
@@ -44,15 +60,11 @@ describe('SiteUtilities', () => {
         it('should render all navigation links', () => {
             renderFooter();
             
-            const homeLink = screen.getByText(uiStrings.kChat);
-            const privacyLink = screen.getByText(uiStrings.kPrivacy);
-            const termsLink = screen.getByText(uiStrings.kTerms);
-            const aboutLink = screen.getByText(uiStrings.kAbout);
-
-            expect(homeLink).toBeTruthy();
-            expect(privacyLink).toBeTruthy();
-            expect(termsLink).toBeTruthy();
-            expect(aboutLink).toBeTruthy();
+            expect(screen.getByText(uiStrings.kHome)).toBeTruthy();
+            expect(screen.getByText(uiStrings.kChat)).toBeTruthy();
+            expect(screen.getByText(uiStrings.kPrivacy)).toBeTruthy();
+            expect(screen.getByText(uiStrings.kTerms)).toBeTruthy();
+            expect(screen.getByText(uiStrings.kAbout)).toBeTruthy();
         });
 
         it('should have correct href attributes for links', () => {
@@ -64,6 +76,20 @@ describe('SiteUtilities', () => {
             const aboutLink = screen.getByText(uiStrings.kAbout);
 
             expect(homeLink.getAttribute('href')).toBe('/chat');
+            expect(privacyLink.getAttribute('href')).toBe('/privacy');
+            expect(termsLink.getAttribute('href')).toBe('/terms');
+            expect(aboutLink.getAttribute('href')).toBe('/about');
+        });
+
+        it('should have correct href attributes for links when siteType is privacy', () => {
+            renderFooter({ siteType: ESiteType.kPrivacy });
+            
+            const homeLink = screen.getByText(uiStrings.kHome);
+            const privacyLink = screen.getByText(uiStrings.kPrivacy);
+            const termsLink = screen.getByText(uiStrings.kTerms);
+            const aboutLink = screen.getByText(uiStrings.kAbout);
+
+            expect(homeLink.getAttribute('href')).toBe('/');
             expect(privacyLink.getAttribute('href')).toBe('/privacy');
             expect(termsLink.getAttribute('href')).toBe('/terms');
             expect(aboutLink.getAttribute('href')).toBe('/about');

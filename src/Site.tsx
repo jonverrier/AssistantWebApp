@@ -18,46 +18,10 @@ import { getCommonUIStrings } from './UIStrings';
 import { UserProvider, useUser } from './UserContext';
 import { browserSessionStorage } from './LocalStorage';
 import { ScrollToTop } from './ScrollToTop';
-
 import { kTermsContent } from './TermsContent';
-import { kPrivacyContent } from './PrivacyContent';
 import { kAboutContent } from './AboutContent';
 import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
-
-// Type definitions for Google Sign-In
-interface GoogleAccountsId {
-   initialize: (config: {
-      client_id: string;
-      callback: (response: any) => void;
-      auto_select: boolean;
-      cancel_on_tap_outside: boolean;
-   }) => void;
-   renderButton: (
-      element: HTMLElement,
-      config: {
-         theme: string;
-         size: string;
-         width: number;
-      }
-   ) => void;
-   prompt: () => void;
-   disableAutoSelect: () => void;
-}
-
-interface GoogleAccounts {
-   id: GoogleAccountsId;
-}
-
-interface GoogleType {
-   accounts: GoogleAccounts;
-}
-
-// Extend Window interface
-export {};
-declare global {
-   var onGoogleLogin: undefined | ((response: any) => void);
-   var google: undefined | GoogleType;
-}
+import { ESiteType } from './SiteUtilities';
 
 // Routed site component props
 export interface IRoutedSiteProps {
@@ -168,20 +132,12 @@ export const Site = (props: ISiteProps) => {
          element: personality ? <Login personality={personality} /> : <Navigate to="/" replace />
       },
       {
-         path: '/privacy',
-         element: <PlainText title={uiStrings.kPrivacyTitle} content={kPrivacyContent} />
-      },
-      {
-         path: '/privacy.html',
-         element: <PlainText title={uiStrings.kPrivacyTitle} content={kPrivacyContent} />
-      },
-      {
          path: '/terms',
-         element: <PlainText title={uiStrings.kTermsTitle} content={kTermsContent} />
+         element: <PlainText title={uiStrings.kTermsTitle} content={kTermsContent} siteType={ESiteType.kMain} />
       },
       {
          path: '/terms.html',
-         element: <PlainText title={uiStrings.kTermsTitle} content={kTermsContent} />
+         element: <PlainText title={uiStrings.kTermsTitle} content={kTermsContent} siteType={ESiteType.kMain} />
       },
       {
          path: '*',
