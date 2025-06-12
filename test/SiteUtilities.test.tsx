@@ -50,7 +50,10 @@ describe('SiteUtilities', () => {
         const renderFooter = (props = { siteType: ESiteType.kMain }) => {
             return render(
                 <UserProvider storage={mockStorage}>
-                    <BrowserRouter>
+                    <BrowserRouter future={{
+                        v7_startTransition: true,
+                        v7_relativeSplatPath: true
+                    }}>
                         <Footer {...props} />
                     </BrowserRouter>
                 </UserProvider>
