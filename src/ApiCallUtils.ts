@@ -8,6 +8,8 @@
 
 import axios from 'axios';
 import axiosRetry from 'axios-retry';
+import { ILoggingContext, getLogger, withLogging } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
 
 export interface ApiClient {
     post: <T>(url: string, data: any, config?: any) => Promise<{ 
@@ -22,9 +24,11 @@ export interface ApiClient {
  * This function creates an Axios instance with a 30-second timeout, JSON content type,
  * and disables credentials. It also includes retry logic with exponential backoff and jitter.
  * 
+ * @param loggingContext Optional logging context for API logging
+ * @param loggerType Optional logger type for API logging
  * @returns An Axios instance configured for retryable requests
  */
-export function createRetryableAxiosClient(): ApiClient {
+export function createRetryableAxiosClient(loggingContext?: ILoggingContext, loggerType: ELoggerType = ELoggerType.kApi): ApiClient {
     const client = axios.create({
         timeout: 30000, // 30 second timeout
         headers: {
@@ -46,6 +50,12 @@ export function createRetryableAxiosClient(): ApiClient {
         },
         shouldResetTimeout: true
     });
+
+    // If logging context is provided, wrap the client with logging
+    if (loggingContext) {
+        const logger = getLogger(loggingContext, loggerType);
+        return withLogging(client, logger);
+    }
 
     return client;
 } 

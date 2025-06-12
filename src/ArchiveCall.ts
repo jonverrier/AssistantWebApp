@@ -16,7 +16,7 @@ import { IChatMessage,
 import { ISummariseMessageRequest,
    ISummariseMessageResponse } from '../import/AssistantChatApiTypes';
 import { encode } from 'gpt-tokenizer';
-import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 import { EApiEvent } from './UIStateMachine';
 
 // Constants for archive settings

@@ -7,7 +7,7 @@
 
 // Copyright (c) Jon Verrier, 2025
 
-import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 import { IAssistantCaptchaRequest, IAssistantCaptchaResponse } from '../import/AssistantChatApiTypes';
 import { isAppInLocalhost } from './LocalStorage';
 import { getConfigStrings } from './ConfigStrings';

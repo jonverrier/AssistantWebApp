@@ -16,7 +16,7 @@ import {
     IUserSessionSummary
 } from 'prompt-repository';
 
-import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 
 /**
  * Options for retrieving chat messages.

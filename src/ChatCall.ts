@@ -19,7 +19,7 @@ import { IAssistantFullChatRequest,
    EAssistantPersonality,
    EScreeningClassification } from '../import/AssistantChatApiTypes';
 import { EApiEvent } from './UIStateMachine';
-import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 import { isAppInBrowser } from './LocalStorage';
 
 
