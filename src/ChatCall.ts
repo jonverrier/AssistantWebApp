@@ -19,9 +19,29 @@ import { IAssistantFullChatRequest,
    EAssistantPersonality,
    EScreeningClassification } from '../import/AssistantChatApiTypes';
 import { EApiEvent } from './UIStateMachine';
-import { ApiClient, createRetryableAxiosClient } from './ChatCallUtils';
+import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 import { isAppInBrowser } from './LocalStorage';
+import { ConsoleLoggingContext, getLogger } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
 
+// Create loggers
+const apiLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kApi);
+
+/**
+ * Cleans and logs the chat API response by removing data: prefixes and newlines
+ * @param responseData - The raw response data to clean
+ * @returns The cleaned response string
+ */
+function cleanAndLogResponse(responseData: string | Stream): string {
+    const cleanResponse = responseData.toString()
+        .split('\n')
+        .filter((line: string) => line.trim().startsWith('data: '))
+        .map((line: string) => line.slice(6).trim())
+        .filter((content: string) => content && content !== '[DONE]')
+        .join('');
+    apiLogger.logResponse(`Chat API response content: ${cleanResponse}`);
+    return cleanResponse;
+}
 
 // Add new interface for streaming response
 interface StreamResponse {
@@ -95,10 +115,12 @@ export async function processChat({
         
         if (!hasAssistantResponses) {
             // Call the screening API
+            apiLogger.logInput(`Screening API call to ${screeningApiUrl} with data: ${JSON.stringify(chatRequest)}`);
             const screeningResponse = await apiClient.post<IScreeningClassificationResponse>(
                 screeningApiUrl,
                 chatRequest
             );        
+            apiLogger.logResponse(`Screening API response data: ${JSON.stringify(screeningResponse.data)}`);
             const screeningResult = screeningResponse.data;
     
             if (!screeningResult || screeningResult.type === EScreeningClassification.kOffTopic) {
@@ -131,7 +153,9 @@ export async function processChat({
                     if (!isAppInBrowser()) {
                         // Node.js environment: use response streaming
                         config.responseType = 'stream';
+                        apiLogger.logInput(`Chat API call to ${chatApiUrl} with data: ${JSON.stringify(chatRequest)}`);
                         const response = await apiClient.post<Stream>(chatApiUrl, chatRequest, config) as StreamResponse;
+                        cleanAndLogResponse(response.data);
                         const stream = response.data;
                         
                         stream.on('data', (chunk: Buffer) => {
@@ -146,7 +170,7 @@ export async function processChat({
                         });
 
                         stream.on('error', (error: Error) => {
-                            console.error('Stream error:', error);
+                            apiLogger.logError(`Stream error: ${error.message}`);
                             updateState(EApiEvent.kError);
                             reject(error);
                         });
@@ -164,12 +188,14 @@ export async function processChat({
 
                                 processStreamData(newData);
                             } catch (e) {
-                                console.error('Error in onDownloadProgress:', e);
+                                apiLogger.logError(`Error in onDownloadProgress: ${e instanceof Error ? e.message : 'Unknown error'}`);
                                 throw e;
                             }
                         };
 
+                        apiLogger.logInput(`Chat API call to ${chatApiUrl} with data: ${JSON.stringify(chatRequest)}`);
                         const response = await apiClient.post(chatApiUrl, chatRequest, config);
+                        cleanAndLogResponse(response.data as string);
 
                         if (response.status === 200) {
                             updateState(EApiEvent.kFinishedChat);
@@ -181,7 +207,7 @@ export async function processChat({
                     }
 
                 } catch (error) {
-                    console.error('Streaming error:', error);
+                    apiLogger.logError(`Streaming error: ${error instanceof Error ? error.message : 'Unknown error'}`);
                     updateState(EApiEvent.kError);
                     reject(error);
                 }
@@ -233,7 +259,7 @@ export async function processChat({
 
     } catch (error) {
         updateState(EApiEvent.kError);
-        
+        apiLogger.logError(`Error in processChat: ${error instanceof Error ? error.message : 'Unknown error'}`);
         return undefined;
     }
 }

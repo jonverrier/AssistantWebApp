@@ -49138,36 +49138,6 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
-  // src/ChatCallUtils.ts
-  function createRetryableAxiosClient() {
-    const client = axios_default.create({
-      timeout: 3e4,
-      // 30 second timeout
-      headers: {
-        "Content-Type": "application/json"
-      },
-      withCredentials: false
-    });
-    esm_default(client, {
-      retries: 3,
-      retryDelay: (retryCount) => {
-        return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
-      },
-      retryCondition: (error) => {
-        return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
-      },
-      shouldResetTimeout: true
-    });
-    return client;
-  }
-  var init_ChatCallUtils = __esm({
-    "src/ChatCallUtils.ts"() {
-      "use strict";
-      init_axios2();
-      init_esm3();
-    }
-  });
-
   // src/LocalStorage.ts
   var SESSION_STORAGE_KEY, USER_ID_STORAGE_KEY, USER_NAME_STORAGE_KEY, USER_FACILITY_PERSONALITY_KEY, USER_ROLE_KEY, isAppInLocalhost, isAppInBrowser, browserSessionStorage;
   var init_LocalStorage = __esm({
@@ -49208,6 +49178,13 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
   });
 
+  // src/LoggingTypes.ts
+  var init_LoggingTypes = __esm({
+    "src/LoggingTypes.ts"() {
+      "use strict";
+    }
+  });
+
   // src/ConfigStrings.ts
   function getConfigStrings() {
     return {
@@ -49220,6 +49197,7 @@ You can check this by searching up for matching entries in a lockfile produced b
     "src/ConfigStrings.ts"() {
       "use strict";
       init_LocalStorage();
+      init_LoggingTypes();
       CommonConfigStrings = {
         googleCaptchaSiteKey: "6LcHeTcrAAAAAEo5t4RU00Y9X3zwYm_tzvnan5j3",
         googleClientId: "603873085545-i8ptftpe1avq0p92l66glr8oodq3ok5e.apps.googleusercontent.com",
@@ -49229,7 +49207,10 @@ You can check this by searching up for matching entries in a lockfile produced b
         privacyAction: "privacy",
         homeAction: "home",
         aboutAction: "about",
-        contactAction: "contact"
+        contactAction: "contact",
+        loggingTypes: ["api" /* kApi */, "internal" /* kInternal */],
+        // Enable both logger types by default
+        unknownError: "An unknown error occurred."
       };
       LocalEnvironmentStrings = {
         screenUrl: "http://localhost:7071/api/ScreenInput",
@@ -49249,6 +49230,112 @@ You can check this by searching up for matching entries in a lockfile produced b
         captchaApiUrl: "https://motifassistantapi.azurewebsites.net/api/Captcha",
         sessionApiUrl: "https://motifassistantapi.azurewebsites.net/api/Session"
       };
+    }
+  });
+
+  // src/LoggingUtilities.ts
+  function sanitizeString(message) {
+    if (!message) return "Unknown error";
+    return message.replace(/[\x00-\x1F\x7F-\x9F]/g, "").replace(/<[^>]*>/g, "").replace(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, "[EMAIL]").replace(/\b\d{16,19}\b/g, "[CARD]").trim();
+  }
+  function getLogger(context, type) {
+    return new Logger(context, type);
+  }
+  function withLogging(apiClient, logger) {
+    return {
+      post: async (url, data, config) => {
+        try {
+          logger.logInput(`POST ${url} ${JSON.stringify(data)}`);
+          const response = await apiClient.post(url, data, config);
+          logger.logResponse(`${url} responded with ${JSON.stringify(response.data)}`);
+          return response;
+        } catch (error) {
+          logger.logError(error instanceof Error ? error.message : "Unknown error occurred");
+          throw error;
+        }
+      }
+    };
+  }
+  var ConsoleLoggingContext, Logger;
+  var init_LoggingUtilities = __esm({
+    "src/LoggingUtilities.ts"() {
+      "use strict";
+      init_ConfigStrings();
+      ConsoleLoggingContext = class {
+        log(message, details) {
+          console.log(message, details || "");
+        }
+        info(message, details) {
+          console.info(message, details || "");
+        }
+        warning(message, details) {
+          console.warn(message, details || "");
+        }
+        error(message, details) {
+          console.error(message, details || "");
+        }
+      };
+      Logger = class {
+        context;
+        type;
+        isEnabled;
+        constructor(context, type) {
+          this.context = context;
+          this.type = type;
+          const config = getConfigStrings();
+          this.isEnabled = config.loggingTypes?.includes(type) ?? false;
+        }
+        logInput(message) {
+          if (!this.isEnabled) return;
+          const sanitized = sanitizeString(message);
+          this.context.info(`[${this.type}] Input: ${sanitized}`);
+        }
+        logResponse(message) {
+          if (!this.isEnabled) return;
+          const sanitized = sanitizeString(message);
+          this.context.info(`[${this.type}] Response: ${sanitized}`);
+        }
+        logError(message) {
+          const sanitized = sanitizeString(message);
+          this.context.error(`[${this.type}] Error: ${sanitized}`);
+        }
+      };
+    }
+  });
+
+  // src/ApiCallUtils.ts
+  function createRetryableAxiosClient(loggingContext, loggerType = "api" /* kApi */) {
+    const client = axios_default.create({
+      timeout: 3e4,
+      // 30 second timeout
+      headers: {
+        "Content-Type": "application/json"
+      },
+      withCredentials: false
+    });
+    esm_default(client, {
+      retries: 3,
+      retryDelay: (retryCount) => {
+        return esm_default.exponentialDelay(retryCount) + Math.random() * 1e3;
+      },
+      retryCondition: (error) => {
+        return esm_default.isNetworkOrIdempotentRequestError(error) || (error.response?.status ?? 0) >= 500 || error.code === "ECONNABORTED" || error.code === "ERR_NETWORK";
+      },
+      shouldResetTimeout: true
+    });
+    if (loggingContext) {
+      const logger = getLogger(loggingContext, loggerType);
+      return withLogging(client, logger);
+    }
+    return client;
+  }
+  var init_ApiCallUtils = __esm({
+    "src/ApiCallUtils.ts"() {
+      "use strict";
+      init_axios2();
+      init_esm3();
+      init_LoggingUtilities();
+      init_LoggingTypes();
     }
   });
 
@@ -49274,7 +49361,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       }
       if (!window.grecaptcha) {
         let errorMessage = "reCAPTCHA not loaded.";
-        console.error(errorMessage);
+        internalLogger.logError(errorMessage);
         return {
           success: false,
           error: errorMessage
@@ -49283,7 +49370,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       try {
         await waitForRecaptcha();
       } catch (error) {
-        console.error("Failed to initialize reCAPTCHA:", error);
+        internalLogger.logError(`Failed to initialize reCAPTCHA: ${error instanceof Error ? error.message : "Unknown error"}`);
         return {
           success: false,
           error: "Failed to initialize reCAPTCHA"
@@ -49308,7 +49395,7 @@ You can check this by searching up for matching entries in a lockfile produced b
       };
     } catch (error) {
       let errorMessage = "Failed to execute reCAPTCHA";
-      console.error(errorMessage + ": " + error);
+      internalLogger.logError(`${errorMessage}: ${error instanceof Error ? error.message : "Unknown error"}`);
       return {
         success: false,
         error: errorMessage
@@ -49330,13 +49417,17 @@ You can check this by searching up for matching entries in a lockfile produced b
     }
     return securitySteps;
   }
-  var RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT, RECAPTCHA_READY_TIMEOUT;
+  var internalLogger, apiLogger, RECAPTCHA_THRESHOLD, RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD, RECAPTCHA_BLOCK_THRESHOLD, SECURITY_STEP_BLOCK_REQUEST, SECURITY_STEP_LOG_SUSPICIOUS, SECURITY_STEP_ADDITIONAL_VERIFICATION, SECURITY_STEP_RATE_LIMIT, RECAPTCHA_READY_TIMEOUT;
   var init_captcha = __esm({
     "src/captcha.ts"() {
       "use strict";
-      init_ChatCallUtils();
+      init_ApiCallUtils();
       init_LocalStorage();
       init_ConfigStrings();
+      init_LoggingUtilities();
+      init_LoggingTypes();
+      internalLogger = getLogger(new ConsoleLoggingContext(), "internal" /* kInternal */);
+      apiLogger = getLogger(new ConsoleLoggingContext(), "api" /* kApi */);
       RECAPTCHA_THRESHOLD = 0.5;
       RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
       RECAPTCHA_BLOCK_THRESHOLD = 0.3;
@@ -58153,6 +58244,11 @@ ${message.content}
   });
 
   // src/ChatCall.ts
+  function cleanAndLogResponse(responseData) {
+    const cleanResponse = responseData.toString().split("\n").filter((line2) => line2.trim().startsWith("data: ")).map((line2) => line2.slice(6).trim()).filter((content) => content && content !== "[DONE]").join("");
+    apiLogger2.logResponse(`Chat API response content: ${cleanResponse}`);
+    return cleanResponse;
+  }
   async function processChat({
     screeningApiUrl,
     chatApiUrl,
@@ -58180,10 +58276,12 @@ ${message.content}
       const hasAssistantResponses = history.some((msg) => msg.role === import_prompt_repository.EChatRole.kAssistant);
       updateState("StartedScreening" /* kStartedScreening */);
       if (!hasAssistantResponses) {
+        apiLogger2.logInput(`Screening API call to ${screeningApiUrl} with data: ${JSON.stringify(chatRequest)}`);
         const screeningResponse = await apiClient.post(
           screeningApiUrl,
           chatRequest
         );
+        apiLogger2.logResponse(`Screening API response data: ${JSON.stringify(screeningResponse.data)}`);
         const screeningResult = screeningResponse.data;
         if (!screeningResult || screeningResult.type === "offTopic" /* kOffTopic */) {
           updateState("RejectedFromScreening" /* kRejectedFromScreening */);
@@ -58210,7 +58308,9 @@ ${message.content}
             };
             if (!isAppInBrowser()) {
               config.responseType = "stream";
+              apiLogger2.logInput(`Chat API call to ${chatApiUrl} with data: ${JSON.stringify(chatRequest)}`);
               const response = await apiClient.post(chatApiUrl, chatRequest, config);
+              cleanAndLogResponse(response.data);
               const stream = response.data;
               stream.on("data", (chunk) => {
                 const chunkStr = chunk.toString();
@@ -58222,7 +58322,7 @@ ${message.content}
                 resolve(completeResponse);
               });
               stream.on("error", (error) => {
-                console.error("Stream error:", error);
+                apiLogger2.logError(`Stream error: ${error.message}`);
                 updateState("Error" /* kError */);
                 reject(error);
               });
@@ -58236,11 +58336,13 @@ ${message.content}
                   lastProcessedLength = rawData.length;
                   processStreamData(newData);
                 } catch (e) {
-                  console.error("Error in onDownloadProgress:", e);
+                  apiLogger2.logError(`Error in onDownloadProgress: ${e instanceof Error ? e.message : "Unknown error"}`);
                   throw e;
                 }
               };
+              apiLogger2.logInput(`Chat API call to ${chatApiUrl} with data: ${JSON.stringify(chatRequest)}`);
               const response = await apiClient.post(chatApiUrl, chatRequest, config);
+              cleanAndLogResponse(response.data);
               if (response.status === 200) {
                 updateState("FinishedChat" /* kFinishedChat */);
                 onComplete();
@@ -58250,7 +58352,7 @@ ${message.content}
               }
             }
           } catch (error) {
-            console.error("Streaming error:", error);
+            apiLogger2.logError(`Streaming error: ${error instanceof Error ? error.message : "Unknown error"}`);
             updateState("Error" /* kError */);
             reject(error);
           }
@@ -58292,18 +58394,22 @@ ${message.content}
       });
     } catch (error) {
       updateState("Error" /* kError */);
+      apiLogger2.logError(`Error in processChat: ${error instanceof Error ? error.message : "Unknown error"}`);
       return void 0;
     }
   }
-  var import_prompt_repository;
+  var import_prompt_repository, apiLogger2;
   var init_ChatCall = __esm({
     "src/ChatCall.ts"() {
       "use strict";
       import_prompt_repository = __toESM(require_entry());
       init_AssistantChatApiTypes();
       init_UIStateMachine();
-      init_ChatCallUtils();
+      init_ApiCallUtils();
       init_LocalStorage();
+      init_LoggingUtilities();
+      init_LoggingTypes();
+      apiLogger2 = getLogger(new ConsoleLoggingContext(), "api" /* kApi */);
     }
   });
 
@@ -58512,10 +58618,12 @@ ${message.content}
           limit,
           continuation
         };
+        apiLogger3.logInput(`Messages API call to ${messagesApiUrl} with data: ${JSON.stringify(request)}`);
         const response = await apiClient.post(
           messagesApiUrl,
           request
         );
+        apiLogger3.logResponse(`Messages API response data: ${JSON.stringify(response.data)}`);
         const { records, continuation: nextContinuation } = response.data;
         allMessages.push(...records);
         if (onPage) {
@@ -58525,14 +58633,20 @@ ${message.content}
       } while (continuation);
       return allMessages;
     } catch (error) {
-      console.error("Error retrieving messages:", error);
+      const config = getConfigStrings();
+      apiLogger3.logError(`Error retrieving messages: ${error instanceof Error ? error.message : config.unknownError}`);
       throw error;
     }
   }
+  var apiLogger3;
   var init_ChatHistoryCall = __esm({
     "src/ChatHistoryCall.ts"() {
       "use strict";
-      init_ChatCallUtils();
+      init_ApiCallUtils();
+      init_LoggingUtilities();
+      init_LoggingTypes();
+      init_ConfigStrings();
+      apiLogger3 = getLogger(new ConsoleLoggingContext(), "api" /* kApi */);
     }
   });
 
@@ -60444,7 +60558,8 @@ ${message.content}
       );
       newSummaryMessage = response.data.summary;
     } catch (error) {
-      console.error("Error summarizing messages:", error);
+      const config = getConfigStrings();
+      apiLogger4.logError(`Error summarizing messages: ${error instanceof Error ? error.message : config.unknownError}`);
       updateState("Error" /* kError */);
       return messages;
     }
@@ -60474,19 +60589,25 @@ ${message.content}
       updateState("FinishedArchiving" /* kFinishedArchiving */);
       return recentMessages;
     } catch (error) {
-      console.error("Error archiving messages:", error);
+      const config = getConfigStrings();
+      apiLogger4.logError(`Error archiving messages: ${error instanceof Error ? error.message : config.unknownError}`);
       updateState("Error" /* kError */);
       return messages;
     }
   }
-  var import_prompt_repository3, kMaxMessagesBeforeArchive, kArchivePageSize, kTokenThreshold;
+  var import_prompt_repository3, internalLogger2, apiLogger4, kMaxMessagesBeforeArchive, kArchivePageSize, kTokenThreshold;
   var init_ArchiveCall = __esm({
     "src/ArchiveCall.ts"() {
       "use strict";
       import_prompt_repository3 = __toESM(require_entry());
       init_main();
-      init_ChatCallUtils();
+      init_ApiCallUtils();
       init_UIStateMachine();
+      init_LoggingUtilities();
+      init_LoggingTypes();
+      init_ConfigStrings();
+      internalLogger2 = getLogger(new ConsoleLoggingContext(), "internal" /* kInternal */);
+      apiLogger4 = getLogger(new ConsoleLoggingContext(), "api" /* kApi */);
       kMaxMessagesBeforeArchive = 100;
       kArchivePageSize = 50;
       kTokenThreshold = 14 * 1024;
@@ -60832,35 +60953,39 @@ ${message.content}
         userDetails,
         personality
       };
-      const response = await axios_default.post(sessionApiUrl, request, {
-        headers: {
-          "Accept": "application/json",
-          "Content-Type": "application/json"
-        }
-      });
+      const apiClient = createRetryableAxiosClient();
+      apiLogger5.logInput(`Session API call to ${sessionApiUrl} with data: ${JSON.stringify(request)}`);
+      const response = await apiClient.post(sessionApiUrl, request);
+      apiLogger5.logResponse(`Session API response data: ${JSON.stringify(response.data)}`);
       const newSessionId = response?.data?.sessionId || void 0;
       const userRole = response?.data?.role || "guest" /* kGuest */;
       const showInterstitialPrompt = response?.data?.showInterstitialPrompt || "none" /* kNone */;
       if (!newSessionId) {
-        console.error("No sessionId in response");
+        apiLogger5.logError("No sessionId in response");
         return void 0;
       }
       return { sessionId: newSessionId, role: userRole, showInterstitialPrompt };
     } catch (error) {
-      console.error("Error getting session UUID:", error);
+      const config = getConfigStrings();
+      apiLogger5.logError(`Error getting session UUID: ${error instanceof Error ? error.message : config.unknownError}`);
       return void 0;
     }
   }
+  var apiLogger5;
   var init_SessionCall = __esm({
     "src/SessionCall.ts"() {
       "use strict";
-      init_axios2();
       init_AssistantChatApiTypes();
+      init_ApiCallUtils();
+      init_LoggingUtilities();
+      init_LoggingTypes();
+      init_ConfigStrings();
+      apiLogger5 = getLogger(new ConsoleLoggingContext(), "api" /* kApi */);
     }
   });
 
   // src/Login.tsx
-  var import_react36, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
+  var import_react36, internalLogger3, apiLogger6, containerStyles, innerStyles, RATE_LIMIT_INITIAL_DELAY, RATE_LIMIT_MAX_DELAY, RATE_LIMIT_RESET_TIME, Login, LoginView;
   var init_Login = __esm({
     "src/Login.tsx"() {
       "use strict";
@@ -60880,6 +61005,10 @@ ${message.content}
       init_ConfigStrings();
       init_LocalStorage();
       init_UserContext();
+      init_LoggingUtilities();
+      init_LoggingTypes();
+      internalLogger3 = getLogger(new ConsoleLoggingContext(), "internal" /* kInternal */);
+      apiLogger6 = getLogger(new ConsoleLoggingContext(), "api" /* kApi */);
       containerStyles = {
         display: "flex",
         flexDirection: "column",
@@ -60922,7 +61051,7 @@ ${message.content}
                   }
                 });
                 if (!response.ok) {
-                  console.warn("Failed to revoke Google token:", response.statusText);
+                  internalLogger3.logError(`Failed to revoke Google token: ${response.statusText}`);
                 }
               }
             }
@@ -60937,22 +61066,24 @@ ${message.content}
               });
             }
           } catch (error2) {
-            console.error("Error during logout:", error2);
+            internalLogger3.logError(`Error during logout: ${error2 instanceof Error ? error2.message : "Unknown error"}`);
             setError(uiStrings.kLogoutFailed);
           }
         };
         const handleLogin = async (credential) => {
           try {
             const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
-            console.log("reCAPTCHA result:", recaptchaResult);
+            apiLogger6.logInput(`reCAPTCHA result: ${JSON.stringify(recaptchaResult)}`);
             if (!recaptchaResult.success) {
               const securitySteps = handleLowScore(recaptchaResult.score || 0);
               if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
                 setError(uiStrings.kLoginBlocked);
+                internalLogger3.logError("Login blocked due to low reCAPTCHA score");
                 return;
               }
               if (securitySteps.includes(SECURITY_STEP_ADDITIONAL_VERIFICATION)) {
                 setError(uiStrings.kAdditionalVerification);
+                internalLogger3.logError("Additional verification required due to low reCAPTCHA score");
                 return;
               }
               if (securitySteps.includes(SECURITY_STEP_RATE_LIMIT)) {
@@ -60964,6 +61095,7 @@ ${message.content}
                 setTimeout(() => {
                   setIsWaiting(false);
                 }, delay);
+                internalLogger3.logError(`Rate limit applied: ${delay}ms delay after ${rateLimitAttempts} attempts`);
                 return;
               }
             }
@@ -60980,12 +61112,12 @@ ${message.content}
                 loginProvider: "google" /* kGoogle */
               };
               sessionResponse = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
+              apiLogger6.logResponse(`Session created for user ${userId2}`);
             } catch (error2) {
-              console.error("Error getting session ID:", error2);
+              internalLogger3.logError(`Error getting session ID: ${error2 instanceof Error ? error2.message : "Unknown error"}`);
             }
             if (!sessionResponse) {
               sessionResponse = { sessionId: uuidv4(), role: "guest" /* kGuest */, showInterstitialPrompt: "none" /* kNone */ };
-              console.warn("Using temporary session ID");
             }
             if (user) {
               user.onLogin(
@@ -60997,7 +61129,7 @@ ${message.content}
               );
             }
           } catch (error2) {
-            console.error("Error during login:", error2);
+            internalLogger3.logError(`Error during login: ${error2 instanceof Error ? error2.message : "Unknown error"}`);
             setError(uiStrings.kLoginFailed);
           }
         };
@@ -61018,7 +61150,7 @@ ${message.content}
             if (response.credential) {
               handleLogin(response.credential);
             } else {
-              console.error("Google login callback received no credential:", response);
+              internalLogger3.logError("Google login callback received no credential");
             }
           };
           const googleApi = window.google?.accounts?.id;
@@ -61035,7 +61167,7 @@ ${message.content}
                   try {
                     googleApi.prompt();
                   } catch (error2) {
-                    console.error("Error prompting for auto-login:", error2);
+                    internalLogger3.logError(`Error prompting for auto-login: ${error2 instanceof Error ? error2.message : "Unknown error"}`);
                     setError(uiStrings.kLoginFailed);
                   }
                 };
@@ -61043,7 +61175,7 @@ ${message.content}
                 return () => clearTimeout(promptTimeout);
               }
             } catch (error2) {
-              console.error("Error initializing Google Sign-In:", error2);
+              internalLogger3.logError(`Error initializing Google Sign-In: ${error2 instanceof Error ? error2.message : "Unknown error"}`);
               setError(uiStrings.kLoginFailed);
             }
           }
@@ -61174,17 +61306,38 @@ ${message.content}
       init_captcha();
       init_ConfigStrings();
       init_CommonStyles();
+      init_LocalStorage();
       Home2 = (props) => {
         const pageOuterClasses = pageOuterStyles();
         const innerColumnClasses = innerColumnStyles();
         const textClasses = standardTextStyles();
         const navigate = useNavigate();
         const [isButtonDisabled, setIsButtonDisabled] = (0, import_react39.useState)(false);
+        const [error, setError] = (0, import_react39.useState)();
         (0, import_react39.useEffect)(() => {
           const checkCaptcha = async () => {
-            const config = getConfigStrings();
-            const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
-            if (result.score && result.score < RECAPTCHA_THRESHOLD) {
+            try {
+              if (isAppInLocalhost()) {
+                return;
+              }
+              if (!window.grecaptcha) {
+                console.error("reCAPTCHA script not loaded");
+                setError("Security check failed to load");
+                setIsButtonDisabled(true);
+                return;
+              }
+              await new Promise((resolve) => {
+                window.grecaptcha.ready(() => resolve());
+              });
+              const config = getConfigStrings();
+              const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
+              if (!result.success || result.score && result.score < RECAPTCHA_THRESHOLD) {
+                setIsButtonDisabled(true);
+                setError("Security check failed");
+              }
+            } catch (error2) {
+              console.error("Error during reCAPTCHA check:", error2);
+              setError("Security check failed");
               setIsButtonDisabled(true);
             }
           };
@@ -61197,7 +61350,7 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, { style: { textAlign: "center", width: "100%" } }, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, { style: { textAlign: "center", width: "100%" } }, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), error && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(Spacer, null), /* @__PURE__ */ import_react39.default.createElement(Text, { style: { color: "red" } }, error)), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",

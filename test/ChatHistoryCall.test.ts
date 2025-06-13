@@ -8,10 +8,8 @@ import sinon from 'sinon';
 import { sandbox } from './setup';
 
 import { IChatMessage, EChatRole, IUserSessionSummary } from 'prompt-repository';
-
-import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
+   
 import { processChatHistory } from '../src/ChatHistoryCall';
-import { createRetryableAxiosClient } from '../src/ChatCallUtils';
 
 describe('ChatHistory', function() {
     // Increase timeout to 10000ms

@@ -30,7 +30,12 @@ import { executeReCaptcha, handleLowScore,
 import { getConfigStrings } from './ConfigStrings';
 import { isAppInLocalhost } from './LocalStorage';
 import { useUser } from './UserContext';
+import { ConsoleLoggingContext, getLogger } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
 
+// Create loggers
+const internalLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kInternal);
+const apiLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kApi);
 
 // Extend Window interface
 export {};
@@ -136,7 +141,7 @@ export const Login = (props: ILoginProps) => {
                });
 
                if (!response.ok) {
-                  console.warn('Failed to revoke Google token:', response.statusText);
+                  internalLogger.logError(`Failed to revoke Google token: ${response.statusText}`);
                }
             }
          }
@@ -155,7 +160,7 @@ export const Login = (props: ILoginProps) => {
             });
          }
       } catch (error) {
-         console.error('Error during logout:', error);
+         internalLogger.logError(`Error during logout: ${error instanceof Error ? error.message : 'Unknown error'}`);
          setError(uiStrings.kLogoutFailed);
       }
    };
@@ -166,7 +171,7 @@ export const Login = (props: ILoginProps) => {
          // First verify with reCAPTCHA
          const recaptchaResult = await executeReCaptcha(config.captchaApiUrl, config.loginAction);
 
-         console.log('reCAPTCHA result:', recaptchaResult);
+         apiLogger.logInput(`reCAPTCHA result: ${JSON.stringify(recaptchaResult)}`);
          
          if (!recaptchaResult.success) {
             // Handle low score
@@ -174,11 +179,13 @@ export const Login = (props: ILoginProps) => {
             
             if (securitySteps.includes(SECURITY_STEP_BLOCK_REQUEST)) {
                setError(uiStrings.kLoginBlocked);
+               internalLogger.logError('Login blocked due to low reCAPTCHA score');
                return;
             }
             
             if (securitySteps.includes(SECURITY_STEP_ADDITIONAL_VERIFICATION)) {
                setError(uiStrings.kAdditionalVerification);
+               internalLogger.logError('Additional verification required due to low reCAPTCHA score');
                return;
             }
             
@@ -192,7 +199,8 @@ export const Login = (props: ILoginProps) => {
                setIsWaiting(true);
                setTimeout(() => {
                   setIsWaiting(false);
-               }, delay);            
+               }, delay);
+               internalLogger.logError(`Rate limit applied: ${delay}ms delay after ${rateLimitAttempts} attempts`);
                return;
             }
          }
@@ -212,14 +220,14 @@ export const Login = (props: ILoginProps) => {
                loginProvider: ELoginProvider.kGoogle
             };
             sessionResponse = await getSessionData(config.sessionApiUrl, userDetails, props.personality);
+            apiLogger.logResponse(`Session created for user ${userId}`);
          } catch (error) {
-            console.error('Error getting session ID:', error);
+            internalLogger.logError(`Error getting session ID: ${error instanceof Error ? error.message : 'Unknown error'}`);
          }
 
          // If no session ID returned, create a temporary one
          if (!sessionResponse) {
             sessionResponse = { sessionId: uuidv4(), role: EUserRole.kGuest, showInterstitialPrompt: EShowInterstitialPrompt.kNone };
-            console.warn('Using temporary session ID');
          }
 
          // Update user context
@@ -234,7 +242,7 @@ export const Login = (props: ILoginProps) => {
          }
 
       } catch (error) {
-         console.error('Error during login:', error);
+         internalLogger.logError(`Error during login: ${error instanceof Error ? error.message : 'Unknown error'}`);
          setError(uiStrings.kLoginFailed);
       }
    };
@@ -268,7 +276,7 @@ export const Login = (props: ILoginProps) => {
             handleLogin(response.credential);
          }
          else {
-            console.error('Google login callback received no credential:', response);
+            internalLogger.logError('Google login callback received no credential');
          }
       };
       
@@ -290,7 +298,7 @@ export const Login = (props: ILoginProps) => {
                   try {
                      googleApi.prompt();
                   } catch (error) {
-                     console.error('Error prompting for auto-login:', error);
+                     internalLogger.logError(`Error prompting for auto-login: ${error instanceof Error ? error.message : 'Unknown error'}`);
                      setError(uiStrings.kLoginFailed);
                   }
                };
@@ -300,7 +308,7 @@ export const Login = (props: ILoginProps) => {
                return () => clearTimeout(promptTimeout);
             }
          } catch (error) {
-            console.error('Error initializing Google Sign-In:', error);
+            internalLogger.logError(`Error initializing Google Sign-In: ${error instanceof Error ? error.message : 'Unknown error'}`);
             setError(uiStrings.kLoginFailed);
          }
       }
@@ -389,5 +397,3 @@ export const LoginView = (props: ILoginUiProps) => {
       </div>
    );
 };
-
-

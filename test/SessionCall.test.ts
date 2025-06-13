@@ -1,17 +1,35 @@
 /**
- * Tests for the Cookie module that handles session UUID management.
+ * Tests for the Session module that handles session UUID management.
  */
 // Copyright (c) Jon Verrier, 2025
 
 import { expect } from 'expect';
-import { axiosPostStub } from './setup';
+import { axiosPostStub, sandbox } from './setup';
 import { getSessionData } from '../src/SessionCall';
 import { EUserRole, ELoginProvider, EAssistantPersonality } from '../import/AssistantChatApiTypes';
+import * as ApiCallUtils from '../src/ApiCallUtils';
 
 describe('getSessionData', function() {
+    // Increase timeout to 10000ms
+    this.timeout(10000);
+
+    let mockApiClient: { post: typeof axiosPostStub };
+    let createClientStub: sinon.SinonStub;
+
+    beforeEach(() => {
+        // Create a mock API client
+        mockApiClient = {
+            post: axiosPostStub
+        };
+
+        // Mock createRetryableAxiosClient to return our mock client
+        createClientStub = sandbox.stub(ApiCallUtils, 'createRetryableAxiosClient').returns(mockApiClient as any);
+    });
+
     afterEach(() => {
         // Reset the stub's behavior between tests
         axiosPostStub.reset();
+        sandbox.restore();
     });
 
     it('should get new session ID when no email or session ID provided', async () => {
@@ -39,12 +57,6 @@ describe('getSessionData', function() {
         expect(axiosPostStub.firstCall.args[1]).toEqual({
             userDetails,
             personality: EAssistantPersonality.kDemoAssistant
-        });
-        expect(axiosPostStub.firstCall.args[2]).toEqual({
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
         });
     });
 

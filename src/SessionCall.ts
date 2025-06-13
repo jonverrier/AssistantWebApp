@@ -5,8 +5,14 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
-import axios from 'axios';
 import { ISessionRequest, ISessionResponse, EUserRole, IUserDetails, EAssistantPersonality, EShowInterstitialPrompt } from '../import/AssistantChatApiTypes';
+import { createRetryableAxiosClient } from './ApiCallUtils';
+import { ConsoleLoggingContext, getLogger } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
+import { getConfigStrings } from './ConfigStrings';
+
+// Create logger
+const apiLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kApi);
 
 /**
  * Calls the session API to get a session UUID and user role.
@@ -30,13 +36,13 @@ export async function getSessionData(
             personality
         };
 
+        // Create API client
+        const apiClient = createRetryableAxiosClient();
+
         // Make the API call
-        const response = await axios.post<ISessionResponse>(sessionApiUrl, request, {
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        });
+        apiLogger.logInput(`Session API call to ${sessionApiUrl} with data: ${JSON.stringify(request)}`);
+        const response = await apiClient.post<ISessionResponse>(sessionApiUrl, request);
+        apiLogger.logResponse(`Session API response data: ${JSON.stringify(response.data)}`);
 
         // Get the session ID and user rolefrom the response
         const newSessionId = response?.data?.sessionId || undefined;
@@ -44,14 +50,15 @@ export async function getSessionData(
         const showInterstitialPrompt = response?.data?.showInterstitialPrompt || EShowInterstitialPrompt.kNone;
         
         if (!newSessionId) {
-            console.error('No sessionId in response');
+            apiLogger.logError('No sessionId in response');
             return undefined;
         }
         
         return { sessionId: newSessionId, role: userRole, showInterstitialPrompt: showInterstitialPrompt };
 
     } catch (error) {
-        console.error('Error getting session UUID:', error);
+        const config = getConfigStrings();
+        apiLogger.logError(`Error getting session UUID: ${error instanceof Error ? error.message : config.unknownError}`);
         return undefined;
     }
 } 

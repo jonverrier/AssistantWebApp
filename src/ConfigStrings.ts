@@ -7,6 +7,7 @@
 /*! Copyright Jon Verrier 2025 */
 
 import { isAppInLocalhost } from './LocalStorage';
+import { ELoggerType } from './LoggingTypes';
 
 // Common configuration strings that don't vary between environments
 export interface ICommonConfigStrings {
@@ -19,6 +20,8 @@ export interface ICommonConfigStrings {
    homeAction: string;
    aboutAction: string;
    contactAction: string;
+   loggingTypes: ELoggerType[]; // Array of enabled logger types
+   unknownError: string;
 }
 
 // Environment-specific configuration strings
@@ -45,7 +48,9 @@ const CommonConfigStrings: ICommonConfigStrings = {
    privacyAction: 'privacy',
    homeAction: 'home',
    aboutAction: 'about',
-   contactAction: 'contact'
+   contactAction: 'contact',
+   loggingTypes: [ELoggerType.kApi, ELoggerType.kInternal], // Enable both logger types by default
+   unknownError: 'An unknown error occurred.'
 };
 
 // Local (development) configuration strings
