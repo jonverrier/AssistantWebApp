@@ -14,6 +14,7 @@ import { PlainTextParagraphs, PlainTextAlignment } from './PlainTextParagraphs';
 import { executeReCaptcha, RECAPTCHA_THRESHOLD } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
 import { standardTextStyles } from './CommonStyles';
+import { isAppInLocalhost } from './LocalStorage';
 
 export interface HomeProps {
    title: string;
@@ -29,15 +30,43 @@ export const Home = (props: HomeProps) => {
    
    const navigate = useNavigate();
    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+   const [error, setError] = useState<string | undefined>();
 
    useEffect(() => {
       const checkCaptcha = async () => {
-         const config = getConfigStrings();
-         const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
-         if (result.score && result.score < RECAPTCHA_THRESHOLD) {
+         try {
+            // Skip reCAPTCHA check in localhost
+            if (isAppInLocalhost()) {
+               return;
+            }
+
+            // Check if reCAPTCHA script is loaded
+            if (!window.grecaptcha) {
+               console.error('reCAPTCHA script not loaded');
+               setError('Security check failed to load');
+               setIsButtonDisabled(true);
+               return;
+            }
+
+            // Wait for reCAPTCHA to be ready
+            await new Promise<void>((resolve) => {
+               window.grecaptcha.ready(() => resolve());
+            });
+
+            const config = getConfigStrings();
+            const result = await executeReCaptcha(config.captchaApiUrl, config.contactAction);
+            
+            if (!result.success || (result.score && result.score < RECAPTCHA_THRESHOLD)) {
+               setIsButtonDisabled(true);
+               setError('Security check failed');
+            }
+         } catch (error) {
+            console.error('Error during reCAPTCHA check:', error);
+            setError('Security check failed');
             setIsButtonDisabled(true);
          }
       };
+
       checkCaptcha();
    }, []);
 
@@ -55,6 +84,12 @@ export const Home = (props: HomeProps) => {
                   {props.title}
                </LargeTitle>
                <Text className={textClasses.centredHintLarge}>{props.strapline}</Text>
+               {error && (
+                  <>
+                     <Spacer />
+                     <Text style={{ color: 'red' }}>{error}</Text>
+                  </>
+               )}
                <Spacer size={ESpacerSize.kLarge} />
                {props.launchButton && (
                   <>

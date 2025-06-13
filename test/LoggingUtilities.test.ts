@@ -35,7 +35,8 @@ describe('LoggingUtilities', () => {
         summariseApiUrl: 'http://test.com/summarise',
         captchaApiUrl: 'http://test.com/captcha',
         sessionApiUrl: 'http://test.com/session',
-        loggingTypes: [ELoggerType.kApi, ELoggerType.kInternal]
+        loggingTypes: [ELoggerType.kApi, ELoggerType.kInternal],
+        unknownError: 'An unknown error occurred.'
     };
 
     beforeEach(() => {

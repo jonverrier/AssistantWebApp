@@ -18,6 +18,13 @@ import { ISummariseMessageRequest,
 import { encode } from 'gpt-tokenizer';
 import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 import { EApiEvent } from './UIStateMachine';
+import { ConsoleLoggingContext, getLogger } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
+import { getConfigStrings } from './ConfigStrings';
+
+// Create loggers
+const internalLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kInternal);
+const apiLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kApi);
 
 // Constants for archive settings
 const kMaxMessagesBeforeArchive = 100; // 100;  // Maximum number of messages before suggesting archive
@@ -139,7 +146,8 @@ export async function archive({
         newSummaryMessage = response.data.summary;
 
     } catch (error) {
-        console.error('Error summarizing messages:', error);
+        const config = getConfigStrings();
+        apiLogger.logError(`Error summarizing messages: ${error instanceof Error ? error.message : config.unknownError}`);
         updateState(EApiEvent.kError);
         return messages;
     }
@@ -181,7 +189,8 @@ export async function archive({
         return recentMessages;
 
     } catch (error) {
-        console.error('Error archiving messages:', error);
+        const config = getConfigStrings();
+        apiLogger.logError(`Error archiving messages: ${error instanceof Error ? error.message : config.unknownError}`);
         updateState(EApiEvent.kError);
         return messages;
     }

@@ -21,6 +21,7 @@ export interface ICommonConfigStrings {
    aboutAction: string;
    contactAction: string;
    loggingTypes: ELoggerType[]; // Array of enabled logger types
+   unknownError: string;
 }
 
 // Environment-specific configuration strings
@@ -48,7 +49,8 @@ const CommonConfigStrings: ICommonConfigStrings = {
    homeAction: 'home',
    aboutAction: 'about',
    contactAction: 'contact',
-   loggingTypes: [ELoggerType.kApi, ELoggerType.kInternal] // Enable both logger types by default
+   loggingTypes: [ELoggerType.kApi, ELoggerType.kInternal], // Enable both logger types by default
+   unknownError: 'An unknown error occurred.'
 };
 
 // Local (development) configuration strings

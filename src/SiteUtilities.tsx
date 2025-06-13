@@ -8,11 +8,10 @@
 import React, { useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { standardLinkStyles, standardTextStyles } from './CommonStyles';
-import { getCommonUIStrings, getUIStrings } from './UIStrings';
+import { getCommonUIStrings } from './UIStrings';
 import { makeStyles, shorthands, Text, Image } from '@fluentui/react-components';
 import { executeReCaptcha } from './captcha';
 import { getConfigStrings } from './ConfigStrings';
-import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 import { useUser } from './UserContext';
 
 const MOBILE_BREAKPOINT = 512;

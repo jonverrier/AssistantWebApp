@@ -11,6 +11,12 @@ import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
 import { IAssistantCaptchaRequest, IAssistantCaptchaResponse } from '../import/AssistantChatApiTypes';
 import { isAppInLocalhost } from './LocalStorage';
 import { getConfigStrings } from './ConfigStrings';
+import { ConsoleLoggingContext, getLogger } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
+
+// Create loggers
+const internalLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kInternal);
+const apiLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kApi);
 
 export const RECAPTCHA_THRESHOLD = 0.5; // Scores below this are considered suspicious
 export const RECAPTCHA_ADDITIONAL_VERIFY_THRESHOLD = 0.4;
@@ -74,7 +80,7 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
 
       if (!window.grecaptcha) {
          let errorMessage = 'reCAPTCHA not loaded.';
-         console.error(errorMessage);
+         internalLogger.logError(errorMessage);
          return {
             success: false,
             error: errorMessage
@@ -84,7 +90,7 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
       try {
          await waitForRecaptcha();
       } catch (error) {
-         console.error('Failed to initialize reCAPTCHA:', error);
+         internalLogger.logError(`Failed to initialize reCAPTCHA: ${error instanceof Error ? error.message : 'Unknown error'}`);
          return {
             success: false,
             error: 'Failed to initialize reCAPTCHA'
@@ -115,7 +121,7 @@ export async function executeReCaptcha(captchaUrl: string, action: string, apiCl
 
    } catch (error) {
       let errorMessage = 'Failed to execute reCAPTCHA';
-      console.error(errorMessage + ': ' + error);
+      internalLogger.logError(`${errorMessage}: ${error instanceof Error ? error.message : 'Unknown error'}`);
       return {
          success: false,
          error: errorMessage

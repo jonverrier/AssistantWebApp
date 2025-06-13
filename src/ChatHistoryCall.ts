@@ -6,9 +6,6 @@
  */
 /*! Copyright Jon Verrier 2025 */
 
-import axios from 'axios';
-import axiosRetry from 'axios-retry';
-
 import { 
     IChatMessageRequest,
     IChatMessageResponse,
@@ -17,6 +14,12 @@ import {
 } from 'prompt-repository';
 
 import { ApiClient, createRetryableAxiosClient } from './ApiCallUtils';
+import { ConsoleLoggingContext, getLogger } from './LoggingUtilities';
+import { ELoggerType } from './LoggingTypes';
+import { getConfigStrings } from './ConfigStrings';
+
+// Create logger
+const apiLogger = getLogger(new ConsoleLoggingContext(), ELoggerType.kApi);
 
 /**
  * Options for retrieving chat messages.
@@ -60,10 +63,12 @@ export async function processChatHistory({
                 continuation
             };
 
+            apiLogger.logInput(`Messages API call to ${messagesApiUrl} with data: ${JSON.stringify(request)}`);
             const response = await apiClient.post<IChatMessageResponse>(
                 messagesApiUrl,
                 request
             );
+            apiLogger.logResponse(`Messages API response data: ${JSON.stringify(response.data)}`);
 
             const { records, continuation: nextContinuation } = response.data;
 
@@ -83,7 +88,8 @@ export async function processChatHistory({
         return allMessages;
 
     } catch (error) {
-        console.error('Error retrieving messages:', error);
+        const config = getConfigStrings();
+        apiLogger.logError(`Error retrieving messages: ${error instanceof Error ? error.message : config.unknownError}`);
         throw error;
     }
 }
@@ -125,14 +131,17 @@ export async function removeLogEntry({
     }
 
     try {
+        apiLogger.logInput(`Remove log entry API call to ${removeLogEntryUrl} with data: ${JSON.stringify(query)}`);
         const response = await apiClient.post<IRemoveLogEntryResponse>(
             removeLogEntryUrl,
             query
         );
+        apiLogger.logResponse(`Remove log entry response data: ${JSON.stringify(response.data)}`);
 
         return response.data;
     } catch (error) {
-        console.error('Error removing log entry:', error);
+        const config = getConfigStrings();
+        apiLogger.logError(`Error removing log entry: ${error instanceof Error ? error.message : config.unknownError}`);
         throw error;
     }
 } 
