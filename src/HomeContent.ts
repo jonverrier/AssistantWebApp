@@ -1,0 +1,2 @@
+export const kHomeContent = 
+`Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate — smart, friendly AI solutions. Welcome to members of The Yard and Crank. Together, for the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think – your feedback will shape what comes next.`;

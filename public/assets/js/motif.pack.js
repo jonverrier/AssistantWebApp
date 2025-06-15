@@ -61350,7 +61350,7 @@ ${message.content}
             style: { width: "100%", height: "auto", maxHeight: "512px", objectFit: "cover" },
             alt: "Strong AI Bold Image"
           }
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, { style: { textAlign: "center", width: "100%" } }, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), error && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(Spacer, null), /* @__PURE__ */ import_react39.default.createElement(Text, { style: { color: "red" } }, error)), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.launchButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), /* @__PURE__ */ import_react39.default.createElement(LargeTitle, { style: { textAlign: "center", width: "100%" } }, props.title), /* @__PURE__ */ import_react39.default.createElement(Text, { className: textClasses.centredHintLarge }, props.strapline), error && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(Spacer, null), /* @__PURE__ */ import_react39.default.createElement(Text, { style: { color: "red" } }, error)), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ }), props.gymLaunch && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61378,7 +61378,7 @@ ${message.content}
             disabled: isButtonDisabled
           },
           "Crank..."
-        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react39.default.createElement(
+        ), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.content && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(PlainTextParagraphs, { content: props.content, alignment: "left" /* kLeft */ }), /* @__PURE__ */ import_react39.default.createElement(Spacer, { size: 20 /* kLarge */ })), props.contactButton && /* @__PURE__ */ import_react39.default.createElement(import_react39.default.Fragment, null, /* @__PURE__ */ import_react39.default.createElement(
           Button,
           {
             appearance: "primary",
@@ -61520,6 +61520,15 @@ Be big, and be clever.
     }
   });
 
+  // src/HomeContent.ts
+  var kHomeContent;
+  var init_HomeContent = __esm({
+    "src/HomeContent.ts"() {
+      "use strict";
+      kHomeContent = `Strong AI Technologies gives small, mighty gyms a tech edge to help differentiate \u2014 smart, friendly AI solutions. Welcome to members of The Yard and Crank. Together, for the next three months, we're testing how AI can support our community. Try it out, ask it anything (health and fitness-related, please), and let us know what you think \u2013 your feedback will shape what comes next.`;
+    }
+  });
+
   // src/Site.tsx
   var import_react41, RoutedSite, PersonalityRedirect, Site;
   var init_Site = __esm({
@@ -61537,6 +61546,7 @@ Be big, and be clever.
       init_ScrollToTop();
       init_TermsContent();
       init_AboutContent();
+      init_HomeContent();
       init_AssistantChatApiTypes();
       init_SiteUtilities();
       RoutedSite = (props) => {
@@ -61562,15 +61572,15 @@ Be big, and be clever.
         const routes = useRoutes([
           {
             path: "/",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: kAboutContent, launchButton: true })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: kHomeContent, contactButton: false, gymLaunch: true })
           },
           {
             path: "/about",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: kAboutContent, launchButton: false })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: kAboutContent, contactButton: true, gymLaunch: false })
           },
           {
             path: "/about.html",
-            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: kAboutContent, launchButton: false })
+            element: /* @__PURE__ */ import_react41.default.createElement(Home2, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: kAboutContent, contactButton: true, gymLaunch: false })
           },
           {
             path: "/theyard",

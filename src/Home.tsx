@@ -19,7 +19,8 @@ import { isAppInLocalhost } from './LocalStorage';
 export interface HomeProps {
    title: string;
    strapline: string;
-   launchButton: boolean;
+   contactButton: boolean;
+   gymLaunch: boolean;
    content: string | undefined;
 }
 
@@ -91,7 +92,7 @@ export const Home = (props: HomeProps) => {
                   </>
                )}
                <Spacer size={ESpacerSize.kLarge} />
-               {props.launchButton && (
+               {props.gymLaunch && (
                   <>
                      <Button
                         appearance="primary"
@@ -126,6 +127,11 @@ export const Home = (props: HomeProps) => {
                {props.content && (
                   <>
                      <PlainTextParagraphs content={props.content} alignment={PlainTextAlignment.kLeft} /> 
+                     <Spacer size={ESpacerSize.kLarge} />                   
+                  </>
+               )}
+               {props.contactButton && (
+                  <>                     
                      <Button
                         appearance="primary"
                         size="large"

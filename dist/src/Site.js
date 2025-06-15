@@ -54,6 +54,7 @@ const LocalStorage_1 = require("./LocalStorage");
 const ScrollToTop_1 = require("./ScrollToTop");
 const TermsContent_1 = require("./TermsContent");
 const AboutContent_1 = require("./AboutContent");
+const HomeContent_1 = require("./HomeContent");
 const AssistantChatApiTypes_1 = require("../import/AssistantChatApiTypes");
 const SiteUtilities_1 = require("./SiteUtilities");
 // Routed site component
@@ -85,15 +86,15 @@ const Site = (props) => {
     const routes = (0, react_router_dom_1.useRoutes)([
         {
             path: '/',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: AboutContent_1.kAboutContent, launchButton: true })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kHomeTitle, strapline: uiStrings.kHomeStrapline, content: HomeContent_1.kHomeContent, contactButton: false, gymLaunch: true })
         },
         {
             path: '/about',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: AboutContent_1.kAboutContent, launchButton: false })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: AboutContent_1.kAboutContent, contactButton: true, gymLaunch: false })
         },
         {
             path: '/about.html',
-            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: AboutContent_1.kAboutContent, launchButton: false })
+            element: react_1.default.createElement(Home_1.Home, { title: uiStrings.kAboutTitle, strapline: uiStrings.kAboutStrapline, content: AboutContent_1.kAboutContent, contactButton: true, gymLaunch: false })
         },
         {
             path: '/theyard',
