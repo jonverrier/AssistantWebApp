@@ -20,6 +20,7 @@ import { browserSessionStorage } from './LocalStorage';
 import { ScrollToTop } from './ScrollToTop';
 import { kTermsContent } from './TermsContent';
 import { kAboutContent } from './AboutContent';
+import { kHomeContent } from './HomeContent';
 import { EAssistantPersonality } from '../import/AssistantChatApiTypes';
 import { ESiteType } from './SiteUtilities';
 
@@ -75,15 +76,15 @@ export const Site = (props: ISiteProps) => {
    const routes = useRoutes([
       {
          path: '/',
-         element: <Home title={uiStrings.kHomeTitle} strapline={uiStrings.kHomeStrapline} content={kAboutContent} launchButton={true} />
+         element: <Home title={uiStrings.kHomeTitle} strapline={uiStrings.kHomeStrapline} content={kHomeContent} contactButton={false} gymLaunch={true} />
       },
       {
          path: '/about',
-         element: <Home title={uiStrings.kAboutTitle} strapline={uiStrings.kAboutStrapline} content={kAboutContent} launchButton={false} />
+         element: <Home title={uiStrings.kAboutTitle} strapline={uiStrings.kAboutStrapline} content={kAboutContent} contactButton={true} gymLaunch={false} />
       },
       {
          path: '/about.html',
-         element: <Home title={uiStrings.kAboutTitle} strapline={uiStrings.kAboutStrapline} content={kAboutContent} launchButton={false} />
+         element: <Home title={uiStrings.kAboutTitle} strapline={uiStrings.kAboutStrapline} content={kAboutContent} contactButton={true} gymLaunch={false} />
       },
       {
          path: '/theyard',
